@@ -24,7 +24,7 @@ const Jobs = {
     });
   },
   createJobs: (req, res) => {
-    User.findById({ _id: req.userId }, (err, user) => {
+    User.findById({ _id: req.user.id }, (err, user) => {
       if (err) {
         return res.status(500).json(err);
       }

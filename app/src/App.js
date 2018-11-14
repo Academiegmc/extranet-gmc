@@ -10,6 +10,7 @@ import Annonce from "./components/annonce/Annonce";
 import Annonces from "./components/annonces/Annonces";
 import Job from "./components/job/Job";
 import Jobboard from "./components/jobboard/Jobboard";
+import AdminDashboard from "./components/admin/Dashboard";
 import AddJob from "./components/admin/AddJob";
 import AddNews from "./components/admin/AddNews";
 import AddAnnonce from "./components/admin/AddAnnonce";
@@ -47,6 +48,7 @@ class App extends Component {
             <Route exact path="/annonces" component={Annonces} />
             <Route exact path="/job/:id" component={Job} />
             <Route exact path="/jobboard" component={Jobboard} />
+            <Route exact path="/admin/dashboard" component={AdminDashboard} />
             <Route exact path="/admin/job" component={AddJob} />
             <Route exact path="/admin/news" component={AddNews} />
             <Route exact path="/admin/annonce" component={AddAnnonce} />

@@ -69,10 +69,10 @@ class Dashboard extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.user.admin) {
+    if (nextProps.auth.user.status === 3) {
       this.state.titles.push({
         title: "Admin",
-        link: ""
+        link: "admin/dashboard"
       });
     }
   }

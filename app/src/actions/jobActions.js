@@ -1,5 +1,11 @@
 import axios from "axios";
-import { GET_A_JOB, GET_ALL_JOBS, GET_ERRORS } from "./types";
+import {
+  GET_A_JOB,
+  GET_ALL_JOBS,
+  UPDATE_JOB,
+  DELETE_JOB,
+  GET_ERRORS
+} from "./types";
 import { jobUrl } from "../utils";
 
 export const getAllJobs = () => dispatch => {
@@ -36,5 +42,20 @@ export const createJob = (jobData, history) => dispatch => {
     .then(history.push(jobboardLink))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
-export const updateJob = jobData => dispatch => {};
-export const deleteJob = jobId => dispatch => {};
+export const updateJob = (jobId, jobData) => dispatch => {
+  axios
+    .put(`${jobUrl}/edit/${jobId}`, jobData)
+    .then(jobUpdated => dispatch({ type: UPDATE_JOB, payload: jobUpdated }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+};
+export const deleteJob = jobId => dispatch => {
+  axios
+    .delete(`${jobUrl}/delete/${jobId}`)
+    .then(res => dispatch({ type: DELETE_JOB, payload: res }))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+    );
+};
