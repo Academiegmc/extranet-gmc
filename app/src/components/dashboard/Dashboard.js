@@ -3,14 +3,16 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getAllNews } from "../../actions/newsActions";
+import { urls } from "../../utils";
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: {},
       titles: [
         {
           title: "Mails",
-          link: ""
+          link: urls.mails
         },
         {
           title: "Job Board",
@@ -26,7 +28,7 @@ class Dashboard extends Component {
         },
         {
           title: "Hyperplanning",
-          link: ""
+          link: urls.hypperplanning
         },
         {
           title: "Annonces",
@@ -34,7 +36,7 @@ class Dashboard extends Component {
         },
         {
           title: "Classroom",
-          link: ""
+          link: urls.classroom
         },
         {
           title: "Règlement Intérieur",
@@ -52,11 +54,13 @@ class Dashboard extends Component {
     if (nextProps.news.isloading && nextProps.news.newsTab.data.length > 0) {
       this.setState({ news: nextProps.news.newsTab.data });
     }
+    if (nextProps.auth.user) this.setState({ user: nextProps.auth.user });
   }
   componentDidMount() {
     this.props.getAllNews();
   }
   render() {
+    const { status } = this.state.user;
     const cardStyle = {
       width: "18rem",
       marginLeft: "20px",
@@ -69,12 +73,19 @@ class Dashboard extends Component {
       flexFlow: "row wrap"
     };
     const links = this.state.titles.map((title, id) => {
+      if (status === 0 && title.title === "Hyperplanning") {
+        title.link = urls.hypperplanning + "etudiant";
+        console.log(title);
+      }
+      if (status === 2 && title.title === "Hyperplanning")
+        title.link = urls.hypperplanning + "enseignant";
       return (
         // <div className="image-element-class" key={id} >
         <div className="card" key={id} style={cardStyle}>
           <div className="card-body">
             <h5 className="card-title text-center">
-              <Link to={`/${title.link}`}>{title.title}</Link>
+              {/* <Link to={`${title.link}`}>{title.title}</Link> */}
+              <a href={`${title.link}`}>{title.title}</a>
             </h5>
           </div>
         </div>

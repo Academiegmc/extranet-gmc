@@ -12,5 +12,8 @@ export const urls = {
   news: "/news",
   jobboard: "/jobboard",
   ads: "/annonces",
-  dashboard: "/"
+  dashboard: "/",
+  hypperplanning: "http://agmc-paris.com/",
+  mails: "https://mail.google.com/",
+  classroom: "https://classroom.google.com/"
 };
