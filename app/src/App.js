@@ -20,9 +20,6 @@ import NewsDescription from "./components/news/NewsDescription";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser } from "./actions/authActions";
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount = () => {
     if (
       localStorage.jwtToken &&
@@ -48,10 +45,10 @@ class App extends Component {
             <Route exact path="/annonces" component={Annonces} />
             <Route exact path="/job/:id" component={Job} />
             <Route exact path="/jobboard" component={Jobboard} />
-            <Route exact path="/admin/dashboard" component={AdminDashboard} />
+            <Route exact path="/admin" component={AdminDashboard} />
             <Route exact path="/admin/job" component={AddJob} />
+            <Route exact path="/admin/ad" component={AddAnnonce} />
             <Route exact path="/admin/news" component={AddNews} />
-            <Route exact path="/admin/annonce" component={AddAnnonce} />
           </div>
         </Router>
       </Provider>

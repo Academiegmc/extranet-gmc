@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_A_NEWS, GET_ALL_NEWS, GET_ERRORS, CREATE_NEWS } from "./types";
+import { GET_A_NEWS, GET_ALL_NEWS, GET_ERRORS } from "./types";
 import { newsUrl } from "../utils";
 export const getAllNews = () => dispatch => {
   axios.get(newsUrl).then(news =>

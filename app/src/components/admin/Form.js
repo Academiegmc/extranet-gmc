@@ -27,10 +27,7 @@ class Form extends Component {
   onSubmit = e => {
     e.preventDefault();
     const userData = this.state;
-    console.log("====================================");
-    console.log(userData);
-    console.log("====================================");
-    if (this.props.formTitle == "News")
+    if (this.props.formTitle === "News")
       this.props.createNews(userData, this.props.history);
   };
   render() {

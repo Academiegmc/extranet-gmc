@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 class Comments extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const divFlex = {
       display: "flex",

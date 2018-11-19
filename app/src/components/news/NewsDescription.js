@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getANews } from "../../actions/newsActions";
-import { log } from "util";
 class NewsDescription extends Component {
   constructor(props) {
     super(props);
@@ -53,24 +52,26 @@ class NewsDescription extends Component {
         <img
           className="d-block w-100"
           src={require(`../../assets/${image}`)}
-          alt="Card image cap"
+          alt={`Card image cap ` + index}
         />
       );
+      let data;
       if (image !== "") {
         if (index === 0) {
-          return (
+          data = (
             <div className="carousel-item active" key={index}>
               {imgTag}
             </div>
           );
         } else {
-          return (
+          data = (
             <div className="carousel-item" key={index}>
               {imgTag}
             </div>
           );
         }
       }
+      return data;
     });
     const divFlex = {
       display: "flex",

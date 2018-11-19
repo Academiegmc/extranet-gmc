@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getAllNews } from "../../actions/newsActions";
-import { newsUrl } from "../../utils";
 class News extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +32,7 @@ class News extends Component {
           <img
             className="card-img-top"
             src={require(`../../assets/${news.images[0]}`)}
-            alt="Card image cap"
+            alt={`Card image cap ` + index}
           />
         );
       }

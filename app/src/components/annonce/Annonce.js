@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getAnAd, updateComments } from "../../actions/adAction";
-import user from "../../user.jpg";
 import Comments from "../comments/Comments";
 import Comment from "../comment/Comment";
 class Annonce extends Component {
