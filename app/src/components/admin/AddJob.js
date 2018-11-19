@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import ReturnButton from "../layout/ReturnButton";
+import { urls } from "../../utils";
 
 class AddJob extends Component {
   render() {
     return (
       <div className="container">
+        <ReturnButton url={urls.admin} />
         <form>
           <h5>Poste</h5>
           <div className="form-group">

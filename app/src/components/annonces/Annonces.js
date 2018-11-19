@@ -48,6 +48,28 @@ class Annonces extends Component {
       <div className="container">
         <ReturnButton url={urls.dashboard} />
         <h1>Annonces</h1>
+        <div className="row">
+          <form className="form-inline">
+            <div className="input-group mb-3 mr-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="basic-addon1">
+                  <i className="fas fa-newspaper"> </i>
+                </span>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Mot clés"
+                aria-label="Mot clés"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+            <button type="submit" className="btn btn-primary mb-3">
+              <i className="fas fa-search"> </i>
+            </button>
+          </form>
+        </div>
+        <hr />
         <div style={divFlex}>{allAnnonces}</div>
       </div>
     );

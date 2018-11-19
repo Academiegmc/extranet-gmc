@@ -60,13 +60,13 @@ class Dashboard extends Component {
     return (
       <div>
         <h1>Admin dashboard</h1>
-        <Link to="job">
+        <Link to="admin/job">
           <h3>Ajouter un job</h3>
         </Link>
-        <Link to="ad">
+        <Link to="admin/ad">
           <h3>Ajouter une annonce</h3>
         </Link>
-        <Link to="news">
+        <Link to="admin/news">
           <h3>Ajouter une news</h3>
         </Link>
         <hr />

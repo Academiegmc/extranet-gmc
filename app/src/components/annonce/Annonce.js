@@ -44,12 +44,6 @@ class Annonce extends Component {
   }
 
   render() {
-    const divFlex = {
-      display: "flex",
-      flexFlow: "row wrap",
-      alignItems: "flex-start",
-      width: "100%"
-    };
     const { ad } = this.state;
     let comments = null;
     if (ad.comments !== undefined && ad.comments.length > 0)
@@ -58,7 +52,7 @@ class Annonce extends Component {
       <div className="container">
         <ReturnButton url={urls.ads} />
         <h1>Annonce</h1>
-        <div className="card" style={divFlex}>
+        <div className="card">
           <div className="mx-auto">
             <h4 className="card-title">{ad.title}</h4>
             <h5 className="card-subtitle mb-2 text-muted">

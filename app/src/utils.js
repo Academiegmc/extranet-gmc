@@ -9,6 +9,7 @@ export const newsUrl = "/api/news";
 export const jobUrl = "/api/jobs";
 
 export const urls = {
+  admin: "/admin",
   news: "/news",
   jobboard: "/jobboard",
   ads: "/annonces",

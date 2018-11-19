@@ -97,7 +97,7 @@ class Dashboard extends Component {
         // <div className="image-element-class" key={id} >
         <div className="card" key={id} style={cardStyle}>
           <div className="card-body">
-            <Link to={`/annonce/${title._id}`}>
+            <Link to={`/news/${title._id}`}>
               <h5 className="card-title text-center"> {title.title} </h5>
             </Link>
           </div>

@@ -66,11 +66,7 @@ const Jobs = {
   },
   deleteJobs: (req, res) => {
     Job.findOneAndRemove({ _id: req.params.id })
-      .then(ad =>
-        res
-          .status(200)
-          .json({ success: true, message: ErrorMessage.jobRemoved })
-      )
+      .then(ad => res.status(200).json({ success: true }))
       .catch(err => res.status(404).json(err));
   },
   sendApplication: (req, res) => {
