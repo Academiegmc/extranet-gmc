@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { getAllNews } from "../../actions/newsActions";
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -44,31 +45,17 @@ class Dashboard extends Component {
           link: ""
         }
       ],
-      news: [
-        {
-          title: "Article",
-          link: ""
-        },
-        {
-          title: "Article",
-          link: ""
-        },
-        {
-          title: "Article",
-          link: ""
-        },
-        {
-          title: "Article",
-          link: ""
-        },
-        {
-          title: "Article",
-          link: ""
-        }
-      ]
+      news: []
     };
   }
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.news.isloading && nextProps.news.newsTab.data.length > 0) {
+      this.setState({ news: nextProps.news.newsTab.data });
+    }
+  }
+  componentDidMount() {
+    this.props.getAllNews();
+  }
   render() {
     const cardStyle = {
       width: "18rem",
@@ -99,7 +86,9 @@ class Dashboard extends Component {
         // <div className="image-element-class" key={id} >
         <div className="card" key={id} style={cardStyle}>
           <div className="card-body">
-            <h5 className="card-title text-center"> {title.title} </h5>
+            <Link to={`/annonce/${title._id}`}>
+              <h5 className="card-title text-center"> {title.title} </h5>
+            </Link>
           </div>
         </div>
         // </div>
@@ -139,9 +128,10 @@ Dashboard.propTypes = {
 };
 const mapStateToProps = state => ({
   auth: state.auth,
+  news: state.news,
   errors: state.errors
 });
 export default connect(
   mapStateToProps,
-  {}
+  { getAllNews }
 )(Dashboard);
