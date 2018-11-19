@@ -68,14 +68,7 @@ class Dashboard extends Component {
       ]
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.user.status === 3) {
-      this.state.titles.push({
-        title: "Admin",
-        link: "admin/dashboard"
-      });
-    }
-  }
+
   render() {
     const cardStyle = {
       width: "18rem",

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getAllAds } from "../../actions/adAction";
+import ReturnButton from "../layout/ReturnButton";
+import { urls } from "../../utils";
 class Annonces extends Component {
   constructor(props) {
     super(props);
@@ -44,6 +46,7 @@ class Annonces extends Component {
         : null;
     return (
       <div className="container">
+        <ReturnButton url={urls.dashboard} />
         <h1>Annonces</h1>
         <div style={divFlex}>{allAnnonces}</div>
       </div>

@@ -7,3 +7,10 @@ export const adUrl = "/api/annonces";
 export const newsUrl = "/api/news";
 
 export const jobUrl = "/api/jobs";
+
+export const urls = {
+  news: "/news",
+  jobboard: "/jobboard",
+  ads: "/annonces",
+  dashboard: "/"
+};

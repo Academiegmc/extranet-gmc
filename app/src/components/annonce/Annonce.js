@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { getAnAd, updateComments } from "../../actions/adAction";
 import Comments from "../comments/Comments";
 import Comment from "../comment/Comment";
+import ReturnButton from "../layout/ReturnButton";
+import { urls } from "../../utils";
 class Annonce extends Component {
   constructor(props) {
     super(props);
@@ -54,6 +56,7 @@ class Annonce extends Component {
       comments = <Comments comments={ad.comments} />;
     return (
       <div className="container">
+        <ReturnButton url={urls.ads} />
         <h1>Annonce</h1>
         <div className="card" style={divFlex}>
           <div className="mx-auto">

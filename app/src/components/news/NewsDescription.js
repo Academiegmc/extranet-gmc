@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getANews } from "../../actions/newsActions";
+import ReturnButton from "../layout/ReturnButton";
+import { urls } from "../../utils";
 class NewsDescription extends Component {
   constructor(props) {
     super(props);
@@ -81,6 +83,7 @@ class NewsDescription extends Component {
     const cardStyle = { width: "100%", margin: 200 };
     return (
       <div className="container" style={divFlex}>
+        <ReturnButton url={urls.news} />
         <div className="card" style={cardStyle}>
           <div
             id="carouselExampleIndicators"

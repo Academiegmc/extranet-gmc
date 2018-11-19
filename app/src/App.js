@@ -19,6 +19,7 @@ import NewsDescription from "./components/news/NewsDescription";
 
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser } from "./actions/authActions";
+import Navbar from "./components/layout/Navbar";
 class App extends Component {
   componentDidMount = () => {
     if (
@@ -37,6 +38,7 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div>
+            <Navbar />
             <Route exact path="/" component={Landing} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/annonce/:id" component={Annonce} />
