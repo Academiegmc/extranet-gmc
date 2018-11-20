@@ -17,7 +17,8 @@ const Ads = {
       );
   },
   createAd: (req, res) => {
-    User.findOne({ _id: req.userId }, (err, user) => {
+    console.log(req.user);
+    User.findOne({ _id: req.user.id }, (err, user) => {
       if (err) {
         return res
           .status(500)
@@ -26,6 +27,7 @@ const Ads = {
       if (!user)
         return res.status(401).json({ message: ErrorMessage.userNotFound });
       const newAd = new Ad({
+        user: user.id,
         name: user.name,
         title: req.body.title,
         description: req.body.description,

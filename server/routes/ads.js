@@ -8,6 +8,6 @@ router.get("/:id", Ads.getAd);
 router.post("/", verifyToken, Ads.createAd);
 router.post("/edit/:id/comments", verifyToken, Ads.updateCommentAd);
 router.put("/edit/:id", verifyToken, Ads.updateAd);
-router.delete("/delete/:id", verifyToken, Ads.deleteAd);
+router.delete("/:id", verifyToken, Ads.deleteAd);
 
 module.exports = router;

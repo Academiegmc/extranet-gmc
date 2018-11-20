@@ -36,7 +36,9 @@ class Navbar extends Component {
       ) : null;
     let data = isAuthenticated ? (
       <div className="form-inline my-2 my-lg-0">
-        <h6 className="mr-sm-2">{user.name}</h6>
+        <Link to={`/profile/${user.id}`}>
+          <h6 className="mr-sm-2">{user.name}</h6>
+        </Link>
         <button
           className="btn btn-outline-success my-2 my-sm-0"
           type="submit"

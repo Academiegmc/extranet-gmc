@@ -1,12 +1,5 @@
 import axios from "axios";
-import {
-  GET_ALL_ADS,
-  GET_AN_AD,
-  GET_ERRORS,
-  UPDATE_AD,
-  DELETE_AD,
-  UPDATE_COMMENTS
-} from "./types";
+import { GET_ALL_ADS, GET_AN_AD, GET_ERRORS, UPDATE_COMMENTS } from "./types";
 import { adUrl } from "../utils";
 export const getAllAds = () => dispatch => {
   axios
@@ -33,14 +26,18 @@ export const updateComments = (adID, comment) => dispatch => {
     .then(ad => dispatch({ type: UPDATE_COMMENTS, payload: ad }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
-export const updateAd = adId => dispatch => {
+export const updateAd = adId => {
   axios
     .put(`${adUrl}/${adId}`)
-    .then(ad => dispatch({ type: UPDATE_AD, payload: ad }))
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+    .then(ad => {
+      return ad.data;
+    })
+    .catch(err => {
+      return err;
+    });
 };
-export const deleteAd = adId => dispatch => {
-  axios
-    .delete(`${adUrl}/${adId}`)
-    .then(res => dispatch({ type: DELETE_AD, payload: res }));
+export const deleteAd = adId => {
+  axios.delete(`${adUrl}/${adId}`).then(res => {
+    return res.data;
+  });
 };

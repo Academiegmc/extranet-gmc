@@ -35,6 +35,7 @@ const Jobs = {
       }
       const skills = req.body.jobSkills.split(utils.arraySplit);
       const newJob = new Job({
+        user: user._id,
         jobTitle: req.body.jobTitle,
         jobDescription: req.body.jobDescription,
         jobContractType: req.body.jobContractType,

@@ -23,7 +23,7 @@ const NewsController = {
     });
   },
   createNews: (req, res) => {
-    User.findOne({ _id: req.userId }, { password: 0 }, (err, user) => {
+    User.findOne({ _id: req.user.id }, { password: 0 }, (err, user) => {
       if (err) {
         res.status(500).json(err);
       }
@@ -32,7 +32,7 @@ const NewsController = {
           .status(404)
           .json({ auth: false, message: ErrorMessage.userNotFound });
       }
-      const imgTab = [];
+      let imgTab = [];
       if (req.body.images.length > 0)
         imgTab = req.body.images.split(utils.arraySplit);
       const newNews = new NewsModel({

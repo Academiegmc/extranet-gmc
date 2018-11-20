@@ -20,6 +20,8 @@ import NewsDescription from "./components/news/NewsDescription";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser } from "./actions/authActions";
 import Navbar from "./components/layout/Navbar";
+import Trombinoscope from "./components/trombinoscope/Trombinoscope";
+import Profile from "./components/profile/Profile";
 class App extends Component {
   componentDidMount = () => {
     if (
@@ -40,6 +42,8 @@ class App extends Component {
           <div>
             <Navbar />
             <Route exact path="/" component={Landing} />
+            <Route exact path="/profile/:id" component={Profile} />
+            <Route exact path="/trombinoscope" component={Trombinoscope} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/annonce/:id" component={Annonce} />
             <Route exact path="/news" component={News} />

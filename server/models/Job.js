@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const jobSchema = new Schema({
+  user: { type: Schema.Types.ObjectId, ref: "users" },
   jobTitle: { type: String, required: true },
   jobDescription: { type: String, required: true },
   jobContractType: { type: String, required: true },

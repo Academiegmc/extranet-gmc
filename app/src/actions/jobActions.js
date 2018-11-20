@@ -42,7 +42,7 @@ export const updateJob = (jobId, jobData) => {
   });
 };
 export const deleteJob = jobId => {
-  axios.delete(`${jobUrl}/delete/${jobId}`).then(res => {
+  axios.delete(`${jobUrl}/${jobId}`).then(res => {
     return res.data;
   });
 };

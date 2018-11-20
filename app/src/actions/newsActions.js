@@ -28,5 +28,13 @@ export const createNews = (newsData, history) => dispatch => {
       })
     );
 };
-export const updateNews = newsData => dispatch => {};
-export const deleteNews = newsId => dispatch => {};
+export const updateNews = (newsId, newsData) => {
+  axios.put(`${newsUrl}/${newsId}`, newsData).then(res => {
+    return res.data;
+  });
+};
+export const deleteNews = newsId => {
+  axios.delete(`${newsUrl}/${newsId}`).then(res => {
+    return res.data;
+  });
+};

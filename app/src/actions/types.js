@@ -19,3 +19,5 @@ export const CREATE_AD = "CREATE_AD";
 export const UPDATE_AD = "UPDATE_AD";
 export const DELETE_AD = "DELETE_AD";
 export const UPDATE_COMMENTS = "UPDATE_COMMENTS";
+
+export const GET_USERS = "GET_USERS";

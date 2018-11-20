@@ -20,7 +20,7 @@ class Dashboard extends Component {
         },
         {
           title: "Trombinoscope",
-          link: ""
+          link: urls.trombinoscope
         },
         {
           title: "News",

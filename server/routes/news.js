@@ -5,7 +5,7 @@ const verifyToken = require("../controllers/VerifyToken");
 router.get("/", NewsController.getAllNews);
 router.get("/:id", NewsController.getNews);
 router.post("/", verifyToken, NewsController.createNews);
-router.put("/edit/:id", verifyToken, NewsController.updateNews);
-router.delete("/delete/:id", verifyToken, NewsController.deleteNews);
+router.put("/:id", verifyToken, NewsController.updateNews);
+router.delete("/:id", verifyToken, NewsController.deleteNews);
 
 module.exports = router;
