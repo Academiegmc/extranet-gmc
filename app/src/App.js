@@ -53,6 +53,9 @@ class App extends Component {
             <Route exact path="/jobboard" component={Jobboard} />
             <Route exact path="/admin" component={AdminDashboard} />
             <Route exact path="/admin/job" component={AddJob} />
+            <Route exact path="/job/edit/:id" component={AddJob} />
+            {/* <Route exact path="/news/edit" component={AddJob} /> */}
+            {/* <Route exact path="/ad/edit" component={AddJob} /> */}
             <Route exact path="/admin/ad" component={AddAnnonce} />
             <Route exact path="/admin/news" component={AddNews} />
           </div>

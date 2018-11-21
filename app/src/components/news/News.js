@@ -33,7 +33,7 @@ class News extends Component {
         imgNews = (
           <img
             className="card-img-top"
-            src={require(`../../assets/${news.images[0]}`)}
+            src={`${news.images[0]}`}
             alt={`Card image cap ` + index}
           />
         );

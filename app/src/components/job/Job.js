@@ -44,7 +44,6 @@ class Job extends Component {
     Axios.post(url, formData, config)
       .then(res => {
         this.setState({ isSent: true });
-        console.log(res.data);
       })
       .catch(err => console.log(err));
   };

@@ -1,6 +1,12 @@
 import axios from "axios";
 import { userUrl } from "../utils";
-import { GET_USERS, GET_ERRORS } from "./types";
+import {
+  GET_USERS,
+  GET_USER_ADS,
+  GET_USER_NEWS,
+  GET_USER_JOBS,
+  GET_ERRORS
+} from "./types";
 
 export const getAllUsers = () => dispatch => {
   axios
@@ -14,6 +20,24 @@ export const getAllUsers = () => dispatch => {
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 
-export const getUserAds = userId => dispatch => {};
-export const getUserJobs = userId => dispatch => {};
-export const getUserNews = userId => dispatch => {};
+export const getUserAds = userId => dispatch => {
+  const url = `${userUrl}/${userId}/ads`;
+  axios
+    .get(url)
+    .then(ads => dispatch({ type: GET_USER_ADS, payload: ads }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+};
+export const getUserJobs = userId => dispatch => {
+  const url = `${userUrl}/${userId}/jobs`;
+  axios
+    .get(url)
+    .then(jobs => dispatch({ type: GET_USER_JOBS, payload: jobs }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+};
+export const getUserNews = userId => dispatch => {
+  const url = `${userUrl}/${userId}/news`;
+  axios
+    .get(url)
+    .then(news => dispatch({ type: GET_USER_NEWS, payload: news }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+};

@@ -53,7 +53,7 @@ class NewsDescription extends Component {
       let imgTag = (
         <img
           className="d-block w-100"
-          src={require(`../../assets/${image}`)}
+          src={`${image}`}
           alt={`Card image cap ` + index}
         />
       );

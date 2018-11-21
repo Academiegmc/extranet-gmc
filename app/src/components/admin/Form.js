@@ -4,7 +4,8 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { createNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
-import { urls } from "../../utils";
+import { urls, newsUrl } from "../../utils";
+import Axios from "axios";
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -16,21 +17,36 @@ class Form extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.fileUpload = this.fileUpload.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.history);
-    console.log(nextProps);
     if (nextProps.auth.user.name)
       this.setState({ user: nextProps.auth.user.name });
   }
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    if (e.target.name === "images")
+      this.setState({ images: e.target.files[0] });
+    else this.setState({ [e.target.name]: e.target.value });
   };
   onSubmit = e => {
     e.preventDefault();
-    const userData = this.state;
-    if (this.props.formTitle === "News")
-      this.props.createNews(userData, this.props.history);
+    const { images, title, description } = this.state;
+    if (this.props.formTitle === "News") {
+      // this.props.createNews(userData, this.props.history);
+      this.fileUpload(images, description, title);
+    }
+  };
+  fileUpload = (images, description, title) => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("images", images);
+    const config = { headers: { "content-type": "multipart/form-data" } };
+    Axios.post(newsUrl, formData, config)
+      .then(res => {
+        this.props.history.push("/admin");
+      })
+      .catch(err => console.log(err));
   };
   render() {
     const {

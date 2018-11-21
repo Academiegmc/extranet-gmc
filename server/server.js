@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const passport = require("passport");
+const path = require("path");
 const keys = require("./config/mongo-key");
 const config = require("./config/config");
 const fileUpload = require("express-fileupload");
@@ -13,6 +13,9 @@ const users = require("./routes/users");
 const ads = require("./routes/ads");
 const news = require("./routes/news");
 const jobs = require("./routes/jobs");
+
+//Static files
+app.use(express.static(path.join(__dirname, "public")));
 //Middleware
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
