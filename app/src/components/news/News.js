@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getAllNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
-import { urls } from "../../utils";
 class News extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +54,7 @@ class News extends Component {
     });
     return (
       <div className="container">
-        <ReturnButton url={urls.dashboard} />
+        <ReturnButton history={this.props.history} />
         <h1>Dernières News</h1>
         <div style={divFlex}>{allNews}</div>
       </div>

@@ -5,7 +5,6 @@ import Moment from "react-moment";
 import { getAJob } from "../../actions/jobActions";
 import Axios from "axios";
 import ReturnButton from "../layout/ReturnButton";
-import { urls } from "../../utils";
 class Job extends Component {
   constructor(props) {
     super(props);
@@ -85,7 +84,7 @@ class Job extends Component {
     const startDate = <Moment format="DD-MM-YYYY">{jobStartDate}</Moment>;
     return (
       <div className="container">
-        <ReturnButton url={urls.jobboard} />
+        <ReturnButton history={this.props.history} />
         <div
           style={{
             display: "flex",

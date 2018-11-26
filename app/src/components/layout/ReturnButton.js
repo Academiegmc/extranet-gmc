@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 class ReturnButton extends Component {
   render() {
+    const { history } = this.props;
     return (
       <div>
-        <i className="fas fa-arrow-circle-left mr-2" />
-        <Link to={this.props.url}>Retour</Link>
+        <button onClick={history.goBack}>
+          <i className="fas fa-arrow-circle-left mr-2" />
+          Retour
+        </button>
       </div>
     );
   }
 }
 
 ReturnButton.propTypes = {
-  url: PropTypes.string.isRequired
+  history: PropTypes.object.isRequired
 };
 
 export default ReturnButton;

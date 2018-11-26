@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { createNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
-import { urls, newsUrl } from "../../utils";
+import { newsUrl } from "../../utils";
 import Axios from "axios";
 class Form extends Component {
   constructor(props) {
@@ -61,7 +61,7 @@ class Form extends Component {
     } = this.props;
     return (
       <div className="container">
-        <ReturnButton url={urls.admin} />
+        <ReturnButton history={this.props.history} />
         <form onSubmit={this.onSubmit}>
           <h5>{formTitle}</h5>
           <div className="form-group">

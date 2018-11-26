@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getANews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
-import { urls } from "../../utils";
 class NewsDescription extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +28,7 @@ class NewsDescription extends Component {
   }
   render() {
     const { title, images, description, author } = this.state;
-    const imagesOlTab = images.map((image, index) => {
+    let imagesOlTab = images.map((image, index) => {
       if (index === 0) {
         return (
           <li
@@ -83,7 +82,7 @@ class NewsDescription extends Component {
     const cardStyle = { width: "100%", margin: 200 };
     return (
       <div className="container" style={divFlex}>
-        <ReturnButton url={urls.news} />
+        <ReturnButton history={this.props.history} />
         <div className="card" style={cardStyle}>
           <div
             id="carouselExampleIndicators"
@@ -92,24 +91,34 @@ class NewsDescription extends Component {
           >
             <ol className="carousel-indicators">{imagesOlTab}</ol>
             <div className="carousel-inner">{imagesTab}</div>
-            <a
-              className="carousel-control-prev"
-              href="#carouselExampleIndicators"
-              role="button"
-              data-slide="prev"
-            >
-              <span className="carousel-control-prev-icon" aria-hidden="true" />
-              <span className="sr-only">Previous</span>
-            </a>
-            <a
-              className="carousel-control-next"
-              href="#carouselExampleIndicators"
-              role="button"
-              data-slide="next"
-            >
-              <span className="carousel-control-next-icon" aria-hidden="true" />
-              <span className="sr-only">Next</span>
-            </a>
+            {images.length > 1 ? (
+              <div>
+                <a
+                  className="carousel-control-prev"
+                  href="#carouselExampleIndicators"
+                  role="button"
+                  data-slide="prev"
+                >
+                  <span
+                    className="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  />
+                  <span className="sr-only">Previous</span>
+                </a>
+                <a
+                  className="carousel-control-next"
+                  href="#carouselExampleIndicators"
+                  role="button"
+                  data-slide="next"
+                >
+                  <span
+                    className="carousel-control-next-icon"
+                    aria-hidden="true"
+                  />
+                  <span className="sr-only">Next</span>
+                </a>
+              </div>
+            ) : null}
           </div>
           <div className="card-body">
             <div className="card-title">

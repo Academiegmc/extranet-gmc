@@ -75,7 +75,6 @@ class Dashboard extends Component {
     const links = this.state.titles.map((title, id) => {
       if (status === 0 && title.title === "Hyperplanning") {
         title.link = urls.hypperplanning + "etudiant";
-        console.log(title);
       }
       if (status === 2 && title.title === "Hyperplanning")
         title.link = urls.hypperplanning + "enseignant";

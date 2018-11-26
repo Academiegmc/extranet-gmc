@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getAllUsers } from "../../actions/usersAction";
 import ReturnButton from "../layout/ReturnButton";
-import { urls } from "../../utils";
 class Trombinoscope extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +36,7 @@ class Trombinoscope extends Component {
     });
     return (
       <div className="container">
-        <ReturnButton url={urls.dashboard} />
+        <ReturnButton history={this.props.history} />
         <h1>Trombinoscope</h1>
         {allUsers}
       </div>

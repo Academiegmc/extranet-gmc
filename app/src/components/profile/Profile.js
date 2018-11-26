@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import ReturnButton from "../layout/ReturnButton";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import {
   getUserAds,
   getUserJobs,
   getUserNews
 } from "../../actions/usersAction";
+import ReturnButton from "../layout/ReturnButton";
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +33,9 @@ class Profile extends Component {
     this.props.getUserJobs(this.props.match.params.id);
   }
   render() {
+    console.log("====================================");
+    console.log(this.props.history);
+    console.log("====================================");
     const { ads, jobs, news } = this.state;
     const goAd = "Voir l'annonce";
     const goJob = "Voir l'offre d'emploi";
@@ -96,6 +99,7 @@ class Profile extends Component {
 
     return (
       <div>
+        <ReturnButton history={this.props.history} />
         <h1>Profile</h1>
         <hr />
         <h3>Annonces</h3>
@@ -121,4 +125,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getUserAds, getUserJobs, getUserNews }
-)(Profile);
+)(withRouter(Profile));

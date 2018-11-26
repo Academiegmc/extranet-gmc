@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { getAllJobs } from "../../actions/jobActions";
 import Moment from "react-moment";
 import ReturnButton from "../layout/ReturnButton";
-import { urls } from "../../utils";
 class Jobboard extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +48,7 @@ class Jobboard extends Component {
     ));
     return (
       <div className="container">
-        <ReturnButton url={urls.dashboard} />
+        <ReturnButton history={this.props.history} />
         <h3 className="text-center">Job board</h3>
         <div className="row">
           <form className="form-inline">

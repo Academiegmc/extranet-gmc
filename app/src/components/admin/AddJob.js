@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import Moment from "moment";
 import ReturnButton from "../layout/ReturnButton";
-import { urls } from "../../utils";
 import { connect } from "react-redux";
 import { getAJob, updateJob } from "../../actions/jobActions";
 class AddJob extends Component {
@@ -93,7 +93,7 @@ class AddJob extends Component {
     } = this.state;
     return (
       <div className="container">
-        <ReturnButton url={urls.admin} />
+        <ReturnButton history={this.props.history} />
         <form onSubmit={this.onSubmit}>
           <h5>Poste</h5>
           <div className="form-group">
@@ -208,8 +208,8 @@ class AddJob extends Component {
               onChange={this.onChange}
               value={
                 jobStartDate !== "" && this.state.job.jobStartDate
-                  ? jobStartDate
-                  : this.state.job.jobStartDate
+                  ? Moment(jobStartDate).format("YYYY-MM-DD")
+                  : Moment(this.state.job.jobStartDate).format("YYYY-MM-DD")
               }
             />
           </div>
@@ -284,7 +284,7 @@ class AddJob extends Component {
               placeholder="Nom de l'entreprise"
               onChange={this.onChange}
               value={
-                jobCompany != "" && this.state.job.jobCompany
+                jobCompany !== "" && this.state.job.jobCompany
                   ? jobCompany
                   : this.state.job.jobCompany
               }
@@ -303,7 +303,7 @@ class AddJob extends Component {
               placeholder="Description de l'entreprise"
               onChange={this.onChange}
               value={
-                jobCompanyDescription != "" &&
+                jobCompanyDescription !== "" &&
                 this.state.job.jobCompanyDescription
                   ? jobCompanyDescription
                   : this.state.job.jobCompanyDescription
@@ -321,7 +321,7 @@ class AddJob extends Component {
               placeholder="Site de l'entreprise"
               onChange={this.onChange}
               value={
-                jobCompanySite != "" && this.state.job.jobCompanySite
+                jobCompanySite !== "" && this.state.job.jobCompanySite
                   ? jobCompanySite
                   : this.state.job.jobCompanySite
               }

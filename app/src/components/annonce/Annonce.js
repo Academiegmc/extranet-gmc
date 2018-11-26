@@ -5,7 +5,6 @@ import { getAnAd, updateComments } from "../../actions/adAction";
 import Comments from "../comments/Comments";
 import Comment from "../comment/Comment";
 import ReturnButton from "../layout/ReturnButton";
-import { urls } from "../../utils";
 class Annonce extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +49,7 @@ class Annonce extends Component {
       comments = <Comments comments={ad.comments} />;
     return (
       <div className="container">
-        <ReturnButton url={urls.ads} />
+        <ReturnButton history={this.props.history} />
         <h1>Annonce</h1>
         <div className="card">
           <div className="mx-auto">
