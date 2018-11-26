@@ -1,6 +1,7 @@
 import axios from "axios";
 import { GET_A_JOB, GET_ALL_JOBS, GET_ERRORS } from "./types";
 import { jobUrl } from "../utils";
+import { logout } from "./authActions";
 
 export const getAllJobs = () => dispatch => {
   axios
@@ -34,7 +35,14 @@ export const createJob = (jobData, history) => dispatch => {
   axios
     .post(jobUrl, jobData)
     .then(history.push(jobboardLink))
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+    .catch(err => {
+      dispatch({ type: GET_ERRORS, payload: err });
+      if (err.response.status === 403) {
+        //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
+        logout();
+        history.push("/");
+      }
+    });
 };
 export const updateJob = (jobId, jobData) => {
   axios.put(`${jobUrl}/edit/${jobId}`, jobData).then(jobUpdated => {

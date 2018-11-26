@@ -28,14 +28,11 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.props.getUserAds(this.props.match.params.id);
-    this.props.getUserNews(this.props.match.params.id);
-    this.props.getUserJobs(this.props.match.params.id);
+    this.props.getUserAds(this.props.match.params.id, this.props.history);
+    this.props.getUserNews(this.props.match.params.id, this.props.history);
+    this.props.getUserJobs(this.props.match.params.id, this.props.history);
   }
   render() {
-    console.log("====================================");
-    console.log(this.props.history);
-    console.log("====================================");
     const { ads, jobs, news } = this.state;
     const goAd = "Voir l'annonce";
     const goJob = "Voir l'offre d'emploi";

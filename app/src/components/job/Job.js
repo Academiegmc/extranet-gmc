@@ -5,6 +5,7 @@ import Moment from "react-moment";
 import { getAJob } from "../../actions/jobActions";
 import Axios from "axios";
 import ReturnButton from "../layout/ReturnButton";
+import { logout } from "../../actions/authActions";
 class Job extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +45,13 @@ class Job extends Component {
       .then(res => {
         this.setState({ isSent: true });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if (err.response.status === 403) {
+          //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
+          logout();
+          this.props.history.push("/");
+        }
+      });
   };
   render() {
     const {

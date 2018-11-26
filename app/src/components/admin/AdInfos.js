@@ -8,7 +8,7 @@ class AdInfos extends Component {
     this.deleteAnAd = this.deleteAnAd.bind(this);
   }
   deleteAnAd() {
-    deleteAd(this.props.ad._id);
+    deleteAd(this.props.ad._id, this.props.history);
     this.props.refresh();
   }
   render() {

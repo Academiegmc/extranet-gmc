@@ -16,6 +16,7 @@ class Annonce extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getComments = this.getComments.bind(this);
   }
   handleChange = e => {
     e.preventDefault();
@@ -29,6 +30,11 @@ class Annonce extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.updateComments(this.props.match.params.id, this.state.comment);
+    this.props.getAnAd(this.props.match.params.id);
+    this.getComments();
+  };
+  getComments = () => {
+    this.props.getAnAd(this.props.match.params.id);
   };
   componentWillReceiveProps(nextProps) {
     if (nextProps.ads.ad.data) this.setState({ ad: nextProps.ads.ad.data });
