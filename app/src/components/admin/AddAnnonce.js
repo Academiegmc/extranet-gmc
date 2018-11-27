@@ -6,10 +6,10 @@ class AddAnnonce extends Component {
     return (
       <Form
         formTitle="Annonce"
-        titleInputName="annonceTitle"
+        titleInputName="title"
         titleInputPlaceholder="Intitulé de l'annonce"
         titleInputAria="annonceTitleHelp"
-        descriptionInputName="annonceDescription"
+        descriptionInputName="description"
         descriptionInputPlaceholder="Description de la annonce"
         descriptionInputAria="annonceDescriptionHelp"
         isNews={false}

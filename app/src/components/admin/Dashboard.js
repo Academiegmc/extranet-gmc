@@ -63,7 +63,7 @@ class Dashboard extends Component {
         <Link to="admin/job">
           <h3>Ajouter un job</h3>
         </Link>
-        <Link to="admin/ad">
+        <Link to="admin/annonce">
           <h3>Ajouter une annonce</h3>
         </Link>
         <Link to="admin/news">

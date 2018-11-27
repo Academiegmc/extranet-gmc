@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { createNews } from "../../actions/newsActions";
+import { logout } from "../../actions/authActions";
+import { createAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
 import { newsUrl } from "../../utils";
 import Axios from "axios";
@@ -12,14 +14,17 @@ class Form extends Component {
     this.state = {
       title: "",
       description: "",
+      category: "Etude",
       images: [],
-      user: ""
+      user: "",
+      errors: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
   }
   componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) this.setState({ errors: nextProps.errors });
     if (nextProps.auth.user.name)
       this.setState({ user: nextProps.auth.user.name });
   }
@@ -31,9 +36,19 @@ class Form extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { images, title, description } = this.state;
-    if (this.props.formTitle === "News") {
-      // this.props.createNews(userData, this.props.history);
+    if (this.props.match.path === "news/edit/:id") {
       this.fileUpload(images, description, title);
+    }
+    if (this.props.match.path === "/admin/annonce") {
+      const newAd = {
+        title: this.state.title,
+        description: this.state.description,
+        category: this.state.category
+      };
+      this.props.createAd(newAd, this.props.history);
+    }
+    if (this.props.match.path === "annonce/edit/:id") {
+      // this.props.createAd(this.state, this.props.history);
     }
   };
   fileUpload = (images, description, title) => {
@@ -74,6 +89,7 @@ class Form extends Component {
               aria-describedby={titleInputAria}
               placeholder={titleInputPlaceholder}
               onChange={this.onChange}
+              value={this.state.title}
             />
           </div>
 
@@ -87,6 +103,7 @@ class Form extends Component {
               aria-describedby={descriptionInputAria}
               placeholder={descriptionInputPlaceholder}
               onChange={this.onChange}
+              value={this.state.description}
             />
           </div>
 
@@ -108,16 +125,47 @@ class Form extends Component {
                 </p>
               </div>
               <div className="form-group">
-                <button className="btn btn-primary" style={{ width: "100%" }}>
-                  Ajouter la news
-                </button>
+                {this.props.match.path === "/news/edit/:id" ? (
+                  <button className="btn btn-primary" style={{ width: "100%" }}>
+                    Modifier la news
+                  </button>
+                ) : (
+                  <button className="btn btn-primary" style={{ width: "100%" }}>
+                    Ajouter la news
+                  </button>
+                )}
               </div>
             </div>
           ) : (
-            <div className="form-group">
-              <button className="btn btn-primary" style={{ width: "100%" }}>
-                Ajouter l'annonce
-              </button>
+            <div>
+              <div className="form-group">
+                <label htmlFor="category">Catégorie</label>
+                <select
+                  type="text"
+                  className="form-control"
+                  id="category"
+                  name="category"
+                  aria-describedby="categoryHelp"
+                  placeholder="Type de contrat"
+                  onChange={this.onChange}
+                  value={this.state.category}
+                >
+                  <option value="etude">Etude</option>
+                  <option value="loisir">Loisir</option>
+                  <option value="cosmétique">Cosmétique</option>
+                </select>
+              </div>
+              <div className="form-group">
+                {this.props.match.path === "/annonce/edit/:id" ? (
+                  <button className="btn btn-primary" style={{ width: "100%" }}>
+                    Modifier l'annonce
+                  </button>
+                ) : (
+                  <button className="btn btn-primary" style={{ width: "100%" }}>
+                    Ajouter l'annonce
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </form>
@@ -130,9 +178,10 @@ Form.propTypes = {
 };
 const mapStateToProps = state => ({
   news: state.news,
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 export default connect(
   mapStateToProps,
-  { createNews }
+  { createNews, createAd, logout }
 )(withRouter(Form));

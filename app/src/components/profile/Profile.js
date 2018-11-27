@@ -8,6 +8,7 @@ import {
   getUserNews
 } from "../../actions/usersAction";
 import ReturnButton from "../layout/ReturnButton";
+import { logout } from "../../actions/authActions";
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -15,8 +16,10 @@ class Profile extends Component {
       user: {},
       ads: {},
       jobs: {},
-      news: {}
+      news: {},
+      errors: {}
     };
+    this.logoutUser = this.logoutUser.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     const { user } = nextProps.auth;
@@ -25,6 +28,7 @@ class Profile extends Component {
     if (userAds) this.setState({ ads: userAds.data });
     if (userJobs) this.setState({ jobs: userJobs.data });
     if (userNews) this.setState({ news: userNews.data });
+    if (nextProps.errors) this.setState({ errors: nextProps.errors });
   }
 
   componentDidMount() {
@@ -32,8 +36,13 @@ class Profile extends Component {
     this.props.getUserNews(this.props.match.params.id, this.props.history);
     this.props.getUserJobs(this.props.match.params.id, this.props.history);
   }
+  logoutUser = () => {
+    //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
+    this.props.logout();
+    this.props.history.push("/");
+  };
   render() {
-    const { ads, jobs, news } = this.state;
+    const { ads, jobs, news, errors } = this.state;
     const goAd = "Voir l'annonce";
     const goJob = "Voir l'offre d'emploi";
     const goNews = "Voir la news";
@@ -41,6 +50,8 @@ class Profile extends Component {
     let allUserAds;
     let allUserJobs;
     let allUserNews;
+    let sessionAlert;
+    if (errors.status === 403) this.logoutUser();
     if (ads && ads.data && ads.data.length > 0) {
       allUserAds = ads.data.map((ad, index) => (
         <div key={index}>
@@ -96,6 +107,7 @@ class Profile extends Component {
 
     return (
       <div>
+        {sessionAlert}
         <ReturnButton history={this.props.history} />
         <h1>Profile</h1>
         <hr />
@@ -117,9 +129,10 @@ Profile.propTypes = {
 };
 const mapStateToProps = state => ({
   auth: state.auth,
-  users: state.users
+  users: state.users,
+  errors: state.errors
 });
 export default connect(
   mapStateToProps,
-  { getUserAds, getUserJobs, getUserNews }
+  { getUserAds, getUserJobs, getUserNews, logout }
 )(withRouter(Profile));

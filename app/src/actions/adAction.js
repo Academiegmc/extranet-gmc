@@ -1,7 +1,6 @@
 import axios from "axios";
 import { GET_ALL_ADS, GET_AN_AD, GET_ERRORS, UPDATE_COMMENTS } from "./types";
 import { adUrl } from "../utils";
-import { logout } from "./authActions";
 export const getAllAds = () => dispatch => {
   axios
     .get(adUrl)
@@ -18,56 +17,30 @@ export const createAd = (adData, history) => dispatch => {
   const adsUrl = "/annonces";
   axios
     .post(adUrl, adData)
-    .then(history.push(adsUrl))
-    .catch(err => {
-      dispatch({ type: GET_ERRORS, payload: err });
-      if (err.response.status === 403) {
-        //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
-        logout();
-        history.push("/");
-      }
-    });
+    .then(ad => {
+      history.push(adsUrl);
+    })
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 export const updateComments = (adID, comment, history) => dispatch => {
   axios
     .post(`${adUrl}/edit/${adID}/comments`, comment)
     .then(ad => dispatch({ type: UPDATE_COMMENTS, payload: ad }))
-    .catch(err => {
-      dispatch({ type: GET_ERRORS, payload: err });
-      if (err.response.status === 403) {
-        //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
-        logout();
-        console.log(localStorage);
-        history.push("/");
-      }
-    });
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
-export const updateAd = (adId, history) => {
+export const updateAd = adId => dispatch => {
   axios
     .put(`${adUrl}/${adId}`)
     .then(ad => {
       return ad.data;
     })
-    .catch(err => {
-      if (err.response.status === 403) {
-        //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
-        logout();
-        history.push("/");
-      }
-      return err;
-    });
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
-export const deleteAd = (adId, history) => {
+export const deleteAd = adId => dispatch => {
   axios
     .delete(`${adUrl}/${adId}`)
     .then(res => {
       return res.data;
     })
-    .catch(err => {
-      if (err.response.status === 403) {
-        //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
-        logout();
-        history.push("/");
-      }
-    });
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };

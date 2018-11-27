@@ -30,6 +30,7 @@ class Annonce extends Component {
   handleSubmit = e => {
     e.preventDefault();
     if (document.getElementsByName("commentInput")[0].value !== "") {
+      //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
       this.props.updateComments(
         this.props.match.params.id,
         this.state.comment,

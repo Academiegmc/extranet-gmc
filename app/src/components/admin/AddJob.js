@@ -121,15 +121,11 @@ class AddJob extends Component {
               onChange={this.onChange}
               value={jobContractType}
             >
-              <option value="Stage">Stage</option>
-              <option value="CDI">CDI</option>
-              <option value="CDD">CDD</option>
-              <option value="Contrat d'apprentissage">
-                Contrat d'apprentissage
-              </option>
-              <option value="Contrat de professionnalisation">
-                Contrat de professionnalisation
-              </option>
+              <option value="stage">Stage</option>
+              <option value="cdi">CDI</option>
+              <option value="cdd">CDD</option>
+              <option value="ca">Contrat d'apprentissage</option>
+              <option value="cp">Contrat de professionnalisation</option>
             </select>
           </div>
 
@@ -145,8 +141,8 @@ class AddJob extends Component {
               onChange={this.onChange}
               value={jobType}
             >
-              <option value="Temps plein">Temps plein</option>
-              <option value="Temps partiel">Temps partiel</option>
+              <option value="temps-plein">Temps plein</option>
+              <option value="temps-partiel">Temps partiel</option>
             </select>
           </div>
 
@@ -162,7 +158,7 @@ class AddJob extends Component {
               onChange={this.onChange}
               value={jobRemuneration}
             >
-              <option value="Tarif conventionnel">Tarif conventionnel</option>
+              <option value="tarif-conventionnel">Tarif conventionnel</option>
             </select>
           </div>
 
