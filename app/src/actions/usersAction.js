@@ -20,21 +20,21 @@ export const getAllUsers = () => dispatch => {
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response }));
 };
 
-export const getUserAds = (userId, history) => dispatch => {
+export const getUserAds = userId => dispatch => {
   const url = `${userUrl}/${userId}/ads`;
   axios
     .get(url)
     .then(ads => dispatch({ type: GET_USER_ADS, payload: ads }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response }));
 };
-export const getUserJobs = (userId, history) => dispatch => {
+export const getUserJobs = userId => dispatch => {
   const url = `${userUrl}/${userId}/jobs`;
   axios
     .get(url)
     .then(jobs => dispatch({ type: GET_USER_JOBS, payload: jobs }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response }));
 };
-export const getUserNews = (userId, history) => dispatch => {
+export const getUserNews = userId => dispatch => {
   const url = `${userUrl}/${userId}/news`;
   axios
     .get(url)

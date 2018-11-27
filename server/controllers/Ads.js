@@ -17,7 +17,6 @@ const Ads = {
       );
   },
   createAd: (req, res) => {
-    console.log(req.user);
     User.findOne({ _id: req.user.id }, (err, user) => {
       if (err) {
         return res

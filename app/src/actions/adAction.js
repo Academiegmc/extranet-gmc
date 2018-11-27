@@ -28,11 +28,11 @@ export const updateComments = (adID, comment, history) => dispatch => {
     .then(ad => dispatch({ type: UPDATE_COMMENTS, payload: ad }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
-export const updateAd = adId => dispatch => {
+export const updateAd = (adId, adData, history) => dispatch => {
   axios
-    .put(`${adUrl}/${adId}`)
+    .put(`${adUrl}/edit/${adId}`, adData)
     .then(ad => {
-      return ad.data;
+      history.push("/annonces");
     })
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };

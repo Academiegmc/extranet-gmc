@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { createNews } from "../../actions/newsActions";
 import { logout } from "../../actions/authActions";
-import { createAd } from "../../actions/adAction";
+import { createAd, updateAd, getAnAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
 import { newsUrl } from "../../utils";
 import Axios from "axios";
@@ -25,8 +25,18 @@ class Form extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) this.setState({ errors: nextProps.errors });
+    if (nextProps.ads.ad.data) {
+      this.setState({ title: nextProps.ads.ad.data.title });
+      this.setState({ description: nextProps.ads.ad.data.description });
+      this.setState({ category: nextProps.ads.ad.data.category });
+    }
     if (nextProps.auth.user.name)
       this.setState({ user: nextProps.auth.user.name });
+  }
+  componentDidMount() {
+    if (this.props.match.path === "/annonce/edit/:id") {
+      this.props.getAnAd(this.props.match.params.id);
+    }
   }
   onChange = e => {
     if (e.target.name === "images")
@@ -35,8 +45,8 @@ class Form extends Component {
   };
   onSubmit = e => {
     e.preventDefault();
-    const { images, title, description } = this.state;
-    if (this.props.match.path === "news/edit/:id") {
+    const { images, title, description, category } = this.state;
+    if (this.props.match.path === "/news/edit/:id") {
       this.fileUpload(images, description, title);
     }
     if (this.props.match.path === "/admin/annonce") {
@@ -47,8 +57,13 @@ class Form extends Component {
       };
       this.props.createAd(newAd, this.props.history);
     }
-    if (this.props.match.path === "annonce/edit/:id") {
-      // this.props.createAd(this.state, this.props.history);
+    if (this.props.match.path === "/annonce/edit/:id") {
+      const adUpdated = { title, description, category };
+      this.props.updateAd(
+        this.props.match.params.id,
+        adUpdated,
+        this.props.history
+      );
     }
   };
   fileUpload = (images, description, title) => {
@@ -179,9 +194,10 @@ Form.propTypes = {
 const mapStateToProps = state => ({
   news: state.news,
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  ads: state.ads
 });
 export default connect(
   mapStateToProps,
-  { createNews, createAd, logout }
+  { createNews, createAd, updateAd, getAnAd, logout }
 )(withRouter(Form));
