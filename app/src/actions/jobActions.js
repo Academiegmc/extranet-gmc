@@ -44,10 +44,17 @@ export const createJob = (jobData, history) => dispatch => {
       }
     });
 };
-export const updateJob = (jobId, jobData) => {
-  axios.put(`${jobUrl}/edit/${jobId}`, jobData).then(jobUpdated => {
-    return jobUpdated;
-  });
+export const updateJob = (jobId, jobData, history) => {
+  axios
+    .put(`${jobUrl}/edit/${jobId}`, jobData)
+    .then(jobUpdated => {
+      const message = "Job modifié !";
+      return { success: true, data: jobUpdated, message };
+    })
+    .catch(err => {
+      logout();
+      history.push("/");
+    });
 };
 export const deleteJob = jobId => {
   axios.delete(`${jobUrl}/${jobId}`).then(res => {

@@ -29,9 +29,16 @@ class Annonce extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    this.props.updateComments(this.props.match.params.id, this.state.comment);
-    this.props.getAnAd(this.props.match.params.id);
-    this.getComments();
+    if (document.getElementsByName("commentInput")[0].value !== "") {
+      this.props.updateComments(
+        this.props.match.params.id,
+        this.state.comment,
+        this.props.history
+      );
+      this.props.getAnAd(this.props.match.params.id);
+      this.getComments();
+      document.getElementsByName("commentInput")[0].value = ""; //On rend l'input vide lorsque le commentaire est envoyé
+    }
   };
   getComments = () => {
     this.props.getAnAd(this.props.match.params.id);

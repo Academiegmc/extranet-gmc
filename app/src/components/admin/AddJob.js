@@ -2,21 +2,20 @@ import React, { Component } from "react";
 import Moment from "moment";
 import ReturnButton from "../layout/ReturnButton";
 import { connect } from "react-redux";
-import { getAJob, updateJob } from "../../actions/jobActions";
+import { getAJob, updateJob, createJob } from "../../actions/jobActions";
 class AddJob extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      job: {},
       jobTitle: "",
       jobDescription: "",
-      jobContractType: "",
-      jobType: "",
-      jobRemuneration: "",
+      jobContractType: "Stage",
+      jobType: "Temps plein",
+      jobRemuneration: "Tarif conventionnel",
       jobStartDate: "",
-      jobSkills: [],
+      jobSkills: "",
       jobCity: "",
-      jobCountry: "",
+      jobCountry: "France",
       jobCompany: "",
       jobCompanyDescription: "",
       jobCompanySite: ""
@@ -26,54 +25,41 @@ class AddJob extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { isLoaded, job } = nextProps.jobs;
-    if (isLoaded && job) this.setState({ job: job.data });
+    if (isLoaded && job)
+      this.setState({
+        jobTitle: job.data.jobTitle,
+        jobDescription: job.data.jobDescription,
+        jobContractType: job.data.jobContractType,
+        jobType: job.data.jobType,
+        jobRemuneration: job.data.jobRemuneration,
+        jobStartDate: job.data.jobStartDate,
+        jobSkills: job.data.jobSkills,
+        jobCity: job.data.jobCity,
+        jobCountry: job.data.jobCountry,
+        jobCompany: job.data.jobCompany,
+        jobCompanyDescription: job.data.jobCompanyDescription,
+        jobCompanySite: job.data.jobCompanySite
+      });
   }
 
   componentDidMount() {
     if (this.props.match.path === "/job/edit/:id") {
       this.props.getAJob(this.props.match.params.id);
     }
-    if (this.props.match.path === "/admin/job") {
-      // this.props.getAJob(this.props.match.params.id);
-    }
   }
   onChange = e => {
     const { name, value } = e.target;
-    console.log(name, value);
     this.setState({ [name]: value });
   };
   onSubmit = e => {
     e.preventDefault();
     console.log(this.state);
-    const {
-      jobTitle,
-      jobDescription,
-      jobContractType,
-      jobType,
-      jobRemuneration,
-      jobStartDate,
-      jobSkills,
-      jobCity,
-      jobCountry,
-      jobCompany,
-      jobCompanyDescription,
-      jobCompanySite
-    } = this.state;
-    const jobUpdated = {
-      jobTitle,
-      jobDescription,
-      jobContractType,
-      jobType,
-      jobRemuneration,
-      jobStartDate,
-      jobSkills,
-      jobCity,
-      jobCountry,
-      jobCompany,
-      jobCompanyDescription,
-      jobCompanySite
-    };
-    updateJob(this.props.match.params.id, jobUpdated);
+    if (this.props.match.path === "/job/edit/:id") {
+      updateJob(this.props.match.params.id, this.state, this.props.history);
+    }
+    if (this.props.match.path === "/admin/job") {
+      this.props.createJob(this.state, this.props.history);
+    }
   };
 
   render() {
@@ -106,11 +92,7 @@ class AddJob extends Component {
               aria-describedby="jobTitleHelp"
               placeholder="Intitulé du poste"
               onChange={this.onChange}
-              value={
-                jobTitle !== "" && this.state.job.jobTitle
-                  ? jobTitle
-                  : this.state.job.jobTitle
-              }
+              value={jobTitle}
             />
           </div>
           <div className="form-group">
@@ -123,11 +105,7 @@ class AddJob extends Component {
               aria-describedby="jobDescriptionHelp"
               placeholder="Description du poste"
               onChange={this.onChange}
-              value={
-                jobDescription !== "" && this.state.job.jobDescription
-                  ? jobDescription
-                  : this.state.job.jobDescription
-              }
+              value={jobDescription}
             />
           </div>
 
@@ -141,17 +119,17 @@ class AddJob extends Component {
               aria-describedby="jobContractTypeHelp"
               placeholder="Type de contrat"
               onChange={this.onChange}
-              value={
-                jobContractType !== "" && this.state.job.jobContractType
-                  ? jobContractType
-                  : this.state.job.jobContractType
-              }
+              value={jobContractType}
             >
-              <option>Stage</option>
-              <option>CDI</option>
-              <option>CDD</option>
-              <option>Contrat d'apprentissage</option>
-              <option>Contrat de professionnalisation</option>
+              <option value="Stage">Stage</option>
+              <option value="CDI">CDI</option>
+              <option value="CDD">CDD</option>
+              <option value="Contrat d'apprentissage">
+                Contrat d'apprentissage
+              </option>
+              <option value="Contrat de professionnalisation">
+                Contrat de professionnalisation
+              </option>
             </select>
           </div>
 
@@ -165,14 +143,10 @@ class AddJob extends Component {
               aria-describedby="jobTypeHelp"
               placeholder="Durée de travail"
               onChange={this.onChange}
-              value={
-                jobType !== "" && this.state.job.jobType
-                  ? jobType
-                  : this.state.job.jobType
-              }
+              value={jobType}
             >
-              <option>Temps plein</option>
-              <option>Temps partiel</option>
+              <option value="Temps plein">Temps plein</option>
+              <option value="Temps partiel">Temps partiel</option>
             </select>
           </div>
 
@@ -186,13 +160,9 @@ class AddJob extends Component {
               aria-describedby="jobRemunerationHelp"
               placeholder="Rémunération"
               onChange={this.onChange}
-              value={
-                jobRemuneration !== "" && this.state.job.jobRemuneration
-                  ? jobRemuneration
-                  : this.state.job.jobRemuneration
-              }
+              value={jobRemuneration}
             >
-              <option>Tarif conventionnel</option>
+              <option value="Tarif conventionnel">Tarif conventionnel</option>
             </select>
           </div>
 
@@ -206,11 +176,7 @@ class AddJob extends Component {
               aria-describedby="jobStartDateHelp"
               placeholder="Date de départ"
               onChange={this.onChange}
-              value={
-                jobStartDate !== "" && this.state.job.jobStartDate
-                  ? Moment(jobStartDate).format("YYYY-MM-DD")
-                  : Moment(this.state.job.jobStartDate).format("YYYY-MM-DD")
-              }
+              value={Moment(jobStartDate).format("YYYY-MM-DD")}
             />
           </div>
 
@@ -224,11 +190,7 @@ class AddJob extends Component {
               aria-describedby="jobSkillsHelp"
               placeholder="Compétences clés"
               onChange={this.onChange}
-              value={
-                jobSkills !== "" && this.state.job.jobSkills
-                  ? jobSkills
-                  : this.state.job.jobSkills
-              }
+              value={jobSkills}
             />
           </div>
 
@@ -244,11 +206,7 @@ class AddJob extends Component {
               aria-describedby="jobCityHelp"
               placeholder="Ville"
               onChange={this.onChange}
-              value={
-                jobCity !== "" && this.state.job.jobCity
-                  ? jobCity
-                  : this.state.job.jobCity
-              }
+              value={jobCity}
             />
           </div>
 
@@ -262,11 +220,7 @@ class AddJob extends Component {
               aria-describedby="jobCountryHelp"
               placeholder="Pays"
               onChange={this.onChange}
-              value={
-                jobCountry !== "" && this.state.job.jobCountry
-                  ? jobCountry
-                  : this.state.job.jobCountry
-              }
+              value={jobCountry}
             >
               <option>France</option>
             </select>
@@ -283,11 +237,7 @@ class AddJob extends Component {
               aria-describedby="jobCompanyHelp"
               placeholder="Nom de l'entreprise"
               onChange={this.onChange}
-              value={
-                jobCompany !== "" && this.state.job.jobCompany
-                  ? jobCompany
-                  : this.state.job.jobCompany
-              }
+              value={jobCompany}
             />
           </div>
           <div className="form-group">
@@ -302,12 +252,7 @@ class AddJob extends Component {
               aria-describedby="jobCompanyDescriptionHelp"
               placeholder="Description de l'entreprise"
               onChange={this.onChange}
-              value={
-                jobCompanyDescription !== "" &&
-                this.state.job.jobCompanyDescription
-                  ? jobCompanyDescription
-                  : this.state.job.jobCompanyDescription
-              }
+              value={jobCompanyDescription}
             />
           </div>
           <div className="form-group">
@@ -320,11 +265,7 @@ class AddJob extends Component {
               aria-describedby="jobCompanySiteHelp"
               placeholder="Site de l'entreprise"
               onChange={this.onChange}
-              value={
-                jobCompanySite !== "" && this.state.job.jobCompanySite
-                  ? jobCompanySite
-                  : this.state.job.jobCompanySite
-              }
+              value={jobCompanySite}
             />
           </div>
           <button
@@ -345,5 +286,5 @@ const mapStateToprops = state => ({
 });
 export default connect(
   mapStateToprops,
-  { getAJob }
+  { getAJob, createJob }
 )(AddJob);

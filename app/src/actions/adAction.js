@@ -37,6 +37,7 @@ export const updateComments = (adID, comment, history) => dispatch => {
       if (err.response.status === 403) {
         //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
         logout();
+        console.log(localStorage);
         history.push("/");
       }
     });

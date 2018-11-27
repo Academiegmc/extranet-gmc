@@ -27,12 +27,12 @@ export const getUserAds = (userId, history) => dispatch => {
     .get(url)
     .then(ads => dispatch({ type: GET_USER_ADS, payload: ads }))
     .catch(err => {
-      dispatch({ type: GET_ERRORS, payload: err });
       if (err.response.status === 403) {
         //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
         logout();
         history.push("/");
       }
+      dispatch({ type: GET_ERRORS, payload: err });
     });
 };
 export const getUserJobs = (userId, history) => dispatch => {
@@ -41,12 +41,12 @@ export const getUserJobs = (userId, history) => dispatch => {
     .get(url)
     .then(jobs => dispatch({ type: GET_USER_JOBS, payload: jobs }))
     .catch(err => {
-      dispatch({ type: GET_ERRORS, payload: err });
       if (err.response.status === 403) {
         //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
         logout();
         history.push("/");
       }
+      dispatch({ type: GET_ERRORS, payload: err });
     });
 };
 export const getUserNews = (userId, history) => dispatch => {
@@ -55,11 +55,11 @@ export const getUserNews = (userId, history) => dispatch => {
     .get(url)
     .then(news => dispatch({ type: GET_USER_NEWS, payload: news }))
     .catch(err => {
-      dispatch({ type: GET_ERRORS, payload: err });
       if (err.response.status === 403) {
         //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
         logout();
         history.push("/");
       }
+      dispatch({ type: GET_ERRORS, payload: err });
     });
 };

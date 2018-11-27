@@ -29,10 +29,8 @@ export const setCurrentUser = decoded => {
   };
 };
 
-export const logout = () => {
-  return dispatch => {
-    localStorage.removeItem("jwtToken");
-    setAuthToken(false);
-    dispatch(setCurrentUser({}));
-  };
+export const logout = () => dispatch => {
+  localStorage.removeItem("jwtToken");
+  setAuthToken(false);
+  dispatch(setCurrentUser({}));
 };
