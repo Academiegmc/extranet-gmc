@@ -6,6 +6,7 @@ export const jobUrl = "/api/jobs";
 export const userUrl = "/api/users";
 
 export const urls = {
+  proxy: "http://localhost:9000",
   admin: "/admin",
   news: "/news",
   jobboard: "/jobboard",

@@ -17,7 +17,6 @@ const jobs = require("./routes/jobs");
 //Static files
 app.use(express.static(path.join(__dirname, "public")));
 //Middleware
-app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 //DB Config

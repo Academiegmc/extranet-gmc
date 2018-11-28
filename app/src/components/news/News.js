@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getAllNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
+import { urls } from "../../utils";
 class News extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +33,7 @@ class News extends Component {
         imgNews = (
           <img
             className="card-img-top"
-            src={`${news.images[0]}`}
+            src={`${urls.proxy}/images/${news.images[0]}`}
             alt={`Card image cap ` + index}
           />
         );

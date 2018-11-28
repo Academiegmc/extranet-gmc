@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import { createNews } from "../../actions/newsActions";
+import { createNews, getANews } from "../../actions/newsActions";
 import { logout } from "../../actions/authActions";
 import { createAd, updateAd, getAnAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
@@ -16,12 +16,10 @@ class Form extends Component {
       description: "",
       category: "Etude",
       images: [],
-      user: "",
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.fileUpload = this.fileUpload.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) this.setState({ errors: nextProps.errors });
@@ -30,24 +28,41 @@ class Form extends Component {
       this.setState({ description: nextProps.ads.ad.data.description });
       this.setState({ category: nextProps.ads.ad.data.category });
     }
-    if (nextProps.auth.user.name)
-      this.setState({ user: nextProps.auth.user.name });
+    if (nextProps.news.news.data) {
+      this.setState({ title: nextProps.news.news.data.title });
+      this.setState({ description: nextProps.news.news.data.description });
+      // this.setState({ category: nextProps.news.news.data.category });
+    }
   }
   componentDidMount() {
     if (this.props.match.path === "/annonce/edit/:id") {
       this.props.getAnAd(this.props.match.params.id);
     }
+    if (this.props.match.path === "/news/edit/:id") {
+      this.props.getANews(this.props.match.params.id);
+    }
   }
   onChange = e => {
-    if (e.target.name === "images")
-      this.setState({ images: e.target.files[0] });
+    if (e.target.name === "images") {
+      if (e.target.files.length > 0) {
+        if (e.target.files.length === 1) {
+          this.setState({ images: e.target.files[0] });
+        } else {
+          this.setState({ images: e.target.files });
+        }
+      }
+    }
+    // this.setState({ images: e.target.files[0] });
     else this.setState({ [e.target.name]: e.target.value });
   };
   onSubmit = e => {
     e.preventDefault();
     const { images, title, description, category } = this.state;
-    if (this.props.match.path === "/news/edit/:id") {
-      this.fileUpload(images, description, title);
+    if (
+      this.props.match.path === "/admin/news" ||
+      this.props.match.path === "/news/edit/:id"
+    ) {
+      this.props.createNews({ images, description, title }, this.props.history);
     }
     if (this.props.match.path === "/admin/annonce") {
       const newAd = {
@@ -66,19 +81,8 @@ class Form extends Component {
       );
     }
   };
-  fileUpload = (images, description, title) => {
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("images", images);
-    const config = { headers: { "content-type": "multipart/form-data" } };
-    Axios.post(newsUrl, formData, config)
-      .then(res => {
-        this.props.history.push("/admin");
-      })
-      .catch(err => console.log(err));
-  };
   render() {
+    if (this.props.errors.status === 403) this.props.logout();
     const {
       formTitle,
       titleInputName,
@@ -128,8 +132,9 @@ class Form extends Component {
                 <input
                   type="file"
                   className="form-control-file"
+                  id="images"
                   name="images"
-                  // required
+                  multiple
                   onChange={this.onChange}
                 />
                 <p>
@@ -199,5 +204,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { createNews, createAd, updateAd, getAnAd, logout }
+  { createNews, createAd, updateAd, getAnAd, getANews, logout }
 )(withRouter(Form));

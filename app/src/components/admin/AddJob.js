@@ -53,7 +53,6 @@ class AddJob extends Component {
   };
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     if (this.props.match.path === "/job/edit/:id") {
       updateJob(this.props.match.params.id, this.state, this.props.history);
     }

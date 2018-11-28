@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getANews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
+import { urls } from "../../utils";
 class NewsDescription extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +53,7 @@ class NewsDescription extends Component {
       let imgTag = (
         <img
           className="d-block w-100"
-          src={`${image}`}
+          src={`${urls.proxy}/images/${image}`}
           alt={`Card image cap ` + index}
         />
       );

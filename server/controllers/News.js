@@ -1,8 +1,9 @@
 const path = require("path");
+
 const NewsModel = require("../models/News");
 const User = require("../models/User");
 const ErrorMessage = require("../config/error-messages");
-const utils = require("../config/utils");
+
 const NewsController = {
   getAllNews: (req, res) => {
     NewsModel.find()
@@ -24,8 +25,9 @@ const NewsController = {
     });
   },
   createNews: (req, res) => {
-    // console.log(req.files.images);
-    let img = req.files.images;
+    // let { images } = req.files;
+    let imgTab = [];
+    req.files.forEach(file => imgTab.push(file.filename));
     User.findOne({ _id: req.user.id }, { password: 0 }, (err, user) => {
       if (err) {
         res.status(500).json(err);
@@ -35,26 +37,17 @@ const NewsController = {
           .status(404)
           .json({ auth: false, message: ErrorMessage.userNotFound });
       }
-      img.mv(`${path.join(__dirname, "../")}public/images/${img.name}`, err => {
-        if (err) res.status(500).json({ success: false, data: err });
-        else {
-          const newNews = new NewsModel({
-            name: user.name,
-            user: user._id,
-            title: req.body.title,
-            description: req.body.description,
-            images: `/images/${img.name}`
-          });
-          newNews
-            .save()
-            .then(news => res.status(200).json(news))
-            .catch(err => res.status(400).json(err));
-        }
+      const newNews = new NewsModel({
+        name: user.name,
+        user: user._id,
+        title: req.body.title,
+        description: req.body.description,
+        images: imgTab
       });
-      // let imgTab = [];
-      // if (req.body.images.length > 0)
-      //   imgTab = req.body.images.split(utils.arraySplit);
-      // images: imgTab
+      newNews
+        .save()
+        .then(news => res.status(200).json(news))
+        .catch(err => res.status(400).json(err));
     });
   },
   updateNews: (req, res) => {

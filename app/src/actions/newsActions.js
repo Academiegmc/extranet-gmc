@@ -1,7 +1,6 @@
 import axios from "axios";
 import { GET_A_NEWS, GET_ALL_NEWS, GET_ERRORS } from "./types";
 import { newsUrl } from "../utils";
-import { logout } from "./authActions";
 export const getAllNews = () => dispatch => {
   axios.get(newsUrl).then(news =>
     dispatch({
@@ -19,19 +18,25 @@ export const getANews = newsId => dispatch => {
   });
 };
 export const createNews = (newsData, history) => dispatch => {
+  const { title, description, images } = newsData;
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("description", description);
+  if (images) {
+    if (images.length > 1) {
+      for (let i = 0; i <= images.length; i++) {
+        formData.append("images", images[i]);
+      }
+    } else formData.append("images", images);
+  }
   axios
-    .post(newsUrl, newsData)
+    .post(newsUrl, formData)
     .then(res => history.push("/news"))
     .catch(err => {
       dispatch({
         type: GET_ERRORS,
-        payload: err
+        payload: err.response
       });
-      if (err.response.status === 403) {
-        //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
-        logout();
-        history.push("/");
-      }
     });
 };
 export const updateNews = (newsId, newsData) => {
