@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../actions/authActions";
 class Navbar extends Component {
@@ -11,21 +11,13 @@ class Navbar extends Component {
     };
     this.logoutUser = this.logoutUser.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated)
-      this.setState({
-        user: nextProps.auth.user,
-        isAuthenticated: nextProps.auth.isAuthenticated
-      });
-  }
   logoutUser(e) {
     e.preventDefault();
     this.props.logout();
-    this.setState({ isAuthenticated: false, user: {} });
     this.props.history.push("/");
   }
   render() {
-    const { user, isAuthenticated } = this.state;
+    const { user, isAuthenticated } = this.props.auth;
     let adminLink =
       user.status === 3 ? (
         <li className="nav-item active">
@@ -88,4 +80,4 @@ const mapStatetoprops = state => ({
 export default connect(
   mapStatetoprops,
   { logout }
-)(withRouter(Navbar));
+)(Navbar);
