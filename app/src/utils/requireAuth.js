@@ -6,7 +6,7 @@ export default ComposedComponent => {
   class RequireAuth extends Component {
     render() {
       if (!localStorage.jwtToken || !this.props.isAuthenticated) {
-        return <Redirect to="/" push />;
+        return <Redirect to="/" />;
       } else {
         return <ComposedComponent {...this.props} />;
       }

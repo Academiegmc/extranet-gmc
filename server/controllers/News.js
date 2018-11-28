@@ -25,7 +25,6 @@ const NewsController = {
     });
   },
   createNews: (req, res) => {
-    // let { images } = req.files;
     let imgTab = [];
     req.files.forEach(file => imgTab.push(file.filename));
     User.findOne({ _id: req.user.id }, { password: 0 }, (err, user) => {

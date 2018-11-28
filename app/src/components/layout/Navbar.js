@@ -36,7 +36,7 @@ class Navbar extends Component {
           type="submit"
           onClick={this.logoutUser}
         >
-          Logout
+          Déconnexion
         </button>
       </div>
     ) : null;
@@ -62,7 +62,7 @@ class Navbar extends Component {
             <ul className="navbar-nav mr-auto">
               <li className="nav-item active">
                 <Link className="nav-link" to="/">
-                  Home <span className="sr-only">(current)</span>
+                  Accueil <span className="sr-only">(current)</span>
                 </Link>
               </li>
               {adminLink}

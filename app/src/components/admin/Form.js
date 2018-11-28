@@ -6,8 +6,6 @@ import { createNews, getANews } from "../../actions/newsActions";
 import { logout } from "../../actions/authActions";
 import { createAd, updateAd, getAnAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
-import { newsUrl } from "../../utils";
-import Axios from "axios";
 class Form extends Component {
   constructor(props) {
     super(props);
