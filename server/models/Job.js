@@ -17,4 +17,5 @@ const jobSchema = new Schema({
   jobCompanySite: { type: String, required: true },
   createdAt: { type: Date, required: true, default: Date.now }
 });
-module.exports = Job = mongoose.model("gmc-jobs", jobSchema);
+// module.exports = Job = mongoose.model("gmc-jobs", jobSchema);
+module.exports = Job = mongoose.model("gmcjobs", jobSchema);

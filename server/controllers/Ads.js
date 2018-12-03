@@ -70,6 +70,18 @@ const Ads = {
     Ad.findOneAndRemove({ _id: req.params.id }).then(ad =>
       res.json({ success: true, message: ErrorMessage.adRemoved })
     );
+  },
+  searchAds: (req, res) => {
+    const { q } = req.query;
+    Ad.find({ title: { $regex: new RegExp(q), $options: "mi" } })
+      .select("title")
+      .limit(10)
+      .then(ad => {
+        res.status(200).json(ad);
+      })
+      .catch(err => {
+        res.status(400).json(err.response);
+      });
   }
 };
 

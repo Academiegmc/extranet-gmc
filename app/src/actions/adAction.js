@@ -44,3 +44,12 @@ export const deleteAd = adId => dispatch => {
     })
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
+
+export const searchAd = adTitle => {
+  axios
+    .get(`${adUrl}/title`, { params: { q: adTitle } })
+    .then(res => {
+      return res.data;
+    })
+    .catch(err => console.log(err));
+};

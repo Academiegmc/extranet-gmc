@@ -2,14 +2,17 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getAllAds } from "../../actions/adAction";
+import { getAllAds, searchAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
 class Annonces extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      annonces: []
+      annonces: [],
+      ads: [],
+      value: ""
     };
+    this.searchAds = this.searchAds.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.ads.ads.data)
@@ -17,6 +20,10 @@ class Annonces extends Component {
   }
   componentDidMount() {
     this.props.getAllAds();
+  }
+  searchAds(e) {
+    let ads = searchAd(e.target.value);
+    this.setState({ ads });
   }
   render() {
     const divFlex = {
@@ -57,10 +64,12 @@ class Annonces extends Component {
               </div>
               <input
                 type="text"
+                name="search"
                 className="form-control"
                 placeholder="Mot clés"
                 aria-label="Mot clés"
                 aria-describedby="basic-addon1"
+                onKeyUp={this.searchAds}
               />
             </div>
             <button type="submit" className="btn btn-primary mb-3">

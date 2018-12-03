@@ -13,4 +13,4 @@ const NewsSchema = new Schema({
   date: { type: Date, default: Date.now }
 });
 
-module.exports = NewsModel = mongoose.model("gmc-news", NewsSchema);
+module.exports = NewsModel = mongoose.model("gmcnews", NewsSchema);
