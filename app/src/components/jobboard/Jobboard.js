@@ -2,21 +2,27 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getAllJobs } from "../../actions/jobActions";
+import { getAllJobs, searchJob } from "../../actions/jobActions";
 import Moment from "react-moment";
 import ReturnButton from "../layout/ReturnButton";
 class Jobboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobs: []
+      jobs: [],
+      jobSearched: []
     };
+    this.searchJobs = this.searchJobs.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     this.setState({ jobs: nextProps.jobs.jobs.data });
   }
   componentDidMount() {
     this.props.getAllJobs();
+  }
+  searchJobs(e) {
+    let jobs = searchJob(e.target.value);
+    this.setState({ jobSearched: jobs });
   }
   render() {
     const jobs = this.state.jobs.map((job, index) => (
@@ -64,6 +70,7 @@ class Jobboard extends Component {
                 placeholder="Mot clés"
                 aria-label="Mot clés"
                 aria-describedby="basic-addon1"
+                onKeyUp={this.searchJobs}
               />
             </div>
             <button type="submit" className="btn btn-primary mb-3">

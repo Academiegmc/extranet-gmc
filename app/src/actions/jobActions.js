@@ -61,3 +61,16 @@ export const deleteJob = jobId => {
     return res.data;
   });
 };
+
+export const searchJob = jobTitle => {
+  axios
+    .get(`${jobUrl}/search`, {
+      params: { q: jobTitle }
+    })
+    .then(job => {
+      return job.data;
+    })
+    .catch(err => {
+      return err.response;
+    });
+};
