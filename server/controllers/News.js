@@ -1,5 +1,5 @@
 const path = require("path");
-
+const fs = require("fs");
 const NewsModel = require("../models/News");
 const User = require("../models/User");
 const ErrorMessage = require("../config/error-messages");
@@ -63,9 +63,16 @@ const NewsController = {
       .catch(err => res.status(400).json(err));
   },
   deleteNews: (req, res) => {
-    NewsModel.findOneAndRemove({ _id: req.params.id }).then(news =>
-      res.status(200).json({ success: true, message: ErrorMessage.newsRemoved })
-    );
+    NewsModel.findOneAndRemove({ _id: req.params.id }).then(news => {
+      news.images.map(img => {
+        fs.unlink(`${path.join(__dirname, "../")}public/images/${img}`, err => {
+          if (err) res.status(400).json(err.response);
+        });
+      });
+      res
+        .status(200)
+        .json({ success: true, message: ErrorMessage.newsRemoved });
+    });
   }
 };
 

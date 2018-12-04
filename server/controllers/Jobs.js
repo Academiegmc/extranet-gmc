@@ -112,11 +112,9 @@ const Jobs = {
       .select("jobTitle")
       .limit(10)
       .then(job => {
-        console.log(job);
         res.status(200).json(job);
       })
       .catch(err => {
-        console.log(err.response);
         res.status(400).json(err.response);
       });
   }

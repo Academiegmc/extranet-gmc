@@ -109,7 +109,7 @@ class Profile extends Component {
       <div>
         {sessionAlert}
         <ReturnButton history={this.props.history} />
-        <h1>Profile</h1>
+        <h1>Mon profil</h1>
         <hr />
         <h3>Annonces</h3>
         {allUserAds}
