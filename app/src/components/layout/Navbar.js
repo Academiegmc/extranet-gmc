@@ -12,65 +12,42 @@ class Navbar extends Component {
     this.logoutUser = this.logoutUser.bind(this);
   }
   logoutUser(e) {
+    const { logout, history } = this.props;
     e.preventDefault();
-    this.props.logout();
-    this.props.history.push("/");
+    logout();
+    if (history) history.push("/");
   }
   render() {
     const { user, isAuthenticated } = this.props.auth;
     let adminLink =
       user.status === 3 ? (
-        <li className="nav-item active">
-          <Link className="nav-link" to="/admin">
-            Admin <span className="sr-only" />
-          </Link>
-        </li>
+        <Link className="nav-link" to="/admin">
+          Admin <span className="sr-only" />
+        </Link>
       ) : null;
     let data = isAuthenticated ? (
-      <div className="form-inline my-2 my-lg-0">
-        <Link to={`/profile/${user.id}`}>
+      <div className="flex-row">
+        <Link className="nav-link" to={`/profile/${user.id}`}>
           <h6 className="mr-sm-2">{user.name}</h6>
         </Link>
-        <button
-          className="btn btn-outline-success my-2 my-sm-0"
-          type="submit"
-          onClick={this.logoutUser}
-        >
+        <button className="nav-btn" type="submit" onClick={this.logoutUser}>
           Déconnexion
         </button>
       </div>
     ) : null;
     return (
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link className="navbar-brand" to="/">
+      <nav className=" navbar flex-row flex-center">
+        <div className="navbar-left">
+          <Link className="nav-link" to="/">
             LOGO
           </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <Link className="nav-link" to="/">
-                  Accueil <span className="sr-only">(current)</span>
-                </Link>
-              </li>
-              {adminLink}
-            </ul>
-            {data}
-          </div>
-        </nav>
-      </div>
+          <Link className="nav-link" to="/">
+            Accueil <span className="sr-only">(current)</span>
+          </Link>
+          {adminLink}
+        </div>
+        <div className="navbar-right">{data}</div>
+      </nav>
     );
   }
 }

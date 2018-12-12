@@ -7,6 +7,7 @@ const verifyToken = (req, res, next) => {
     return res.status(403).json({ auth: false, message: "No token provided." });
   jwt.verify(token, config.secretOrKeys, (err, decoded) => {
     if (err) {
+      console.log(err);
       return res
         .status(403)
         .json({ auth: false, message: "Failed to authenticate token." });
