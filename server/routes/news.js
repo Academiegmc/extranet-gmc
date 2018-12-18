@@ -25,7 +25,12 @@ router.post(
   upload.array("images", 5),
   NewsController.createNews
 );
-router.put("/:id", verifyToken, NewsController.updateNews);
+router.put(
+  "/:id",
+  verifyToken,
+  upload.array("images", 5),
+  NewsController.updateNews
+);
 router.delete("/:id", verifyToken, NewsController.deleteNews);
 
 module.exports = router;

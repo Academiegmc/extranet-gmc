@@ -50,17 +50,22 @@ const NewsController = {
     });
   },
   updateNews: (req, res) => {
+    const { title, description } = req.body;
+    let imgTab = [];
+    req.files.forEach(file => imgTab.push(file.filename));
     NewsModel.findById(req.params.id)
       .then(news => {
-        if (news) {
-          NewsModel.findOneAndUpdate(
-            { _id: req.params.id },
-            { $set: req.body },
-            { new: true }
-          ).then(news => res.status(200).json(news));
-        }
+        news.title = title;
+        news.description = description;
+        imgTab.forEach(img => news.images.push(img));
+        news
+          .save()
+          .then(newsSaved => res.status(200).json(newsSaved))
+          .catch(error => res.status(400).json(error.response));
       })
-      .catch(err => res.status(400).json(err));
+      .catch(err => {
+        res.status(400).json(err.response);
+      });
   },
   deleteNews: (req, res) => {
     NewsModel.findOneAndRemove({ _id: req.params.id }).then(news => {

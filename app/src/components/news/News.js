@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import Moment from "react-moment";
 import { getAllNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
 import { urls } from "../../utils";
@@ -23,11 +24,6 @@ class News extends Component {
 
   render() {
     let imgNews;
-    const divFlex = {
-      display: "flex",
-      flexFlow: "column wrap"
-    };
-    const cardStyle = { width: "100%", marginBottom: 20 };
     const allNews = this.state.news.map((news, index) => {
       if (news.images.length > 0) {
         imgNews = (
@@ -39,25 +35,31 @@ class News extends Component {
         );
       }
       return (
-        <div className="card" key={index} style={cardStyle}>
+        <div className="card" key={index}>
           {news.images.length > 0 ? imgNews : null}
-          <div className="card-body">
+          <div className="flex-column text-center card-body">
             <div className="card-title">
-              <h5>{news.title}</h5>
+              <Link to={`/news/${news._id}`}>
+                <h5>{news.title}</h5>
+              </Link>
+
+              <span>
+                <i className="fas fa-calendar-alt" />{" "}
+                {<Moment format="DD MMM, YYYY">{news.date}</Moment>}
+              </span>
             </div>
-            <p className="card-text">{news.description}</p>
-            <Link to={`/news/${news._id}`} className="btn btn-primary">
-              En savoir plus
-            </Link>
+            <p className="card-text">
+              {news.description.substring(0, news.description.indexOf("."))}
+            </p>
           </div>
         </div>
       );
     });
     return (
-      <div className="container">
+      <div className="news-container">
         <ReturnButton history={this.props.history} />
         <h1>Dernières News</h1>
-        <div style={divFlex}>{allNews}</div>
+        <div className="flex-row flex-wrap">{allNews}</div>
       </div>
     );
   }

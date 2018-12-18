@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { loginUser } from "../../actions/authActions";
-
+import Logo from "../../assets/logo.png";
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -48,8 +48,7 @@ class Landing extends Component {
             alignItems: "center"
           }}
         >
-          {/* <img src='' className="" alt="logo" /> */}
-          <h1>LOGO</h1>
+          <img src={Logo} className="" alt="logo" />
         </div>
         <hr />
         <div

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import { createNews, getANews } from "../../actions/newsActions";
+import { createNews, getANews, updateNews } from "../../actions/newsActions";
 import { logout } from "../../actions/authActions";
 import { createAd, updateAd, getAnAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
@@ -56,11 +56,15 @@ class Form extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { images, title, description, category } = this.state;
-    if (
-      this.props.match.path === "/admin/news" ||
-      this.props.match.path === "/news/edit/:id"
-    ) {
+    if (this.props.match.path === "/admin/news") {
       this.props.createNews({ images, description, title }, this.props.history);
+    }
+    if (this.props.match.path === "/news/edit/:id") {
+      this.props.updateNews(
+        this.props.match.params.id,
+        { images, description, title },
+        this.props.history
+      );
     }
     if (this.props.match.path === "/admin/annonce") {
       const newAd = {
@@ -202,5 +206,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { createNews, createAd, updateAd, getAnAd, getANews, logout }
+  { createNews, createAd, updateAd, getAnAd, getANews, logout, updateNews }
 )(withRouter(Form));

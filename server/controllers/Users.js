@@ -52,7 +52,7 @@ const Users = {
         },
         config.secretOrKeys,
         {
-          expiresIn: 3600
+          expiresIn: 36000
         }
       );
       res.status(200).json({ auth: true, token: token });

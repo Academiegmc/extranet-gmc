@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../actions/authActions";
+import Logo from "../../assets/Favicon.png";
+
 class Navbar extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +30,7 @@ class Navbar extends Component {
     let data = isAuthenticated ? (
       <div className="flex-row">
         <Link className="nav-link" to={`/profile/${user.id}`}>
-          <h6 className="mr-sm-2">{user.name}</h6>
+          <h6 className="">{user.name}</h6>
         </Link>
         <button className="nav-btn" type="submit" onClick={this.logoutUser}>
           Déconnexion
@@ -37,10 +39,10 @@ class Navbar extends Component {
     ) : null;
     return (
       <nav className=" navbar flex-row flex-center">
+        <Link className="" to="/">
+          <img src={Logo} alt="Logo" />
+        </Link>
         <div className="navbar-left">
-          <Link className="nav-link" to="/">
-            LOGO
-          </Link>
           <Link className="nav-link" to="/">
             Accueil <span className="sr-only">(current)</span>
           </Link>

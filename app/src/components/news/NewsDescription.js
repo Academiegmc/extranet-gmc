@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Slider from "react-slick";
 import { getANews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
 import { urls } from "../../utils";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 class NewsDescription extends Component {
   constructor(props) {
     super(props);
@@ -28,104 +31,61 @@ class NewsDescription extends Component {
     this.props.getANews(this.props.match.params.id);
   }
   render() {
+    const settings = {
+      adaptiveHeight: true,
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            infinite: true,
+            dots: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            initialSlide: 2
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+      ]
+    };
     const { title, images, description, author } = this.state;
-    let imagesOlTab = images.map((image, index) => {
-      if (index === 0) {
-        return (
-          <li
-            data-target="#carouselExampleIndicators"
-            data-slide-to={index}
-            className="active"
-            key={index}
-          />
-        );
-      } else {
-        return (
-          <li
-            data-target="#carouselExampleIndicators"
-            data-slide-to={index}
-            key={index}
-          />
-        );
-      }
-    });
-    const imagesTab = images.map((image, index) => {
-      let imgTag = (
+    const imgTab = images.map((img, index) => (
+      <div key={index}>
         <img
-          className="d-block w-100"
-          src={`${urls.proxy}/images/${image}`}
+          className="card-img-top"
+          src={`${urls.proxy}/images/${img}`}
           alt={`Card image cap ` + index}
         />
-      );
-      let data;
-      if (image !== "") {
-        if (index === 0) {
-          data = (
-            <div className="carousel-item active" key={index}>
-              {imgTag}
-            </div>
-          );
-        } else {
-          data = (
-            <div className="carousel-item" key={index}>
-              {imgTag}
-            </div>
-          );
-        }
-      }
-      return data;
-    });
-    const divFlex = {
-      display: "flex",
-      flexFlow: "row wrap",
-      justifyContent: "center"
-    };
-    const cardStyle = { width: "100%", margin: 200 };
+      </div>
+    ));
     return (
-      <div className="container" style={divFlex}>
+      <div className="news-description-container flex-column">
         <ReturnButton history={this.props.history} />
-        <div className="card" style={cardStyle}>
-          <div
-            id="carouselExampleIndicators"
-            className="carousel slide"
-            data-ride="carousel"
-          >
-            <ol className="carousel-indicators">{imagesOlTab}</ol>
-            <div className="carousel-inner">{imagesTab}</div>
-            {images.length > 1 ? (
-              <div>
-                <a
-                  className="carousel-control-prev"
-                  href="#carouselExampleIndicators"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    className="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  />
-                  <span className="sr-only">Previous</span>
-                </a>
-                <a
-                  className="carousel-control-next"
-                  href="#carouselExampleIndicators"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    className="carousel-control-next-icon"
-                    aria-hidden="true"
-                  />
-                  <span className="sr-only">Next</span>
-                </a>
-              </div>
-            ) : null}
-          </div>
+        <div className="card">
+          <Slider {...settings}>{imgTab}</Slider>
           <div className="card-body">
             <div className="card-title">
               <h5>{title}</h5>
             </div>
-            <h6 className="card-subtitle mb-2 text-muted">{author}</h6>
+            <h6 className="card-subtitle">{author}</h6>
             <p className="card-text">{description}</p>
           </div>
         </div>

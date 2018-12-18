@@ -90,6 +90,14 @@ p {
 }
 .card .card-body {
   padding: 3vh;
+  height: auto;
+  width: auto;
+}
+.card .card-body .card-title {
+  font-size: 3vh;
+}
+.card .card-body .card-text {
+  font-size: 2vh;
 }
 .card .card-body a {
   font-family: "Roboto", sans-serif;
@@ -101,6 +109,10 @@ p {
 }
 .card .card-body a:visited {
   text-decoration: none;
+}
+.card .card-img-top {
+  height: 30vh;
+  width: 30vw;
 }
 
 .flex-column {
@@ -166,6 +178,16 @@ button {
   color: #f4e9de;
 }
 
+.btn {
+  width: auto;
+  border-radius: 2vh;
+}
+
+.btn-primary {
+  background-color: #c8b8b7;
+  color: #ffffff;
+}
+
 nav {
   height: 10vh;
   width: 100vw;
@@ -179,6 +201,10 @@ nav .navbar-right {
 }
 nav .nav-link {
   margin: 1vw;
+}
+nav a {
+  color: #656464;
+  text-decoration: none;
 }
 
 .dashboard-container {
@@ -201,4 +227,57 @@ nav .nav-link {
 }
 .news-header h1 {
   margin-bottom: 2vh;
+}
+
+.news-container {
+  height: 90vh;
+  width: auto;
+}
+.news-container .card {
+  height: 50vh;
+  width: 30vw;
+  margin: 2vh;
+  background-color: #ffffff;
+}
+.news-container .card .card-body {
+  height: auto;
+  width: auto;
+}
+.news-container .card .card-body a {
+  color: #f4e9de;
+  font-weight: bold;
+}
+.news-container .card .card-body a:hover {
+  color: #646363;
+}
+.news-container .card .card-body span {
+  font-size: 1.5vh;
+  margin-bottom: 2vh;
+}
+
+.news-description-container {
+  height: 90vh;
+}
+.news-description-container .card {
+  height: auto;
+  width: auto;
+  background-color: #ffffff;
+}
+.news-description-container .card .card-img-top {
+  margin-left: auto;
+  margin-right: auto;
+}
+.news-description-container .card .card-title {
+  font-style: oblique;
+  margin-bottom: 1vh;
+}
+.news-description-container .card .card-subtitle {
+  font-style: oblique;
+  font-weight: 100;
+  color: grey;
+  margin-bottom: 1vh;
+}
+.news-description-container .card .card-text {
+  font-family: "Lato", sans-serif;
+  font-weight: lighter;
 }

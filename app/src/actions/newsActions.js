@@ -39,10 +39,27 @@ export const createNews = (newsData, history) => dispatch => {
       });
     });
 };
-export const updateNews = (newsId, newsData) => {
-  axios.put(`${newsUrl}/${newsId}`, newsData).then(res => {
-    return res.data;
-  });
+export const updateNews = (newsId, newsData, history) => dispatch => {
+  const { title, description, images } = newsData;
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("description", description);
+  if (images) {
+    if (images.length > 1) {
+      for (let i = 0; i <= images.length; i++) {
+        formData.append("images", images[i]);
+      }
+    } else {
+      formData.append("images", images);
+    }
+  }
+  axios
+    .put(`${newsUrl}/${newsId}`, formData)
+    .then(res => {
+      history.push("/news");
+      return res.data;
+    })
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 export const deleteNews = newsId => {
   axios.delete(`${newsUrl}/${newsId}`).then(res => {

@@ -61,12 +61,6 @@ class Dashboard extends Component {
   }
   render() {
     const { status } = this.state.user;
-    const cardStyle = {
-      width: "18rem",
-      marginLeft: "20px",
-      marginRight: "20px",
-      marginBottom: "20px"
-    };
     const links = this.state.titles.map((title, id) => {
       if (status === 0 && title.title === "Hyperplanning") {
         title.link = urls.hypperplanning + "etudiant";
