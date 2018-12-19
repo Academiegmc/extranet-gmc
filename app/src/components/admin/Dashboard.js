@@ -58,17 +58,19 @@ class Dashboard extends Component {
       <NewsInfos key={index} news={news} refresh={this.getNewsList} />
     ));
     return (
-      <div>
+      <div className="container">
         <h1>Admin dashboard</h1>
-        <Link to="admin/job">
-          <h3>Ajouter un job</h3>
-        </Link>
-        <Link to="admin/annonce">
-          <h3>Ajouter une annonce</h3>
-        </Link>
-        <Link to="admin/news">
-          <h3>Ajouter une news</h3>
-        </Link>
+        <div className="flex-row flex-center">
+          <Link to="admin/job">
+            <h3>Ajouter un job</h3>
+          </Link>
+          <Link to="admin/annonce">
+            <h3>Ajouter une annonce</h3>
+          </Link>
+          <Link to="admin/news">
+            <h3>Ajouter une news</h3>
+          </Link>
+        </div>
         <hr />
         <h2>Jobs</h2>
         {allJobs}

@@ -11,7 +11,7 @@ const Ads = {
   },
   getAd: (req, res) => {
     Ad.findById(req.params.id)
-      .then(ad => res.json(ad))
+      .then(ad => res.status(200).json(ad))
       .catch(err =>
         res.status(404).json({ error: err, message: ErrorMessage.adNotFound })
       );
@@ -35,7 +35,7 @@ const Ads = {
 
       newAd
         .save()
-        .then(ad => res.json(ad))
+        .then(ad => res.status(200).json(ad))
         .catch(err => res.status(400).json(err));
     });
   },
@@ -67,8 +67,9 @@ const Ads = {
       );
   },
   deleteAd: (req, res) => {
+    console.log(req.params.id);
     Ad.findOneAndRemove({ _id: req.params.id }).then(ad =>
-      res.json({ success: true, message: ErrorMessage.adRemoved })
+      res.status(200).json({ success: true, message: ErrorMessage.adRemoved })
     );
   },
   searchAds: (req, res) => {

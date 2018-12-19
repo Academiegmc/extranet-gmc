@@ -99,6 +99,9 @@ p {
 .card .card-body .card-text {
   font-size: 2vh;
 }
+.card .card-body .card-btn {
+  width: 2vw;
+}
 .card .card-body a {
   font-family: "Roboto", sans-serif;
   font-weight: 300;
@@ -185,6 +188,22 @@ button {
 
 .btn-primary {
   background-color: #c8b8b7;
+  color: #ffffff;
+}
+
+.btn-normal {
+  background-color: #c8b8b7;
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+.btn-danger {
+  background-color: #b5133a;
+  color: #ffffff;
+}
+
+.btn-success {
+  background-color: #008148;
   color: #ffffff;
 }
 
@@ -280,4 +299,46 @@ nav a {
 .news-description-container .card .card-text {
   font-family: "Lato", sans-serif;
   font-weight: lighter;
+}
+
+.container {
+  height: 90vh;
+}
+
+.add-links {
+  margin-left: 1vh;
+}
+
+.profile-container {
+  height: 90vh;
+}
+.profile-container .card {
+  background-color: #ffffff;
+  width: 20vw;
+  height: 17vh;
+  text-align: center;
+}
+.profile-container .card .card-title {
+  font-style: oblique;
+  font-weight: bold;
+  margin-bottom: 1vh;
+  color: #f4e9de;
+}
+.profile-container .card .card-subtitle {
+  font-style: oblique;
+  font-weight: 100;
+  color: grey;
+  margin-bottom: 1vh;
+}
+.profile-container .card .card-text {
+  font-family: "Lato", sans-serif;
+  font-weight: lighter;
+}
+.profile-container .card .card-btn {
+  width: 12vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+.profile-container button {
+  margin: 2vh;
 }

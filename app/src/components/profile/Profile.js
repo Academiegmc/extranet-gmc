@@ -9,6 +9,10 @@ import {
 } from "../../actions/usersAction";
 import ReturnButton from "../layout/ReturnButton";
 import { logout } from "../../actions/authActions";
+import { deleteNews } from "../../actions/newsActions";
+import { deleteJob } from "../../actions/jobActions";
+import { deleteAd } from "../../actions/adAction";
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -43,9 +47,6 @@ class Profile extends Component {
   };
   render() {
     const { ads, jobs, news, errors } = this.state;
-    const goAd = "Voir l'annonce";
-    const goJob = "Voir l'offre d'emploi";
-    const goNews = "Voir la news";
     const updateMessage = "Modifier";
     let allUserAds;
     let allUserJobs;
@@ -54,34 +55,58 @@ class Profile extends Component {
     if (errors.status === 403) this.logoutUser();
     if (ads && ads.data && ads.data.length > 0) {
       allUserAds = ads.data.map((ad, index) => (
-        <div key={index}>
-          <div>
-            <h4>{ad.title}</h4>
-            <p>{ad.description}</p>
-            <small>{ad.category}</small>
+        <div className="card flex-column" key={index}>
+          <div className="card-body">
             <Link to={`/annonce/${ad._id}`}>
-              <button>{goAd}</button>
+              <h4 className="card-title">{ad.title}</h4>
             </Link>
-            <Link to={`/annonce/edit/${ad._id}`}>
-              <button>{updateMessage}</button>
-            </Link>
+            <small className="card-subtitle">{ad.category}</small>
+            <div className="card-btn flex-row">
+              <button
+                className="btn-danger"
+                onClick={() => {
+                  deleteAd(ad._id);
+                  this.props.getUserAds(
+                    this.props.match.params.id,
+                    this.props.history
+                  );
+                }}
+              >
+                Supprimer
+              </button>
+              <Link to={`/annonce/edit/${ad._id}`}>
+                <button className="btn-success">{updateMessage}</button>
+              </Link>
+            </div>
           </div>
         </div>
       ));
     }
     if (jobs && jobs.data && jobs.data.length > 0) {
       allUserJobs = jobs.data.map((job, index) => (
-        <div key={index}>
-          <div>
-            <h4>{job.jobTitle}</h4>
-            <p>{job.jobDescription}</p>
-            <small>{job.jobCompany}</small>
+        <div className="card flex-column" key={index}>
+          <div className="card-body">
             <Link to={`/job/${job._id}`}>
-              <button>{goJob}</button>
+              <h4 className="card-title">{job.jobTitle}</h4>
             </Link>
-            <Link to={`/job/edit/${job._id}`}>
-              <button>{updateMessage}</button>
-            </Link>
+            <small className="card-subtitle">{job.jobCompany}</small>
+            <div className="card-btn flex-row">
+              <button
+                className="btn-danger"
+                onClick={() => {
+                  deleteJob(job._id);
+                  this.props.getUserJobs(
+                    this.props.match.params.id,
+                    this.props.history
+                  );
+                }}
+              >
+                Supprimer
+              </button>
+              <Link to={`/job/edit/${job._id}`}>
+                <button className="btn-success">{updateMessage}</button>
+              </Link>
+            </div>
           </div>
         </div>
       ));
@@ -89,36 +114,54 @@ class Profile extends Component {
 
     if (news && news.data && news.data.length > 0) {
       allUserNews = news.data.map((aNews, index) => (
-        <div key={index}>
-          <div>
-            <h4>{aNews.title}</h4>
-            <p>{aNews.description}</p>
-            <small>{aNews.name}</small>
+        <div className="card flex-column" key={index}>
+          <div className="card-body">
             <Link to={`/news/${aNews._id}`}>
-              <button>{goNews}</button>
+              <h4 className="card-title">{aNews.title}</h4>
             </Link>
-            <Link to={`/news/edit/${aNews._id}`}>
-              <button>{updateMessage}</button>
-            </Link>
+            <small className="card-subtitle">{aNews.name}</small>
+            <div className="card-btn flex-row">
+              <button
+                className="btn-danger"
+                onClick={() => {
+                  deleteNews(aNews._id);
+                  this.props.getUserNews(
+                    this.props.match.params.id,
+                    this.props.history
+                  );
+                }}
+              >
+                Supprimer
+              </button>
+              <Link to={`/news/edit/${aNews._id}`}>
+                <button className="btn-success">{updateMessage}</button>
+              </Link>
+            </div>
           </div>
         </div>
       ));
     }
 
     return (
-      <div>
+      <div className="profile-container">
         {sessionAlert}
         <ReturnButton history={this.props.history} />
         <h1>Mon profil</h1>
         <hr />
-        <h3>Annonces</h3>
-        {allUserAds}
+        <div className="flex-row flex-wrap">
+          <h3>Annonces</h3>
+          {allUserAds}
+        </div>
         <hr />
-        <h3>Jobs</h3>
-        {allUserJobs}
+        <div className="flex-row flex-wrap">
+          <h3>Jobs</h3>
+          {allUserJobs}
+        </div>
         <hr />
-        <h3>News</h3>
-        {allUserNews}
+        <div className="flex-row flex-wrap">
+          <h3>News</h3>
+          {allUserNews}
+        </div>
       </div>
     );
   }

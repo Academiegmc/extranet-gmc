@@ -37,6 +37,7 @@ export const updateAd = (adId, adData, history) => dispatch => {
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 export const deleteAd = adId => dispatch => {
+  console.log(adId);
   axios
     .delete(`${adUrl}/${adId}`)
     .then(res => {

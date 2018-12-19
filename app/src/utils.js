@@ -7,6 +7,7 @@ export const userUrl = "/api/users";
 
 export const urls = {
   proxy: "http://localhost:9000",
+  // proxy: "http://192.168.50.27:9000",
   admin: "/admin",
   news: "/news",
   jobboard: "/jobboard",
