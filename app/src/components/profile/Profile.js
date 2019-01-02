@@ -63,7 +63,7 @@ class Profile extends Component {
             <small className="card-subtitle">{ad.category}</small>
             <div className="card-btn flex-row">
               <button
-                className="btn-danger"
+                className="btn btn-danger"
                 onClick={() => {
                   deleteAd(ad._id);
                   this.props.getUserAds(
@@ -75,7 +75,7 @@ class Profile extends Component {
                 Supprimer
               </button>
               <Link to={`/annonce/edit/${ad._id}`}>
-                <button className="btn-success">{updateMessage}</button>
+                <button className="btn btn-success">{updateMessage}</button>
               </Link>
             </div>
           </div>
@@ -92,7 +92,7 @@ class Profile extends Component {
             <small className="card-subtitle">{job.jobCompany}</small>
             <div className="card-btn flex-row">
               <button
-                className="btn-danger"
+                className="btn btn-danger"
                 onClick={() => {
                   deleteJob(job._id);
                   this.props.getUserJobs(
@@ -104,7 +104,7 @@ class Profile extends Component {
                 Supprimer
               </button>
               <Link to={`/job/edit/${job._id}`}>
-                <button className="btn-success">{updateMessage}</button>
+                <button className="btn btn-success">{updateMessage}</button>
               </Link>
             </div>
           </div>
@@ -122,7 +122,7 @@ class Profile extends Component {
             <small className="card-subtitle">{aNews.name}</small>
             <div className="card-btn flex-row">
               <button
-                className="btn-danger"
+                className="btn btn-danger"
                 onClick={() => {
                   deleteNews(aNews._id);
                   this.props.getUserNews(
@@ -134,7 +134,7 @@ class Profile extends Component {
                 Supprimer
               </button>
               <Link to={`/news/edit/${aNews._id}`}>
-                <button className="btn-success">{updateMessage}</button>
+                <button className="btn btn-success">{updateMessage}</button>
               </Link>
             </div>
           </div>
@@ -148,20 +148,14 @@ class Profile extends Component {
         <ReturnButton history={this.props.history} />
         <h1>Mon profil</h1>
         <hr />
-        <div className="flex-row flex-wrap">
-          <h3>Annonces</h3>
-          {allUserAds}
-        </div>
+        <h3 className="text-center">Annonces</h3>{" "}
+        <div className="flex-row flex-wrap">{allUserAds}</div>
         <hr />
-        <div className="flex-row flex-wrap">
-          <h3>Jobs</h3>
-          {allUserJobs}
-        </div>
+        <h3 className="text-center">Jobs</h3>{" "}
+        <div className="flex-row flex-wrap">{allUserJobs}</div>
         <hr />
-        <div className="flex-row flex-wrap">
-          <h3>News</h3>
-          {allUserNews}
-        </div>
+        <h3 className="text-center">News</h3>{" "}
+        <div className="flex-row flex-wrap">{allUserNews}</div>
       </div>
     );
   }

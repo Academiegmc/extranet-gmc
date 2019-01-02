@@ -82,6 +82,13 @@ p {
   text-align: center;
 }
 
+input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
 .card {
   height: 10vh;
   width: 18rem;
@@ -184,6 +191,7 @@ button {
 .btn {
   width: auto;
   border-radius: 2vh;
+  cursor: pointer;
 }
 
 .btn-primary {
@@ -205,6 +213,14 @@ button {
 .btn-success {
   background-color: #008148;
   color: #ffffff;
+}
+
+.btn-return {
+  background-color: #c8b8b7;
+  color: #ffffff;
+}
+.btn-return i {
+  margin-right: 0.5vw;
 }
 
 nav {
@@ -299,6 +315,63 @@ nav a {
 .news-description-container .card .card-text {
   font-family: "Lato", sans-serif;
   font-weight: lighter;
+}
+
+.annonces-container {
+  height: 90vh;
+  width: auto;
+  display: table;
+}
+.annonces-container hr {
+  width: 100vw;
+}
+.annonces-container .card {
+  height: 20vh;
+  width: 35vh;
+  margin: 2vh;
+  background-color: #ffffff;
+}
+.annonces-container .card .card-body {
+  height: auto;
+  width: auto;
+}
+.annonces-container .card .card-body a {
+  color: #f4e9de;
+  font-weight: bold;
+}
+.annonces-container .card .card-body a:hover {
+  color: #646363;
+}
+.annonces-container .card .card-body span {
+  font-size: 1.5vh;
+  margin-bottom: 2vh;
+}
+.annonces-container .input-table {
+  display: table;
+  margin-left: 1vw;
+  width: 30vw;
+}
+.annonces-container .input-table .input-group {
+  display: table-row;
+  background-color: #ffff;
+  padding-left: 5vw;
+}
+.annonces-container .input-table .input-group span {
+  display: table-cell;
+  padding-left: 2vw;
+}
+.annonces-container .input-table .input-group input[type="text"] {
+  display: table-cell;
+  width: 20vw;
+  border: none;
+  border-bottom: #646363 1px solid;
+  font-size: 20px;
+}
+.annonces-container .input-table .input-group button {
+  display: table-cell;
+  width: 2vw;
+  height: 3vh;
+  margin-left: 1vw;
 }
 
 .container {

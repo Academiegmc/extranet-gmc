@@ -26,21 +26,15 @@ class Annonces extends Component {
     this.setState({ ads });
   }
   render() {
-    const divFlex = {
-      display: "flex",
-      flexFlow: "column wrap"
-    };
-    const cardStyle = { width: "100%", marginBottom: 20 };
+    const { annonces } = this.state;
     const allAnnonces =
-      this.state.annonces.length > 0
-        ? this.state.annonces.map((annonce, index) => (
-            <div className="card" key={index} style={cardStyle}>
-              <div className="card-body">
+      annonces.length > 0
+        ? annonces.map((annonce, index) => (
+            <div className="card" key={index}>
+              <div className="flex-column text-center card-body">
                 <div className="card-title">
                   <h5>{annonce.title}</h5>
-                  <h6 className="card-subtitle mb-2 text-muted">
-                    {annonce.name}
-                  </h6>
+                  <h6 className="card-subtitle text-muted">{annonce.name}</h6>
                 </div>
                 <p className="card-text">{annonce.description}</p>
                 <Link to={`/annonce/${annonce._id}`}>
@@ -52,34 +46,30 @@ class Annonces extends Component {
         : null;
 
     return (
-      <div className="container">
+      <div className="annonces-container">
         <ReturnButton history={this.props.history} />
         <h1>Annonces</h1>
-        <div className="row">
-          <form className="form-inline">
-            <div className="input-group mb-3 mr-3">
-              <div className="input-group-prepend">
-                <span className="input-group-text" id="basic-addon1">
-                  <i className="fas fa-newspaper"> </i>
-                </span>
-              </div>
-              <input
-                type="text"
-                name="search"
-                className="form-control"
-                placeholder="Mot clés"
-                aria-label="Mot clés"
-                aria-describedby="basic-addon1"
-                onKeyUp={this.searchAds}
-              />
-            </div>
-            <button type="submit" className="btn btn-primary mb-3">
+        <form className="input-table">
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon1">
+              <i className="fas fa-newspaper"> </i>
+            </span>
+            <input
+              type="text"
+              name="search"
+              className="form-control"
+              placeholder="Mot clés"
+              aria-label="Mot clés"
+              aria-describedby="basic-addon1"
+              onKeyUp={this.searchAds}
+            />
+            <button type="submit" className="btn btn-primary">
               <i className="fas fa-search"> </i>
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
         <hr />
-        <div style={divFlex}>{allAnnonces}</div>
+        <div className="flex-row flex-wrap">{allAnnonces}</div>
       </div>
     );
   }
