@@ -415,3 +415,92 @@ nav a {
 .profile-container button {
   margin: 2vh;
 }
+
+.stages-container {
+  height: 90vh;
+  width: 100vh;
+  margin-top: 2vw;
+  margin-left: 5vw;
+}
+.stages-container blockquote {
+  line-height: 1.4;
+}
+
+.user-left-infos {
+  width: 20vw;
+  padding-top: 5vh;
+  line-height: 1.5;
+}
+
+.user-right-infos {
+  width: 80vw;
+  margin-left: 1vw;
+}
+.user-right-infos p {
+  font-size: 15px;
+}
+.user-right-infos p i {
+  font-style: italic;
+  color: gray;
+}
+
+.stages-list {
+  margin-left: 3vw;
+}
+.stages-list ul {
+  list-style: none;
+}
+.stages-list ul li {
+  margin-top: 2vh;
+}
+
+.stage-title {
+  font-size: 30px;
+}
+
+.stage-li {
+  line-height: 1.5;
+  font-size: 20px;
+}
+
+.recommendation {
+  height: 2vh;
+}
+
+.recommend-wrapper {
+  margin-top: 2vh;
+  border: 1px solid black;
+  border-radius: 1vh;
+}
+.recommend-wrapper .slick-arrow {
+  background: #008746a3;
+}
+
+.landing-container {
+  height: 90vh;
+  width: 100vw;
+}
+.landing-container img {
+  margin: 2vh;
+}
+
+.form-group {
+  background-color: #ffffff;
+  height: 3vh;
+  width: 15vw;
+  margin: 2vh;
+  text-align: center;
+}
+.form-group label {
+  margin: auto;
+  font-size: 20px;
+}
+.form-group input {
+  width: 100%;
+  border: none;
+  font-size: 20px;
+}
+
+form button[type="submit"] {
+  text-align: center;
+}

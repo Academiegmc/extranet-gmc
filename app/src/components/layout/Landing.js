@@ -38,29 +38,13 @@ class Landing extends Component {
   };
   render() {
     return (
-      <div className="container-fluid">
-        <div
-          style={{
-            height: "200px",
-            display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
+      <div className="landing-container">
+        <div className="flex-column flex-center">
           <img src={Logo} className="" alt="logo" />
         </div>
         <hr />
-        <div
-          style={{
-            height: "200px",
-            display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <form onSubmit={this.onSubmit}>
+        <div className="flex-row flex-center">
+          <form className="flex-column" onSubmit={this.onSubmit}>
             <div className="form-group">
               <label htmlFor="exampleInputEmail1">Email</label>
               <input
@@ -69,12 +53,9 @@ class Landing extends Component {
                 id="email"
                 name="email"
                 aria-describedby="emailHelp"
-                placeholder="Enter email"
+                placeholder="Entrer votre email"
                 onChange={this.onChange}
               />
-              <small id="emailHelp" className="form-text text-muted">
-                We'll never share your email with anyone else.
-              </small>
             </div>
             <div className="form-group">
               <label htmlFor="exampleInputPassword1">Mot de passe</label>
@@ -83,7 +64,7 @@ class Landing extends Component {
                 className="form-control"
                 id="password"
                 name="password"
-                placeholder="Password"
+                placeholder="Entrer votre mot de passe"
                 onChange={this.onChange}
               />
             </div>

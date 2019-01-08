@@ -14,6 +14,7 @@ import News from "./components/news/News";
 import NewsDescription from "./components/news/NewsDescription";
 import Trombinoscope from "./components/trombinoscope/Trombinoscope";
 import Profile from "./components/profile/Profile";
+import Stages from "./components/stages/Stages";
 import requireAuth from "./utils/requireAuth";
 import App from "./App";
 const Routes = () => {
@@ -22,6 +23,7 @@ const Routes = () => {
       <Route path="/" component={App} />
       <Route exact path="/" component={Landing} />
       <Route exact path="/profile/:id" component={requireAuth(Profile)} />
+      <Route exact path="/stage/:id" component={requireAuth(Stages)} />
       {/* <Route exact path="/profile/:id" component={Profile} /> */}
       <Route
         exact

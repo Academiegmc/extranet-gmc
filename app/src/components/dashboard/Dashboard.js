@@ -40,11 +40,12 @@ class Dashboard extends Component {
         },
         {
           title: "Règlement Intérieur",
-          link: ""
+          link:
+            "http://localhost:9000/reglement-interieur/2019-2020-Reglement-Interieur.pdf"
         },
         {
           title: "Stages",
-          link: ""
+          link: "stage/"
         }
       ],
       news: []
@@ -67,6 +68,9 @@ class Dashboard extends Component {
       }
       if (status === 2 && title.title === "Hyperplanning")
         title.link = urls.hypperplanning + "enseignant";
+      if (title.title === "Stages" && this.state.user.id !== undefined) {
+        title.link += this.state.user.id;
+      }
       return (
         <li key={id}>
           <div className="card">
