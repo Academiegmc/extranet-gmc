@@ -82,6 +82,22 @@ p {
   text-align: center;
 }
 
+.form-group-text {
+  height: 3vh;
+  width: 15vw;
+  margin: 2vh;
+  text-align: center;
+}
+.form-group-text label {
+  margin: auto;
+  font-size: 20px;
+}
+.form-group-text input {
+  width: 100%;
+  border: none;
+  font-size: 20px;
+}
+
 input[type="text"] {
   width: 100%;
   box-sizing: border-box;
@@ -378,8 +394,13 @@ nav a {
   height: 90vh;
 }
 
-.add-links {
-  margin-left: 1vh;
+.admin-links {
+  justify-content: space-evenly;
+}
+
+.add-container {
+  height: 90vh;
+  width: 100vw;
 }
 
 .profile-container {
@@ -474,6 +495,23 @@ nav a {
 }
 .recommend-wrapper .slick-arrow {
   background: #008746a3;
+}
+
+.modal-container {
+  background-color: #f4e9de;
+  width: 20vw;
+  margin: auto;
+  margin-top: 20vh;
+}
+.modal-container h1 {
+  margin: 1.5vh;
+}
+.modal-container button {
+  width: 4vw;
+}
+
+#full_description a {
+  margin: 1.5vh;
 }
 
 .landing-container {

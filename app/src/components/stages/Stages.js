@@ -2,10 +2,14 @@ import React, { Component } from "react";
 // import { connect } from "react-redux";
 import {} from "../../actions/usersAction";
 import Slider from "react-slick";
+import ReactModal from "react-modal";
+import ReturnButton from "../layout/ReturnButton";
+ReactModal.setAppElement(document.getElementById("root"));
 export default class Stages extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalIsOpen: false,
       user: {},
       recommendations: [
         {
@@ -46,6 +50,21 @@ export default class Stages extends Component {
         }
       ]
     };
+    this.openModal = this.openModal.bind(this);
+    this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+  openModal() {
+    this.setState({ modalIsOpen: true });
+  }
+
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    this.subtitle.style.color = "#f00";
+  }
+
+  closeModal() {
+    this.setState({ modalIsOpen: false });
   }
   render() {
     const settings = {
@@ -101,44 +120,89 @@ export default class Stages extends Component {
         <p>{stage.dates}</p>
       </li>
     ));
+    let { modalIsOpen } = this.state;
     return (
-      <div className="stages-container flex-row ">
-        <div className="user-left-infos">
-          <div className="flex-column flex-center">
-            <img src={require("../../assets/logo.png")} alt="profile-pic" />
-            <a href="http://localhost:9000/fiches-renseignements/user-fiche.pdf">
-              Fiche de renseignement
-            </a>
-            <a href="http://localhost:9000/conventions/user-convention.pdf">
-              Convention de stage
-            </a>
-            <a href="http://localhost:9000/conventions/user-convention.pdf">
-              Lettres de recommandations
-            </a>
+      <div className="stages-container ">
+        <ReturnButton history={this.props.history} />
+        <div className="flex-row ">
+          <div className="user-left-infos">
+            <div className="flex-column flex-center">
+              <img
+                style={{ width: "10vw", height: "100%" }}
+                src={require("../../assets/user.jpg")}
+                alt="profile-pic"
+              />
+              <a
+                className="btn btn-primary"
+                href="http://localhost:9000/fiches-renseignements/user-fiche.pdf"
+              >
+                Fiche de renseignement
+              </a>
+              <a
+                className="btn btn-primary"
+                href="http://localhost:9000/conventions/user-convention.pdf"
+              >
+                Convention de stage
+              </a>
+              <button
+                onClick={this.openModal}
+                className="btn btn-primary"
+                // href="http://localhost:9000/conventions/user-convention.pdf"
+              >
+                Lettres de recommandations
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="user-right-infos">
-          <div className="flex-column flex-center">
-            <h3 className="stage-title">NOM PRENOM</h3>
-            <p>
-              <i>Administrateur</i>
-            </p>
-          </div>
-          <hr />
-          <div className="stages-list">
-            <h3 className="stage-title">Listes de stages</h3>
-            <ul>{stagesTab}</ul>
-          </div>
-          <hr />
-          <div className="stages-list">
-            <h3 className="stage-title" style={{ marginBottom: "2vh" }}>
-              Recommandations
-            </h3>
-            <div className="recommend-wrapper">
-              <Slider {...settings}>{recommendTab}</Slider>
+          <div className="user-right-infos">
+            <div className="flex-column flex-center">
+              <h3 className="stage-title">NOM PRENOM</h3>
+              <p>
+                <i>Administrateur</i>
+              </p>
+            </div>
+            <hr />
+            <div className="stages-list">
+              <h3 className="stage-title">Listes de stages</h3>
+              <ul>{stagesTab}</ul>
+            </div>
+            <hr />
+            <div className="stages-list">
+              <h3 className="stage-title" style={{ marginBottom: "2vh" }}>
+                Recommandations
+              </h3>
+              <div className="recommend-wrapper">
+                <Slider {...settings}>{recommendTab}</Slider>
+              </div>
             </div>
           </div>
         </div>
+        <ReactModal
+          isOpen={modalIsOpen}
+          aria={{
+            labelledby: "heading",
+            describedby: "full_description"
+          }}
+          className="modal-container flex-column"
+        >
+          <button onClick={this.closeModal}>
+            <i className="far fa-times-circle">Fermer</i>
+          </button>
+          <h1 id="heading">Lettres de recommandations</h1>
+          <div id="full_description" className="flex-column">
+            <a href="http://localhost:9000/conventions/user-convention.pdf">
+              Lettre 1
+            </a>
+            <a href="http://localhost:9000/conventions/user-convention.pdf">
+              Lettre 2
+            </a>
+            <a href="http://localhost:9000/conventions/user-convention.pdf">
+              Lettre 3
+            </a>
+            <a href="http://localhost:9000/conventions/user-convention.pdf">
+              Lettre 4
+            </a>
+          </div>
+        </ReactModal>
       </div>
     );
   }

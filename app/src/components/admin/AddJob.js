@@ -77,11 +77,11 @@ class AddJob extends Component {
       jobCompanySite
     } = this.state;
     return (
-      <div className="container">
+      <div className="add-container">
         <ReturnButton history={this.props.history} />
-        <form onSubmit={this.onSubmit}>
+        <form className="flex-column flex-center" onSubmit={this.onSubmit}>
           <h5>Poste</h5>
-          <div className="form-group">
+          <div className="form-group-text">
             <label htmlFor="jobTitle">Titre</label>
             <input
               type="text"
@@ -94,7 +94,7 @@ class AddJob extends Component {
               value={jobTitle}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group-textarea">
             <label htmlFor="jobDescription">Description du poste</label>
             <textarea
               type="text"
@@ -108,7 +108,7 @@ class AddJob extends Component {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group-select">
             <label htmlFor="jobContractType">Type de contrat</label>
             <select
               type="text"
@@ -128,7 +128,7 @@ class AddJob extends Component {
             </select>
           </div>
 
-          <div className="form-group">
+          <div className="form-group-select">
             <label htmlFor="jobType">Durée de travail</label>
             <select
               type="text"
@@ -145,7 +145,7 @@ class AddJob extends Component {
             </select>
           </div>
 
-          <div className="form-group">
+          <div className="form-group-select">
             <label htmlFor="jobRemuneration">Rémunération</label>
             <select
               type="text"
@@ -161,7 +161,7 @@ class AddJob extends Component {
             </select>
           </div>
 
-          <div className="form-group">
+          <div className="form-group-date">
             <label htmlFor="jobStartDate">Date de départ</label>
             <input
               type="date"
@@ -175,7 +175,7 @@ class AddJob extends Component {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group-text">
             <label htmlFor="jobSkills">Compétences clés</label>
             <input
               type="text"
@@ -191,7 +191,7 @@ class AddJob extends Component {
 
           <hr />
           <h5>Localisation</h5>
-          <div className="form-group">
+          <div className="form-group-text">
             <label htmlFor="jobCity">Ville</label>
             <input
               type="text"
@@ -205,7 +205,7 @@ class AddJob extends Component {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group-text">
             <label htmlFor="jobCountry">Pays</label>
             <select
               type="text"
@@ -222,7 +222,7 @@ class AddJob extends Component {
           </div>
           <hr />
           <h5>Entreprise</h5>
-          <div className="form-group">
+          <div className="form-group-text">
             <label htmlFor="jobCompany">Nom de l'entreprise</label>
             <input
               type="text"
@@ -235,7 +235,7 @@ class AddJob extends Component {
               value={jobCompany}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group-textarea">
             <label htmlFor="jobCompanyDescription">
               Description de l'entreprise
             </label>
@@ -250,7 +250,7 @@ class AddJob extends Component {
               value={jobCompanyDescription}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group-text">
             <label htmlFor="jobCompanySite">Site de l'entreprise</label>
             <input
               type="text"

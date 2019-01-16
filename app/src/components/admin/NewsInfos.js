@@ -14,9 +14,10 @@ class NewsInfos extends Component {
   render() {
     const { news } = this.props;
     return (
-      <div>
-        <h6>{news.title}</h6>
-        <button onClick={this.deleteANews}>Supprimer</button>
+      <div className="flex-row">
+        <h6 className="text-center">{news.title}</h6>
+
+        <i onClick={this.deleteANews} className="far fa-times-circle" />
       </div>
     );
   }

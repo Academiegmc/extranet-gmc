@@ -8,15 +8,15 @@ class AdInfos extends Component {
     this.deleteAnAd = this.deleteAnAd.bind(this);
   }
   deleteAnAd() {
-    deleteAd(this.props.ad._id, this.props.history);
+    deleteAd(this.props.ad._id);
     this.props.refresh();
   }
   render() {
     const { ad } = this.props;
     return (
-      <div>
-        <h6>{ad.title}</h6>
-        <button onClick={this.deleteAnAd}>Supprimer</button>
+      <div className="flex-row">
+        <h6 className="text-center">{ad.title}</h6>
+        <i onClick={this.deleteAnAd} className="far fa-times-circle" />
       </div>
     );
   }

@@ -36,9 +36,11 @@ class Trombinoscope extends Component {
     });
     return (
       <div className="container">
-        <ReturnButton history={this.props.history} />
-        <h1>Trombinoscope</h1>
-        {allUsers}
+        <div className="flex flex-row flex-center">
+          <ReturnButton history={this.props.history} />
+          <h1>Trombinoscope</h1>
+        </div>
+        <div className="flex flex-column">{allUsers}</div>
       </div>
     );
   }

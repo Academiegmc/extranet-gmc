@@ -28,22 +28,22 @@ export const updateComments = (adID, comment, history) => dispatch => {
     .then(ad => dispatch({ type: UPDATE_COMMENTS, payload: ad }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
-export const updateAd = (adId, adData, history) => dispatch => {
+export const updateAd = (adId, adData, history) => {
   axios
     .put(`${adUrl}/edit/${adId}`, adData)
     .then(ad => {
       history.push("/annonces");
     })
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+    .catch(err => console.log(err));
 };
-export const deleteAd = adId => dispatch => {
+export const deleteAd = adId => {
   console.log(adId);
   axios
     .delete(`${adUrl}/${adId}`)
     .then(res => {
       return res.data;
     })
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+    .catch(err => console.log(err));
 };
 
 export const searchAd = adTitle => {

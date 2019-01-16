@@ -13,9 +13,9 @@ class JobInfos extends Component {
   render() {
     const { job } = this.props;
     return (
-      <div>
-        <h6>{job.jobTitle}</h6>
-        <button onClick={this.deleteAJob}>Supprimer</button>
+      <div className="flex-row">
+        <h6 className="text-center">{job.jobTitle}</h6>
+        <i onClick={this.deleteAJob} className="far fa-times-circle" />
       </div>
     );
   }
