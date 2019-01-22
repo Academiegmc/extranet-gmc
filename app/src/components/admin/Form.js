@@ -98,9 +98,9 @@ class Form extends Component {
     return (
       <div className="container">
         <ReturnButton history={this.props.history} />
-        <form onSubmit={this.onSubmit}>
+        <form className="flex-column flex-center" onSubmit={this.onSubmit}>
           <h5>{formTitle}</h5>
-          <div className="form-group">
+          <div className="form-group-text">
             <label htmlFor={titleInputName}>Titre</label>
             <input
               type="text"
@@ -114,7 +114,7 @@ class Form extends Component {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group-textarea">
             <label htmlFor={descriptionInputName}>Description</label>
             <textarea
               type="text"
@@ -129,65 +129,62 @@ class Form extends Component {
           </div>
 
           {isNews ? (
-            <div>
-              <div className="form-group input-group">
-                <input
-                  type="file"
-                  className="form-control-file"
-                  id="images"
-                  name="images"
-                  multiple
-                  onChange={this.onChange}
-                />
+            <div className="form-group-file ">
+              <input
+                type="file"
+                className="form-control-file"
+                id="images"
+                name="images"
+                multiple
+                onChange={this.onChange}
+              />
+              <div style={{ margin: "2%" }}>
                 <p>
-                  <small>
-                    Types de fichiers autorisés: .pdf .doc .docx .jpg .png .bmp.
-                    Taille maximum : 2Mo.
-                  </small>
+                  <small>Types de fichiers autorisés: .jpg .png.</small>
+                </p>
+
+                <p>
+                  <small>Taille maximum : 2Mo.</small>
                 </p>
               </div>
-              <div className="form-group">
-                {this.props.match.path === "/news/edit/:id" ? (
-                  <button className="btn btn-primary" style={{ width: "100%" }}>
-                    Modifier la news
-                  </button>
-                ) : (
-                  <button className="btn btn-primary" style={{ width: "100%" }}>
-                    Ajouter la news
-                  </button>
-                )}
-              </div>
+              {this.props.match.path === "/news/edit/:id" ? (
+                <button className="btn btn-primary" style={{ width: "100%" }}>
+                  Modifier la news
+                </button>
+              ) : (
+                <button className="btn btn-primary" style={{ width: "100%" }}>
+                  Ajouter la news
+                </button>
+              )}
             </div>
           ) : (
-            <div>
-              <div className="form-group">
-                <label htmlFor="category">Catégorie</label>
-                <select
-                  type="text"
-                  className="form-control"
-                  id="category"
-                  name="category"
-                  aria-describedby="categoryHelp"
-                  placeholder="Type de contrat"
-                  onChange={this.onChange}
-                  value={this.state.category}
+            <div className="form-group-select">
+              <label htmlFor="category">Catégorie</label>
+              <select
+                className="form-control"
+                id="category"
+                name="category"
+                aria-describedby="categoryHelp"
+                placeholder="Type de contrat"
+                onChange={this.onChange}
+                value={this.state.category}
+              >
+                <option value="etude">Etude</option>
+                <option value="loisir">Loisir</option>
+                <option value="cosmétique">Cosmétique</option>
+              </select>
+              {this.props.match.path === "/annonce/edit/:id" ? (
+                <button className="btn btn-primary" style={{ width: "100%" }}>
+                  Modifier l'annonce
+                </button>
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  style={{ width: "100%", marginTop: "2%" }}
                 >
-                  <option value="etude">Etude</option>
-                  <option value="loisir">Loisir</option>
-                  <option value="cosmétique">Cosmétique</option>
-                </select>
-              </div>
-              <div className="form-group">
-                {this.props.match.path === "/annonce/edit/:id" ? (
-                  <button className="btn btn-primary" style={{ width: "100%" }}>
-                    Modifier l'annonce
-                  </button>
-                ) : (
-                  <button className="btn btn-primary" style={{ width: "100%" }}>
-                    Ajouter l'annonce
-                  </button>
-                )}
-              </div>
+                  Ajouter l'annonce
+                </button>
+              )}
             </div>
           )}
         </form>

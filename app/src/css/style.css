@@ -85,8 +85,9 @@ p {
 .form-group-text {
   height: 3vh;
   width: 15vw;
-  margin: 2vh;
+  margin: 2%;
   text-align: center;
+  position: relative;
 }
 .form-group-text label {
   margin: auto;
@@ -103,6 +104,105 @@ input[type="text"] {
   box-sizing: border-box;
   padding: 12px 20px;
   margin: 8px 0;
+}
+
+.form-group-date {
+  height: 3vh;
+  width: 15vw;
+  margin: 2%;
+  text-align: center;
+  position: relative;
+}
+.form-group-date label {
+  margin: auto;
+  font-size: 20px;
+}
+.form-group-date input {
+  width: 100%;
+  border: none;
+  font-size: 20px;
+}
+
+input[type="date"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+.form-group-file {
+  height: 3vh;
+  width: 15vw;
+  margin: 2%;
+  text-align: center;
+  position: relative;
+}
+.form-group-file label {
+  margin: auto;
+  font-size: 20px;
+}
+.form-group-file input {
+  width: 100%;
+  border: none;
+  font-size: 20px;
+}
+.form-group-file p small {
+  font-style: italic;
+  margin: 2%;
+  font-size: 12px;
+}
+
+input[type="file"] {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+.form-group-select {
+  height: 3vh;
+  width: 15vw;
+  margin: 2%;
+  text-align: center;
+  position: relative;
+}
+.form-group-select label {
+  margin: auto;
+  font-size: 20px;
+}
+.form-group-select select {
+  width: 100%;
+  border: none;
+  font-size: 20px;
+}
+
+select {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+.form-group-textarea {
+  height: 3vh;
+  width: 15vw;
+  margin: 2%;
+  text-align: center;
+  position: relative;
+}
+.form-group-textarea label {
+  margin: auto;
+  font-size: 20px;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  margin: 8px 0;
+  font-size: 20px;
 }
 
 .card {
@@ -139,6 +239,10 @@ input[type="text"] {
 .card .card-img-top {
   height: 30vh;
   width: 30vw;
+}
+
+hr {
+  width: 90vw;
 }
 
 .flex-column {

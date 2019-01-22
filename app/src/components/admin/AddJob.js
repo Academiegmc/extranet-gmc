@@ -148,7 +148,6 @@ class AddJob extends Component {
           <div className="form-group-select">
             <label htmlFor="jobRemuneration">Rémunération</label>
             <select
-              type="text"
               className="form-control"
               id="jobRemuneration"
               name="jobRemuneration"
@@ -205,10 +204,9 @@ class AddJob extends Component {
             />
           </div>
 
-          <div className="form-group-text">
+          <div className="form-group-select">
             <label htmlFor="jobCountry">Pays</label>
             <select
-              type="text"
               className="form-control"
               id="jobCountry"
               name="jobCountry"
