@@ -28,3 +28,6 @@ build/Release
 node_modules
 sass
 .sass-cache
+app/.DS_Store
+app/src/.DS_Store
+server/public/.DS_Store
