@@ -62,7 +62,7 @@ class Annonce extends Component {
     if (ad.comments !== undefined && ad.comments.length > 0)
       comments = <Comments comments={ad.comments} />;
     return (
-      <div className="container">
+      <div className="annonce-container flex-column flex-center">
         <ReturnButton history={this.props.history} />
         <h1>Annonce</h1>
         <div className="card">

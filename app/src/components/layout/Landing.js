@@ -38,13 +38,13 @@ class Landing extends Component {
   };
   render() {
     return (
-      <div className="landing-container">
-        <div className="flex-column flex-center">
-          <img src={Logo} className="" alt="logo" />
+      <div className="container">
+        <div className="row">
+          <img src={Logo} className="mx-auto" alt="logo" />
         </div>
         <hr />
-        <div className="flex-row flex-center">
-          <form className="flex-column" onSubmit={this.onSubmit}>
+        <div className="col-12">
+          <form className="d-flex flex-column" onSubmit={this.onSubmit}>
             <div className="form-group">
               <label htmlFor="exampleInputEmail1">Email</label>
               <input

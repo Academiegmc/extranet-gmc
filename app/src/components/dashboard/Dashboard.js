@@ -72,20 +72,22 @@ class Dashboard extends Component {
         title.link += this.state.user.id;
       }
       return (
-        <li key={id}>
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title text-center">
-                <a href={`${title.link}`}>{title.title}</a>
-              </h5>
-            </div>
+        <li
+          className="card mx-auto"
+          style={{ width: "300px", marginBottom: "5%" }}
+          key={id}
+        >
+          <div className="card-body">
+            <h5 className="card-title text-center">
+              <a href={`${title.link}`}>{title.title}</a>
+            </h5>
           </div>
         </li>
       );
     });
     const news = this.state.news.map((title, id) => {
       return (
-        <div className="card" key={id}>
+        <div className="card mx-3" style={{ width: "300px" }} key={id}>
           <div className="card-body">
             <Link to={`/news/${title._id}`}>
               <h5 className="card-title text-center"> {title.title} </h5>
@@ -95,14 +97,21 @@ class Dashboard extends Component {
       );
     });
     return (
-      <div className="dashboard-container flex-column">
-        <div className="news-header">
+      <div className="container-fluid">
+        <div className="row d-flex flex-column">
           <h1 className="text-center"> Dernières news </h1>
-          <div className="flex-row flex-center">{news}</div>
+          <div className="d-flex flex-row justify-content-center row">
+            {news}
+          </div>
         </div>
+        <hr />
 
-        <h1 className="text-center">Dashboard</h1>
-        <ul className="flex-row flex-wrap flex-center ">{links}</ul>
+        <div className="row d-flex flex-column">
+          <h1 className="text-center">Dashboard</h1>
+          <div className="container">
+            <ul className="row">{links}</ul>
+          </div>
+        </div>
       </div>
     );
   }

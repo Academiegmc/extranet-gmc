@@ -494,6 +494,14 @@ nav a {
   margin-left: 1vw;
 }
 
+.annonce-container {
+  position: relative;
+}
+.annonce-container .card {
+  width: 20vw;
+  text-align: center;
+}
+
 .container {
   height: 90vh;
 }

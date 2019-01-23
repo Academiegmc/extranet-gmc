@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
+const cors = require("cors");
 const keys = require("./config/mongo-key");
 const config = require("./config/config");
 const fileUpload = require("express-fileupload");
@@ -19,6 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 //DB Config
 const db = keys.mongoURI;
 mongoose

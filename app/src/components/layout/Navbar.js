@@ -23,32 +23,36 @@ class Navbar extends Component {
     const { user, isAuthenticated } = this.props.auth;
     let adminLink =
       user.status === 3 ? (
-        <Link className="nav-link" to="/admin">
+        <Link className="nav-link  align-self-center" to="/admin">
           Admin <span className="sr-only" />
         </Link>
       ) : null;
     let data = isAuthenticated ? (
-      <div className="flex-row">
+      <div className="d-flex flex-row">
         <Link className="nav-link" to={`/profile/${user.id}`}>
           <h6 className="">{user.name}</h6>
         </Link>
-        <button className="nav-btn" type="submit" onClick={this.logoutUser}>
+        <button
+          className="btn btn-outline-primary"
+          type="submit"
+          onClick={this.logoutUser}
+        >
           Déconnexion
         </button>
       </div>
     ) : null;
     return (
-      <nav className=" navbar flex-row flex-center">
-        <Link className="" to="/">
-          <img src={Logo} alt="Logo" />
-        </Link>
-        <div className="navbar-left">
-          <Link className="nav-link" to="/">
+      <nav className="navbar d-flex" style={{ backgroundColor: "#f4e9de" }}>
+        <div className="d-flex flex-row mr-auto">
+          <Link className="" to="/">
+            <img src={Logo} alt="Logo" />
+          </Link>
+          <Link className="nav-link align-self-center" to="/">
             Accueil <span className="sr-only">(current)</span>
           </Link>
           {adminLink}
         </div>
-        <div className="navbar-right">{data}</div>
+        <div className="">{data}</div>
       </nav>
     );
   }
