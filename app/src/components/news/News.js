@@ -35,8 +35,10 @@ class News extends Component {
         );
       }
       return (
-        <div className="card" key={index}>
-          {news.images.length > 0 ? imgNews : null}
+        <div className="card d-flex flex-row" key={index}>
+          <div className="w-50 m-2">
+            {news.images.length > 0 ? imgNews : null}
+          </div>
           <div className="flex-column text-center card-body">
             <div className="card-title">
               <Link to={`/news/${news._id}`}>
@@ -56,10 +58,10 @@ class News extends Component {
       );
     });
     return (
-      <div className="news-container">
+      <div className="container">
         <ReturnButton history={this.props.history} />
         <h1>Dernières News</h1>
-        <div className="flex-row flex-wrap">{allNews}</div>
+        <div className="d-flex flex-column">{allNews}</div>
       </div>
     );
   }

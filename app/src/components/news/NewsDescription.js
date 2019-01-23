@@ -77,7 +77,7 @@ class NewsDescription extends Component {
       </div>
     ));
     return (
-      <div className="news-description-container flex-column">
+      <div className="container flex-column mt-5">
         <ReturnButton history={this.props.history} />
         <div className="card">
           <Slider {...settings}>{imgTab}</Slider>
@@ -86,9 +86,11 @@ class NewsDescription extends Component {
               <h5>{title}</h5>
             </div>
             <h6 className="card-subtitle">{author}</h6>
-            <p className="card-text">{description}</p>
           </div>
         </div>
+        <hr />
+        <h6>Description</h6>
+        <p className="card-text">{description}</p>
       </div>
     );
   }
