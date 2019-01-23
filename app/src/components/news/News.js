@@ -28,7 +28,7 @@ class News extends Component {
       if (news.images.length > 0) {
         imgNews = (
           <img
-            className="card-img-top"
+            className="img-fluid"
             src={`${urls.proxy}/images/${news.images[0]}`}
             alt={`Card image cap ` + index}
           />

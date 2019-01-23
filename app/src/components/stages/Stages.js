@@ -105,7 +105,7 @@ export default class Stages extends Component {
     let recommendTab = this.state.recommendations.map(
       (recommendation, index) => (
         <div key={index}>
-          <blockquote className="flex-column flex-center">
+          <blockquote className="">
             <p>{recommendation.message}</p>
             <i>{recommendation.from}</i>
           </blockquote>
@@ -113,7 +113,7 @@ export default class Stages extends Component {
       )
     );
     let stagesTab = this.state.stages.map((stage, index) => (
-      <li className="flex-column stage-li" key={index}>
+      <li className="" key={index}>
         <h6>{stage.title}</h6>
         <p>{stage.name}</p>
         <p>{stage.description}</p>
@@ -122,13 +122,13 @@ export default class Stages extends Component {
     ));
     let { modalIsOpen } = this.state;
     return (
-      <div className="stages-container ">
+      <div className="container-fluid">
         <ReturnButton history={this.props.history} />
-        <div className="flex-row ">
-          <div className="user-left-infos">
-            <div className="flex-column flex-center">
+        <div className="row">
+          <div className="col-3">
+            <div className="d-flex flex-column flex-center">
               <img
-                style={{ width: "10vw", height: "100%" }}
+                className="img-fluid"
                 src={require("../../assets/user.jpg")}
                 alt="profile-pic"
               />
@@ -153,26 +153,23 @@ export default class Stages extends Component {
               </button>
             </div>
           </div>
-          <div className="user-right-infos">
-            <div className="flex-column flex-center">
+
+          <div className="col-9">
+            <div className="row">
               <h3 className="stage-title">NOM PRENOM</h3>
               <p>
                 <i>Administrateur</i>
               </p>
             </div>
             <hr />
-            <div className="stages-list">
+            <div className="row">
               <h3 className="stage-title">Listes de stages</h3>
               <ul>{stagesTab}</ul>
             </div>
             <hr />
-            <div className="stages-list">
-              <h3 className="stage-title" style={{ marginBottom: "2vh" }}>
-                Recommandations
-              </h3>
-              <div className="recommend-wrapper">
-                <Slider {...settings}>{recommendTab}</Slider>
-              </div>
+            <div className="row">
+              <h3 className="stage-title">Recommandations</h3>
+              <div>{/* <Slider {...settings}>{recommendTab}</Slider> */}</div>
             </div>
           </div>
         </div>
