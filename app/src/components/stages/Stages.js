@@ -155,11 +155,9 @@ export default class Stages extends Component {
           </div>
 
           <div className="col-9">
-            <div className="row">
+            <div className="row d-flex flex-column">
               <h3 className="stage-title">NOM PRENOM</h3>
-              <p>
-                <i>Administrateur</i>
-              </p>
+              <p className="text-muted">Administrateur</p>
             </div>
             <hr />
             <div className="row">
@@ -167,10 +165,10 @@ export default class Stages extends Component {
               <ul>{stagesTab}</ul>
             </div>
             <hr />
-            <div className="row">
+            {/* <div className="row">
               <h3 className="stage-title">Recommandations</h3>
-              <div>{/* <Slider {...settings}>{recommendTab}</Slider> */}</div>
-            </div>
+              <div><Slider {...settings}>{recommendTab}</Slider></div>
+            </div> */}
           </div>
         </div>
         <ReactModal
