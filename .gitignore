@@ -31,3 +31,4 @@ sass
 app/.DS_Store
 app/src/.DS_Store
 server/public/.DS_Store
+\.DS_Store
