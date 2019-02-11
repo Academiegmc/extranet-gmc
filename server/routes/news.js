@@ -13,8 +13,11 @@ const storage = multer.diskStorage({
     );
   }
 });
-
-const upload = multer({ storage: storage });
+const fileSizeLimit = 2000000;
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: fileSizeLimit }
+});
 const NewsController = require("../controllers/News");
 const verifyToken = require("../controllers/VerifyToken");
 router.get("/", NewsController.getAllNews);

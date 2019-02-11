@@ -82,10 +82,10 @@ class NewsDescription extends Component {
         <div className="card">
           <Slider {...settings}>{imgTab}</Slider>
           <div className="card-body">
-            <div className="card-title">
+            <div className="card-title text-capitalize">
               <h5>{title}</h5>
             </div>
-            <h6 className="card-subtitle">{author}</h6>
+            <h6 className="card-subtitle text-muted">{author}</h6>
           </div>
         </div>
         <hr />

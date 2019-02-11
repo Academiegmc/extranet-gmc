@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Moment from "react-moment";
 import { getAnAd, updateComments } from "../../actions/adAction";
 import Comments from "../comments/Comments";
 import Comment from "../comment/Comment";
@@ -61,22 +62,40 @@ class Annonce extends Component {
     let comments = null;
     if (ad.comments !== undefined && ad.comments.length > 0)
       comments = <Comments comments={ad.comments} />;
+    console.log(ad);
     return (
       <div className="container flex-column flex-center">
         <ReturnButton history={this.props.history} />
         <h1>Annonce</h1>
-        <div className="card">
-          <div className="mx-auto">
-            <h4 className="card-title">{ad.title}</h4>
-            <h5 className="card-subtitle mb-2 text-muted">
-              Posté par : {ad.name}
-            </h5>
+        <div className="card p-3">
+          <div className="">
+            <h6 className="card-subtitle mb-2 text-muted text-capitalize">
+              {ad.name}
+            </h6>
+            <h2 className="card-title">{ad.title}</h2>
           </div>
           <p className="card-text">{ad.description}</p>
+          <hr />
+          <div className=" d-inline-flex justify-content-between">
+            <div className="badge badge-light p-2">
+              Il y a{" "}
+              <Moment fromNow ago locale="fr">
+                {ad.date}
+              </Moment>
+            </div>
+            <div className="badge badge-light text-uppercase p-2">
+              {ad.comments !== undefined && ad.comments.length > 0 ? (
+                <i className="far fa-comments" style={{ fontSize: "15px" }}>
+                  {" "}
+                  {ad.comments.length}
+                </i>
+              ) : null}
+            </div>
+          </div>
         </div>
         <hr />
         <h2>Commentaires</h2>
-        {comments}
+        <div className="d-flex flex-column card m-3">{comments}</div>
         <Comment
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}

@@ -12,7 +12,7 @@ class Form extends Component {
     this.state = {
       title: "",
       description: "",
-      category: "Etude",
+      category: "",
       images: [],
       errors: {}
     };
@@ -29,7 +29,7 @@ class Form extends Component {
     if (nextProps.news.news.data) {
       this.setState({ title: nextProps.news.news.data.title });
       this.setState({ description: nextProps.news.news.data.description });
-      // this.setState({ category: nextProps.news.news.data.category });
+      this.setState({ category: nextProps.news.news.data.category });
     }
   }
   componentDidMount() {
@@ -72,13 +72,13 @@ class Form extends Component {
         description: this.state.description,
         category: this.state.category
       };
+      console.log(newAd);
       this.props.createAd(newAd, this.props.history);
     }
     if (this.props.match.path === "/annonce/edit/:id") {
-      const adUpdated = { title, description, category };
-      this.props.updateAd(
+      updateAd(
         this.props.match.params.id,
-        adUpdated,
+        { title, description, category },
         this.props.history
       );
     }
@@ -203,5 +203,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { createNews, createAd, updateAd, getAnAd, getANews, logout, updateNews }
+  { createNews, createAd, getAnAd, getANews, logout, updateNews }
 )(withRouter(Form));

@@ -30,12 +30,10 @@ class Annonces extends Component {
     const allAnnonces =
       annonces.length > 0
         ? annonces.map((annonce, index) => (
-            <div className="card w-50 mx-auto" key={index}>
-              <div className="flex-column text-center card-body">
-                <div className="card-title">
-                  <h5>{annonce.title}</h5>
-                  <h6 className="card-subtitle text-muted">{annonce.name}</h6>
-                </div>
+            <div className="card " key={index}>
+              <div className="card-body text-left text-wrap">
+                <h6 className="card-subtitle text-muted">{annonce.name}</h6>
+                <h4 className="card-title">{annonce.title}</h4>
                 <p className="card-text">{annonce.description}</p>
                 <Link to={`/annonce/${annonce._id}`}>
                   <button className="btn btn-primary">En savoir plus</button>
@@ -69,7 +67,7 @@ class Annonces extends Component {
           </div>
         </form>
         <hr />
-        <div className="flex-column">{allAnnonces}</div>
+        <div className="d-flex flex-column">{allAnnonces}</div>
       </div>
     );
   }
