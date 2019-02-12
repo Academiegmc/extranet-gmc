@@ -83,10 +83,6 @@ class Annonces extends Component {
                     onClick={() => {
                       this.setState({ ad_chose: item });
                     }}
-                    // onKeyDown={e => {
-                    //   // this.setState({ ad_chose: item });
-                    //   console.log(e.target);
-                    // }}
                   >
                     {item.title}
                   </p>
@@ -105,7 +101,9 @@ class Annonces extends Component {
                 this.searchAds(e.target.value);
                 if (this.state.value === "") this.setState({ ad_chose: {} });
               }}
-              onSelect={value => this.setState({ value })}
+              onSelect={(value, item) =>
+                this.setState({ value, ad_chose: item })
+              }
               wrapperStyle={{ display: "inline-block", width: "40%" }}
             />
             <Link
