@@ -2,12 +2,6 @@ import React, { Component } from "react";
 
 class Comments extends Component {
   render() {
-    const divFlex = {
-      display: "flex",
-      flexFlow: "row wrap",
-      alignItems: "flex-start",
-      width: "100%"
-    };
     const comments =
       this.props.comments.length > 0
         ? this.props.comments.map((comment, index) => (

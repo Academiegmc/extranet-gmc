@@ -21,7 +21,7 @@ const AdSchema = new Schema({
       date: { type: Date, default: Date.now }
     }
   ],
-  date: { type: Date, default: Date.now() }
+  date: { type: Date, default: Date.now }
 });
 
 // module.exports = Ad = mongoose.model("gmc-ads", AdSchema);

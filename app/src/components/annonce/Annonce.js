@@ -62,7 +62,6 @@ class Annonce extends Component {
     let comments = null;
     if (ad.comments !== undefined && ad.comments.length > 0)
       comments = <Comments comments={ad.comments} />;
-    console.log(ad);
     return (
       <div className="container flex-column flex-center">
         <ReturnButton history={this.props.history} />
@@ -84,12 +83,10 @@ class Annonce extends Component {
               </Moment>
             </div>
             <div className="badge badge-light text-uppercase p-2">
-              {ad.comments !== undefined && ad.comments.length > 0 ? (
-                <i className="far fa-comments" style={{ fontSize: "15px" }}>
-                  {" "}
-                  {ad.comments.length}
-                </i>
-              ) : null}
+              <i className="far fa-comments" style={{ fontSize: "15px" }}>
+                {" "}
+                {ad.comments !== undefined ? ad.comments.length : null}
+              </i>
             </div>
           </div>
         </div>

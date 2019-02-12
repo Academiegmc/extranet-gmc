@@ -46,7 +46,7 @@ class News extends Component {
               </Link>
 
               <span>
-                <i className="fas fa-calendar-alt" />
+                <i className="fas fa-calendar-alt" />{" "}
                 {<Moment format="DD MMM, YYYY">{news.date}</Moment>}
               </span>
             </div>

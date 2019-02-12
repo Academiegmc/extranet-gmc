@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import { connect } from "react-redux";
 import {} from "../../actions/usersAction";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import ReactModal from "react-modal";
 import ReturnButton from "../layout/ReturnButton";
 ReactModal.setAppElement(document.getElementById("root"));
@@ -67,51 +67,51 @@ export default class Stages extends Component {
     this.setState({ modalIsOpen: false });
   }
   render() {
-    const settings = {
-      adaptiveHeight: true,
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      initialSlide: 0,
-      responsive: [
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
-            infinite: true,
-            dots: true
-          }
-        },
-        {
-          breakpoint: 600,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-            initialSlide: 2
-          }
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        }
-      ]
-    };
-    let recommendTab = this.state.recommendations.map(
-      (recommendation, index) => (
-        <div key={index}>
-          <blockquote className="">
-            <p>{recommendation.message}</p>
-            <i>{recommendation.from}</i>
-          </blockquote>
-        </div>
-      )
-    );
+    // const settings = {
+    //   adaptiveHeight: true,
+    //   dots: true,
+    //   infinite: true,
+    //   speed: 500,
+    //   slidesToShow: 1,
+    //   slidesToScroll: 1,
+    //   initialSlide: 0,
+    //   responsive: [
+    //     {
+    //       breakpoint: 1024,
+    //       settings: {
+    //         slidesToShow: 3,
+    //         slidesToScroll: 3,
+    //         infinite: true,
+    //         dots: true
+    //       }
+    //     },
+    //     {
+    //       breakpoint: 600,
+    //       settings: {
+    //         slidesToShow: 2,
+    //         slidesToScroll: 2,
+    //         initialSlide: 2
+    //       }
+    //     },
+    //     {
+    //       breakpoint: 480,
+    //       settings: {
+    //         slidesToShow: 1,
+    //         slidesToScroll: 1
+    //       }
+    //     }
+    //   ]
+    // };
+    // let recommendTab = this.state.recommendations.map(
+    //   (recommendation, index) => (
+    //     <div key={index}>
+    //       <blockquote className="">
+    //         <p>{recommendation.message}</p>
+    //         <i>{recommendation.from}</i>
+    //       </blockquote>
+    //     </div>
+    //   )
+    // );
     let stagesTab = this.state.stages.map((stage, index) => (
       <li className="" key={index}>
         <h6>{stage.title}</h6>
