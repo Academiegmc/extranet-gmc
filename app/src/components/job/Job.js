@@ -75,12 +75,6 @@ class Job extends Component {
         {createdAt}
       </Moment>
     );
-    const divFlex = {
-      display: "flex",
-      flexFlow: "row wrap",
-      alignItems: "center",
-      width: "100%"
-    };
     if (jobSkills && jobSkills.length > 0) {
       skills = jobSkills.map((skill, index) => (
         <h5 style={{ display: "inline-block", margin: 2 }} key={index}>

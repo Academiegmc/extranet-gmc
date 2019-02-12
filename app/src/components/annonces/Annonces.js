@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import ReactAutocomplete from "react-autocomplete";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
 class Annonces extends Component {
@@ -10,27 +11,38 @@ class Annonces extends Component {
     this.state = {
       annonces: [],
       ads: [],
-      value: ""
+      items: [],
+      value: "",
+      ad_chose: {}
     };
     this.searchAds = this.searchAds.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.ads.ads.data)
-      this.setState({ annonces: nextProps.ads.ads.data });
+    if (nextProps.ads) {
+      const { ads, search_ads } = nextProps.ads;
+      if (ads.data) {
+        this.setState({ annonces: nextProps.ads.ads.data });
+      }
+      if (search_ads) this.setState({ items: search_ads });
+    }
   }
   componentDidMount() {
     this.props.getAllAds();
   }
   searchAds(e) {
-    let ads = searchAd(e.target.value);
-    this.setState({ ads });
+    this.props.searchAd(e);
+    // this.props.searchAd(e.target.value);
+    // let ads = searchAd(e.target.value);
+    // let ads = searchAd(e);
+    // this.setState({ ads, value: e.target.value });
+    this.setState({ value: e });
   }
   render() {
     const { annonces } = this.state;
     const allAnnonces =
       annonces.length > 0
         ? annonces.map((annonce, index) => (
-            <div className="card " key={index}>
+            <div className="card" key={index}>
               <div className="card-body text-left text-wrap">
                 <h6 className="card-subtitle text-muted">{annonce.name}</h6>
                 <h4 className="card-title">{annonce.title}</h4>
@@ -47,23 +59,61 @@ class Annonces extends Component {
       <div className="container">
         <ReturnButton history={this.props.history} />
         <h1>Annonces</h1>
+
         <form>
           <div className="input-group">
             <span className="input-group-text" id="basic-addon1">
               <i className="fas fa-newspaper"> </i>
             </span>
-            <input
-              type="text"
-              name="search"
+            <ReactAutocomplete
               className="form-control"
-              placeholder="Mot clés"
-              aria-label="Mot clés"
-              aria-describedby="basic-addon1"
-              onKeyUp={this.searchAds}
+              items={this.state.items}
+              shouldItemRender={(item, value) =>
+                item.title.toLowerCase().indexOf(value.toLowerCase()) > -1
+              }
+              getItemValue={item => item.title}
+              renderItem={(item, highlighted) => (
+                <div
+                  key={item._id}
+                  style={{
+                    backgroundColor: highlighted ? "#eee" : "transparent"
+                  }}
+                >
+                  <p
+                    onClick={() => {
+                      this.setState({ ad_chose: item });
+                    }}
+                    // onKeyDown={e => {
+                    //   // this.setState({ ad_chose: item });
+                    //   console.log(e.target);
+                    // }}
+                  >
+                    {item.title}
+                  </p>
+                </div>
+              )}
+              renderInput={props => (
+                <input
+                  {...props}
+                  role="combobox"
+                  name="search"
+                  className="form-control"
+                />
+              )}
+              value={this.state.value}
+              onChange={e => {
+                this.searchAds(e.target.value);
+                if (this.state.value === "") this.setState({ ad_chose: {} });
+              }}
+              onSelect={value => this.setState({ value })}
+              wrapperStyle={{ display: "inline-block", width: "40%" }}
             />
-            <button type="submit" className="btn btn-primary">
+            <Link
+              to={`/annonce/${this.state.ad_chose._id}`}
+              className="btn btn-primary"
+            >
               <i className="fas fa-search"> </i>
-            </button>
+            </Link>
           </div>
         </form>
         <hr />
@@ -82,5 +132,5 @@ const mapStatetoProps = state => ({
 });
 export default connect(
   mapStatetoProps,
-  { getAllAds }
+  { getAllAds, searchAd }
 )(Annonces);

@@ -10,6 +10,7 @@ export const GET_A_JOB = "GET_A_JOB";
 export const CREATE_JOB = "CREATE_JOB";
 export const SEND_JOB_APPLICATION = "SEND_JOB_APPLICATION";
 
+export const SEARCH_ADS = "SEARCH_ADS";
 export const GET_ALL_ADS = "GET_ALL_ADS";
 export const GET_AN_AD = "GET_AN_AD";
 export const CREATE_AD = "CREATE_AD";
