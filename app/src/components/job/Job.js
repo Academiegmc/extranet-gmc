@@ -90,21 +90,14 @@ class Job extends Component {
     }
     const startDate = <Moment format="DD-MM-YYYY">{jobStartDate}</Moment>;
     return (
-      <div className="container">
+      <div className="container mt-5">
         <ReturnButton history={this.props.history} />
-        <div
-          style={{
-            display: "flex",
-            flexFlow: "column wrap",
-            alignItems: "center",
-            width: "100%"
-          }}
-        >
+        <div className="d-flex flex-column align-items-center w-100">
           <h3>{jobTitle}</h3>
           <h4>{jobCompany}</h4>
         </div>
         {/* Job infos */}
-        <div style={divFlex}>
+        <div className="d-flex flex-wrap">
           <div className="col-lg-4 col-md-4 col-xs-12">
             <p>
               {jobCity}, {jobCountry}
@@ -121,33 +114,25 @@ class Job extends Component {
           </div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "space-between",
-            width: "100%",
-            backgroundColor: "#333B3E",
-            color: "white",
-            padding: "2px 0px 2px 40px"
-          }}
-        >
-          <h5>{jobContractType}</h5>
-          <p>Publié il y a {publishedDate}</p>
+        <div className="d-inline-flex justify-content-between align-items-center text-white bg-dark w-100 p-2">
+          <span className="font-weight-bold">{jobContractType}</span>
+          <span className="font-weight-bold">
+            Publié il y a {publishedDate}
+          </span>
         </div>
 
         <div className="row mt-5">
           {/* Offer */}
           <div className="col-6">
             <h4>Description de l'offre</h4>
-            <div className="text">
+            <div className="text-justify">
               <p>{jobDescription}</p>
             </div>
           </div>
           {/* jobCompany */}
           <div className="col-6">
             <h4>Description de l'entreprise</h4>
-            <div className="text">
+            <div className="text-justify">
               <p>{jobCompanyDescription}</p>
             </div>
           </div>
@@ -187,19 +172,28 @@ class Job extends Component {
               />
             </div>
             {/* CV */}
-            <div className="form-group input-group">
+            <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">
                   <i className="fas fa-upload" />
                 </span>
               </div>
-              <input
-                type="file"
-                className="form-control"
-                name="cv"
-                required
-                onChange={this.onChange}
-              />
+              <div className="custom-file">
+                <input
+                  type="file"
+                  className="custom-file-input"
+                  name="cv"
+                  required
+                  onChange={this.onChange}
+                />
+                <label
+                  htmlFor="cv"
+                  className="custom-file-label"
+                  data-browse="Parcourir"
+                >
+                  Choisir un fichier
+                </label>
+              </div>
             </div>
             <p>
               <small>

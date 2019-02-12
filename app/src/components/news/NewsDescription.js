@@ -90,7 +90,7 @@ class NewsDescription extends Component {
         </div>
         <hr />
         <h6>Description</h6>
-        <p className="card-text">{description}</p>
+        <p className="card-text text-justify">{description}</p>
       </div>
     );
   }

@@ -30,7 +30,7 @@ export default class Stages extends Component {
         {
           title: "Développeur full stack",
           description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie pulvinar euismod. Suspendisse eget orci eget felis interdum maximus ac at nulla. Sed laoreet orci eu aliquam vehicula. Duis volutpat cursus massa et auctor. Fusce lobortis purus vel dolor congue sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius neque purus, feugiat accumsan purus bibendum quis. Praesent pulvinar sit amet justo eget vestibulum. Maecenas at faucibus dolor, nec varius quam.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie pulvinar euismod. Suspendisse eget orci eget felis interdum maximus ac at nulla. Sed laoreet orci eu aliquam vehicula. Duis volutpat cursus massa et auctor. Fusce lobortis purus vel dolor congue sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius neque purus, feugiat accumsan purus bibendum quis. Praesent pulvinar sit amet justo eget vestibulum. Maecenas at faucibus dolor, nec varius quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie pulvinar euismod. Suspendisse eget orci eget felis interdum maximus ac at nulla. Sed laoreet orci eu aliquam vehicula. Duis volutpat cursus massa et auctor. Fusce lobortis purus vel dolor congue sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius neque purus, feugiat accumsan purus bibendum quis. Praesent pulvinar sit amet justo eget vestibulum. Maecenas at faucibus dolor, nec varius quam.            ",
           name: "JOB Tech",
           dates: "01/01/2019 - 07/01/2019"
         },
@@ -113,11 +113,11 @@ export default class Stages extends Component {
     //   )
     // );
     let stagesTab = this.state.stages.map((stage, index) => (
-      <li className="" key={index}>
-        <h6>{stage.title}</h6>
-        <p>{stage.name}</p>
-        <p>{stage.description}</p>
-        <p>{stage.dates}</p>
+      <li className="col-9" key={index}>
+        <h6 className="text-justify p-2">{stage.title}</h6>
+        <p className="text-justify p-2">{stage.name}</p>
+        <p className="text-justify p-2">{stage.description}</p>
+        <p className="text-justify p-2">{stage.dates}</p>
       </li>
     ));
     let { modalIsOpen } = this.state;

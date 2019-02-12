@@ -34,7 +34,7 @@ class Annonces extends Component {
               <div className="card-body text-left text-wrap">
                 <h6 className="card-subtitle text-muted">{annonce.name}</h6>
                 <h4 className="card-title">{annonce.title}</h4>
-                <p className="card-text">{annonce.description}</p>
+                <p className="card-text text-justify">{annonce.description}</p>
                 <Link to={`/annonce/${annonce._id}`}>
                   <button className="btn btn-primary">En savoir plus</button>
                 </Link>

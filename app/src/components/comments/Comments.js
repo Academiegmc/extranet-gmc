@@ -7,7 +7,7 @@ class Comments extends Component {
         ? this.props.comments.map((comment, index) => (
             <div className="p-3" key={index}>
               <h5 className="card-title">{comment.name}</h5>
-              <p className="card-text">{comment.text}</p>
+              <p className="card-text text-justify">{comment.text}</p>
               <hr />
             </div>
           ))

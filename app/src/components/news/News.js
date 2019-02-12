@@ -52,6 +52,7 @@ class News extends Component {
             </div>
             <p className="card-text">
               {news.description.substring(0, news.description.indexOf("."))}
+              {"..."}
             </p>
           </div>
         </div>

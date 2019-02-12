@@ -73,7 +73,7 @@ class Annonce extends Component {
             </h6>
             <h2 className="card-title">{ad.title}</h2>
           </div>
-          <p className="card-text">{ad.description}</p>
+          <p className="card-text text-justify">{ad.description}</p>
           <hr />
           <div className=" d-inline-flex justify-content-between">
             <div className="badge badge-light p-2">
