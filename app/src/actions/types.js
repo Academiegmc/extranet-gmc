@@ -5,6 +5,7 @@ export const GET_ALL_NEWS = "GET_ALL_NEWS";
 export const GET_A_NEWS = "GET_A_NEWS";
 export const CREATE_NEWS = "CREATE_NEWS";
 
+export const SEARCH_JOBS = "SEARCH_JOBS";
 export const GET_ALL_JOBS = "GET_ALL_JOBS";
 export const GET_A_JOB = "GET_A_JOB";
 export const CREATE_JOB = "CREATE_JOB";

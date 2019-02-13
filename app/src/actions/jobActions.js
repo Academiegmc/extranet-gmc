@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_A_JOB, GET_ALL_JOBS, GET_ERRORS } from "./types";
+import { GET_A_JOB, GET_ALL_JOBS, GET_ERRORS, SEARCH_JOBS } from "./types";
 import { jobUrl } from "../utils";
 import { logout } from "./authActions";
 
@@ -62,15 +62,14 @@ export const deleteJob = jobId => {
   });
 };
 
-export const searchJob = jobTitle => {
+export const searchJob = jobTitle => dispatch => {
   axios
     .get(`${jobUrl}/search`, {
       params: { q: jobTitle }
     })
-    .then(job => {
-      return job.data;
-    })
+    .then(job => dispatch({ type: SEARCH_JOBS, action: job.data }))
     .catch(err => {
+      console.error(err);
       return err.response;
     });
 };
