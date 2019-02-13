@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
+import bsCustomFileInput from "bs-custom-file-input";
 import { getAJob } from "../../actions/jobActions";
 import Axios from "axios";
 import ReturnButton from "../layout/ReturnButton";
@@ -23,6 +24,7 @@ class Job extends Component {
   }
   componentDidMount() {
     this.props.getAJob(this.props.match.params.id);
+    bsCustomFileInput.init();
   }
   onChange = e => {
     if (e.target.name === "cv") this.setState({ cv: e.target.files[0] });
@@ -40,7 +42,7 @@ class Job extends Component {
     formData.append("poste", poste);
     formData.append("lm", lm);
     formData.append("cv", file);
-    const config = { headers: { "content-type": "multipart/form-data" } };
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
     Axios.post(url, formData, config)
       .then(res => {
         this.setState({ isSent: true });
@@ -168,7 +170,7 @@ class Job extends Component {
             {/* CV */}
             <div className="input-group mb-3">
               <div className="input-group-prepend">
-                <span className="input-group-text">
+                <span className="input-group-text" id="inputGroupFileAddon01">
                   <i className="fas fa-upload" />
                 </span>
               </div>
@@ -176,8 +178,10 @@ class Job extends Component {
                 <input
                   type="file"
                   className="custom-file-input"
+                  id="cv"
                   name="cv"
                   required
+                  aria-describedby="inputGroupFileAddon01"
                   onChange={this.onChange}
                 />
                 <label

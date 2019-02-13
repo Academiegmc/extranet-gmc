@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-
+const fs = require("fs");
 const Job = require("../models/Job");
 const User = require("../models/User");
 const ErrorMessage = require("../config/error-messages");
@@ -71,6 +71,9 @@ const Jobs = {
       .catch(err => res.status(404).json(err));
   },
   sendApplication: (req, res) => {
+    console.log(req.file);
+    const fileData = fs.readFileSync(req.file.path);
+    console.log("data:", fileData);
     User.findOne({ email: req.user.mail }, (err, user) => {
       if (err)
         return res
@@ -82,7 +85,7 @@ const Jobs = {
         auth: config.mail.auth,
         tls: config.mail.tls
       });
-      let output = "<p>Test</p>";
+      let output = `<h1>Hello ${user.name}</h1>`;
       let mailOptions = {
         from: user.name + "<" + user.email + ">",
         to: config.mail.to,
@@ -94,15 +97,13 @@ const Jobs = {
           req.body.agence,
         test: "Hello world?",
         html: output,
-        attachments: [
-          { filename: req.files.cv.name, content: req.files.cv.data }
-        ]
+        attachments: [{ filename: req.file.originalname, content: fileData }]
       };
       transport.sendMail(mailOptions, (error, info) => {
         if (error) return console.log(error);
         console.log("Message envoyé : %s", info.messageId);
         console.log("URL : %s", nodemailer.getTestMessageUrl(info));
-        res.json({ success: true, message: "Candidature envoyée" });
+        res.status(200).json({ success: true, message: "Candidature envoyée" });
       });
     });
   },

@@ -60,7 +60,7 @@ class Annonces extends Component {
         <ReturnButton history={this.props.history} />
         <h1>Annonces</h1>
 
-        <form>
+        <div>
           <div className="input-group">
             <span className="input-group-text" id="basic-addon1">
               <i className="fas fa-newspaper"> </i>
@@ -113,7 +113,7 @@ class Annonces extends Component {
               <i className="fas fa-search"> </i>
             </Link>
           </div>
-        </form>
+        </div>
         <hr />
         <div className="d-flex flex-column">{allAnnonces}</div>
       </div>

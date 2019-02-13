@@ -33,3 +33,4 @@ app/src/.DS_Store
 server/public/.DS_Store
 \.DS_Store
 app/build
+server/public/cv
