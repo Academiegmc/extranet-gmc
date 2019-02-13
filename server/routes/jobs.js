@@ -25,7 +25,6 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: fileSizeLimit },
   fileFilter: (req, file, cb) => {
-    console.log("file:", path.extname(file.originalname));
     if (path.extname(file.originalname) !== ".pdf") {
       cb(new Error("File isn't a PDF!"));
     } else {

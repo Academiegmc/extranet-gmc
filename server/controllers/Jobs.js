@@ -71,9 +71,7 @@ const Jobs = {
       .catch(err => res.status(404).json(err));
   },
   sendApplication: (req, res) => {
-    console.log(req.file);
     const fileData = fs.readFileSync(req.file.path);
-    console.log("data:", fileData);
     User.findOne({ email: req.user.mail }, (err, user) => {
       if (err)
         return res

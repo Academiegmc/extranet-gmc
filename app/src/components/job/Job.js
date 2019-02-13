@@ -195,8 +195,7 @@ class Job extends Component {
             </div>
             <p>
               <small>
-                Types de fichiers autorisés: .pdf .doc .docx .jpg .png .bmp.
-                Taille maximum : 2Mo.
+                Type de fichier autorisé: .pdf Taille maximum : 2Mo.
               </small>
             </p>
             <div className="form-group">

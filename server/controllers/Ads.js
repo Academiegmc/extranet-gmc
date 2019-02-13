@@ -67,7 +67,6 @@ const Ads = {
       );
   },
   deleteAd: (req, res) => {
-    console.log(req.params.id);
     Ad.findOneAndRemove({ _id: req.params.id }).then(ad =>
       res.status(200).json({ success: true, message: ErrorMessage.adRemoved })
     );
