@@ -6,7 +6,11 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   admin: { type: Boolean, default: false },
-  status: { type: Number, required: true }
+  status: { type: Number, required: true },
+  experiences: { type: [{}] },
+  convention: { type: String },
+  letters: { type: [{}] },
+  personal_sheet: { type: String }
 });
 /*
   Status :

@@ -164,7 +164,12 @@ class Profile extends Component {
       <div className="">
         {sessionAlert}
         <ReturnButton history={this.props.history} />
-        <h1>Mon profil</h1>
+        <Link
+          className="btn btn-link"
+          to={`/profile/edit/${this.props.match.params.id}`}
+        >
+          <h1>Mon profil</h1>
+        </Link>
         <div className="d-flex flex-sm-column flex-md-row justify-content-md-center">
           <a className="btn btn-outline-primary ml-3" href="/admin/job">
             <h3>Ajouter un job</h3>

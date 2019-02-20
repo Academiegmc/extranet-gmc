@@ -1,11 +1,14 @@
 import {
   GET_USERS,
+  GET_USER,
+  UPDATE_USER,
   GET_USER_ADS,
   GET_USER_JOBS,
   GET_USER_NEWS
 } from "../actions/types";
 const initialState = {
   users: [],
+  user: {},
   userAds: [],
   userNews: [],
   userJobs: []
@@ -16,6 +19,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         users: action.payload
+      };
+    case GET_USER:
+      return {
+        ...state,
+        user: action.payload
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
+        user: action.payload
       };
     case GET_USER_ADS:
       return {

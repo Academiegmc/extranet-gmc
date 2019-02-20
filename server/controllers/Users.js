@@ -15,6 +15,14 @@ const Users = {
     if (!users) res.status(400).json({ success: false });
     else res.status(200).json({ succes: true, data: users });
   },
+  getUser: async (req, res) => {
+    console.log(req.user);
+    const user = await User.findById(req.user.id)
+      .select("-password")
+      .select("-admin");
+    if (!user) res.status(400).json({ success: false });
+    else res.status(200).json({ succes: true, user });
+  },
   getUserJobs: async (req, res) => {
     const jobs = await Job.find({ user: req.params.id });
     if (!jobs) res.status(404).json({ success: false });
@@ -29,6 +37,32 @@ const Users = {
     const news = await News.find({ user: req.params.id });
     if (!news) res.status(404).json({ success: false });
     else res.status(200).json({ success: true, data: news });
+  },
+  update: async (req, res) => {
+    console.log(req.user.id);
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(404).send(ErrorMessage.userNotFound);
+      const { name, description, poste, start_date, end_date } = req.body;
+      const experience = { name, description, poste, start_date, end_date };
+      user.experiences.push(experience);
+      console.log(user);
+      const userSaved = await user.save();
+      if (!userSaved) return res.status(400).json({ success: false });
+      res.status(200).json({ success: true, user: userSaved });
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ success: false, error });
+    }
+  },
+  delete: async (req, res) => {
+    try {
+      const user = await User.findByIdAndRemove(req.params.id);
+      if (!user) return res.status(404).send(ErrorMessage.userNotFound);
+      res.status(200).json({ success: true, user });
+    } catch (error) {
+      res.status(400).json({ success: false });
+    }
   },
   login: (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {

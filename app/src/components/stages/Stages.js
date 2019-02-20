@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 import {} from "../../actions/usersAction";
 // import Slider from "react-slick";
+import Moment from "react-moment";
 import ReactModal from "react-modal";
 import ReturnButton from "../layout/ReturnButton";
+import { getUser } from "../../actions/usersAction";
 ReactModal.setAppElement(document.getElementById("root"));
-export default class Stages extends Component {
+class Stages extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,7 +68,42 @@ export default class Stages extends Component {
   closeModal() {
     this.setState({ modalIsOpen: false });
   }
+  componentWillReceiveProps(nextProps) {
+    // console.log(nextProps.users.user);
+    if (nextProps.users.user) {
+      const { user } = nextProps.users.user;
+      this.setState({ user });
+    }
+  }
+  componentDidMount() {
+    this.props.getUser();
+  }
+
   render() {
+    console.log(this.state.user);
+    const { user } = this.state;
+    let displayExperiences;
+    if (user.experiences !== undefined && user.experiences.length > 0) {
+      displayExperiences = user.experiences.map((exp, index) => (
+        <li className="col-9" key={index}>
+          <h6 className="text-justify p-2">{exp.poste}</h6>
+          <p className="text-justify p-2">{exp.name}</p>
+          <p className="text-justify p-2">{exp.description}</p>
+          <p className="text-justify font-weight-bold p-2">
+            Du{" "}
+            <Moment locale="fr" format="DD MMMM YYYY">
+              {exp.start_date}
+            </Moment>{" "}
+            au{" "}
+            <Moment locale="fr" format="DD MMMM YYYY">
+              {exp.end_date}
+            </Moment>
+          </p>
+        </li>
+      ));
+    } else {
+      displayExperiences = <h3>Chargement...</h3>;
+    }
     // const settings = {
     //   adaptiveHeight: true,
     //   dots: true,
@@ -156,13 +193,15 @@ export default class Stages extends Component {
 
           <div className="col-9">
             <div className="row d-flex flex-column">
-              <h3 className="stage-title">NOM PRENOM</h3>
+              <h3 className="stage-title">
+                {user.name !== undefined ? user.name : "Chargement..."}
+              </h3>
               <p className="text-muted">Administrateur</p>
             </div>
             <hr />
             <div className="row">
               <h3 className="stage-title">Listes de stages</h3>
-              <ul>{stagesTab}</ul>
+              <ul>{displayExperiences}</ul>
             </div>
             <hr />
             {/* <div className="row">
@@ -224,3 +263,11 @@ export default class Stages extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  users: state.users
+});
+export default connect(
+  mapStateToProps,
+  { getUser }
+)(Stages);

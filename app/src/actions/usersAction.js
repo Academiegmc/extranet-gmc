@@ -2,6 +2,7 @@ import axios from "axios";
 import { userUrl } from "../utils";
 import {
   GET_USERS,
+  GET_USER,
   GET_USER_ADS,
   GET_USER_NEWS,
   GET_USER_JOBS,
@@ -10,10 +11,22 @@ import {
 
 export const getAllUsers = () => dispatch => {
   axios
-    .get(`${userUrl}`)
+    .get(`${userUrl}/all`)
     .then(res =>
       dispatch({
         type: GET_USERS,
+        payload: res.data
+      })
+    )
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response }));
+};
+
+export const getUser = () => dispatch => {
+  axios
+    .get(`${userUrl}`)
+    .then(res =>
+      dispatch({
+        type: GET_USER,
         payload: res.data
       })
     )
@@ -40,4 +53,15 @@ export const getUserNews = userId => dispatch => {
     .get(url)
     .then(news => dispatch({ type: GET_USER_NEWS, payload: news }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response }));
+};
+
+export const updateUser = userData => dispatch => {
+  console.log(userData);
+  axios
+    .put(`${userUrl}`, userData)
+    .then(res => {
+      console.log(res.data);
+      // dispatch({ type: UPDATE_USER, payload: res.data });
+    })
+    .catch(err => console.error(err));
 };

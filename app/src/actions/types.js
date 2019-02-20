@@ -18,6 +18,8 @@ export const CREATE_AD = "CREATE_AD";
 export const UPDATE_COMMENTS = "UPDATE_COMMENTS";
 
 export const GET_USERS = "GET_USERS";
+export const GET_USER = "GET_USER";
+export const UPDATE_USER = "UPDATE_USER";
 
 export const GET_USER_NEWS = "GET_USER_NEWS";
 export const GET_USER_ADS = "GET_USER_ADS";

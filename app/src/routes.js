@@ -17,7 +17,8 @@ import Profile from "./components/profile/Profile";
 import Stages from "./components/stages/Stages";
 import requireAuth from "./utils/requireAuth";
 import App from "./App";
-import { Footer } from "./components/layout/Footer";
+import Footer from "./components/layout/Footer";
+import ProfileForm from "./components/profile/ProfileForm";
 const Routes = () => {
   return (
     <main>
@@ -56,6 +57,11 @@ const Routes = () => {
       />
       <Route exact path="/profile/news" component={requireAuth(AddNews)} />
       <Route exact path="/profile/job" component={requireAuth(AddJob)} />
+      <Route
+        exact
+        path="/profile/edit/:id"
+        component={requireAuth(ProfileForm)}
+      />
       <Footer />
     </main>
   );
