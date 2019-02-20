@@ -31,10 +31,6 @@ class Annonces extends Component {
   }
   searchAds(e) {
     this.props.searchAd(e);
-    // this.props.searchAd(e.target.value);
-    // let ads = searchAd(e.target.value);
-    // let ads = searchAd(e);
-    // this.setState({ ads, value: e.target.value });
     this.setState({ value: e });
   }
   render() {

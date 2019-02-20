@@ -18,10 +18,10 @@ class Profile extends Component {
     super(props);
     this.state = {
       user: {},
-      ads: {},
-      jobs: {},
-      news: {},
-      errors: {}
+      ads: [],
+      jobs: [],
+      news: [],
+      errors: []
     };
     this.logoutUser = this.logoutUser.bind(this);
   }
@@ -55,15 +55,15 @@ class Profile extends Component {
     if (errors.status === 403) this.logoutUser();
     if (ads && ads.data && ads.data.length > 0) {
       allUserAds = ads.data.map((ad, index) => (
-        <div className="card flex-column" key={index}>
+        <div className="card ml-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
             <Link to={`/annonce/${ad._id}`}>
-              <h4 className="card-title">{ad.title}</h4>
+              <h5 className="card-title">{ad.title}</h5>
             </Link>
-            <small className="card-subtitle">{ad.category}</small>
-            <div className="card-btn flex-row">
+            <div className="flex-row">
               <button
-                className="btn btn-danger"
+                className="btn"
+                style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
                   deleteAd(ad._id);
                   this.props.getUserAds(
@@ -75,24 +75,30 @@ class Profile extends Component {
                 Supprimer
               </button>
               <Link to={`/annonce/edit/${ad._id}`}>
-                <button className="btn btn-success">{updateMessage}</button>
+                <button
+                  className="btn"
+                  style={{ backgroundColor: "#539356", color: "white" }}
+                >
+                  {updateMessage}
+                </button>
               </Link>
             </div>
+            <small className="card-subtitle">{ad.category}</small>
           </div>
         </div>
       ));
     }
     if (jobs && jobs.data && jobs.data.length > 0) {
       allUserJobs = jobs.data.map((job, index) => (
-        <div className="card flex-column" key={index}>
+        <div className="card ml-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
             <Link to={`/job/${job._id}`}>
-              <h4 className="card-title">{job.jobTitle}</h4>
+              <h5 className="card-title">{job.jobTitle}</h5>
             </Link>
-            <small className="card-subtitle">{job.jobCompany}</small>
-            <div className="card-btn flex-row">
+            <div className="flex-row">
               <button
-                className="btn btn-danger"
+                className="btn"
+                style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
                   deleteJob(job._id);
                   this.props.getUserJobs(
@@ -104,9 +110,15 @@ class Profile extends Component {
                 Supprimer
               </button>
               <Link to={`/job/edit/${job._id}`}>
-                <button className="btn btn-success">{updateMessage}</button>
+                <button
+                  className="btn"
+                  style={{ backgroundColor: "#539356", color: "white" }}
+                >
+                  {updateMessage}
+                </button>
               </Link>
             </div>
+            <small className="card-subtitle">{job.jobCompany}</small>
           </div>
         </div>
       ));
@@ -114,15 +126,15 @@ class Profile extends Component {
 
     if (news && news.data && news.data.length > 0) {
       allUserNews = news.data.map((aNews, index) => (
-        <div className="card flex-column" key={index}>
+        <div className="card ml-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
             <Link to={`/news/${aNews._id}`}>
-              <h4 className="card-title">{aNews.title}</h4>
+              <h5 className="card-title">{aNews.title}</h5>
             </Link>
-            <small className="card-subtitle">{aNews.name}</small>
-            <div className="card-btn flex-row">
+            <div className=" flex-row">
               <button
-                className="btn btn-danger"
+                className="btn"
+                style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
                   deleteNews(aNews._id);
                   this.props.getUserNews(
@@ -134,28 +146,59 @@ class Profile extends Component {
                 Supprimer
               </button>
               <Link to={`/news/edit/${aNews._id}`}>
-                <button className="btn btn-success">{updateMessage}</button>
+                <button
+                  className="btn"
+                  style={{ backgroundColor: "#539356", color: "white" }}
+                >
+                  {updateMessage}
+                </button>
               </Link>
             </div>
+            <small className="card-subtitle">{aNews.name}</small>
           </div>
         </div>
       ));
     }
 
     return (
-      <div className="profile-container">
+      <div className="">
         {sessionAlert}
         <ReturnButton history={this.props.history} />
         <h1>Mon profil</h1>
-        <hr />
-        <h3 className="text-center">Annonces</h3>{" "}
-        <div className="flex-row flex-wrap">{allUserAds}</div>
-        <hr />
-        <h3 className="text-center">Jobs</h3>{" "}
-        <div className="flex-row flex-wrap">{allUserJobs}</div>
-        <hr />
-        <h3 className="text-center">News</h3>{" "}
-        <div className="flex-row flex-wrap">{allUserNews}</div>
+        <div className="d-flex flex-sm-column flex-md-row justify-content-md-center">
+          <a className="btn btn-outline-primary ml-3" href="/admin/job">
+            <h3>Ajouter un job</h3>
+          </a>
+          <a className="btn btn-outline-primary ml-3" href="/admin/annonce">
+            <h3>Ajouter une annonce</h3>
+          </a>
+          <a className="btn btn-outline-primary ml-3" href="/admin/news">
+            <h3>Ajouter une news</h3>
+          </a>
+        </div>
+        <div className="d-sm-flex flex-column">
+          <h3
+            className="text-left border border-dark mt-5 mb-3  p-4"
+            style={{ fontFamily: "Lato", color: "#646363" }}
+          >
+            Annonces
+          </h3>{" "}
+          <div className="d-sm-flex flex-row flex-wrap">{allUserAds}</div>
+          <h3
+            className="text-left border border-dark mt-5 mb-3  p-4"
+            style={{ fontFamily: "Lato", color: "#646363" }}
+          >
+            Jobs
+          </h3>{" "}
+          <div className="d-sm-flex flex-row flex-wrap">{allUserJobs}</div>
+          <h3
+            className="text-left border border-dark mt-5 mb-3 p-4"
+            style={{ fontFamily: "Lato", color: "#646363" }}
+          >
+            News
+          </h3>{" "}
+          <div className="d-sm-flex flex-row flex-wrap">{allUserNews}</div>
+        </div>
       </div>
     );
   }

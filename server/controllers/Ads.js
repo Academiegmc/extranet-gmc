@@ -77,6 +77,7 @@ const Ads = {
       .select("title")
       .limit(10)
       .then(ad => {
+        console.log(ad);
         res.status(200).json(ad);
       })
       .catch(err => {

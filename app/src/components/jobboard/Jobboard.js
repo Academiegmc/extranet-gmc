@@ -2,27 +2,36 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getAllJobs, searchJob } from "../../actions/jobActions";
 import Moment from "react-moment";
+import ReactAutocomplete from "react-autocomplete";
+import { getAllJobs, searchJob } from "../../actions/jobActions";
 import ReturnButton from "../layout/ReturnButton";
 class Jobboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       jobs: [],
-      jobSearched: []
+      jobSearched: [],
+      value: "",
+      items: [],
+      job_chose: {}
     };
     this.searchJobs = this.searchJobs.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({ jobs: nextProps.jobs.jobs.data });
+    if (nextProps.jobs) {
+      console.log(nextProps.jobs);
+      const { jobs, search_jobs } = nextProps.jobs;
+      if (jobs.data) this.setState({ jobs: jobs.data });
+      if (search_jobs) this.setState({ items: search_jobs });
+    }
   }
   componentDidMount() {
     this.props.getAllJobs();
   }
   searchJobs(e) {
-    let jobs = searchJob(e.target.value);
-    this.setState({ jobSearched: jobs });
+    this.props.searchJob(e);
+    this.setState({ value: e });
   }
   render() {
     const jobs = this.state.jobs.map((job, index) => (
@@ -31,7 +40,7 @@ class Jobboard extends Component {
           <div className="row" style={{ borderColor: "#333B3E" }}>
             <div className="col-sm-2 col-md-2 col-xs-6">
               <strong style={{ display: "block" }}>
-                {job.jobContractType}
+                {job.jobContractType.toUpperCase()}
               </strong>
               <span>{job.type}</span>
             </div>
@@ -56,27 +65,57 @@ class Jobboard extends Component {
       <div className="container">
         <ReturnButton history={this.props.history} />
         <h3 className="text-center">Job board</h3>
-        <div className="row">
-          <form className="form-inline">
-            <div className="input-group mb-3 mr-3">
-              <div className="input-group-prepend">
-                <span className="input-group-text" id="basic-addon1">
-                  <i className="fas fa-briefcase"> </i>
-                </span>
+        <div className="input-group">
+          <span className="input-group-text" id="basic-addon1">
+            <i className="fas fa-newspaper"> </i>
+          </span>
+          <ReactAutocomplete
+            className="form-control"
+            items={this.state.items}
+            shouldItemRender={(item, value) =>
+              item.title.toLowerCase().indexOf(value.toLowerCase()) > -1
+            }
+            getItemValue={item => item.title}
+            renderItem={(item, highlighted) => (
+              <div
+                key={item._id}
+                style={{
+                  backgroundColor: highlighted ? "#eee" : "transparent"
+                }}
+              >
+                <p
+                  onClick={() => {
+                    this.setState({ job_chose: item });
+                  }}
+                >
+                  {item.title}
+                </p>
               </div>
+            )}
+            renderInput={props => (
               <input
-                type="text"
+                {...props}
+                role="combobox"
+                name="search"
                 className="form-control"
-                placeholder="Mot clés"
-                aria-label="Mot clés"
-                aria-describedby="basic-addon1"
-                onKeyUp={this.searchJobs}
               />
-            </div>
-            <button type="submit" className="btn btn-primary mb-3">
-              <i className="fas fa-search"> </i>
-            </button>
-          </form>
+            )}
+            value={this.state.value}
+            onChange={e => {
+              this.searchJobs(e.target.value);
+              if (this.state.value === "") this.setState({ job_chose: {} });
+            }}
+            onSelect={(value, item) =>
+              this.setState({ value, job_chose: item })
+            }
+            wrapperStyle={{ display: "inline-block", width: "40%" }}
+          />
+          <Link
+            to={`/job/${this.state.job_chose._id}`}
+            className="btn btn-primary"
+          >
+            <i className="fas fa-search"> </i>
+          </Link>
         </div>
         <hr />
         <div
@@ -101,5 +140,5 @@ const mapStateToprops = state => ({
 });
 export default connect(
   mapStateToprops,
-  { getAllJobs }
+  { getAllJobs, searchJob }
 )(Jobboard);

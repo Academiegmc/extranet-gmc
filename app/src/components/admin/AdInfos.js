@@ -14,9 +14,12 @@ class AdInfos extends Component {
   render() {
     const { ad } = this.props;
     return (
-      <div className="flex-row">
-        <h6 className="text-center">{ad.title}</h6>
-        <i onClick={this.deleteAnAd} className="far fa-times-circle" />
+      <div className="d-flex flex-row flex-wrap">
+        <i
+          onClick={this.deleteAnAd}
+          className="btn btn-outline-danger far fa-times-circle"
+        />
+        <h6 className="text-center ml-2 mt-2">{ad.title}</h6>
       </div>
     );
   }

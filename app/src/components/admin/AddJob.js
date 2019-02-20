@@ -77,7 +77,7 @@ class AddJob extends Component {
       jobCompanySite
     } = this.state;
     return (
-      <div className="add-container">
+      <div className="container">
         <ReturnButton history={this.props.history} />
         <form className="flex-column flex-center" onSubmit={this.onSubmit}>
           <h5>Poste</h5>

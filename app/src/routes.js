@@ -17,6 +17,7 @@ import Profile from "./components/profile/Profile";
 import Stages from "./components/stages/Stages";
 import requireAuth from "./utils/requireAuth";
 import App from "./App";
+import { Footer } from "./components/layout/Footer";
 const Routes = () => {
   return (
     <main>
@@ -48,6 +49,14 @@ const Routes = () => {
       />
       <Route exact path="/admin/annonce" component={requireAuth(AddAnnonce)} />
       <Route exact path="/admin/news" component={requireAuth(AddNews)} />
+      <Route
+        exact
+        path="/profile/annonce"
+        component={requireAuth(AddAnnonce)}
+      />
+      <Route exact path="/profile/news" component={requireAuth(AddNews)} />
+      <Route exact path="/profile/job" component={requireAuth(AddJob)} />
+      <Footer />
     </main>
   );
 };

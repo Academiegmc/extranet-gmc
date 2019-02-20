@@ -60,7 +60,7 @@ class Dashboard extends Component {
     return (
       <div className="container">
         <h1>Admin dashboard</h1>
-        <div className="admin-links flex-row flex-center">
+        <div className="d-flex flex-row justify-content-around">
           <Link to="admin/job">
             <h3>Ajouter un job</h3>
           </Link>
@@ -74,14 +74,20 @@ class Dashboard extends Component {
         <hr />
         <div className="flex flex-column">
           <h2>Jobs</h2>
-          <div className="flex-column">{allJobs}</div>
+          <div className="d-flex flex-column justify-content-around">
+            {allJobs}
+          </div>
         </div>
         <hr />
         <h2>Annonces</h2>
-        <div className="flex-column">{allAds}</div>
+        <div className="d-flex flex-column justify-content-around">
+          {allAds}
+        </div>
         <hr />
         <h2>News</h2>
-        <div className="flex-column">{allNews}</div>
+        <div className="d-flex flex-column justify-content-around">
+          {allNews}
+        </div>
       </div>
     );
   }

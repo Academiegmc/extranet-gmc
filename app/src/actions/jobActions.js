@@ -67,7 +67,10 @@ export const searchJob = jobTitle => dispatch => {
     .get(`${jobUrl}/search`, {
       params: { q: jobTitle }
     })
-    .then(job => dispatch({ type: SEARCH_JOBS, action: job.data }))
+    .then(job => {
+      console.log("Data:", job.data);
+      dispatch({ type: SEARCH_JOBS, payload: job.data });
+    })
     .catch(err => {
       console.error(err);
       return err.response;

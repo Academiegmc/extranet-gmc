@@ -14,10 +14,12 @@ class NewsInfos extends Component {
   render() {
     const { news } = this.props;
     return (
-      <div className="flex-row">
-        <h6 className="text-center">{news.title}</h6>
-
-        <i onClick={this.deleteANews} className="far fa-times-circle" />
+      <div className="d-flex flex-row flex-wrap">
+        <i
+          onClick={this.deleteANews}
+          className="btn btn-outline-danger far fa-times-circle"
+        />
+        <h6 className="text-center ml-2 mt-2">{news.title}</h6>
       </div>
     );
   }

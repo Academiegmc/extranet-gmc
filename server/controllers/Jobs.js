@@ -110,8 +110,14 @@ const Jobs = {
     Job.find({ jobTitle: { $regex: new RegExp(q), $options: "mi" } })
       .select("jobTitle")
       .limit(10)
-      .then(job => {
-        res.status(200).json(job);
+      .then(jobs => {
+        let jobSearched = [];
+        jobs.map((job, index) => {
+          jobSearched.push({ _id: job._id, title: job.jobTitle });
+        });
+        // res.status(200).json(jobs);
+        console.log(jobSearched);
+        res.status(200).json(jobSearched);
       })
       .catch(err => {
         res.status(400).json(err.response);

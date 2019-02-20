@@ -111,7 +111,9 @@ class Job extends Component {
         </div>
 
         <div className="d-inline-flex justify-content-between align-items-center text-white bg-dark w-100 p-2">
-          <span className="font-weight-bold">{jobContractType}</span>
+          <span className="font-weight-bold">
+            {jobContractType !== undefined ? jobContractType.toUpperCase() : ""}
+          </span>
           <span className="font-weight-bold">
             Publié il y a {publishedDate}
           </span>

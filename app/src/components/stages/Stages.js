@@ -177,25 +177,47 @@ export default class Stages extends Component {
             labelledby: "heading",
             describedby: "full_description"
           }}
-          className="modal-container flex-column"
+          className="container"
         >
-          <button onClick={this.closeModal}>
-            <i className="far fa-times-circle">Fermer</i>
-          </button>
-          <h1 id="heading">Lettres de recommandations</h1>
-          <div id="full_description" className="flex-column">
-            <a href="http://localhost:9000/conventions/user-convention.pdf">
-              Lettre 1
-            </a>
-            <a href="http://localhost:9000/conventions/user-convention.pdf">
-              Lettre 2
-            </a>
-            <a href="http://localhost:9000/conventions/user-convention.pdf">
-              Lettre 3
-            </a>
-            <a href="http://localhost:9000/conventions/user-convention.pdf">
-              Lettre 4
-            </a>
+          <div
+            style={{ border: "1px solid black", borderRadius: "5px" }}
+            className="mt-3"
+          >
+            <button className="btn btn-outline-dark" onClick={this.closeModal}>
+              <i className="far fa-times-circle">Fermer</i>
+            </button>
+            <h1 id="heading" className="text-center mt-3 mb-3">
+              Lettres de recommandations
+            </h1>
+            <div
+              id="full_description"
+              className="d-flex justify-content-around"
+            >
+              <a
+                className="btn btn-link"
+                href="http://localhost:9000/conventions/user-convention.pdf"
+              >
+                Lettre 1
+              </a>
+              <a
+                className="btn btn-link"
+                href="http://localhost:9000/conventions/user-convention.pdf"
+              >
+                Lettre 2
+              </a>
+              <a
+                className="btn btn-link"
+                href="http://localhost:9000/conventions/user-convention.pdf"
+              >
+                Lettre 3
+              </a>
+              <a
+                className="btn btn-link"
+                href="http://localhost:9000/conventions/user-convention.pdf"
+              >
+                Lettre 4
+              </a>
+            </div>
           </div>
         </ReactModal>
       </div>

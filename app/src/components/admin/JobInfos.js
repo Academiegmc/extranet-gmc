@@ -13,9 +13,12 @@ class JobInfos extends Component {
   render() {
     const { job } = this.props;
     return (
-      <div className="flex-row">
-        <h6 className="text-center">{job.jobTitle}</h6>
-        <i onClick={this.deleteAJob} className="far fa-times-circle" />
+      <div className="d-flex flex-row flex-wrap">
+        <i
+          onClick={this.deleteAJob}
+          className="btn btn-outline-danger far fa-times-circle"
+        />
+        <h6 className="text-center ml-2 mt-2">{job.jobTitle}</h6>
       </div>
     );
   }
