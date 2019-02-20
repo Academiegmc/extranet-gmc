@@ -38,6 +38,24 @@ const Users = {
     if (!news) res.status(404).json({ success: false });
     else res.status(200).json({ success: true, data: news });
   },
+  create: async (req, res) => {
+    try {
+      let { name, email, password, status } = req.body;
+      const salt = 10;
+      const user = await User.findOne({ email });
+      if (user)
+        return releaseEvents
+          .status(400)
+          .json({ success: false, message: "User already exists" });
+      password = await bcrypt.hash(password, salt);
+      const newUser = new User({ name, email, password, status });
+      console.log(newUser);
+      await newUser.save();
+      res.status(201).json({ success: true, user: newUser });
+    } catch (error) {
+      console.error(error);
+    }
+  },
   update: async (req, res) => {
     console.log(req.user.id);
     try {

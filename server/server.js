@@ -24,10 +24,7 @@ app.use(cors());
 //DB Config
 const db = keys.mongoURI;
 mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true, useFindAndModify: false }
-  )
+  .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log("MongoDB connected..."))
   .catch(err => console.log(err));
 mongoose.set("useCreateIndex", true);
@@ -36,5 +33,5 @@ app.use("/api/annonces", ads);
 app.use("/api/news", news);
 app.use("/api/jobs", jobs);
 app.listen(config.port, () =>
-  console.log(`Example app listening on port: ${config.port}`)
+  console.log(`Server listening on port: ${config.port}`)
 );

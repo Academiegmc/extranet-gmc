@@ -4,6 +4,7 @@ const Users = require("../controllers/Users");
 const verifyToken = require("../controllers/VerifyToken");
 
 router.get("/all", Users.getAllUsers);
+router.post("/", Users.create);
 router.get("/", verifyToken, Users.getUser);
 router.get("/:id/jobs", verifyToken, Users.getUserJobs);
 router.get("/:id/ads", verifyToken, Users.getUserAds);
