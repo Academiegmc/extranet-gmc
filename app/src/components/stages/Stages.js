@@ -69,7 +69,6 @@ class Stages extends Component {
     this.setState({ modalIsOpen: false });
   }
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps.users.user);
     if (nextProps.users.user) {
       const { user } = nextProps.users.user;
       this.setState({ user });
@@ -80,7 +79,6 @@ class Stages extends Component {
   }
 
   render() {
-    console.log(this.state.user);
     const { user } = this.state;
     let displayExperiences;
     if (user.experiences !== undefined && user.experiences.length > 0) {
@@ -149,14 +147,6 @@ class Stages extends Component {
     //     </div>
     //   )
     // );
-    let stagesTab = this.state.stages.map((stage, index) => (
-      <li className="col-9" key={index}>
-        <h6 className="text-justify p-2">{stage.title}</h6>
-        <p className="text-justify p-2">{stage.name}</p>
-        <p className="text-justify p-2">{stage.description}</p>
-        <p className="text-justify p-2">{stage.dates}</p>
-      </li>
-    ));
     let { modalIsOpen } = this.state;
     return (
       <div className="container-fluid">
@@ -171,21 +161,17 @@ class Stages extends Component {
               />
               <a
                 className="btn btn-primary"
-                href="http://localhost:9000/fiches-renseignements/user-fiche.pdf"
+                href="http://178.62.8.23:9000/fiches-renseignements/user-fiche.pdf"
               >
                 Fiche de renseignement
               </a>
               <a
                 className="btn btn-primary"
-                href="http://localhost:9000/conventions/user-convention.pdf"
+                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
               >
                 Convention de stage
               </a>
-              <button
-                onClick={this.openModal}
-                className="btn btn-primary"
-                // href="http://localhost:9000/conventions/user-convention.pdf"
-              >
+              <button onClick={this.openModal} className="btn btn-primary">
                 Lettres de recommandations
               </button>
             </div>
@@ -234,25 +220,25 @@ class Stages extends Component {
             >
               <a
                 className="btn btn-link"
-                href="http://localhost:9000/conventions/user-convention.pdf"
+                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
               >
                 Lettre 1
               </a>
               <a
                 className="btn btn-link"
-                href="http://localhost:9000/conventions/user-convention.pdf"
+                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
               >
                 Lettre 2
               </a>
               <a
                 className="btn btn-link"
-                href="http://localhost:9000/conventions/user-convention.pdf"
+                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
               >
                 Lettre 3
               </a>
               <a
                 className="btn btn-link"
-                href="http://localhost:9000/conventions/user-convention.pdf"
+                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
               >
                 Lettre 4
               </a>

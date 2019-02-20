@@ -15,17 +15,13 @@ class ProfileForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   onChange = e => {
-    console.log(e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     this.props.updateUser(this.state);
   };
-  componentDidMount() {
-    console.log(this.state);
-  }
+  componentDidMount() {}
 
   render() {
     return (
@@ -83,7 +79,6 @@ class ProfileForm extends Component {
                 aria-describedby="startDateHelp"
                 placeholder="Date de fin"
                 onChange={this.onChange}
-                onChange={this.onChange}
                 value={this.state.start_date}
               />
             </div>
@@ -96,7 +91,6 @@ class ProfileForm extends Component {
                 name="end_date"
                 aria-describedby="endDateHelp"
                 placeholder="Date de fin"
-                onChange={this.onChange}
                 onChange={this.onChange}
                 value={this.state.end_date}
               />
