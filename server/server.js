@@ -31,7 +31,7 @@ mongoose
   .then(() => console.log("MongoDB connected..."))
   .catch(err => console.log(err));
 mongoose.set("useCreateIndex", true);
-app.get("test", (req, res) => {
+app.get("/test", (req, res) => {
   res.send("Test OK !");
 });
 app.use("/api/users", users);
