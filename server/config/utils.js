@@ -23,7 +23,7 @@ module.exports = {
       from: NODEMAILER_USER_EMAIL,
       to: email,
       subject: "Extranet-AGMC: Merci de vous être inscrits",
-      text: `Voici votre mot de passe : ${password}`
+      text: `Voici votre mot de passe : ${password}. Vous pouvez dès à présent accéder à l'extranet à l'adresse suivante http://extranet.guinot-marycohr.com/`
     };
     transport.sendMail(mailOptions, (error, info) => {
       if (error) console.error(error);
