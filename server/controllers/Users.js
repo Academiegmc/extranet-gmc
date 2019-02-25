@@ -89,7 +89,7 @@ const Users = {
     User.findOne({ email: req.body.email }, (err, user) => {
       if (err) return res.status(500).send(ErrorMessage.serverError);
       if (!user) return res.status(401).send(ErrorMessage.userNotFound);
-
+      console.log(req.body.password, user.password);
       const passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
