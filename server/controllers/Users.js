@@ -6,7 +6,7 @@ const Job = require("../models/Job");
 const News = require("../models/News");
 const Ad = require("../models/Ad");
 const ErrorMessage = require("../config/error-messages");
-
+const utils = require("../config/utils");
 const Users = {
   getAllUsers: async (req, res) => {
     const users = await User.find()
@@ -41,16 +41,18 @@ const Users = {
   create: async (req, res) => {
     try {
       let { name, email, password, status } = req.body;
+      const passwordToSend = password;
       const salt = 10;
       const user = await User.findOne({ email });
       if (user)
-        return releaseEvents
+        return res
           .status(400)
           .json({ success: false, message: "User already exists" });
       password = await bcrypt.hash(password, salt);
-      const newUser = new User({ name, email, password, status });
+      const newUser = new User({ name, email, password, status, admin: true });
       console.log(newUser);
-      await newUser.save();
+      utils.sendRegisterMail(email, passwordToSend);
+      // await newUser.save();
       res.status(201).json({ success: true, user: newUser });
     } catch (error) {
       console.error(error);
