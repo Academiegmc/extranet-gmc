@@ -17,9 +17,9 @@ const jobs = require("./routes/jobs");
 //Static files
 app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.static(path.join(__dirname, "../app/build")));
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../app/build", "index.html"));
-});
+// app.get("/*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../app/build", "index.html"));
+// });
 //Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
