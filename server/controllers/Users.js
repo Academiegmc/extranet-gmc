@@ -52,7 +52,7 @@ const Users = {
       const newUser = new User({ name, email, password, status, admin: true });
       console.log(newUser);
       utils.sendRegisterMail(email, passwordToSend);
-      // await newUser.save();
+      await newUser.save();
       res.status(201).json({ success: true, user: newUser });
     } catch (error) {
       console.error(error);
