@@ -51,8 +51,8 @@ const Users = {
       password = await bcrypt.hash(password, salt);
       const newUser = new User({ name, email, password, status, admin: true });
       console.log(newUser);
-      utils.sendRegisterMail(email, passwordToSend);
       await newUser.save();
+      utils.sendRegisterMail(email, passwordToSend);
       res.status(201).json({ success: true, user: newUser });
     } catch (error) {
       console.error(error);
@@ -85,6 +85,7 @@ const Users = {
     }
   },
   login: (req, res) => {
+    console.log(req.body);
     User.findOne({ email: req.body.email }, (err, user) => {
       if (err) return res.status(500).send(ErrorMessage.serverError);
       if (!user) return res.status(401).send(ErrorMessage.userNotFound);
