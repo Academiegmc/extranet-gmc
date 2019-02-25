@@ -1,5 +1,5 @@
 module.exports = {
-  port: 9000,
+  port: 5000,
   mail: {
     auth: { user: "test.mail@academie-gmc.com", pass: "testMail" },
     service: "gmail",

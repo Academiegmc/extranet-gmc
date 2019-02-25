@@ -5,7 +5,6 @@ const path = require("path");
 const cors = require("cors");
 const keys = require("./config/mongo-key");
 const config = require("./config/config");
-const fileUpload = require("express-fileupload");
 //Server web
 const app = express();
 
@@ -16,8 +15,8 @@ const news = require("./routes/news");
 const jobs = require("./routes/jobs");
 
 //Static files
-// app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "../app/build")));
+app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "../app/build")));
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../app/build", "index.html"));
 });
@@ -32,6 +31,9 @@ mongoose
   .then(() => console.log("MongoDB connected..."))
   .catch(err => console.log(err));
 mongoose.set("useCreateIndex", true);
+app.get("test", (req, res) => {
+  res.send("Test OK !");
+});
 app.use("/api/users", users);
 app.use("/api/annonces", ads);
 app.use("/api/news", news);
