@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import ReactAutocomplete from "react-autocomplete";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
+import "./Annonces.css";
 class Annonces extends Component {
   constructor(props) {
     super(props);
@@ -38,13 +39,28 @@ class Annonces extends Component {
     const allAnnonces =
       annonces.length > 0
         ? annonces.map((annonce, index) => (
-            <div className="card" key={index}>
-              <div className="card-body text-left text-wrap">
-                <h6 className="card-subtitle text-muted">{annonce.name}</h6>
+            <div className="card annonce-card mx-2" key={index}>
+              <div
+                className="w-100 border h-25 card-body"
+                style={{ backgroundColor: "rgb(244, 233, 222)" }}
+              >
+                <div className="d-flex flex-row justify-content-center border rounded-circle bg-light annonce-card-icon">
+                  <i className="fas fa-user-graduate my-auto annonce-icon" />
+                </div>
+              </div>
+              <div className="card-body d-flex flex-column mt-3">
                 <h4 className="card-title">{annonce.title}</h4>
-                <p className="card-text text-justify">{annonce.description}</p>
-                <Link to={`/annonce/${annonce._id}`}>
-                  <button className="btn btn-primary">En savoir plus</button>
+                <h6 className="card-subtitle text-muted">{annonce.name}</h6>
+                {/* <h6 className="card-subtitle text-muted">{annonce.name}</h6>
+                <h4 className="card-title">{annonce.title}</h4> */}
+                <div className="card-text d-inline-block text-justify text-truncate">
+                  {annonce.description}
+                </div>
+                <Link
+                  className="btn btn-primary text-white"
+                  to={`/annonce/${annonce._id}`}
+                >
+                  En savoir plus
                 </Link>
               </div>
             </div>
@@ -52,11 +68,13 @@ class Annonces extends Component {
         : null;
 
     return (
-      <div className="container">
-        <ReturnButton history={this.props.history} />
-        <h1>Annonces</h1>
+      <div className="container-fluid h-100">
+        <div className="row d-flex flex-column">
+          <ReturnButton history={this.props.history} />
+          <h1>Annonces</h1>
+        </div>
 
-        <div>
+        <div className="row mb-3">
           <div className="input-group">
             <span className="input-group-text" id="basic-addon1">
               <i className="fas fa-newspaper"> </i>
@@ -110,8 +128,9 @@ class Annonces extends Component {
             </Link>
           </div>
         </div>
-        <hr />
-        <div className="d-flex flex-column">{allAnnonces}</div>
+        <div className="d-sm-flex flex-sm-column flex-md-row">
+          {allAnnonces}
+        </div>
       </div>
     );
   }

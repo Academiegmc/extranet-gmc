@@ -1,0 +1,42 @@
+.annonce-card {
+  width: 600px;
+  height: 300px;
+}
+.annonce-card-icon {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  margin-left: 39%;
+}
+.annonce-icon {
+  transform: scale(2);
+}
+@media screen and (max-width: 400px) {
+  .annonce-card {
+    width: auto;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  .annonce-card-icon {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    margin-left: 39%;
+  }
+  .annonce-icon {
+    transform: scale(1);
+  }
+}
+@media screen and (max-width: 768px) {
+  .annonce-card {
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+  .annonce-card-icon {
+    margin-left: 30%;
+  }
+}
