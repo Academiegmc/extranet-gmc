@@ -6,6 +6,7 @@ import { getAnAd, updateComments } from "../../actions/adAction";
 import Comments from "../comments/Comments";
 import Comment from "../comment/Comment";
 import ReturnButton from "../layout/ReturnButton";
+import "./Annonce.css";
 class Annonce extends Component {
   constructor(props) {
     super(props);
@@ -84,7 +85,6 @@ class Annonce extends Component {
             </div>
             <div className="badge badge-light text-uppercase p-2">
               <i className="far fa-comments" style={{ fontSize: "15px" }}>
-                {" "}
                 {ad.comments !== undefined ? ad.comments.length : null}
               </i>
             </div>

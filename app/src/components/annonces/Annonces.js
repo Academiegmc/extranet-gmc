@@ -128,7 +128,7 @@ class Annonces extends Component {
             </Link>
           </div>
         </div>
-        <div className="d-sm-flex flex-sm-column flex-md-row">
+        <div className="d-sm-flex flex-sm-column flex-md-row flex-md-wrap">
           {allAnnonces}
         </div>
       </div>
