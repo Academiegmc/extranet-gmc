@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getAllNews } from "../../actions/newsActions";
 import { urls } from "../../utils";
+import "./Dashboard.css";
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -12,39 +13,48 @@ class Dashboard extends Component {
       titles: [
         {
           title: "Mails",
+          icon: "fas fa-envelope",
           link: urls.mails
         },
         {
           title: "Job Board",
+          icon: "fas fa-suitcase",
           link: "jobboard"
         },
         {
           title: "Trombinoscope",
+          icon: "fas fa-users",
           link: urls.trombinoscope
         },
         {
           title: "News",
+          icon: "fas fa-newspaper",
           link: "news"
         },
         {
           title: "Hyperplanning",
+          icon: "fas fa-calendar-alt",
           link: urls.hypperplanning
         },
         {
           title: "Annonces",
+          icon: "fas fa-bullhorn",
           link: "annonces"
         },
         {
           title: "Classroom",
+          icon: "fas fa-school",
           link: urls.classroom
         },
         {
           title: "Règlement Intérieur",
+          icon: "fas fa-graduation-cap",
           link:
             "http://localhost:9000/reglement-interieur/2019-2020-Reglement-Interieur.pdf"
         },
         {
           title: "Stages",
+          icon: "fas fa-envelope",
           link: "stage/"
         }
       ],
@@ -52,13 +62,7 @@ class Dashboard extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.news.isloading && nextProps.news.newsTab.data.length > 0) {
-      this.setState({ news: nextProps.news.newsTab.data });
-    }
     if (nextProps.auth.user) this.setState({ user: nextProps.auth.user });
-  }
-  componentDidMount() {
-    this.props.getAllNews();
   }
   render() {
     const { status } = this.state.user;
@@ -72,45 +76,40 @@ class Dashboard extends Component {
         title.link += this.state.user.id;
       }
       return (
-        <li
-          className="card mx-auto"
-          style={{ width: "300px", marginBottom: "5%" }}
-          key={id}
-        >
-          <div className="card-body">
-            <h5 className="card-title text-center">
-              <a href={`${title.link}`}>{title.title}</a>
-            </h5>
+        <li className="list" key={id}>
+          <div className="d-flex flex-md-column align-items-center justify-content-start mb-3">
+            <div
+              className="card border rounded-circle"
+              style={{ width: "100px", height: "100px" }}
+            >
+              <div className="icon-link">
+                <h5 className="text-center">
+                  <Link to={`${title.link}`}>
+                    <i className={title.icon} />
+                  </Link>
+                  {/* <a href={`${title.link}`}>{title.title}</a> */}
+                </h5>
+              </div>
+            </div>
+            <p className="text-anim text-center mx-auto">{title.title}</p>
           </div>
         </li>
       );
     });
-    const news = this.state.news.map((title, id) => {
-      return (
-        <div className="card mx-3" style={{ width: "300px" }} key={id}>
-          <div className="card-body">
-            <Link to={`/news/${title._id}`}>
-              <h5 className="card-title text-center"> {title.title} </h5>
-            </Link>
-          </div>
-        </div>
-      );
-    });
     return (
-      <div className="container-fluid">
-        <div className="row d-flex flex-column">
-          <h1 className="text-center"> Dernières news </h1>
-          <div className="d-flex flex-row justify-content-center row">
-            {news}
-          </div>
+      <div className="container-fluid h-100">
+        {/* <hr className="d-sm-flex flex-sm-column flex-md-row w-100" /> */}
+        <div className="col w-100 h-50 ">
+          <h1 className="welcome-text welcome-anim text-center">Extranet</h1>
         </div>
-        <hr />
-
-        <div className="row d-flex flex-column">
-          <h1 className="text-center">Dashboard</h1>
-          <div className="container">
-            <ul className="row">{links}</ul>
-          </div>
+        <div className="col d-sm-flex flex-sm-column justify-self-sm-center h-50">
+          <div
+            style={{ position: "relative", top: "50px" }}
+            className="border-top d-none d-md-flex flex-md-row w-100 hr-anim"
+          />
+          <ul className="d-sm-flex flex-sm-column flex-md-row justify-content-between">
+            {links}
+          </ul>
         </div>
       </div>
     );
@@ -123,7 +122,6 @@ Dashboard.propTypes = {
 };
 const mapStateToProps = state => ({
   auth: state.auth,
-  news: state.news,
   errors: state.errors
 });
 export default connect(

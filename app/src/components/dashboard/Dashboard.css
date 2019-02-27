@@ -1,0 +1,61 @@
+.list {
+  list-style: none;
+  position: relative;
+}
+.icon-link {
+  margin: auto !important;
+}
+.div-center {
+  margin: auto !important;
+}
+.dashboard-container {
+  height: 100vh;
+}
+.welcome-text {
+  padding-top: 10%;
+}
+.welcome-anim {
+  animation: showWelcome 1s ease-in;
+}
+.text-anim {
+  animation: showTitles 1s ease-in;
+}
+.hr-anim {
+  animation: grow 3s linear;
+}
+@keyframes showWelcome {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes showTitles {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes grow {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 2500px) {
+  .welcome-text {
+    padding-top: 20%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .welcome-text {
+    padding-top: 50%;
+  }
+}

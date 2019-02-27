@@ -17,11 +17,10 @@ import Profile from "./components/profile/Profile";
 import Stages from "./components/stages/Stages";
 import requireAuth from "./utils/requireAuth";
 import App from "./App";
-import Footer from "./components/layout/Footer";
 import ProfileForm from "./components/profile/ProfileForm";
 const Routes = () => {
   return (
-    <main>
+    <main className="vh-100">
       <Route path="/" component={App} />
       <Route exact path="/" component={Landing} />
       <Route exact path="/profile/:id" component={requireAuth(Profile)} />
@@ -62,7 +61,6 @@ const Routes = () => {
         path="/profile/edit/:id"
         component={requireAuth(ProfileForm)}
       />
-      <Footer />
     </main>
   );
 };
