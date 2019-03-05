@@ -1,19 +1,23 @@
 import React, { Component } from "react";
-
+import TextareaAutosize from "react-autosize-textarea";
 class Comment extends Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
         <div className="form-group input-group">
-          <textarea
+          {/* <textarea
             className="form-control"
-            style={{ width: "100%", height: 100 }}
+            // style={{ width: "100%", height: 100 }}
             placeholder="Votre commentaire..."
             name="commentInput"
             onChange={this.props.handleChange}
+          /> */}
+          <TextareaAutosize
+            className="w-100 border-0"
+            name="commentInput"
+            placeholder="Votre commentaire..."
+            onChange={this.props.handleChange}
           />
-        </div>
-        <div className="form-group input-group">
           <input
             type="submit"
             className="btn btn-primary mx-auto"

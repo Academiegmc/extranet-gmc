@@ -1,0 +1,7 @@
+.annonce-category {
+  width: 100px;
+  height: 100px;
+}
+.annonce-category i {
+  transform: scale(2.5);
+}

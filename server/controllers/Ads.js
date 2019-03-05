@@ -3,28 +3,33 @@ const User = require("../models/User");
 const ErrorMessage = require("../config/error-messages");
 
 const Ads = {
-  getAllAds: (req, res) => {
-    Ad.find()
-      .sort({ date: -1 })
-      .then(ads => res.status(200).json(ads))
-      .catch(err => res.status(404).json(err));
+  getAllAds: async (req, res) => {
+    try {
+      const ads = await Ad.find().sort({ date: -1 });
+      if (!ads) return res.status(404).json(err);
+      let result = ads.map(async ad => await ad.getData());
+      res.status(200).json(await Promise.all(result));
+    } catch (error) {
+      console.error(error);
+    }
   },
-  getAd: (req, res) => {
-    Ad.findById(req.params.id)
-      .then(ad => res.status(200).json(ad))
-      .catch(err =>
-        res.status(404).json({ error: err, message: ErrorMessage.adNotFound })
-      );
+  getAd: async (req, res) => {
+    try {
+      const ad = await Ad.findById(req.params.id);
+      if (!ad)
+        return res.status(404).json({ message: ErrorMessage.adNotFound });
+      res.status(200).json(await ad.getData());
+    } catch (error) {
+      console.error(error);
+    }
   },
-  createAd: (req, res) => {
-    User.findOne({ _id: req.user.id }, (err, user) => {
-      if (err) {
+  createAd: async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      if (user)
         return res
-          .status(500)
+          .status(400)
           .json({ auth: false, message: ErrorMessage.serverError });
-      }
-      if (!user)
-        return res.status(401).json({ message: ErrorMessage.userNotFound });
       const newAd = new Ad({
         user: user.id,
         name: user.name,
@@ -32,24 +37,23 @@ const Ads = {
         description: req.body.description,
         category: req.body.category
       });
-
-      newAd
-        .save()
-        .then(ad => res.status(200).json(ad))
-        .catch(err => res.status(400).json(err));
-    });
+      await newAd.save();
+      res.status(200).json(await newAd.getData());
+    } catch (error) {
+      console.log(error);
+    }
   },
-  updateCommentAd: (req, res) => {
-    Ad.findById(req.params.id).then(ad => {
-      if (ad) {
-        ad.comments.push(req.body);
-        ad.save()
-          .then(updatedComments =>
-            res.status(200).json({ success: true, data: updatedComments })
-          )
-          .catch(err => res.status(400).json({ success: false }));
-      }
-    });
+  updateCommentAd: async (req, res) => {
+    try {
+      const ad = await Ad.findById(req.params.id);
+      if (!ad)
+        return res.status(404).json({ success: false, message: "Not Found" });
+      ad.comments.push(req.body);
+      await ad.save();
+      res.status(200).json({ success: true, data: ad });
+    } catch (error) {
+      console.error(error);
+    }
   },
   updateAd: (req, res) => {
     Ad.findById(req.params.id)
@@ -66,23 +70,27 @@ const Ads = {
         res.status(404).json({ error: err, message: ErrorMessage.adNotFound })
       );
   },
-  deleteAd: (req, res) => {
-    Ad.findOneAndRemove({ _id: req.params.id }).then(ad =>
-      res.status(200).json({ success: true, message: ErrorMessage.adRemoved })
-    );
+  deleteAd: async (req, res) => {
+    try {
+      await Ad.findOneAndRemove({ _id: req.params.id });
+      res.status(200).json({ success: true, message: ErrorMessage.adRemoved });
+    } catch (error) {
+      console.log(error);
+    }
   },
-  searchAds: (req, res) => {
+  searchAds: async (req, res) => {
     const { q } = req.query;
-    Ad.find({ title: { $regex: new RegExp(q), $options: "mi" } })
-      .select("title")
-      .limit(10)
-      .then(ad => {
-        console.log(ad);
-        res.status(200).json(ad);
+    try {
+      const ad = await Ad.find({
+        title: { $regex: new RegExp(q), $options: "mi" }
       })
-      .catch(err => {
-        res.status(400).json(err.response);
-      });
+        .select("title")
+        .limit(10);
+      console.log(ad);
+      res.status(200).json(ad);
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 

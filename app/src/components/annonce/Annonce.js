@@ -33,13 +33,14 @@ class Annonce extends Component {
     e.preventDefault();
     if (document.getElementsByName("commentInput")[0].value !== "") {
       //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
+      console.log(this.props.match.params);
       this.props.updateComments(
         this.props.match.params.id,
         this.state.comment,
         this.props.history
       );
       this.props.getAnAd(this.props.match.params.id);
-      this.getComments();
+      // this.getComments();
       document.getElementsByName("commentInput")[0].value = ""; //On rend l'input vide lorsque le commentaire est envoyé
     }
   };
@@ -67,36 +68,42 @@ class Annonce extends Component {
       <div className="container flex-column flex-center">
         <ReturnButton history={this.props.history} />
         <h1>Annonce</h1>
-        <div className="card p-3">
-          <div className="">
+        <div className="card rounded">
+          <div className="d-flex flex-row w-100 p-3 bg-primary rounded">
+            <div className="annonce-category d-flex flex-row justify-content-center bg-light rounded-circle">
+              <i className="fas fa-user-graduate align-self-center" />
+            </div>
+            {ad.category}
+          </div>
+          <div className="p-3">
             <h6 className="card-subtitle mb-2 text-muted text-capitalize">
               {ad.name}
             </h6>
             <h2 className="card-title">{ad.title}</h2>
+            <p className="card-text text-justify">{ad.description}</p>
+            <hr />
+            <div className="d-flex justify-content-between">
+              <div className="badge badge-light p-2">
+                Il y a{" "}
+                <Moment fromNow ago locale="fr">
+                  {ad.date}
+                </Moment>
+              </div>
+              <div className="badge badge-light text-uppercase p-2">
+                <i className="far fa-comments" style={{ fontSize: "15px" }}>
+                  {ad.comments !== undefined ? ` ${ad.comments.length}` : null}
+                </i>
+              </div>
+            </div>
+            <hr />
+            <div className="d-flex flex-column m-3">{comments}</div>
           </div>
-          <p className="card-text text-justify">{ad.description}</p>
           <hr />
-          <div className=" d-inline-flex justify-content-between">
-            <div className="badge badge-light p-2">
-              Il y a{" "}
-              <Moment fromNow ago locale="fr">
-                {ad.date}
-              </Moment>
-            </div>
-            <div className="badge badge-light text-uppercase p-2">
-              <i className="far fa-comments" style={{ fontSize: "15px" }}>
-                {ad.comments !== undefined ? ad.comments.length : null}
-              </i>
-            </div>
-          </div>
+          <Comment
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+          />
         </div>
-        <hr />
-        <h2>Commentaires</h2>
-        <div className="d-flex flex-column card m-3">{comments}</div>
-        <Comment
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
       </div>
     );
   }

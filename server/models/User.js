@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   admin: { type: Boolean, default: false },
   status: { type: Number, required: true },
+  profile_pic: { type: String },
   experiences: { type: [{}] },
   convention: { type: String },
   letters: { type: [{}] },
@@ -20,4 +21,13 @@ const UserSchema = new Schema({
     3 : Admin
     4 : Entreprise
 */
+
+UserSchema.methods.getInfos = function() {
+  return {
+    id: this._id,
+    name: this.name,
+    profile_pic: this.profile_pic,
+    status: this.status
+  };
+};
 module.exports = User = mongoose.model("gmc-users", UserSchema);

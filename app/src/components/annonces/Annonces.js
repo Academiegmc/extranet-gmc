@@ -58,7 +58,7 @@ class Annonces extends Component {
                 </div>
                 <Link
                   className="btn btn-primary text-white"
-                  to={`/annonce/${annonce._id}`}
+                  to={`/annonce/${annonce.id}`}
                 >
                   En savoir plus
                 </Link>
@@ -88,7 +88,7 @@ class Annonces extends Component {
               getItemValue={item => item.title}
               renderItem={(item, highlighted) => (
                 <div
-                  key={item._id}
+                  key={item.id}
                   style={{
                     backgroundColor: highlighted ? "#eee" : "transparent"
                   }}
@@ -121,7 +121,7 @@ class Annonces extends Component {
               wrapperStyle={{ display: "inline-block", width: "40%" }}
             />
             <Link
-              to={`/annonce/${this.state.ad_chose._id}`}
+              to={`/annonce/${this.state.ad_chose.id}`}
               className="btn btn-primary"
             >
               <i className="fas fa-search"> </i>
