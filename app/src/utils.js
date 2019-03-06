@@ -16,5 +16,8 @@ export const urls = {
   hypperplanning: "http://agmc-paris.com/",
   mails: "https://mail.google.com/",
   classroom: "https://classroom.google.com/",
-  trombinoscope: "/trombinoscope"
+  trombinoscope: "/trombinoscope",
+  ri: `http://${
+    process.env.REACT_APP_NODE_API
+  }/reglement-interieur/2019-2020-Reglement-Interieur.pdf`
 };

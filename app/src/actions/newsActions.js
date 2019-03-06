@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_A_NEWS, GET_ALL_NEWS, GET_ERRORS } from "./types";
+import { GET_A_NEWS, GET_ALL_NEWS, GET_ERRORS, DELETE_NEWS } from "./types";
 import { newsUrl } from "../utils";
 export const getAllNews = () => dispatch => {
   axios.get(newsUrl).then(news =>
@@ -61,8 +61,10 @@ export const updateNews = (newsId, newsData, history) => dispatch => {
     })
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
-export const deleteNews = newsId => {
-  axios.delete(`${newsUrl}/${newsId}`).then(res => {
-    return res.data;
-  });
+export const deleteNews = newsId => dispatch => {
+  console.log(newsId);
+  axios
+    .delete(`${newsUrl}/${newsId}`)
+    .then(res => dispatch({ type: DELETE_NEWS, payload: newsId }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };

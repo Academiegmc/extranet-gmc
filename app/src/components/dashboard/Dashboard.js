@@ -49,8 +49,7 @@ class Dashboard extends Component {
         {
           title: "Règlement Intérieur",
           icon: "fas fa-graduation-cap",
-          link:
-            "http://localhost:9000/reglement-interieur/2019-2020-Reglement-Interieur.pdf"
+          link: urls.ri
         },
         {
           title: "Stages",
@@ -84,9 +83,13 @@ class Dashboard extends Component {
             >
               <div className="icon-link">
                 <h5 className="text-center">
-                  <Link to={`${title.link}`}>
-                    <i className={title.icon} />
-                  </Link>
+                  {title.link.indexOf("http") === -1 ? (
+                    <Link to={`${title.link}`}>
+                      <i className={title.icon} />
+                    </Link>
+                  ) : (
+                    <a href={`${title.link}`}>{<i className={title.icon} />}</a>
+                  )}
                   {/* <a href={`${title.link}`}>{title.title}</a> */}
                 </h5>
               </div>

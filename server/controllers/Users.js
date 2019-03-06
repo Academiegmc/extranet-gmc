@@ -85,7 +85,6 @@ const Users = {
     }
   },
   login: (req, res) => {
-    console.log(req.body);
     User.findOne({ email: req.body.email }, (err, user) => {
       if (err) return res.status(500).send(ErrorMessage.serverError);
       if (!user) return res.status(401).send(ErrorMessage.userNotFound);

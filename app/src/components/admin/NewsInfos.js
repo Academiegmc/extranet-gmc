@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { deleteNews } from "../../actions/newsActions";
 
 class NewsInfos extends Component {
@@ -8,7 +9,7 @@ class NewsInfos extends Component {
     this.deleteANews = this.deleteANews.bind(this);
   }
   deleteANews() {
-    deleteNews(this.props.news._id);
+    this.props.deleteNews(this.props.news.id);
     this.props.refresh();
   }
   render() {
@@ -30,4 +31,7 @@ NewsInfos.propTypes = {
   refresh: PropTypes.func.isRequired
 };
 
-export default NewsInfos;
+export default connect(
+  null,
+  { deleteNews }
+)(NewsInfos);

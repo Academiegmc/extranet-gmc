@@ -36,7 +36,7 @@ class Jobboard extends Component {
   render() {
     const jobs = this.state.jobs.map((job, index) => (
       <div key={index}>
-        <Link to={`/job/${job._id}`}>
+        <Link to={`/job/${job.id}`}>
           <div className="row" style={{ borderColor: "#333B3E" }}>
             <div className="col-sm-2 col-md-2 col-xs-6">
               <strong style={{ display: "block" }}>
@@ -78,7 +78,7 @@ class Jobboard extends Component {
             getItemValue={item => item.title}
             renderItem={(item, highlighted) => (
               <div
-                key={item._id}
+                key={item.id}
                 style={{
                   backgroundColor: highlighted ? "#eee" : "transparent"
                 }}
@@ -111,7 +111,7 @@ class Jobboard extends Component {
             wrapperStyle={{ display: "inline-block", width: "40%" }}
           />
           <Link
-            to={`/job/${this.state.job_chose._id}`}
+            to={`/job/${this.state.job_chose.id}`}
             className="btn btn-primary"
           >
             <i className="fas fa-search"> </i>

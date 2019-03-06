@@ -60,7 +60,7 @@ class Dashboard extends Component {
     return (
       <div className="container">
         <h1>Admin dashboard</h1>
-        <div className="d-flex flex-row justify-content-around">
+        <div className="d-sm-flex flex-sm-column flex-md-row justify-content-around">
           <Link to="admin/job">
             <h3>Ajouter un job</h3>
           </Link>

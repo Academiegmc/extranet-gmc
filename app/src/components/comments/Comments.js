@@ -14,7 +14,7 @@ class Comments extends Component {
                 <img
                   className="img-fluid rounded-circle img-circle align-self-center"
                   src={User}
-                  alt="User picture"
+                  alt="User pic"
                 />
               </div>
               <div className="d-sm-flex flex-sm-column">

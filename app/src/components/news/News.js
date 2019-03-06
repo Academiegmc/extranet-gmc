@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Moment from "react-moment";
 import Slider from "react-slick";
@@ -84,7 +83,7 @@ class News extends Component {
                 <img
                   className="img-fluid rounded-circle img-circle align-self-center mr-2"
                   src={User}
-                  alt="User picture"
+                  alt="User pic"
                 />
                 <h5 className="align-self-center">{news.title}</h5>
               </div>

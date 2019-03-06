@@ -7,7 +7,7 @@ class JobInfos extends Component {
     this.deleteAJob = this.deleteAJob.bind(this);
   }
   deleteAJob() {
-    deleteJob(this.props.job._id);
+    deleteJob(this.props.job.id);
     this.props.refresh();
   }
   render() {

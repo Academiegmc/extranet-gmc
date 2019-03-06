@@ -57,7 +57,7 @@ class Profile extends Component {
       allUserAds = ads.data.map((ad, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
-            <Link to={`/annonce/${ad._id}`}>
+            <Link to={`/annonce/${ad.id}`}>
               <h5 className="card-title">{ad.title}</h5>
             </Link>
             <div className="flex-row">
@@ -65,7 +65,7 @@ class Profile extends Component {
                 className="btn"
                 style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
-                  deleteAd(ad._id);
+                  deleteAd(ad.id);
                   this.props.getUserAds(
                     this.props.match.params.id,
                     this.props.history
@@ -74,7 +74,7 @@ class Profile extends Component {
               >
                 Supprimer
               </button>
-              <Link to={`/annonce/edit/${ad._id}`}>
+              <Link to={`/annonce/edit/${ad.id}`}>
                 <button
                   className="btn"
                   style={{ backgroundColor: "#539356", color: "white" }}
@@ -92,7 +92,7 @@ class Profile extends Component {
       allUserJobs = jobs.data.map((job, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
-            <Link to={`/job/${job._id}`}>
+            <Link to={`/job/${job.id}`}>
               <h5 className="card-title">{job.jobTitle}</h5>
             </Link>
             <div className="flex-row">
@@ -100,7 +100,7 @@ class Profile extends Component {
                 className="btn"
                 style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
-                  deleteJob(job._id);
+                  deleteJob(job.id);
                   this.props.getUserJobs(
                     this.props.match.params.id,
                     this.props.history
@@ -109,7 +109,7 @@ class Profile extends Component {
               >
                 Supprimer
               </button>
-              <Link to={`/job/edit/${job._id}`}>
+              <Link to={`/job/edit/${job.id}`}>
                 <button
                   className="btn"
                   style={{ backgroundColor: "#539356", color: "white" }}
@@ -128,7 +128,7 @@ class Profile extends Component {
       allUserNews = news.data.map((aNews, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
-            <Link to={`/news/${aNews._id}`}>
+            <Link to={`/news/${aNews.id}`}>
               <h5 className="card-title">{aNews.title}</h5>
             </Link>
             <div className=" flex-row">
@@ -136,7 +136,8 @@ class Profile extends Component {
                 className="btn"
                 style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
-                  deleteNews(aNews._id);
+                  console.log(aNews);
+                  deleteNews(aNews.id);
                   this.props.getUserNews(
                     this.props.match.params.id,
                     this.props.history
@@ -145,7 +146,7 @@ class Profile extends Component {
               >
                 Supprimer
               </button>
-              <Link to={`/news/edit/${aNews._id}`}>
+              <Link to={`/news/edit/${aNews.id}`}>
                 <button
                   className="btn"
                   style={{ backgroundColor: "#539356", color: "white" }}
@@ -219,5 +220,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { getUserAds, getUserJobs, getUserNews, logout }
+  { getUserAds, getUserJobs, getUserNews, logout, deleteNews }
 )(Profile);
