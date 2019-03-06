@@ -62,8 +62,18 @@ class Annonce extends Component {
   render() {
     const { ad } = this.state;
     let comments = null;
+    let categoryIcon;
     if (ad.comments !== undefined && ad.comments.length > 0)
       comments = <Comments comments={ad.comments} />;
+    if (ad.category === "etude") {
+      categoryIcon = <i className="fas fa-user-graduate align-self-center" />;
+    }
+    if (ad.category === "loisir") {
+      categoryIcon = <i className="fas fa-dice align-self-center" />;
+    }
+    if (ad.category === "cosmetique") {
+      categoryIcon = <i className="fas fa-gift align-self-center" />;
+    }
     return (
       <div className="container flex-column flex-center">
         <ReturnButton history={this.props.history} />
@@ -71,9 +81,9 @@ class Annonce extends Component {
         <div className="card rounded">
           <div className="d-flex flex-row w-100 p-3 bg-primary rounded">
             <div className="annonce-category d-flex flex-row justify-content-center bg-light rounded-circle">
-              <i className="fas fa-user-graduate align-self-center" />
+              {categoryIcon}
             </div>
-            {ad.category}
+            {/* {ad.category} */}
           </div>
           <div className="p-3">
             <h6 className="card-subtitle mb-2 text-muted text-capitalize">

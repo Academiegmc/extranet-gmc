@@ -38,33 +38,47 @@ class Annonces extends Component {
     const { annonces } = this.state;
     const allAnnonces =
       annonces.length > 0
-        ? annonces.map((annonce, index) => (
-            <div className="card annonce-card mx-2" key={index}>
-              <div
-                className="w-100 border h-25 card-body"
-                style={{ backgroundColor: "rgb(244, 233, 222)" }}
-              >
-                <div className="d-flex flex-row justify-content-center border rounded-circle bg-light annonce-card-icon">
-                  <i className="fas fa-user-graduate my-auto annonce-icon" />
-                </div>
-              </div>
-              <div className="card-body d-flex flex-column mt-3">
-                <h4 className="card-title">{annonce.title}</h4>
-                <h6 className="card-subtitle text-muted">{annonce.name}</h6>
-                {/* <h6 className="card-subtitle text-muted">{annonce.name}</h6>
-                <h4 className="card-title">{annonce.title}</h4> */}
-                <div className="card-text d-inline-block text-justify text-truncate">
-                  {annonce.description}
-                </div>
-                <Link
-                  className="btn btn-primary text-white"
-                  to={`/annonce/${annonce.id}`}
+        ? annonces.map((annonce, index) => {
+            let categoryIcon;
+            if (annonce.category === "etude") {
+              categoryIcon = (
+                <i className="fas fa-user-graduate my-auto annonce-icon" />
+              );
+            }
+            if (annonce.category === "loisir") {
+              categoryIcon = <i className="fas fa-dice my-auto annonce-icon" />;
+            }
+            if (annonce.category === "cosmetique") {
+              categoryIcon = <i className="fas fa-gift my-auto annonce-icon" />;
+            }
+            return (
+              <div className="card annonce-card mx-2" key={index}>
+                <div
+                  className="w-100 border h-25 card-body"
+                  style={{ backgroundColor: "rgb(244, 233, 222)" }}
                 >
-                  En savoir plus
-                </Link>
+                  <div className="d-flex flex-row justify-content-center border rounded-circle bg-light annonce-card-icon">
+                    {categoryIcon}
+                  </div>
+                </div>
+                <div className="card-body d-flex flex-column mt-3">
+                  <h4 className="card-title">{annonce.title}</h4>
+                  <h6 className="card-subtitle text-muted">{annonce.name}</h6>
+                  {/* <h6 className="card-subtitle text-muted">{annonce.name}</h6>
+                <h4 className="card-title">{annonce.title}</h4> */}
+                  <div className="card-text d-inline-block text-justify text-truncate">
+                    {annonce.description}
+                  </div>
+                  <Link
+                    className="btn btn-primary text-white"
+                    to={`/annonce/${annonce.id}`}
+                  >
+                    En savoir plus
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         : null;
 
     return (
@@ -128,7 +142,7 @@ class Annonces extends Component {
             </Link>
           </div>
         </div>
-        <div className="d-sm-flex flex-sm-column flex-md-row flex-md-wrap">
+        <div className="d-sm-flex flex-sm-column flex-md-row flex-md-wrap mt-5">
           {allAnnonces}
         </div>
       </div>

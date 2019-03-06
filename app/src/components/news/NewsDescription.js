@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Slider from "react-slick";
 import { getANews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
-import { urls } from "../../utils";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 class NewsDescription extends Component {
@@ -35,6 +34,7 @@ class NewsDescription extends Component {
       adaptiveHeight: true,
       dots: true,
       infinite: true,
+      fade: true,
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
@@ -71,26 +71,27 @@ class NewsDescription extends Component {
       <div key={index}>
         <img
           className="card-img-top"
-          src={`${urls.proxy}/images/${img}`}
+          src={`http://${process.env.REACT_APP_NODE_API}/images/${img}`}
           alt={`Card image cap ` + index}
         />
       </div>
     ));
+    console.log(images);
     return (
       <div className="container flex-column mt-5">
         <ReturnButton history={this.props.history} />
-        <div className="card">
+        <div className="card rounded">
           <Slider {...settings}>{imgTab}</Slider>
           <div className="card-body">
             <div className="card-title text-capitalize">
               <h5>{title}</h5>
             </div>
             <h6 className="card-subtitle text-muted">{author}</h6>
+            <hr />
+            <h6>Description</h6>
+            <p className="card-text text-justify">{description}</p>
           </div>
         </div>
-        <hr />
-        <h6>Description</h6>
-        <p className="card-text text-justify">{description}</p>
       </div>
     );
   }
