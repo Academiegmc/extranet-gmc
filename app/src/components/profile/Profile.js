@@ -55,7 +55,7 @@ class Profile extends Component {
     if (errors.status === 403) this.logoutUser();
     if (ads && ads.data && ads.data.length > 0) {
       allUserAds = ads.data.map((ad, index) => (
-        <div className="card ml-3" style={{ width: "18rem" }} key={index}>
+        <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
             <Link to={`/annonce/${ad._id}`}>
               <h5 className="card-title">{ad.title}</h5>
@@ -90,7 +90,7 @@ class Profile extends Component {
     }
     if (jobs && jobs.data && jobs.data.length > 0) {
       allUserJobs = jobs.data.map((job, index) => (
-        <div className="card ml-3" style={{ width: "18rem" }} key={index}>
+        <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
             <Link to={`/job/${job._id}`}>
               <h5 className="card-title">{job.jobTitle}</h5>
@@ -126,7 +126,7 @@ class Profile extends Component {
 
     if (news && news.data && news.data.length > 0) {
       allUserNews = news.data.map((aNews, index) => (
-        <div className="card ml-3" style={{ width: "18rem" }} key={index}>
+        <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
             <Link to={`/news/${aNews._id}`}>
               <h5 className="card-title">{aNews.title}</h5>

@@ -3,9 +3,12 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Moment from "react-moment";
+import Slider from "react-slick";
 import { getAllNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
 import "./News.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import User from "../../assets/user.jpg";
 class News extends Component {
   constructor(props) {
@@ -24,46 +27,80 @@ class News extends Component {
   }
 
   render() {
+    const settings = {
+      adaptiveHeight: true,
+      dots: true,
+      infinite: true,
+      fade: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            infinite: true,
+            dots: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            initialSlide: 2
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+      ]
+    };
     let imgNews;
     const allNews = this.state.news.map((news, index) => {
       if (news.images.length > 0) {
-        imgNews = (
-          <img
-            className="img-fluid"
-            src={`http://${process.env.REACT_APP_NODE_API}/images/${
-              news.images[0]
-            }`}
-            alt={`Card image cap ` + index}
-          />
-        );
+        imgNews = news.images.map((img, i) => (
+          <div key={i}>
+            <img
+              className="card-img-top"
+              src={`http://${process.env.REACT_APP_NODE_API}/images/${img}`}
+              alt={`Card image cap ` + i}
+            />
+          </div>
+        ));
       }
       return (
         <div className="card d-flex flex-column w-100 mr-3 mb-3" key={index}>
           <div className="d-flex flex-column card-body">
             <div className="card-title text-left w-100 bg-light">
-              <div className=" col d-sm-flex flex-sm-row justify-content-sm-start">
+              <div className="col-sm d-sm-flex flex-sm-row justify-content-sm-center justify-content-md-start">
                 <img
                   className="img-fluid rounded-circle img-circle align-self-center mr-2"
                   src={User}
                   alt="User picture"
                 />
-                {/* <Link className="align-self-center" to={`/news/${news._id}`}>
-                  <h5>{news.title}</h5>
-                </Link> */}
                 <h5 className="align-self-center">{news.title}</h5>
               </div>
             </div>
-            {news.images.length > 0 ? imgNews : null}
-            <p className="card-text text-wrap p-2">
+            {news.images.length > 0 ? (
+              <Slider className="mb-3" {...settings}>
+                {imgNews}
+              </Slider>
+            ) : null}
+            <p className="card-text p-2" style={{ whiteSpace: "pre-line" }}>
               {news.description}
-              {/* {news.description.substring(0, news.description.indexOf("."))}
-              {"..."} */}
             </p>
             <small>
               <i className="fas fa-calendar-alt" />{" "}
               {
-                // <Moment locale="fr" fromNow ago>
-                <Moment format="DD MMM, YYYY" locale="fr" fromNow ago>
+                <Moment format="DD MMM, YYYY" locale="fr">
                   {news.date}
                 </Moment>
               }

@@ -5,36 +5,37 @@ const User = require("../models/User");
 const ErrorMessage = require("../config/error-messages");
 
 const NewsController = {
-  getAllNews: (req, res) => {
-    NewsModel.find()
-      .sort({ date: -1 })
-      .then(news => res.status(200).json(news))
-      .catch(err => res.status(400).json(err));
+  getAllNews: async (req, res) => {
+    try {
+      const news = await NewsModel.find().sort({ date: -1 });
+      if (!news) return res.status(400).json(err);
+      let result = news.map(async post => await post.getData());
+      res.status(200).json(await Promise.all(result));
+    } catch (error) {
+      console.error(error);
+    }
   },
-  getNews: (req, res) => {
-    NewsModel.findById({ _id: req.params.id }, (err, news) => {
-      if (err) {
-        res.status(500).json(err);
-      }
-      if (!news) {
+  getNews: async (req, res) => {
+    try {
+      const news = await NewsModel.findById({ _id: req.params.id });
+      if (!news)
         return res
           .status(404)
-          .json({ auth: false, message: ErrorMessage.newsNotFound });
-      }
-      res.status(200).json(news);
-    });
+          .json({ success: false, message: ErrorMessage.newsNotFound });
+      res.status(200).json(await news.getData());
+    } catch (error) {
+      console.error(error);
+    }
   },
-  createNews: (req, res) => {
-    let imgTab = [];
-    req.files.forEach(file => imgTab.push(file.filename));
-    User.findOne({ _id: req.user.id }, { password: 0 }, (err, user) => {
-      if (err) {
-        res.status(500).json(err);
-      }
+  createNews: async (req, res) => {
+    try {
+      let imgTab = [];
+      req.files.forEach(file => imgTab.push(file.filename));
+      const user = await User.findOne({ _id: req.user.id }, { password: 0 });
       if (!user) {
         return res
           .status(404)
-          .json({ auth: false, message: ErrorMessage.userNotFound });
+          .json({ success: false, message: ErrorMessage.userNotFound });
       }
       const newNews = new NewsModel({
         name: user.name,
@@ -43,11 +44,11 @@ const NewsController = {
         description: req.body.description,
         images: imgTab
       });
-      newNews
-        .save()
-        .then(news => res.status(200).json(news))
-        .catch(err => res.status(400).json(err));
-    });
+      await newNews.save();
+      res.status(200).json(await newNews.getData());
+    } catch (error) {
+      console.error(error);
+    }
   },
   updateNews: (req, res) => {
     const { title, description } = req.body;

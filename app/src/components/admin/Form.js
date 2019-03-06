@@ -119,6 +119,7 @@ class Form extends Component {
             <textarea
               type="text"
               className="form-control"
+              style={{ whiteSpace: "pre-wrap" }}
               id={descriptionInputName}
               name={descriptionInputName}
               aria-describedby={descriptionInputAria}
