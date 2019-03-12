@@ -57,7 +57,7 @@ class Profile extends Component {
       allUserAds = ads.data.map((ad, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
-            <Link to={`/annonce/${ad.id}`}>
+            <Link to={`/annonce/${ad._id}`}>
               <h5 className="card-title">{ad.title}</h5>
             </Link>
             <div className="flex-row">
@@ -65,16 +65,16 @@ class Profile extends Component {
                 className="btn"
                 style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
-                  deleteAd(ad.id);
+                  deleteAd(ad._id);
                   this.props.getUserAds(
-                    this.props.match.params.id,
+                    this.props.match.params._id,
                     this.props.history
                   );
                 }}
               >
                 Supprimer
               </button>
-              <Link to={`/annonce/edit/${ad.id}`}>
+              <Link to={`/annonce/edit/${ad._id}`}>
                 <button
                   className="btn"
                   style={{ backgroundColor: "#539356", color: "white" }}
@@ -89,10 +89,11 @@ class Profile extends Component {
       ));
     }
     if (jobs && jobs.data && jobs.data.length > 0) {
+      console.log(jobs);
       allUserJobs = jobs.data.map((job, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
-            <Link to={`/job/${job.id}`}>
+            <Link to={`/job/${job._id}`}>
               <h5 className="card-title">{job.jobTitle}</h5>
             </Link>
             <div className="flex-row">
@@ -100,16 +101,16 @@ class Profile extends Component {
                 className="btn"
                 style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
-                  deleteJob(job.id);
+                  deleteJob(job._id);
                   this.props.getUserJobs(
-                    this.props.match.params.id,
+                    this.props.match.params._id,
                     this.props.history
                   );
                 }}
               >
                 Supprimer
               </button>
-              <Link to={`/job/edit/${job.id}`}>
+              <Link to={`/job/edit/${job._id}`}>
                 <button
                   className="btn"
                   style={{ backgroundColor: "#539356", color: "white" }}
@@ -128,7 +129,7 @@ class Profile extends Component {
       allUserNews = news.data.map((aNews, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
-            <Link to={`/news/${aNews.id}`}>
+            <Link to={`/news/${aNews._id}`}>
               <h5 className="card-title">{aNews.title}</h5>
             </Link>
             <div className=" flex-row">
@@ -137,16 +138,16 @@ class Profile extends Component {
                 style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
                   console.log(aNews);
-                  deleteNews(aNews.id);
+                  deleteNews(aNews._id);
                   this.props.getUserNews(
-                    this.props.match.params.id,
+                    this.props.match.params._id,
                     this.props.history
                   );
                 }}
               >
                 Supprimer
               </button>
-              <Link to={`/news/edit/${aNews.id}`}>
+              <Link to={`/news/edit/${aNews._id}`}>
                 <button
                   className="btn"
                   style={{ backgroundColor: "#539356", color: "white" }}
@@ -167,7 +168,7 @@ class Profile extends Component {
         <ReturnButton history={this.props.history} />
         <Link
           className="btn btn-link"
-          to={`/profile/edit/${this.props.match.params.id}`}
+          to={`/profile/edit/${this.props.match.params._id}`}
         >
           <h1>Mon profil</h1>
         </Link>

@@ -17,5 +17,30 @@ const jobSchema = new Schema({
   jobCompanySite: { type: String, required: true },
   createdAt: { type: Date, required: true, default: Date.now }
 });
+jobSchema.methods.getData = async function() {
+  let userData;
+  try {
+    userData = await User.findById(this.user);
+  } catch (error) {
+    console.error(error);
+  }
+  return {
+    id: this._id,
+    jobTitle: this.jobTitle,
+    jobDescription: this.jobDescription,
+    jobContractType: this.jobContractType,
+    jobType: this.jobType,
+    jobRemuneration: this.jobRemuneration,
+    jobStartDate: this.jobStartDate,
+    jobSkills: this.jobSkills,
+    jobCity: this.jobCity,
+    jobCountry: this.jobCountry,
+    jobCompany: this.jobCompany,
+    jobCompanyDescription: this.jobCompanyDescription,
+    jobCompanySite: this.jobCompanySite,
+    createdAt: this.createdAt,
+    user: userData.getInfos()
+  };
+};
 // module.exports = Job = mongoose.model("gmc-jobs", jobSchema);
 module.exports = Job = mongoose.model("gmcjobs", jobSchema);

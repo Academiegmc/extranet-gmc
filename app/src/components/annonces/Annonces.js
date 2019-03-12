@@ -40,23 +40,24 @@ class Annonces extends Component {
       annonces.length > 0
         ? annonces.map((annonce, index) => {
             let categoryIcon;
+            let style;
             if (annonce.category === "etude") {
               categoryIcon = (
                 <i className="fas fa-user-graduate my-auto annonce-icon" />
               );
+              style = { backgroundColor: "#FF8962" };
             }
             if (annonce.category === "loisir") {
               categoryIcon = <i className="fas fa-dice my-auto annonce-icon" />;
+              style = { backgroundColor: "#7FD1AE" };
             }
             if (annonce.category === "cosmetique") {
               categoryIcon = <i className="fas fa-gift my-auto annonce-icon" />;
+              style = { backgroundColor: "#A46855" };
             }
             return (
               <div className="card annonce-card mx-2" key={index}>
-                <div
-                  className="w-100 border h-25 card-body"
-                  style={{ backgroundColor: "rgb(244, 233, 222)" }}
-                >
+                <div className="w-100 border h-25 card-body" style={style}>
                   <div className="d-flex flex-row justify-content-center border rounded-circle bg-light annonce-card-icon">
                     {categoryIcon}
                   </div>

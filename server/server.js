@@ -21,6 +21,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(async (req, res, next) => {
+  try {
+    await next();
+  } catch (error) {
+    console.error("Error during request", error);
+    return res.status(500).json({});
+  }
+});
 //DB Config
 const db = keys.mongoURI;
 mongoose

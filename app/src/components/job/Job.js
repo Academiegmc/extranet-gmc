@@ -86,7 +86,7 @@ class Job extends Component {
     }
     const startDate = <Moment format="DD-MM-YYYY">{jobStartDate}</Moment>;
     return (
-      <div className="container mt-5">
+      <div className="container mt-5 card rounded">
         <ReturnButton history={this.props.history} />
         <div className="d-flex flex-column align-items-center w-100">
           <h3>{jobTitle}</h3>

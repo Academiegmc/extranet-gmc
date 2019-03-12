@@ -18,7 +18,6 @@ class Annonce extends Component {
       comment: {},
       disallowedTypes: ["image", "html", "inlineCode", "code"]
     };
-    this.onChange = this.onChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getComments = this.getComments.bind(this);
@@ -67,23 +66,27 @@ class Annonce extends Component {
     const { ad } = this.state;
     let comments = null;
     let categoryIcon;
+    let style;
     if (ad.comments !== undefined && ad.comments.length > 0)
       comments = <Comments comments={ad.comments} />;
     if (ad.category === "etude") {
       categoryIcon = <i className="fas fa-user-graduate align-self-center" />;
+      style = { backgroundColor: "#FF8962" };
     }
     if (ad.category === "loisir") {
       categoryIcon = <i className="fas fa-dice align-self-center" />;
+      style = { backgroundColor: "#7FD1AE" };
     }
     if (ad.category === "cosmetique") {
       categoryIcon = <i className="fas fa-gift align-self-center" />;
+      style = { backgroundColor: "#A46855" };
     }
     return (
       <div className="container flex-column flex-center">
         <ReturnButton history={this.props.history} />
         <h1>Annonce</h1>
         <div className="card rounded">
-          <div className="d-flex flex-row w-100 p-3 bg-primary rounded">
+          <div className="d-flex flex-row w-100 p-3 rounded" style={style}>
             <div className="annonce-category d-flex flex-row justify-content-center bg-light rounded-circle">
               {categoryIcon}
             </div>
