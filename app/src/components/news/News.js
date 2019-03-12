@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
 import Slider from "react-slick";
+import ReactMarkdown from "react-markdown";
 import { getAllNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
 import "./News.css";
@@ -13,7 +14,8 @@ class News extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      news: []
+      news: [],
+      disallowedTypes: ["image", "html", "inlineCode", "code"]
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -93,9 +95,15 @@ class News extends Component {
                 {imgNews}
               </Slider>
             ) : null}
-            <p className="card-text p-2" style={{ whiteSpace: "pre-line" }}>
+            <ReactMarkdown
+              className="card-text p-2"
+              source={news.description}
+              disallowedTypes={this.state.disallowedTypes}
+              linkTarget={"_blank"}
+            />
+            {/* <p className="card-text p-2" style={{ whiteSpace: "pre-line" }}>
               {news.description}
-            </p>
+            </p> */}
             <small>
               <i className="fas fa-calendar-alt" />{" "}
               {

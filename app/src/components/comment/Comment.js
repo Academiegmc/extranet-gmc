@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import TextareaAutosize from "react-autosize-textarea";
 class Comment extends Component {
   render() {
@@ -29,4 +30,8 @@ class Comment extends Component {
     );
   }
 }
+
+Comment.propTypes = {
+  onChange: PropTypes.func
+};
 export default Comment;

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
+import ReactMarkdown from "react-markdown";
 import { getAnAd, updateComments } from "../../actions/adAction";
 import Comments from "../comments/Comments";
 import Comment from "../comment/Comment";
@@ -14,12 +15,15 @@ class Annonce extends Component {
       ad: {},
       user: "",
       userName: "",
-      comment: {}
+      comment: {},
+      disallowedTypes: ["image", "html", "inlineCode", "code"]
     };
+    this.onChange = this.onChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getComments = this.getComments.bind(this);
   }
+
   handleChange = e => {
     e.preventDefault();
     let myComment = {
@@ -31,9 +35,9 @@ class Annonce extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
+    console.log(this.state);
     if (document.getElementsByName("commentInput")[0].value !== "") {
       //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
-      console.log(this.props.match.params);
       this.props.updateComments(
         this.props.match.params.id,
         this.state.comment,
@@ -90,7 +94,12 @@ class Annonce extends Component {
               {ad.name}
             </h6>
             <h2 className="card-title">{ad.title}</h2>
-            <p className="card-text text-justify">{ad.description}</p>
+            <ReactMarkdown
+              className="card-text text-justify"
+              source={ad.description}
+              disallowedTypes={this.state.disallowedTypes}
+            />
+            {/* <p className="card-text text-justify">{ad.description}</p> */}
             <hr />
             <div className="d-flex justify-content-between">
               <div className="badge badge-light p-2">
@@ -110,6 +119,7 @@ class Annonce extends Component {
           </div>
           <hr />
           <Comment
+            onChange={this.onChange}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
           />
