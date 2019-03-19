@@ -13,7 +13,15 @@ const Users = {
       .select("-password")
       .select("-admin");
     if (!users) res.status(400).json({ success: false });
-    else res.status(200).json({ succes: true, data: users });
+    else {
+      let result;
+      try {
+        result = users.map(async user => await user.getProfileInfos());
+        res.status(200).json({ succes: true, data: result });
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
   getUser: async (req, res) => {
     console.log(req.user);
@@ -21,7 +29,11 @@ const Users = {
       .select("-password")
       .select("-admin");
     if (!user) res.status(400).json({ success: false });
-    else res.status(200).json({ succes: true, user });
+    else {
+      res
+        .status(200)
+        .json({ succes: true, user: await user.getProfileInfos() });
+    }
   },
   getUserJobs: async (req, res) => {
     const jobs = await Job.find({ user: req.params.id });
@@ -62,14 +74,49 @@ const Users = {
     console.log(req.user.id);
     try {
       const user = await User.findById(req.user.id);
+      const salt = 10;
       if (!user) return res.status(404).send(ErrorMessage.userNotFound);
-      const { name, description, poste, start_date, end_date } = req.body;
-      const experience = { name, description, poste, start_date, end_date };
-      user.experiences.push(experience);
+      // console.log(req.body);
+      if (
+        req.body.old_password &&
+        req.body.new_password &&
+        req.body.confirm_password
+      ) {
+        if (req.body.new_password !== req.body.confirm_password) {
+          return res.status(400).json({ error: "Mot de passe incorrect" });
+        }
+        const check_password = await bcrypt.compare(
+          req.body.old_password,
+          user.password
+        );
+        console.log(check_password);
+        if (check_password) {
+          user.password = await bcrypt.hash(req.body.new_password, salt);
+        } else {
+          res.status(400).json({ error: "Mot de passe incorrect" });
+        }
+        // console.log(
+        //   req.body.old_password,
+        //   req.body.new_password,
+        //   req.body.confirm_password
+        // );
+      }
+      if (
+        req.body.name !== "" &&
+        req.body.description !== "" &&
+        req.body.poste !== "" &&
+        req.body.start_date !== "" &&
+        req.body.end_date !== ""
+      ) {
+        const { name, description, poste, start_date, end_date } = req.body;
+        const experience = { name, description, poste, start_date, end_date };
+        console.log(experience);
+        user.experiences.push(experience);
+      }
       console.log(user);
       const userSaved = await user.save();
       if (!userSaved) return res.status(400).json({ success: false });
-      res.status(200).json({ success: true, user: userSaved });
+      res.status(200).json({ success: true, user: await userSaved.getInfos() });
     } catch (error) {
       console.error(error);
       res.status(400).json({ success: false, error });

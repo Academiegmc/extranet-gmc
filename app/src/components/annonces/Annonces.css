@@ -12,6 +12,15 @@
 .annonce-icon {
   transform: scale(2);
 }
+.btn-etude {
+  background-color: rgb(255, 137, 98);
+}
+.btn-loisir {
+  background-color: rgb(127, 209, 174);
+}
+.btn-cosmetique {
+  background-color: rgb(164, 104, 85);
+}
 @media screen and (max-width: 400px) {
   .annonce-card {
     width: auto;

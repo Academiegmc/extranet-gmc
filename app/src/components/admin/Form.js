@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import RichTextEditor from "react-rte";
 import { createNews, getANews, updateNews } from "../../actions/newsActions";
 import { logout } from "../../actions/authActions";
 import { createAd, updateAd, getAnAd } from "../../actions/adAction";
@@ -13,24 +12,13 @@ class Form extends Component {
     this.state = {
       title: "",
       description: "",
-      category: "",
+      category: "etude",
       images: [],
-      errors: {},
-      value: RichTextEditor.createEmptyValue()
+      errors: {}
     };
-    this.onValueChange = this.onValueChange.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  onValueChange = value => {
-    this.setState({ value });
-    if (this.props.onChange) {
-      // Send the changes up to the parent component as an HTML string.
-      // This is here to demonstrate using `.toString()` but in a real app it
-      // would be better to avoid generating a string on each change.
-      this.props.onChange(value.toString("html"));
-    }
-  };
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) this.setState({ errors: nextProps.errors });
     if (nextProps.ads.ad.data) {
@@ -68,7 +56,6 @@ class Form extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { images, title, description, category } = this.state;
-    console.log(this.state);
     if (this.props.match.path === "/admin/news") {
       this.props.createNews({ images, description, title }, this.props.history);
     }
@@ -85,7 +72,6 @@ class Form extends Component {
         description: this.state.description,
         category: this.state.category
       };
-      console.log(newAd);
       this.props.createAd(newAd, this.props.history);
     }
     if (this.props.match.path === "/annonce/edit/:id") {
@@ -108,31 +94,6 @@ class Form extends Component {
       descriptionInputAria,
       isNews
     } = this.props;
-    const toolbarConfig = {
-      // Optionally specify the groups to display (displayed in the order listed).
-      display: [
-        "INLINE_STYLE_BUTTONS",
-        "BLOCK_TYPE_BUTTONS",
-        "LINK_BUTTONS",
-        "BLOCK_TYPE_DROPDOWN",
-        "HISTORY_BUTTONS"
-      ],
-      INLINE_STYLE_BUTTONS: [
-        { label: "Bold", style: "BOLD", className: "custom-css-class" },
-        { label: "Italic", style: "ITALIC" },
-        { label: "Underline", style: "UNDERLINE" }
-      ],
-      BLOCK_TYPE_DROPDOWN: [
-        { label: "Normal", style: "unstyled" },
-        { label: "Heading Large", style: "header-one" },
-        { label: "Heading Medium", style: "header-two" },
-        { label: "Heading Small", style: "header-three" }
-      ],
-      BLOCK_TYPE_BUTTONS: [
-        { label: "UL", style: "unordered-list-item" },
-        { label: "OL", style: "ordered-list-item" }
-      ]
-    };
     return (
       <div className="container">
         <ReturnButton history={this.props.history} />
@@ -164,21 +125,10 @@ class Form extends Component {
               onChange={this.onChange}
               value={this.state.description}
             />
-            {/* <RichTextEditor
-              className="w-100 border-0"
-              style={{ whiteSpace: "pre-wrap" }}
-              aria-describedby={descriptionInputAria}
-              placeholder={descriptionInputPlaceholder}
-              toolbarConfig={toolbarConfig}
-              id={descriptionInputName}
-              name={descriptionInputName}
-              value={this.state.value}
-              onChange={this.onValueChange}
-            /> */}
           </div>
 
           {isNews ? (
-            <div className="form-group-file ">
+            <div className="form-group-file">
               <input
                 type="file"
                 className="form-control-file"
@@ -220,7 +170,7 @@ class Form extends Component {
               >
                 <option value="etude">Etude</option>
                 <option value="loisir">Loisir</option>
-                <option value="cosmétique">Cosmétique</option>
+                <option value="cosmetique">Cosmétique</option>
               </select>
               {this.props.match.path === "/annonce/edit/:id" ? (
                 <button className="btn btn-primary" style={{ width: "100%" }}>

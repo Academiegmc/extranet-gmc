@@ -67,7 +67,7 @@ class Jobboard extends Component {
         <h3 className="text-center">Job board</h3>
         <div className="input-group">
           <span className="input-group-text" id="basic-addon1">
-            <i className="fas fa-newspaper"> </i>
+            <i className="fas fa-suitcase"> </i>
           </span>
           <ReactAutocomplete
             className="form-control"

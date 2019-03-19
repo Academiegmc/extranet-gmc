@@ -10,7 +10,7 @@ const UserSchema = new Schema({
   profile_pic: { type: String },
   experiences: { type: [{}] },
   convention: { type: String },
-  letters: { type: [{}] },
+  letters: { type: [Object] },
   personal_sheet: { type: String }
 });
 /*
@@ -27,6 +27,18 @@ UserSchema.methods.getInfos = function() {
     id: this._id,
     name: this.name,
     profile_pic: this.profile_pic,
+    status: this.status
+  };
+};
+UserSchema.methods.getProfileInfos = function() {
+  return {
+    id: this._id,
+    name: this.name,
+    profile_pic: this.profile_pic,
+    experiences: this.experiences,
+    convention: this.convention,
+    letters: this.profile_pic,
+    personal_sheet: this.personal_sheet,
     status: this.status
   };
 };

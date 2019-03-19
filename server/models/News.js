@@ -10,7 +10,7 @@ const NewsSchema = new Schema({
   name: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  images: [],
+  images: [String],
   date: { type: Date, default: Date.now }
 });
 NewsSchema.methods.getData = async function() {

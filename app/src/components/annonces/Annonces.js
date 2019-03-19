@@ -6,6 +6,7 @@ import ReactAutocomplete from "react-autocomplete";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
 import "./Annonces.css";
+import Button from "../layout/Button";
 class Annonces extends Component {
   constructor(props) {
     super(props);
@@ -35,10 +36,12 @@ class Annonces extends Component {
     this.setState({ value: e });
   }
   render() {
+    let button;
     const { annonces } = this.state;
     const allAnnonces =
       annonces.length > 0
         ? annonces.map((annonce, index) => {
+            console.log(annonce.category);
             let categoryIcon;
             let style;
             if (annonce.category === "etude") {
@@ -46,14 +49,17 @@ class Annonces extends Component {
                 <i className="fas fa-user-graduate my-auto annonce-icon" />
               );
               style = { backgroundColor: "#FF8962" };
+              button = { type: "link", class: "btn btn-etude text-white" };
             }
             if (annonce.category === "loisir") {
               categoryIcon = <i className="fas fa-dice my-auto annonce-icon" />;
               style = { backgroundColor: "#7FD1AE" };
+              button = { type: "link", class: "btn btn-loisir text-white" };
             }
-            if (annonce.category === "cosmetique") {
+            if (annonce.category === "cosmétique") {
               categoryIcon = <i className="fas fa-gift my-auto annonce-icon" />;
               style = { backgroundColor: "#A46855" };
+              button = { type: "link", class: "btn btn-cosmetique text-white" };
             }
             return (
               <div className="card annonce-card mx-2" key={index}>
@@ -70,12 +76,18 @@ class Annonces extends Component {
                   <div className="card-text d-inline-block text-justify text-truncate">
                     {annonce.description}
                   </div>
-                  <Link
+                  {Button(
+                    button.type,
+                    button.class,
+                    `/annonce/${annonce.id}`,
+                    "En savoir plus"
+                  )}
+                  {/* <Link
                     className="btn btn-primary text-white"
                     to={`/annonce/${annonce.id}`}
                   >
                     En savoir plus
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             );
@@ -84,12 +96,12 @@ class Annonces extends Component {
 
     return (
       <div className="container-fluid h-100">
-        <div className="row d-flex flex-column">
+        <div className="mx-3 row d-flex flex-column">
           <ReturnButton history={this.props.history} />
           <h1>Annonces</h1>
         </div>
 
-        <div className="row mb-3">
+        <div className="row mx-3 mb-3">
           <div className="input-group">
             <span className="input-group-text" id="basic-addon1">
               <i className="fas fa-newspaper"> </i>

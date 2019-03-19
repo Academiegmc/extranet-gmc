@@ -9,7 +9,7 @@ const jobSchema = new Schema({
   jobType: { type: String, required: true },
   jobRemuneration: { type: String, required: true },
   jobStartDate: { type: Date, required: true, default: Date.now },
-  jobSkills: [],
+  jobSkills: [String],
   jobCity: { type: String, required: true },
   jobCountry: { type: String, required: true },
   jobCompany: { type: String, required: true },

@@ -26,7 +26,7 @@ const Ads = {
   createAd: async (req, res) => {
     try {
       const user = await User.findById(req.user.id);
-      if (user)
+      if (!user)
         return res
           .status(400)
           .json({ auth: false, message: ErrorMessage.serverError });

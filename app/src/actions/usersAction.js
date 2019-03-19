@@ -63,5 +63,8 @@ export const updateUser = userData => dispatch => {
       console.log(res.data);
       // dispatch({ type: UPDATE_USER, payload: res.data });
     })
-    .catch(err => console.error(err));
+    .catch(err => {
+      console.error(err);
+      dispatch({ type: GET_ERRORS, payload: err.response.data });
+    });
 };

@@ -137,7 +137,6 @@ class Profile extends Component {
                 className="btn"
                 style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
-                  console.log(aNews);
                   deleteNews(aNews._id);
                   this.props.getUserNews(
                     this.props.match.params._id,
@@ -161,14 +160,13 @@ class Profile extends Component {
         </div>
       ));
     }
-
     return (
       <div className="">
         {sessionAlert}
         <ReturnButton history={this.props.history} />
         <Link
           className="btn btn-link"
-          to={`/profile/edit/${this.props.match.params._id}`}
+          to={`/profile/edit/${this.props.match.params.id}`}
         >
           <h1>Mon profil</h1>
         </Link>

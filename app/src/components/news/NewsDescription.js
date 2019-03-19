@@ -96,10 +96,10 @@ class NewsDescription extends Component {
     );
   }
 }
-NewsDescription.proptypes = {
-  news: PropTypes.object.isRequired,
-  getANews: PropTypes.func.isRequired
-};
+// NewsDescription.proptypes = {
+//   news: PropTypes.object.isRequired,
+//   getANews: PropTypes.func.isRequired
+// };
 const mapStateToprops = state => ({
   news: state.news
 });

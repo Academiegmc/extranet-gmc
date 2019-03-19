@@ -77,11 +77,11 @@ class AddJob extends Component {
       jobCompanySite
     } = this.state;
     return (
-      <div className="container">
+      <div className="container bg-white rounded mt-3">
         <ReturnButton history={this.props.history} />
         <form className="flex-column flex-center" onSubmit={this.onSubmit}>
           <h5>Poste</h5>
-          <div className="form-group-text">
+          <div className="form-group">
             <label htmlFor="jobTitle">Titre</label>
             <input
               type="text"
@@ -94,7 +94,7 @@ class AddJob extends Component {
               value={jobTitle}
             />
           </div>
-          <div className="form-group-textarea">
+          <div className="form-group">
             <label htmlFor="jobDescription">Description du poste</label>
             <textarea
               type="text"
@@ -108,73 +108,77 @@ class AddJob extends Component {
             />
           </div>
 
-          <div className="form-group-select">
-            <label htmlFor="jobContractType">Type de contrat</label>
-            <select
-              type="text"
-              className="form-control"
-              id="jobContractType"
-              name="jobContractType"
-              aria-describedby="jobContractTypeHelp"
-              placeholder="Type de contrat"
-              onChange={this.onChange}
-              value={jobContractType}
-            >
-              <option value="stage">Stage</option>
-              <option value="cdi">CDI</option>
-              <option value="cdd">CDD</option>
-              <option value="ca">Contrat d'apprentissage</option>
-              <option value="cp">Contrat de professionnalisation</option>
-            </select>
+          <div className="form-row">
+            <div className="col form-group">
+              <label htmlFor="jobContractType">Type de contrat</label>
+              <select
+                type="text"
+                className="form-control"
+                id="jobContractType"
+                name="jobContractType"
+                aria-describedby="jobContractTypeHelp"
+                placeholder="Type de contrat"
+                onChange={this.onChange}
+                value={jobContractType}
+              >
+                <option value="stage">Stage</option>
+                <option value="cdi">CDI</option>
+                <option value="cdd">CDD</option>
+                <option value="ca">Contrat d'apprentissage</option>
+                <option value="cp">Contrat de professionnalisation</option>
+              </select>
+            </div>
+
+            <div className="col form-group">
+              <label htmlFor="jobType">Durée de travail</label>
+              <select
+                type="text"
+                className="form-control"
+                id="jobType"
+                name="jobType"
+                aria-describedby="jobTypeHelp"
+                placeholder="Durée de travail"
+                onChange={this.onChange}
+                value={jobType}
+              >
+                <option value="temps-plein">Temps plein</option>
+                <option value="temps-partiel">Temps partiel</option>
+              </select>
+            </div>
           </div>
 
-          <div className="form-group-select">
-            <label htmlFor="jobType">Durée de travail</label>
-            <select
-              type="text"
-              className="form-control"
-              id="jobType"
-              name="jobType"
-              aria-describedby="jobTypeHelp"
-              placeholder="Durée de travail"
-              onChange={this.onChange}
-              value={jobType}
-            >
-              <option value="temps-plein">Temps plein</option>
-              <option value="temps-partiel">Temps partiel</option>
-            </select>
+          <div className="form-row">
+            <div className="col form-group">
+              <label htmlFor="jobRemuneration">Rémunération</label>
+              <select
+                className="form-control"
+                id="jobRemuneration"
+                name="jobRemuneration"
+                aria-describedby="jobRemunerationHelp"
+                placeholder="Rémunération"
+                onChange={this.onChange}
+                value={jobRemuneration}
+              >
+                <option value="tarif-conventionnel">Tarif conventionnel</option>
+              </select>
+            </div>
+
+            <div className="col form-group">
+              <label htmlFor="jobStartDate">Date de départ</label>
+              <input
+                type="date"
+                className="form-control"
+                id="jobStartDate"
+                name="jobStartDate"
+                aria-describedby="jobStartDateHelp"
+                placeholder="Date de départ"
+                onChange={this.onChange}
+                value={Moment(jobStartDate).format("YYYY-MM-DD")}
+              />
+            </div>
           </div>
 
-          <div className="form-group-select">
-            <label htmlFor="jobRemuneration">Rémunération</label>
-            <select
-              className="form-control"
-              id="jobRemuneration"
-              name="jobRemuneration"
-              aria-describedby="jobRemunerationHelp"
-              placeholder="Rémunération"
-              onChange={this.onChange}
-              value={jobRemuneration}
-            >
-              <option value="tarif-conventionnel">Tarif conventionnel</option>
-            </select>
-          </div>
-
-          <div className="form-group-date">
-            <label htmlFor="jobStartDate">Date de départ</label>
-            <input
-              type="date"
-              className="form-control"
-              id="jobStartDate"
-              name="jobStartDate"
-              aria-describedby="jobStartDateHelp"
-              placeholder="Date de départ"
-              onChange={this.onChange}
-              value={Moment(jobStartDate).format("YYYY-MM-DD")}
-            />
-          </div>
-
-          <div className="form-group-text">
+          <div className="form-group">
             <label htmlFor="jobSkills">Compétences clés</label>
             <input
               type="text"
@@ -190,37 +194,39 @@ class AddJob extends Component {
 
           <hr />
           <h5>Localisation</h5>
-          <div className="form-group-text">
-            <label htmlFor="jobCity">Ville</label>
-            <input
-              type="text"
-              className="form-control"
-              id="jobCity"
-              name="jobCity"
-              aria-describedby="jobCityHelp"
-              placeholder="Ville"
-              onChange={this.onChange}
-              value={jobCity}
-            />
-          </div>
+          <div className="form-row">
+            <div className="col form-group">
+              <label htmlFor="jobCity">Ville</label>
+              <input
+                type="text"
+                className="form-control"
+                id="jobCity"
+                name="jobCity"
+                aria-describedby="jobCityHelp"
+                placeholder="Ville"
+                onChange={this.onChange}
+                value={jobCity}
+              />
+            </div>
 
-          <div className="form-group-select">
-            <label htmlFor="jobCountry">Pays</label>
-            <select
-              className="form-control"
-              id="jobCountry"
-              name="jobCountry"
-              aria-describedby="jobCountryHelp"
-              placeholder="Pays"
-              onChange={this.onChange}
-              value={jobCountry}
-            >
-              <option>France</option>
-            </select>
+            <div className="col form-group">
+              <label htmlFor="jobCountry">Pays</label>
+              <select
+                className="form-control"
+                id="jobCountry"
+                name="jobCountry"
+                aria-describedby="jobCountryHelp"
+                placeholder="Pays"
+                onChange={this.onChange}
+                value={jobCountry}
+              >
+                <option>France</option>
+              </select>
+            </div>
           </div>
           <hr />
           <h5>Entreprise</h5>
-          <div className="form-group-text">
+          <div className="form-group">
             <label htmlFor="jobCompany">Nom de l'entreprise</label>
             <input
               type="text"
@@ -233,7 +239,7 @@ class AddJob extends Component {
               value={jobCompany}
             />
           </div>
-          <div className="form-group-textarea">
+          <div className="form-group">
             <label htmlFor="jobCompanyDescription">
               Description de l'entreprise
             </label>
@@ -248,7 +254,7 @@ class AddJob extends Component {
               value={jobCompanyDescription}
             />
           </div>
-          <div className="form-group-text">
+          <div className="form-group">
             <label htmlFor="jobCompanySite">Site de l'entreprise</label>
             <input
               type="text"
@@ -261,11 +267,7 @@ class AddJob extends Component {
               value={jobCompanySite}
             />
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            style={{ width: "100%" }}
-          >
+          <button type="submit" className="btn btn-primary">
             Envoyer
           </button>
         </form>
