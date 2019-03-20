@@ -9,7 +9,7 @@ import {
 } from "../../actions/usersAction";
 import ReturnButton from "../layout/ReturnButton";
 import { logout } from "../../actions/authActions";
-import { deleteNews } from "../../actions/newsActions";
+import { deleteNews, getAllUserNews } from "../../actions/newsActions";
 import { deleteJob, getAllUserJobs } from "../../actions/jobActions";
 import { deleteAd, getAllUserAd } from "../../actions/adAction";
 
@@ -35,15 +35,18 @@ class Profile extends PureComponent {
   //   if (nextProps.errors) this.setState({ errors: nextProps.errors });
   // }
   componentDidUpdate(prevProps, prevState) {
-    // console.log(this.props.jobs);
+    // console.log(this.props.news.newsTab);
     if (this.props.ads.ads) this.setState({ ads: this.props.ads.ads });
     if (this.props.jobs.jobs) this.setState({ jobs: this.props.jobs.jobs });
+    if (this.props.news.newsTab)
+      this.setState({ news: this.props.news.newsTab });
   }
 
   componentDidMount() {
     // console.log(this.props.auth.user.id);
     this.props.getAllUserAd(this.props.auth.user.id);
     this.props.getAllUserJobs(this.props.auth.user.id);
+    this.props.getAllUserNews(this.props.auth.user.id);
     // this.props.getUserAds(this.props.match.params.id, this.props.history);
     this.props.getUserNews(this.props.match.params.id, this.props.history);
     // this.props.getUserJobs(this.props.match.params.id, this.props.history);
@@ -54,7 +57,7 @@ class Profile extends PureComponent {
     this.props.history.push("/");
   };
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     const { ads, jobs, news, errors } = this.state;
     const updateMessage = "Modifier";
     let allUserAds;
@@ -123,11 +126,11 @@ class Profile extends PureComponent {
       ));
     }
 
-    if (news && news.data && news.data.length > 0) {
-      allUserNews = news.data.map((aNews, index) => (
+    if (news.length > 0) {
+      allUserNews = news.map((aNews, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
-            <Link to={`/news/${aNews._id}`}>
+            <Link to={`/news/${aNews.id}`}>
               <h5 className="card-title">{aNews.title}</h5>
             </Link>
             <div className=" flex-row">
@@ -135,16 +138,12 @@ class Profile extends PureComponent {
                 className="btn"
                 style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
-                  deleteNews(aNews._id);
-                  this.props.getUserNews(
-                    this.props.match.params._id,
-                    this.props.history
-                  );
+                  this.props.deleteNews(aNews.id);
                 }}
               >
                 Supprimer
               </button>
-              <Link to={`/news/edit/${aNews._id}`}>
+              <Link to={`/news/edit/${aNews.id}`}>
                 <button
                   className="btn"
                   style={{ backgroundColor: "#539356", color: "white" }}
@@ -215,6 +214,7 @@ const mapStateToProps = state => ({
   users: state.users,
   ads: state.ads,
   jobs: state.jobs,
+  news: state.news,
   errors: state.errors
 });
 export default connect(
@@ -226,6 +226,7 @@ export default connect(
     deleteAd,
     deleteJob,
     getAllUserAd,
-    getAllUserJobs
+    getAllUserJobs,
+    getAllUserNews
   }
 )(Profile);

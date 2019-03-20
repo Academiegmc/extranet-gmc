@@ -22,6 +22,7 @@ const NewsController = require("../controllers/News");
 const verifyToken = require("../controllers/VerifyToken");
 router.get("/", NewsController.getAllNews);
 router.get("/:id", NewsController.getNews);
+router.get("/user/:id", verifyToken, NewsController.getAllUserNews);
 router.post(
   "/",
   verifyToken,

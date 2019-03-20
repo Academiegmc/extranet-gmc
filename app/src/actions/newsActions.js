@@ -1,5 +1,11 @@
 import axios from "axios";
-import { GET_A_NEWS, GET_ALL_NEWS, GET_ERRORS, DELETE_NEWS } from "./types";
+import {
+  GET_A_NEWS,
+  GET_ALL_NEWS,
+  GET_ERRORS,
+  DELETE_NEWS,
+  GET_ALL_USER_NEWS
+} from "./types";
 import { newsUrl } from "../utils";
 export const getAllNews = () => dispatch => {
   axios.get(newsUrl).then(news =>
@@ -8,6 +14,17 @@ export const getAllNews = () => dispatch => {
       payload: news
     })
   );
+};
+export const getAllUserNews = userId => dispatch => {
+  axios
+    .get(`${newsUrl}/user/${userId}`)
+    .then(res =>
+      dispatch({
+        type: GET_ALL_USER_NEWS,
+        payload: res.data
+      })
+    )
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 export const getANews = newsId => dispatch => {
   axios.get(`${newsUrl}/${newsId}`).then(news => {

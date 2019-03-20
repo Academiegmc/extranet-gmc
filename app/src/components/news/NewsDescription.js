@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Slider from "react-slick";
+import ReactMarkdown from "react-markdown";
 import { getANews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
 import "slick-carousel/slick/slick.css";
@@ -13,7 +14,8 @@ class NewsDescription extends Component {
       title: "",
       description: "",
       images: [],
-      author: ""
+      author: "",
+      disallowedTypes: ["image", "html", "inlineCode", "code"]
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -76,7 +78,6 @@ class NewsDescription extends Component {
         />
       </div>
     ));
-    console.log(images);
     return (
       <div className="container flex-column mt-5">
         <ReturnButton history={this.props.history} />
@@ -89,7 +90,13 @@ class NewsDescription extends Component {
             <h6 className="card-subtitle text-muted">{author}</h6>
             <hr />
             <h6>Description</h6>
-            <p className="card-text text-justify">{description}</p>
+            <ReactMarkdown
+              className="card-text text-justify"
+              source={description}
+              disallowedTypes={this.state.disallowedTypes}
+              linkTarget={"_blank"}
+            />
+            {/* <p className="card-text text-justify">{description}</p> */}
           </div>
         </div>
       </div>

@@ -50,25 +50,18 @@ export const updateAd = (adId, adData, history) => {
     .then(ad => {
       history.push("/annonces");
     })
-    .catch(err => console.log(err));
+    .catch(err => console.error(err));
 };
 export const deleteAd = adId => dispatch => {
-  console.log("ad id:", adId);
   axios
     .delete(`${adUrl}/${adId}`)
-    .then(res => {
-      dispatch({ type: DELETE_AD, payload: adId });
-      // return res.data;
-    })
-    .catch(err => console.log(err));
+    .then(res => dispatch({ type: DELETE_AD, payload: adId }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
 export const searchAd = adTitle => dispatch => {
   axios
     .get(`${adUrl}/title`, { params: { q: adTitle } })
-    .then(res => {
-      dispatch({ type: SEARCH_ADS, payload: res.data });
-      // return res.data;
-    })
-    .catch(err => console.log(err));
+    .then(res => dispatch({ type: SEARCH_ADS, payload: res.data }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };

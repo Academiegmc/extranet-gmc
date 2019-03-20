@@ -15,6 +15,18 @@ const NewsController = {
       console.error(error);
     }
   },
+  getAllUserNews: async (req, res) => {
+    try {
+      const news = await NewsModel.find({ user: req.params.id }).sort({
+        date: -1
+      });
+      if (!news) return res.status(404).json(err);
+      let result = news.map(async post => await post.getData());
+      res.status(200).json(await Promise.all(result));
+    } catch (error) {
+      console.error(error);
+    }
+  },
   getNews: async (req, res) => {
     try {
       const news = await NewsModel.findById({ _id: req.params.id });
