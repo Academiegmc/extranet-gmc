@@ -14,6 +14,16 @@ const Jobs = {
     result = jobs.map(async job => await job.getData());
     res.status(200).json(await Promise.all(result));
   },
+  getAllUserAds: async (req, res) => {
+    try {
+      const jobs = await Job.find({ user: req.params.id }).sort({ date: -1 });
+      if (!jobs) return res.status(404).json(err);
+      let result = jobs.map(async job => await job.getData());
+      res.status(200).json(await Promise.all(result));
+    } catch (error) {
+      console.error(error);
+    }
+  },
   getJob: async (req, res) => {
     const job = await Job.findById({ _id: req.params.id });
     if (!job)

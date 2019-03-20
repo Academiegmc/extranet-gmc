@@ -1,5 +1,12 @@
 import axios from "axios";
-import { GET_A_JOB, GET_ALL_JOBS, GET_ERRORS, SEARCH_JOBS } from "./types";
+import {
+  GET_A_JOB,
+  GET_ALL_JOBS,
+  GET_ERRORS,
+  SEARCH_JOBS,
+  GET_ALL_USER_JOBS,
+  DELETE_JOB
+} from "./types";
 import { jobUrl } from "../utils";
 import { logout } from "./authActions";
 
@@ -18,6 +25,17 @@ export const getAllJobs = () => dispatch => {
         payload: err
       })
     );
+};
+export const getAllUserJobs = userId => dispatch => {
+  axios
+    .get(`${jobUrl}/user/${userId}`)
+    .then(res =>
+      dispatch({
+        type: GET_ALL_USER_JOBS,
+        payload: res.data
+      })
+    )
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 export const getAJob = jobId => dispatch => {
   axios
@@ -56,10 +74,11 @@ export const updateJob = (jobId, jobData, history) => {
       history.push("/");
     });
 };
-export const deleteJob = jobId => {
-  axios.delete(`${jobUrl}/${jobId}`).then(res => {
-    return res.data;
-  });
+export const deleteJob = jobId => dispatch => {
+  axios
+    .delete(`${jobUrl}/${jobId}`)
+    .then(res => dispatch({ type: DELETE_JOB, payload: jobId }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
 export const searchJob = jobTitle => dispatch => {

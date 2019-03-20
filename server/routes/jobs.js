@@ -43,6 +43,7 @@ router.post(
   Jobs.sendApplication
 );
 router.get("/:id", verifyToken, Jobs.getJob);
+router.get("/user/:id", verifyToken, Jobs.getAllUserAds);
 router.put("/edit/:id", verifyToken, Jobs.updateJobs);
 router.delete("/:id", Jobs.deleteJobs);
 module.exports = router;

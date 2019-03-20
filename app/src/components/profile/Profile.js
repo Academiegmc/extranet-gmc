@@ -10,7 +10,7 @@ import {
 import ReturnButton from "../layout/ReturnButton";
 import { logout } from "../../actions/authActions";
 import { deleteNews } from "../../actions/newsActions";
-import { deleteJob } from "../../actions/jobActions";
+import { deleteJob, getAllUserJobs } from "../../actions/jobActions";
 import { deleteAd, getAllUserAd } from "../../actions/adAction";
 
 class Profile extends PureComponent {
@@ -35,15 +35,18 @@ class Profile extends PureComponent {
   //   if (nextProps.errors) this.setState({ errors: nextProps.errors });
   // }
   componentDidUpdate(prevProps, prevState) {
+    // console.log(this.props.jobs);
     if (this.props.ads.ads) this.setState({ ads: this.props.ads.ads });
+    if (this.props.jobs.jobs) this.setState({ jobs: this.props.jobs.jobs });
   }
 
   componentDidMount() {
     // console.log(this.props.auth.user.id);
     this.props.getAllUserAd(this.props.auth.user.id);
+    this.props.getAllUserJobs(this.props.auth.user.id);
     // this.props.getUserAds(this.props.match.params.id, this.props.history);
     this.props.getUserNews(this.props.match.params.id, this.props.history);
-    this.props.getUserJobs(this.props.match.params.id, this.props.history);
+    // this.props.getUserJobs(this.props.match.params.id, this.props.history);
   }
   logoutUser = () => {
     //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
@@ -51,6 +54,7 @@ class Profile extends PureComponent {
     this.props.history.push("/");
   };
   render() {
+    console.log(this.state);
     const { ads, jobs, news, errors } = this.state;
     const updateMessage = "Modifier";
     let allUserAds;
@@ -89,28 +93,22 @@ class Profile extends PureComponent {
         </div>
       ));
     }
-    if (jobs && jobs.data && jobs.data.length > 0) {
-      allUserJobs = jobs.data.map((job, index) => (
+    if (jobs.length > 0) {
+      allUserJobs = jobs.map((job, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
-            <Link to={`/job/${job._id}`}>
+            <Link to={`/job/${job.id}`}>
               <h5 className="card-title">{job.jobTitle}</h5>
             </Link>
             <div className="flex-row">
               <button
                 className="btn"
                 style={{ backgroundColor: "#9F1540", color: "white" }}
-                onClick={() => {
-                  deleteJob(job._id);
-                  this.props.getUserJobs(
-                    this.props.match.params._id,
-                    this.props.history
-                  );
-                }}
+                onClick={() => this.props.deleteJob(job.id)}
               >
                 Supprimer
               </button>
-              <Link to={`/job/edit/${job._id}`}>
+              <Link to={`/job/edit/${job.id}`}>
                 <button
                   className="btn"
                   style={{ backgroundColor: "#539356", color: "white" }}
@@ -216,17 +214,18 @@ const mapStateToProps = state => ({
   auth: state.auth,
   users: state.users,
   ads: state.ads,
+  jobs: state.jobs,
   errors: state.errors
 });
 export default connect(
   mapStateToProps,
   {
-    getUserAds,
-    getUserJobs,
     getUserNews,
     logout,
     deleteNews,
     deleteAd,
-    getAllUserAd
+    deleteJob,
+    getAllUserAd,
+    getAllUserJobs
   }
 )(Profile);
