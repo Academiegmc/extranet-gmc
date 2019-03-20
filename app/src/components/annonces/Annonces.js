@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ReactAutocomplete from "react-autocomplete";
+import ReactMarkdown from "react-markdown";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
 import "./Annonces.css";
@@ -14,6 +15,7 @@ class Annonces extends Component {
       annonces: [],
       ads: [],
       items: [],
+      disallowedTypes: ["image", "html", "inlineCode", "code"],
       value: "",
       ad_chose: {}
     };
@@ -48,22 +50,31 @@ class Annonces extends Component {
               categoryIcon = (
                 <i className="fas fa-user-graduate my-auto annonce-icon" />
               );
-              style = { backgroundColor: "#FF8962" };
-              button = { type: "link", class: "btn btn-etude text-white" };
+              style = { height: "50px", backgroundColor: "#FF8962" };
+              button = {
+                type: "link",
+                class: "btn btn-etude text-white w-25 rounded"
+              };
             }
             if (annonce.category === "loisir") {
               categoryIcon = <i className="fas fa-dice my-auto annonce-icon" />;
-              style = { backgroundColor: "#7FD1AE" };
-              button = { type: "link", class: "btn btn-loisir text-white" };
+              style = { height: "50px", backgroundColor: "#7FD1AE" };
+              button = {
+                type: "link",
+                class: "btn btn-loisir text-white w-25 rounded"
+              };
             }
             if (annonce.category === "cosmétique") {
               categoryIcon = <i className="fas fa-gift my-auto annonce-icon" />;
-              style = { backgroundColor: "#A46855" };
-              button = { type: "link", class: "btn btn-cosmetique text-white" };
+              style = { height: "50px", backgroundColor: "#A46855" };
+              button = {
+                type: "link",
+                class: "btn btn-cosmetique text-white w-25 rounded"
+              };
             }
             return (
-              <div className="card annonce-card mx-2" key={index}>
-                <div className="w-100 border h-25 card-body" style={style}>
+              <div className="card annonce-card mx-2 my-2" key={index}>
+                <div className="w-100 border card-body" style={style}>
                   <div className="d-flex flex-row justify-content-center border rounded-circle bg-light annonce-card-icon">
                     {categoryIcon}
                   </div>
@@ -73,21 +84,26 @@ class Annonces extends Component {
                   <h6 className="card-subtitle text-muted">{annonce.name}</h6>
                   {/* <h6 className="card-subtitle text-muted">{annonce.name}</h6>
                 <h4 className="card-title">{annonce.title}</h4> */}
-                  <div className="card-text d-inline-block text-justify text-truncate">
+                  {/* <ReactMarkdown
+                    className="card-text d-inline-block text-justify text-truncate"
+                    source={annonce.description}
+                    disallowedTypes={this.state.disallowedTypes}
+                  /> */}
+                  {/* <div className="card-text d-inline-block text-justify text-truncate">
                     {annonce.description}
-                  </div>
-                  {Button(
-                    button.type,
-                    button.class,
-                    `/annonce/${annonce.id}`,
-                    "En savoir plus"
-                  )}
+                  </div> */}
                   {/* <Link
                     className="btn btn-primary text-white"
                     to={`/annonce/${annonce.id}`}
                   >
                     En savoir plus
                   </Link> */}
+                  {Button(
+                    button.type,
+                    button.class,
+                    `/annonce/${annonce.id}`,
+                    "En savoir plus"
+                  )}
                 </div>
               </div>
             );

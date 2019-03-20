@@ -6,7 +6,8 @@ import {
   GET_USER_ADS,
   GET_USER_NEWS,
   GET_USER_JOBS,
-  GET_ERRORS
+  GET_ERRORS,
+  UPDATE_USER
 } from "./types";
 
 export const getAllUsers = () => dispatch => {
@@ -61,7 +62,7 @@ export const updateUser = userData => dispatch => {
     .put(`${userUrl}`, userData)
     .then(res => {
       console.log(res.data);
-      // dispatch({ type: UPDATE_USER, payload: res.data });
+      dispatch({ type: UPDATE_USER, payload: res.data });
     })
     .catch(err => {
       console.error(err);

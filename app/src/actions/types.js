@@ -27,3 +27,4 @@ export const UPDATE_USER = "UPDATE_USER";
 export const GET_USER_NEWS = "GET_USER_NEWS";
 export const GET_USER_ADS = "GET_USER_ADS";
 export const GET_USER_JOBS = "GET_USER_JOBS";
+export const GET_ALL_USER_ADS = "GET_ALL_USER_ADS";

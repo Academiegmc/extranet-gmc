@@ -131,10 +131,12 @@ class ProfileForm extends PureComponent {
             </button>
           </div> */}
           <hr />
-          {/* <div className="form-row">
+          <h3>Expérience</h3>
+          <div className="form-row">
             <div className="form-group col-md-6">
               <label htmlFor="poste">Poste</label>
               <input
+                required
                 type="text"
                 className="form-control"
                 id="poste"
@@ -147,6 +149,7 @@ class ProfileForm extends PureComponent {
             <div className="form-group col-md-6">
               <label htmlFor="name">Nom de l'entreprise</label>
               <input
+                required
                 type="text"
                 className="form-control"
                 id="name"
@@ -156,12 +159,13 @@ class ProfileForm extends PureComponent {
                 value={this.state.name}
               />
             </div>
-          </div> */}
-          {/* <div className="form-group">
+          </div>
+          <div className="form-group">
             <label htmlFor="exampleFormControlTextarea1">
               Description de la mission
             </label>
             <textarea
+              required
               className="form-control"
               id="exampleFormControlTextarea1"
               name="description"
@@ -170,11 +174,12 @@ class ProfileForm extends PureComponent {
               onChange={this.onChange}
               value={this.state.description}
             />
-          </div> */}
-          {/* <div className="form-row">
+          </div>
+          <div className="form-row">
             <div className="col-6 form-group">
               <label htmlFor="startDate">Date de départ</label>
               <input
+                required
                 type="date"
                 className="form-control"
                 id="startDate"
@@ -188,6 +193,7 @@ class ProfileForm extends PureComponent {
             <div className="col-6 form-group">
               <label htmlFor="endDate">Date de fin</label>
               <input
+                required
                 type="date"
                 className="form-control"
                 id="endDate"
@@ -198,7 +204,7 @@ class ProfileForm extends PureComponent {
                 value={this.state.end_date}
               />
             </div>
-          </div> */}
+          </div>
           <button className="btn btn-primary" type="submit">
             Modifier
           </button>

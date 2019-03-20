@@ -24,7 +24,6 @@ const Users = {
     }
   },
   getUser: async (req, res) => {
-    console.log(req.user);
     const user = await User.findById(req.user.id)
       .select("-password")
       .select("-admin");
@@ -36,19 +35,31 @@ const Users = {
     }
   },
   getUserJobs: async (req, res) => {
-    const jobs = await Job.find({ user: req.params.id });
-    if (!jobs) res.status(404).json({ success: false });
-    else res.status(200).json({ success: true, data: jobs });
+    try {
+      const jobs = await Job.find({ user: req.params.id });
+      if (!jobs) res.status(404).json({ success: false });
+      else res.status(200).json({ success: true, data: jobs });
+    } catch (error) {
+      console.error(error);
+    }
   },
   getUserAds: async (req, res) => {
-    const ads = await Ad.find({ user: req.params.id });
-    if (!ads) res.status(404).json({ success: false });
-    else res.status(200).json({ success: true, data: ads });
+    try {
+      const ads = await Ad.find({ user: req.params.id });
+      if (!ads) res.status(404).json({ success: false });
+      else res.status(200).json({ success: true, data: ads });
+    } catch (error) {
+      console.error(error);
+    }
   },
   getUserNews: async (req, res) => {
-    const news = await News.find({ user: req.params.id });
-    if (!news) res.status(404).json({ success: false });
-    else res.status(200).json({ success: true, data: news });
+    try {
+      const news = await News.find({ user: req.params.id });
+      if (!news) res.status(404).json({ success: false });
+      else res.status(200).json({ success: true, data: news });
+    } catch (error) {
+      console.error(error);
+    }
   },
   create: async (req, res) => {
     try {

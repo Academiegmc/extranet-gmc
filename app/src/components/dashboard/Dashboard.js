@@ -63,6 +63,9 @@ class Dashboard extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.user) this.setState({ user: nextProps.auth.user });
   }
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.props);
+  }
   render() {
     const { status } = this.state.user;
     const links = this.state.titles.map((title, id) => {

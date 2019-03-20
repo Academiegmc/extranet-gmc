@@ -13,6 +13,16 @@ const Ads = {
       console.error(error);
     }
   },
+  getAllUserAds: async (req, res) => {
+    try {
+      const ads = await Ad.find({ user: req.params.id }).sort({ date: -1 });
+      if (!ads) return res.status(404).json(err);
+      let result = ads.map(async ad => await ad.getData());
+      res.status(200).json(await Promise.all(result));
+    } catch (error) {
+      console.error(error);
+    }
+  },
   getAd: async (req, res) => {
     try {
       const ad = await Ad.findById(req.params.id);
@@ -72,7 +82,7 @@ const Ads = {
   },
   deleteAd: async (req, res) => {
     try {
-      await Ad.findOneAndRemove({ _id: req.params.id });
+      await Ad.findByIdAndRemove(req.params.id);
       res.status(200).json({ success: true, message: ErrorMessage.adRemoved });
     } catch (error) {
       console.log(error);

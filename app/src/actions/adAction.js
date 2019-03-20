@@ -4,13 +4,23 @@ import {
   GET_AN_AD,
   GET_ERRORS,
   UPDATE_COMMENTS,
-  SEARCH_ADS
+  SEARCH_ADS,
+  DELETE_AD,
+  GET_ALL_USER_ADS
 } from "./types";
 import { adUrl } from "../utils";
 export const getAllAds = () => dispatch => {
   axios
     .get(adUrl)
     .then(ads => dispatch({ type: GET_ALL_ADS, payload: ads }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+};
+export const getAllUserAd = userId => dispatch => {
+  axios
+    .get(`${adUrl}/user/${userId}`)
+    .then(res => {
+      dispatch({ type: GET_ALL_USER_ADS, payload: res.data });
+    })
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 export const getAnAd = adId => dispatch => {
@@ -42,12 +52,13 @@ export const updateAd = (adId, adData, history) => {
     })
     .catch(err => console.log(err));
 };
-export const deleteAd = adId => {
-  console.log(adId);
+export const deleteAd = adId => dispatch => {
+  console.log("ad id:", adId);
   axios
     .delete(`${adUrl}/${adId}`)
     .then(res => {
-      return res.data;
+      dispatch({ type: DELETE_AD, payload: adId });
+      // return res.data;
     })
     .catch(err => console.log(err));
 };

@@ -34,7 +34,6 @@ class Annonce extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     if (document.getElementsByName("commentInput")[0].value !== "") {
       //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
       this.props.updateComments(
@@ -77,7 +76,7 @@ class Annonce extends Component {
       categoryIcon = <i className="fas fa-dice align-self-center" />;
       style = { backgroundColor: "#7FD1AE" };
     }
-    if (ad.category === "cosmetique") {
+    if (ad.category === "cosmétique") {
       categoryIcon = <i className="fas fa-gift align-self-center" />;
       style = { backgroundColor: "#A46855" };
     }

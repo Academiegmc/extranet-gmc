@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,9 +11,9 @@ import ReturnButton from "../layout/ReturnButton";
 import { logout } from "../../actions/authActions";
 import { deleteNews } from "../../actions/newsActions";
 import { deleteJob } from "../../actions/jobActions";
-import { deleteAd } from "../../actions/adAction";
+import { deleteAd, getAllUserAd } from "../../actions/adAction";
 
-class Profile extends Component {
+class Profile extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,18 +25,23 @@ class Profile extends Component {
     };
     this.logoutUser = this.logoutUser.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    const { user } = nextProps.auth;
-    const { userAds, userJobs, userNews } = nextProps.users;
-    if (user) this.setState({ user });
-    if (userAds) this.setState({ ads: userAds.data });
-    if (userJobs) this.setState({ jobs: userJobs.data });
-    if (userNews) this.setState({ news: userNews.data });
-    if (nextProps.errors) this.setState({ errors: nextProps.errors });
+  // componentWillReceiveProps(nextProps) {
+  //   const { user } = nextProps.auth;
+  //   const { userAds, userJobs, userNews } = nextProps.users;
+  //   if (user) this.setState({ user });
+  //   if (userAds) this.setState({ ads: userAds.data });
+  //   if (userJobs) this.setState({ jobs: userJobs.data });
+  //   if (userNews) this.setState({ news: userNews.data });
+  //   if (nextProps.errors) this.setState({ errors: nextProps.errors });
+  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.ads.ads) this.setState({ ads: this.props.ads.ads });
   }
 
   componentDidMount() {
-    this.props.getUserAds(this.props.match.params.id, this.props.history);
+    // console.log(this.props.auth.user.id);
+    this.props.getAllUserAd(this.props.auth.user.id);
+    // this.props.getUserAds(this.props.match.params.id, this.props.history);
     this.props.getUserNews(this.props.match.params.id, this.props.history);
     this.props.getUserJobs(this.props.match.params.id, this.props.history);
   }
@@ -53,11 +58,11 @@ class Profile extends Component {
     let allUserNews;
     let sessionAlert;
     if (errors.status === 403) this.logoutUser();
-    if (ads && ads.data && ads.data.length > 0) {
-      allUserAds = ads.data.map((ad, index) => (
+    if (ads.length > 0) {
+      allUserAds = ads.map((ad, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
-            <Link to={`/annonce/${ad._id}`}>
+            <Link to={`/annonce/${ad.id}`}>
               <h5 className="card-title">{ad.title}</h5>
             </Link>
             <div className="flex-row">
@@ -65,16 +70,12 @@ class Profile extends Component {
                 className="btn"
                 style={{ backgroundColor: "#9F1540", color: "white" }}
                 onClick={() => {
-                  deleteAd(ad._id);
-                  this.props.getUserAds(
-                    this.props.match.params._id,
-                    this.props.history
-                  );
+                  this.props.deleteAd(ad.id);
                 }}
               >
                 Supprimer
               </button>
-              <Link to={`/annonce/edit/${ad._id}`}>
+              <Link to={`/annonce/edit/${ad.id}`}>
                 <button
                   className="btn"
                   style={{ backgroundColor: "#539356", color: "white" }}
@@ -89,7 +90,6 @@ class Profile extends Component {
       ));
     }
     if (jobs && jobs.data && jobs.data.length > 0) {
-      console.log(jobs);
       allUserJobs = jobs.data.map((job, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
           <div className="card-body">
@@ -215,9 +215,18 @@ Profile.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth,
   users: state.users,
+  ads: state.ads,
   errors: state.errors
 });
 export default connect(
   mapStateToProps,
-  { getUserAds, getUserJobs, getUserNews, logout, deleteNews }
+  {
+    getUserAds,
+    getUserJobs,
+    getUserNews,
+    logout,
+    deleteNews,
+    deleteAd,
+    getAllUserAd
+  }
 )(Profile);
