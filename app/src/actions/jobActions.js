@@ -5,7 +5,8 @@ import {
   GET_ERRORS,
   SEARCH_JOBS,
   GET_ALL_USER_JOBS,
-  DELETE_JOB
+  DELETE_JOB,
+  UPDATE_JOB
 } from "./types";
 import { jobUrl } from "../utils";
 import { logout } from "./authActions";
@@ -43,7 +44,7 @@ export const getAJob = jobId => dispatch => {
     .then(job =>
       dispatch({
         type: GET_A_JOB,
-        payload: job
+        payload: job.data
       })
     )
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
@@ -62,16 +63,19 @@ export const createJob = (jobData, history) => dispatch => {
       }
     });
 };
-export const updateJob = (jobId, jobData, history) => {
+export const updateJob = (jobId, jobData, history) => dispatch => {
   axios
     .put(`${jobUrl}/edit/${jobId}`, jobData)
     .then(jobUpdated => {
-      const message = "Job modifié !";
-      return { success: true, data: jobUpdated, message };
+      dispatch({ type: UPDATE_JOB, payload: jobUpdated });
+      // const message = "Job modifié !";
+      // return { success: true, data: jobUpdated, message };
     })
     .catch(err => {
-      logout();
-      history.push("/");
+      console.error(err.response.data);
+      dispatch({ type: GET_ERRORS, payload: err.response.data });
+      // logout();
+      // history.push("/");
     });
 };
 export const deleteJob = jobId => dispatch => {

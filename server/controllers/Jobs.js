@@ -59,7 +59,7 @@ const Jobs = {
     res.status(200).json(job.getData());
   },
   updateJobs: async (req, res) => {
-    await Job.findOneAndUpdate(
+    const job = await Job.findOneAndUpdate(
       { _id: req.params.id },
       { $set: req.body },
       { new: true }

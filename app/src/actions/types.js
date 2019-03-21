@@ -11,6 +11,7 @@ export const GET_ALL_JOBS = "GET_ALL_JOBS";
 export const GET_A_JOB = "GET_A_JOB";
 export const CREATE_JOB = "CREATE_JOB";
 export const DELETE_JOB = "DELETE_JOB";
+export const UPDATE_JOB = "UPDATE_JOB";
 export const SEND_JOB_APPLICATION = "SEND_JOB_APPLICATION";
 
 export const SEARCH_ADS = "SEARCH_ADS";

@@ -3,7 +3,8 @@ import {
   GET_ALL_JOBS,
   SEARCH_JOBS,
   GET_ALL_USER_JOBS,
-  DELETE_JOB
+  DELETE_JOB,
+  UPDATE_JOB
 } from "../actions/types";
 
 const initialState = {
@@ -22,6 +23,8 @@ export default (state = initialState, action) => {
       return { ...state, isLoaded: false, job: action.payload };
     case GET_ALL_USER_JOBS:
       return { ...state, jobs: action.payload };
+    case UPDATE_JOB:
+      return { ...state, isLoaded: true, job: action.payload };
     case DELETE_JOB:
       return {
         ...state,

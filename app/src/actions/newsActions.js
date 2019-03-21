@@ -79,7 +79,6 @@ export const updateNews = (newsId, newsData, history) => dispatch => {
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 export const deleteNews = newsId => dispatch => {
-  console.log(newsId);
   axios
     .delete(`${newsUrl}/${newsId}`)
     .then(res => dispatch({ type: DELETE_NEWS, payload: newsId }))
