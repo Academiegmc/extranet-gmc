@@ -31,6 +31,13 @@ class AddJob extends PureComponent {
       this.props.jobs.job.constructor === Object &&
       !Object.is(this.props.jobs.job, prevProps.jobs.job)
     ) {
+      if (
+        this.props.jobs.job.jobSkills &&
+        this.props.jobs.job.jobSkills.constructor === Array &&
+        this.props.jobs.job.jobSkills.length > 0
+      ) {
+        this.props.jobs.job.jobSkills = this.props.jobs.job.jobSkills.join();
+      }
       this.setState({
         jobTitle: this.props.jobs.job.jobTitle,
         jobDescription: this.props.jobs.job.jobDescription,
@@ -55,11 +62,12 @@ class AddJob extends PureComponent {
     }
   }
   onChange = e => {
+    console.log(e.target.name, e.target.value);
     this.setState({ [e.target.name]: e.target.value });
-    // console.log(e.target.name, e.target.value);
   };
   onSubmit = e => {
     e.preventDefault();
+    console.log(this.state);
     if (this.props.match.path === "/job/edit/:id") {
       this.props.updateJob(
         this.props.match.params.id,

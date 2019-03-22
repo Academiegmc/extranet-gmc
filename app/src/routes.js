@@ -18,6 +18,7 @@ import Stages from "./components/stages/Stages";
 import requireAuth from "./utils/requireAuth";
 import App from "./App";
 import ProfileForm from "./components/profile/ProfileForm";
+import Markdown from "./components/markdown/Markdown";
 const Routes = () => {
   return (
     <main className="vh-100">
@@ -31,6 +32,7 @@ const Routes = () => {
         path="/trombinoscope"
         component={requireAuth(Trombinoscope)}
       />
+      <Route exact path="/markdown" component={requireAuth(Markdown)} />
       <Route exact path="/dashboard" component={requireAuth(Dashboard)} />
       <Route exact path="/annonce/:id" component={requireAuth(Annonce)} />
       <Route exact path="/news" component={requireAuth(News)} />

@@ -1,26 +1,39 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
 import bsCustomFileInput from "bs-custom-file-input";
+import ReactMarkdown from "react-markdown";
 import { getAJob } from "../../actions/jobActions";
 import Axios from "axios";
 import ReturnButton from "../layout/ReturnButton";
 import { logout } from "../../actions/authActions";
-class Job extends Component {
+class Job extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       lm: "",
       cv: null,
-      isSent: false
+      isSent: false,
+      job: {},
+      disallowedTypes: ["image", "html", "inlineCode", "code"]
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.jobs.job.data);
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState(nextProps.jobs.job.data);
+  // }
+  componentDidUpdate(prevProps, prevState) {
+    // console.log(this.props.jobs.job);
+    if (
+      Object.keys(this.props.jobs.job).length > 0 &&
+      this.props.jobs.job.constructor === Object &&
+      !Object.is(this.props.jobs.job, prevProps.jobs.job)
+    ) {
+      this.setState({ job: this.props.jobs.job });
+    }
   }
   componentDidMount() {
     this.props.getAJob(this.props.match.params.id);
@@ -70,7 +83,7 @@ class Job extends Component {
       jobCompanyDescription,
       jobSkills,
       createdAt
-    } = this.state;
+    } = this.state.job;
     let skills;
     const publishedDate = (
       <Moment fromNow ago locale="fr">
@@ -123,16 +136,22 @@ class Job extends Component {
           {/* Offer */}
           <div className="col-6">
             <h4>Description de l'offre</h4>
-            <div className="text-justify">
-              <p>{jobDescription}</p>
-            </div>
+            <ReactMarkdown
+              className=" text-justify"
+              source={jobDescription}
+              disallowedTypes={this.state.disallowedTypes}
+              linkTarget={"_blank"}
+            />
           </div>
           {/* jobCompany */}
           <div className="col-6">
             <h4>Description de l'entreprise</h4>
-            <div className="text-justify">
-              <p>{jobCompanyDescription}</p>
-            </div>
+            <ReactMarkdown
+              className=" text-justify"
+              source={jobCompanyDescription}
+              disallowedTypes={this.state.disallowedTypes}
+              linkTarget={"_blank"}
+            />
           </div>
           {/* jobSkills */}
           <div className="col-6">

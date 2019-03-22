@@ -2,11 +2,6 @@ import React, { Component, PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  getUserAds,
-  getUserJobs,
-  getUserNews
-} from "../../actions/usersAction";
 import ReturnButton from "../layout/ReturnButton";
 import { logout } from "../../actions/authActions";
 import { deleteNews, getAllUserNews } from "../../actions/newsActions";
@@ -47,9 +42,6 @@ class Profile extends PureComponent {
     this.props.getAllUserAd(this.props.auth.user.id);
     this.props.getAllUserJobs(this.props.auth.user.id);
     this.props.getAllUserNews(this.props.auth.user.id);
-    // this.props.getUserAds(this.props.match.params.id, this.props.history);
-    this.props.getUserNews(this.props.match.params.id, this.props.history);
-    // this.props.getUserJobs(this.props.match.params.id, this.props.history);
   }
   logoutUser = () => {
     //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
@@ -165,7 +157,10 @@ class Profile extends PureComponent {
           className="btn btn-link"
           to={`/profile/edit/${this.props.match.params.id}`}
         >
-          <h1>Mon profil</h1>
+          <h2>Mon profil</h2>
+        </Link>
+        <Link className="btn btn-link" to="/markdown">
+          <h2>Documentation</h2>
         </Link>
         <div className="d-flex flex-sm-column flex-md-row justify-content-md-center">
           <a className="btn btn-outline-primary ml-3" href="/admin/job">
@@ -220,7 +215,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    getUserNews,
     logout,
     deleteNews,
     deleteAd,

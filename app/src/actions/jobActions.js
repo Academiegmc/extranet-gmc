@@ -72,8 +72,8 @@ export const updateJob = (jobId, jobData, history) => dispatch => {
       // return { success: true, data: jobUpdated, message };
     })
     .catch(err => {
-      console.error(err.response.data);
-      dispatch({ type: GET_ERRORS, payload: err.response.data });
+      console.error("err", err);
+      dispatch({ type: GET_ERRORS, payload: err });
       // logout();
       // history.push("/");
     });
