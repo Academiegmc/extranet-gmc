@@ -17,7 +17,7 @@ const Users = {
       let result;
       try {
         result = users.map(async user => await user.getProfileInfos());
-        res.status(200).json({ succes: true, data: result });
+        res.status(200).json({ succes: true, data: await Promise.all(result) });
       } catch (error) {
         console.error(error);
       }

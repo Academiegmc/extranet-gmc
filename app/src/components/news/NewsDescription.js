@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Slider from "react-slick";
 import ReactMarkdown from "react-markdown";

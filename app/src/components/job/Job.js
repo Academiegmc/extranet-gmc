@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
@@ -26,7 +26,6 @@ class Job extends PureComponent {
   //   this.setState(nextProps.jobs.job.data);
   // }
   componentDidUpdate(prevProps, prevState) {
-    // console.log(this.props.jobs.job);
     if (
       Object.keys(this.props.jobs.job).length > 0 &&
       this.props.jobs.job.constructor === Object &&

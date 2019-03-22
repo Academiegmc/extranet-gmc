@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -30,7 +30,6 @@ class Profile extends PureComponent {
   //   if (nextProps.errors) this.setState({ errors: nextProps.errors });
   // }
   componentDidUpdate(prevProps, prevState) {
-    // console.log(this.props.news.newsTab);
     if (this.props.ads.ads) this.setState({ ads: this.props.ads.ads });
     if (this.props.jobs.jobs) this.setState({ jobs: this.props.jobs.jobs });
     if (this.props.news.newsTab)
@@ -38,7 +37,6 @@ class Profile extends PureComponent {
   }
 
   componentDidMount() {
-    // console.log(this.props.auth.user.id);
     this.props.getAllUserAd(this.props.auth.user.id);
     this.props.getAllUserJobs(this.props.auth.user.id);
     this.props.getAllUserNews(this.props.auth.user.id);
@@ -49,7 +47,6 @@ class Profile extends PureComponent {
     this.props.history.push("/");
   };
   render() {
-    // console.log(this.state);
     const { ads, jobs, news, errors } = this.state;
     const updateMessage = "Modifier";
     let allUserAds;

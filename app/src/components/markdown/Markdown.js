@@ -41,7 +41,6 @@ export default class Markdown extends Component {
           <div className="col-6">
             <TextareaAutosize
               className="w-100 border-0"
-              name="commentInput"
               placeholder="Votre commentaire..."
               name="value"
               id="value"
@@ -57,26 +56,6 @@ export default class Markdown extends Component {
             linkTarget={"_blank"}
           />
         </div>
-        {/* <div className="row w-100">
-          <div className="col-6">
-            <TextareaAutosize
-              className="w-100 border-0"
-              name="commentInput"
-              placeholder="Votre commentaire..."
-              name="value"
-              id="value"
-              value={this.state.value}
-              onChange={this.onChange}
-            />
-          </div>
-          <ReactMarkdown
-            className="col-6 h-100 w-100"
-            source={document.getElementById("value")}
-            disallowedTypes={this.state.disallowedTypes}
-            escapeHtml={false}
-            linkTarget={"_blank"}
-          />
-        </div> */}
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { updateUser, getUser } from "../../actions/usersAction";
 import { connect } from "react-redux";
 class ProfileForm extends PureComponent {
@@ -34,7 +34,6 @@ class ProfileForm extends PureComponent {
     this.props.updateUser(this.state);
   };
   componentDidUpdate(prevProps, prevState) {
-    // console.log(this.props);
     if (this.props.errors.error !== undefined) {
       this.setState({ errors: this.props.errors });
     }

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ReactAutocomplete from "react-autocomplete";
-import ReactMarkdown from "react-markdown";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
 import "./Annonces.css";
@@ -43,7 +42,6 @@ class Annonces extends Component {
     const allAnnonces =
       annonces.length > 0
         ? annonces.map((annonce, index) => {
-            console.log(annonce.category);
             let categoryIcon;
             let style;
             if (annonce.category === "etude") {

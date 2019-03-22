@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import Moment from "moment";
 import ReturnButton from "../layout/ReturnButton";
 import { connect } from "react-redux";
@@ -62,12 +62,10 @@ class AddJob extends PureComponent {
     }
   }
   onChange = e => {
-    console.log(e.target.name, e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     if (this.props.match.path === "/job/edit/:id") {
       this.props.updateJob(
         this.props.match.params.id,

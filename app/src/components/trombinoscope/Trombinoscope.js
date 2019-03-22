@@ -10,9 +10,12 @@ class Trombinoscope extends Component {
       users: []
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.users.users.data)
-      this.setState({ users: nextProps.users.users.data });
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.users.users.data)
+  //     this.setState({ users: nextProps.users.users.data });
+  // }
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.users);
   }
   componentDidMount() {
     this.props.getAllUsers();
