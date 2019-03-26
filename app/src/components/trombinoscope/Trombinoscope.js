@@ -1,21 +1,20 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getAllUsers } from "../../actions/usersAction";
 import ReturnButton from "../layout/ReturnButton";
-class Trombinoscope extends Component {
+class Trombinoscope extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       users: []
     };
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.users.users.data)
-  //     this.setState({ users: nextProps.users.users.data });
-  // }
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.users);
+    // console.log(this.props.users.users.data);
+    if (this.props.users.users.data) {
+      this.setState({ users: this.props.users.users.data });
+    }
   }
   componentDidMount() {
     this.props.getAllUsers();

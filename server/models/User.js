@@ -10,7 +10,7 @@ const UserSchema = new Schema({
   profile_pic: { type: String },
   experiences: { type: [{}] },
   convention: { type: String },
-  letters: { type: [Object] },
+  letters: { type: [String] },
   personal_sheet: { type: String }
 });
 /*

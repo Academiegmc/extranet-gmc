@@ -24,7 +24,7 @@ const Users = {
     }
   },
   getUser: async (req, res) => {
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.params.id)
       .select("-password")
       .select("-admin");
     if (!user) res.status(400).json({ success: false });
@@ -82,12 +82,26 @@ const Users = {
     }
   },
   update: async (req, res) => {
-    console.log(req.user.id);
     try {
       const user = await User.findById(req.user.id);
       const salt = 10;
       if (!user) return res.status(404).send(ErrorMessage.userNotFound);
       // console.log(req.body);
+      if (req.files.convention !== undefined && req.files.convention.length > 0)
+        user.convention = req.files.convention[0].filename;
+      if (
+        req.files.renseignement !== undefined &&
+        req.files.renseignement.length > 0
+      )
+        user.personal_sheet = req.files.renseignement[0].filename;
+      if (
+        req.files.recommandation !== undefined &&
+        req.files.recommandation.length > 0
+      ) {
+        req.files.recommandation.map(letter =>
+          user.letters.push(letter.filename)
+        );
+      }
       if (
         req.body.old_password &&
         req.body.new_password &&
@@ -106,11 +120,6 @@ const Users = {
         } else {
           res.status(400).json({ error: "Mot de passe incorrect" });
         }
-        // console.log(
-        //   req.body.old_password,
-        //   req.body.new_password,
-        //   req.body.confirm_password
-        // );
       }
       if (
         req.body.name !== "" &&
@@ -121,10 +130,8 @@ const Users = {
       ) {
         const { name, description, poste, start_date, end_date } = req.body;
         const experience = { name, description, poste, start_date, end_date };
-        console.log(experience);
         user.experiences.push(experience);
       }
-      console.log(user);
       const userSaved = await user.save();
       if (!userSaved) return res.status(400).json({ success: false });
       res.status(200).json({ success: true, user: await userSaved.getInfos() });
@@ -137,7 +144,7 @@ const Users = {
     try {
       const user = await User.findByIdAndRemove(req.params.id);
       if (!user) return res.status(404).send(ErrorMessage.userNotFound);
-      res.status(200).json({ success: true, user });
+      res.status(200).json({ success: true, message: "Compte supprimé !" });
     } catch (error) {
       res.status(400).json({ success: false });
     }
@@ -146,7 +153,6 @@ const Users = {
     User.findOne({ email: req.body.email }, (err, user) => {
       if (err) return res.status(500).send(ErrorMessage.serverError);
       if (!user) return res.status(401).send(ErrorMessage.userNotFound);
-      console.log(req.body.password, user);
       const passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
@@ -167,7 +173,7 @@ const Users = {
           expiresIn: 36000
         }
       );
-      res.status(200).json({ auth: true, token: token });
+      res.status(200).json({ auth: true, token });
     });
   }
 };

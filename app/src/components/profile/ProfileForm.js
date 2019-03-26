@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import { updateUser, getUser } from "../../actions/usersAction";
+import { logout } from "../../actions/authActions";
 import { connect } from "react-redux";
 class ProfileForm extends PureComponent {
   constructor(props) {
@@ -14,10 +15,15 @@ class ProfileForm extends PureComponent {
       old_password: "",
       new_password: "",
       confirm_password: "",
+      fiche_renseignement: [],
+      convention_stage: [],
+      lettre_recommandation: [],
+      success: false,
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.showAlert = this.showAlert.bind(this);
   }
   onChange = e => {
     if (e.target.name === "profile_pic") {
@@ -27,14 +33,54 @@ class ProfileForm extends PureComponent {
         }
       }
     }
+    if (e.target.name === "renseignement") {
+      if (e.target.files.length > 0) {
+        if (e.target.files.length === 1) {
+          this.setState({ fiche_renseignement: e.target.files[0] });
+        }
+      }
+    }
+    if (e.target.name === "convention") {
+      if (e.target.files.length > 0) {
+        if (e.target.files.length === 1) {
+          this.setState({ convention_stage: e.target.files[0] });
+        }
+      }
+    }
+    if (e.target.name === "recommandation") {
+      if (e.target.files.length > 0) {
+        if (e.target.files.length === 1) {
+          this.setState({ lettre_recommandation: e.target.files[0] });
+        }
+      }
+    }
     this.setState({ [e.target.name]: e.target.value });
   };
   onSubmit = e => {
     e.preventDefault();
-    this.props.updateUser(this.state);
+    this.props.updateUser(
+      this.state,
+      this.props.auth.user.id,
+      this.props.history
+    );
+  };
+  showAlert = (style, error) => {
+    return (
+      <div className={style} role="alert">
+        {error}
+        <button
+          type="button"
+          className="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    );
   };
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.errors.error !== undefined) {
+    if (this.props.errors !== undefined) {
       this.setState({ errors: this.props.errors });
     }
   }
@@ -44,29 +90,27 @@ class ProfileForm extends PureComponent {
 
   render() {
     let alert;
-    if (this.state.errors.error !== undefined) {
-      alert = (
-        <div
-          className="alert alert-danger alert-dismissible fade show"
-          role="alert"
-        >
-          {this.state.errors.error}
-          <button
-            type="button"
-            className="close"
-            data-dismiss="alert"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+    if (this.state.errors.status === 403) {
+      if (this.state.errors.data !== undefined) {
+        alert = this.showAlert(
+          "alert alert-warning alert-dismissible fade show",
+          "Session expirée. Vous serez redirigé vers la page d'accueil d'ici quelques secondes."
+        );
+        setTimeout(() => this.props.logout(), 2000);
+        clearTimeout();
+      }
+    }
+    if (this.props.users.user.success) {
+      alert = this.showAlert(
+        "alert alert-success alert-dismissible fade show",
+        "Profil modifié !"
       );
     }
     return (
       <div className="container">
         {alert}
         <h1>Editer votre profil</h1>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.onSubmit} encType="multipart/form-data">
           <div className="form-group">
             <label htmlFor="old_password">Ancien mot de passe</label>
             <input
@@ -107,6 +151,63 @@ class ProfileForm extends PureComponent {
               />
             </div>
           </div>
+          <hr />
+          <div className="form-group-file">
+            <label htmlFor="renseignement">Fiche de renseignement</label>
+            <input
+              type="file"
+              className="form-control-file"
+              id="renseignement"
+              name="renseignement"
+              placeholder="Choisissez votre fichier"
+              onChange={this.onChange}
+            />
+            <div>
+              <p>
+                <small>Taille maximum : 2Mo.</small>
+                <br />
+                <small>Types de fichiers autorisés: .jpg .png.</small>
+              </p>
+            </div>
+          </div>
+          <hr />
+          <div className="form-group-file">
+            <label htmlFor="convention">Convention de stage</label>
+            <input
+              type="file"
+              className="form-control-file"
+              id="convention"
+              name="convention"
+              placeholder="Choisissez votre fichier"
+              onChange={this.onChange}
+            />
+            <div>
+              <p>
+                <small>Taille maximum : 2Mo.</small>
+                <br />
+                <small>Types de fichiers autorisés: .jpg .png.</small>
+              </p>
+            </div>
+          </div>
+          <hr />
+          <div className="form-group-file">
+            <label htmlFor="recommandation">Lettre de recommandation</label>
+            <input
+              type="file"
+              className="form-control-file"
+              id="recommandation"
+              name="recommandation"
+              placeholder="Choisissez votre fichier"
+              onChange={this.onChange}
+            />
+            <div>
+              <p>
+                <small>Taille maximum : 2Mo.</small>
+                <br />
+                <small>Types de fichiers autorisés: .jpg .png.</small>
+              </p>
+            </div>
+          </div>
           {/* <div className="form-group-file">
             <input
               type="file"
@@ -130,12 +231,11 @@ class ProfileForm extends PureComponent {
             </button>
           </div> */}
           <hr />
-          <h3>Expérience</h3>
+          <h3>Ajouter une Expérience</h3>
           <div className="form-row">
             <div className="form-group col-md-6">
               <label htmlFor="poste">Poste</label>
               <input
-                required
                 type="text"
                 className="form-control"
                 id="poste"
@@ -148,7 +248,6 @@ class ProfileForm extends PureComponent {
             <div className="form-group col-md-6">
               <label htmlFor="name">Nom de l'entreprise</label>
               <input
-                required
                 type="text"
                 className="form-control"
                 id="name"
@@ -164,7 +263,6 @@ class ProfileForm extends PureComponent {
               Description de la mission
             </label>
             <textarea
-              required
               className="form-control"
               id="exampleFormControlTextarea1"
               name="description"
@@ -178,7 +276,6 @@ class ProfileForm extends PureComponent {
             <div className="col-6 form-group">
               <label htmlFor="startDate">Date de départ</label>
               <input
-                required
                 type="date"
                 className="form-control"
                 id="startDate"
@@ -192,7 +289,6 @@ class ProfileForm extends PureComponent {
             <div className="col-6 form-group">
               <label htmlFor="endDate">Date de fin</label>
               <input
-                required
                 type="date"
                 className="form-control"
                 id="endDate"
@@ -220,5 +316,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { updateUser, getUser }
+  { updateUser, getUser, logout }
 )(ProfileForm);

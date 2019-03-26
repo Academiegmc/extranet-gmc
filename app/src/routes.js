@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 import { Route } from "react-router-dom";
+import { connect } from "react-redux";
 import Landing from "./components/layout/Landing";
 import Dashboard from "./components/dashboard/Dashboard";
 import Annonce from "./components/annonce/Annonce";

@@ -60,12 +60,10 @@ class Dashboard extends Component {
       news: []
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.user) this.setState({ user: nextProps.auth.user });
-  }
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.props);
-  }
+  componentDidMount = () => {
+    if (this.props.auth.user) this.setState({ user: this.props.auth.user });
+  };
+
   render() {
     const { status } = this.state.user;
     const links = this.state.titles.map((title, id) => {

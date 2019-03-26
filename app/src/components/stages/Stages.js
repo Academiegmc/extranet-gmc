@@ -1,18 +1,20 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {} from "../../actions/usersAction";
 // import Slider from "react-slick";
 import Moment from "react-moment";
 import ReactModal from "react-modal";
+import ReactMarkdown from "react-markdown";
 import ReturnButton from "../layout/ReturnButton";
 import { getUser } from "../../actions/usersAction";
 ReactModal.setAppElement(document.getElementById("root"));
-class Stages extends Component {
+class Stages extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       modalIsOpen: false,
       user: {},
+      disallowedTypes: ["image", "html", "inlineCode", "code"],
       recommendations: [
         {
           message: "Très bon élément qui travaille bien !",
@@ -68,14 +70,13 @@ class Stages extends Component {
   closeModal() {
     this.setState({ modalIsOpen: false });
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.users.user) {
-      const { user } = nextProps.users.user;
-      this.setState({ user });
-    }
+  componentDidUpdate(prevProps, prevState) {
+    // console.log(this.props.users.user.user);
+    if (this.props.users.user.user)
+      this.setState({ user: this.props.users.user.user });
   }
   componentDidMount() {
-    this.props.getUser();
+    this.props.getUser(this.props.match.params.id);
   }
 
   render() {
@@ -86,7 +87,11 @@ class Stages extends Component {
         <li className="col-9" key={index}>
           <h6 className="text-justify p-2">{exp.poste}</h6>
           <p className="text-justify p-2">{exp.name}</p>
-          <p className="text-justify p-2">{exp.description}</p>
+          <ReactMarkdown
+            className="text-justify p-2"
+            source={exp.description}
+            disallowedTypes={this.state.disallowedTypes}
+          />
           <p className="text-justify font-weight-bold p-2">
             Du{" "}
             <Moment locale="fr" format="DD MMMM YYYY">
@@ -161,13 +166,17 @@ class Stages extends Component {
               />
               <a
                 className="btn btn-primary"
-                href="http://178.62.8.23:9000/fiches-renseignements/user-fiche.pdf"
+                href={`http://${
+                  process.env.REACT_APP_NODE_API
+                }/fiches-renseignements/user-fiche.pdf`}
               >
                 Fiche de renseignement
               </a>
               <a
                 className="btn btn-primary"
-                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
+                href={`http://${
+                  process.env.REACT_APP_NODE_API
+                }//conventions/user-convention.pdf`}
               >
                 Convention de stage
               </a>
