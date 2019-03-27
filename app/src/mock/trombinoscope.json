@@ -1,0 +1,77 @@
+{
+  "administration": [
+    { "name": "Maud Lapoumeyroulie", "fonction": "Directrice" },
+    {
+      "name": "Manon Lapoumeyroulie",
+      "fonction": "Directrice administrative et financière"
+    },
+    { "name": "Chanthéa Chhuan", "fonction": "Assistant comptable" },
+    { "name": "Marie Pinson", "fonction": "Assistante comptable" },
+    { "name": "Karen Giglietta", "fonction": "Office manager" },
+    {
+      "name": "Régine Trauttmann",
+      "fonction": "Responsable qualité développement"
+    },
+    {
+      "name": "Alexis Maingonnat",
+      "fonction": "Responsable recrutement alternance"
+    },
+    {
+      "name": "Charlotte Souvigné",
+      "fonction": "Chargée de recrutement initial"
+    },
+    { "name": "Karen Giglietta", "fonction": "Office manager" },
+    { "name": "Julie Martin", "fonction": "Assistante ADV" },
+    {
+      "name": "Roxane Fane",
+      "fonction": "Chargée de communication web et évenementielle"
+    },
+    {
+      "name": "Quentin Kabasele",
+      "fonction": "Service Informatique"
+    },
+    {
+      "name": "Bédir Missaoui",
+      "fonction": "Responsable maintenance et informatique"
+    }
+  ],
+  "pedagogie": [
+    {
+      "name": "Marion Lamarque",
+      "fonction": "Responsable pédagogique, professeur d'enseignement professionnel et professeur référent des classes de BTS initial"
+    },
+    {
+      "name": "Adeline Andrieux",
+      "fonction": "Professeur d'enseignement professionnel et professeur référent des classes de Spa"
+    },
+    {
+      "name": "Marion Ducouret",
+      "fonction": "Responsable du pôle 'stage', professeur d'enseignement professionnel et professeur référent des classes de BP"
+    },
+    {
+      "name": "Rachel Soulé",
+      "fonction": "professeur d'enseignement professionnel, professeur référent des classes de bac pro et responsable de l'institut d'application"
+    },
+    { "name": "Laetitia Ferrand", "fonction": "Responsable d'institut" },
+    { "name": "Amel Imine", "fonction": "Professeur de mathématiques et physique-chimie" },
+    { "name": "Gaëlle Monferran", "fonction": "Professeur d'enseignement professionnel" },
+    { "name": "AmelArnaud Barthélémy", "fonction": "Professeur d'environnement professionne" },
+    { "name": "Marion Charasse", "fonction": "Professeur d'enseignement professionnel" },
+    { "name": "Simon Jeannot", "fonction": "Professeur d'arts appliqués" },
+    { "name": "Christiane Calafat", "fonction": "Professeur de mathématiques et physique/chimie" },
+    { "name": "Jennifer Bouseau", "fonction": "Professeur d'enseignement professionnel" },
+    { "name": "Karim Benhamida", "fonction": "Professeur de gestion" },
+    { "name": "Deirdre Thiriet", "fonction": "Professeur d'anglais" },
+    { "name": "Paulette Gomis", "fonction": "Professeur d'anglais et de marketing" },
+    { "name": "Marc Toquebiau", "fonction": "Professeur professeur de NRC" },
+    { "name": "Edith Pamart", "fonction": "Professeur de groomin/wording, cadre organisationnel et vente appliquée" }
+    { "name": "Muriel Ménager", "fonction": "Formatrice des CAP samedi" },
+    { "name": "Chloé Costa", "fonction": "Professeur d'enseignement professionnel et esthéticienne" },
+    { "name": "Sophie Reggio", "fonction": "Coach sportive" },
+    { "name": "Niame Traore", "fonction": "Professeur de management, marketing, communication et environnement professionnel" },
+    { "name": "Leslie Carombo", "fonction": "Professeur de management des équipes et communication" },
+    { "name": "Floriane Lourdelle", "fonction": "Professeur d'enseignement professionnel" },
+    { "name": "Delphine Lieben", "fonction": "Professeur d'enseignement professionnel" },
+    { "name": "Elizabeth Thomas", "fonction": "Professeur d'espagnol" }
+  ]
+}
