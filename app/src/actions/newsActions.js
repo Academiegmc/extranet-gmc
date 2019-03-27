@@ -24,7 +24,7 @@ export const getAllUserNews = userId => dispatch => {
         payload: res.data
       })
     )
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 export const getANews = newsId => dispatch => {
   axios.get(`${newsUrl}/${newsId}`).then(news => {

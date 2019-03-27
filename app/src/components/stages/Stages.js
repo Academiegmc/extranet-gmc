@@ -30,29 +30,7 @@ class Stages extends PureComponent {
           from: "Employeur 3"
         }
       ],
-      stages: [
-        {
-          title: "Développeur full stack",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie pulvinar euismod. Suspendisse eget orci eget felis interdum maximus ac at nulla. Sed laoreet orci eu aliquam vehicula. Duis volutpat cursus massa et auctor. Fusce lobortis purus vel dolor congue sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius neque purus, feugiat accumsan purus bibendum quis. Praesent pulvinar sit amet justo eget vestibulum. Maecenas at faucibus dolor, nec varius quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie pulvinar euismod. Suspendisse eget orci eget felis interdum maximus ac at nulla. Sed laoreet orci eu aliquam vehicula. Duis volutpat cursus massa et auctor. Fusce lobortis purus vel dolor congue sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius neque purus, feugiat accumsan purus bibendum quis. Praesent pulvinar sit amet justo eget vestibulum. Maecenas at faucibus dolor, nec varius quam.            ",
-          name: "JOB Tech",
-          dates: "01/01/2019 - 07/01/2019"
-        },
-        {
-          title: "Développeur full stack",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie pulvinar euismod. Suspendisse eget orci eget felis interdum maximus ac at nulla. Sed laoreet orci eu aliquam vehicula. Duis volutpat cursus massa et auctor. Fusce lobortis purus vel dolor congue sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius neque purus, feugiat accumsan purus bibendum quis. Praesent pulvinar sit amet justo eget vestibulum. Maecenas at faucibus dolor, nec varius quam.",
-          name: "JOB Tech",
-          dates: "01/01/2019 - 07/01/2019"
-        },
-        {
-          title: "Développeur full stack",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie pulvinar euismod. Suspendisse eget orci eget felis interdum maximus ac at nulla. Sed laoreet orci eu aliquam vehicula. Duis volutpat cursus massa et auctor. Fusce lobortis purus vel dolor congue sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius neque purus, feugiat accumsan purus bibendum quis. Praesent pulvinar sit amet justo eget vestibulum. Maecenas at faucibus dolor, nec varius quam.",
-          name: "JOB Tech",
-          dates: "01/01/2019 - 07/01/2019"
-        }
-      ]
+      stages: []
     };
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -71,7 +49,6 @@ class Stages extends PureComponent {
     this.setState({ modalIsOpen: false });
   }
   componentDidUpdate(prevProps, prevState) {
-    // console.log(this.props.users.user.user);
     if (this.props.users.user.user)
       this.setState({ user: this.props.users.user.user });
   }
@@ -82,6 +59,20 @@ class Stages extends PureComponent {
   render() {
     const { user } = this.state;
     let displayExperiences;
+    let displayLetters;
+    if (this.state.user.letters !== undefined) {
+      displayLetters = this.state.user.letters.map((letter, index) => (
+        <a
+          key={index}
+          className="btn btn-link"
+          href={`http://${process.env.REACT_APP_NODE_API}/pdf/${letter}`}
+        >
+          {letter}
+        </a>
+      ));
+    } else {
+      displayLetters = <h3>Chargement...</h3>;
+    }
     if (user.experiences !== undefined && user.experiences.length > 0) {
       displayExperiences = user.experiences.map((exp, index) => (
         <li className="col-9" key={index}>
@@ -160,23 +151,29 @@ class Stages extends PureComponent {
           <div className="col-3">
             <div className="d-flex flex-column flex-center">
               <img
-                className="img-fluid"
-                src={require("../../assets/user.jpg")}
+                className="img-fluid rounded"
+                src={
+                  this.state.user.profile_pic !== undefined
+                    ? `http://${process.env.REACT_APP_NODE_API}/profiles/${
+                        this.state.user.profile_pic
+                      }`
+                    : require("../../assets/user.jpg")
+                }
                 alt="profile-pic"
               />
               <a
                 className="btn btn-primary"
-                href={`http://${
-                  process.env.REACT_APP_NODE_API
-                }/fiches-renseignements/user-fiche.pdf`}
+                href={`http://${process.env.REACT_APP_NODE_API}/pdf/${
+                  this.state.user.personal_sheet
+                }`}
               >
                 Fiche de renseignement
               </a>
               <a
                 className="btn btn-primary"
-                href={`http://${
-                  process.env.REACT_APP_NODE_API
-                }//conventions/user-convention.pdf`}
+                href={`http://${process.env.REACT_APP_NODE_API}/pdf/${
+                  this.state.user.convention
+                }`}
               >
                 Convention de stage
               </a>
@@ -227,30 +224,7 @@ class Stages extends PureComponent {
               id="full_description"
               className="d-flex justify-content-around"
             >
-              <a
-                className="btn btn-link"
-                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
-              >
-                Lettre 1
-              </a>
-              <a
-                className="btn btn-link"
-                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
-              >
-                Lettre 2
-              </a>
-              <a
-                className="btn btn-link"
-                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
-              >
-                Lettre 3
-              </a>
-              <a
-                className="btn btn-link"
-                href="http://178.62.8.23:9000/conventions/user-convention.pdf"
-              >
-                Lettre 4
-              </a>
+              {displayLetters}
             </div>
           </div>
         </ReactModal>

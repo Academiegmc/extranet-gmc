@@ -1,7 +1,8 @@
 import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import imageCompression from "browser-image-compression";
 import { updateUser, getUser } from "../../actions/usersAction";
 import { logout } from "../../actions/authActions";
-import { connect } from "react-redux";
 class ProfileForm extends PureComponent {
   constructor(props) {
     super(props);
@@ -11,7 +12,7 @@ class ProfileForm extends PureComponent {
       description: "",
       start_date: "",
       end_date: "",
-      profile_pic: "",
+      profile_pic: [],
       old_password: "",
       new_password: "",
       confirm_password: "",
@@ -21,18 +22,45 @@ class ProfileForm extends PureComponent {
       success: false,
       errors: {}
     };
+    this.handleImageUpload = this.handleImageUpload.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.showAlert = this.showAlert.bind(this);
   }
-  onChange = e => {
-    if (e.target.name === "profile_pic") {
-      if (e.target.files.length > 0) {
-        if (e.target.files.length === 1) {
-          this.setState({ profile_pic: e.target.files[0] });
-        }
-      }
+  handleImageUpload = async event => {
+    const imageFile = event.target.files[0];
+    console.log("originalFile instanceof Blob", imageFile instanceof Blob); // true
+    console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
+
+    var options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true
+    };
+    try {
+      const compressedFile = await imageCompression(imageFile, options);
+      console.log(
+        "compressedFile instanceof Blob",
+        compressedFile instanceof Blob
+      ); // true
+      console.log(
+        `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+      ); // smaller than maxSizeMB
+
+      // await uploadToServer(compressedFile); // write your own logic
+      this.setState({ profile_pic: compressedFile });
+    } catch (error) {
+      console.log(error);
     }
+  };
+  onChange = e => {
+    // if (e.target.name === "profile_pic") {
+    //   if (e.target.files.length > 0) {
+    //     if (e.target.files.length === 1) {
+    //       this.setState({ profile_pic: e.target.files[0] });
+    //     }
+    //   }
+    // }
     if (e.target.name === "renseignement") {
       if (e.target.files.length > 0) {
         if (e.target.files.length === 1) {
@@ -58,6 +86,7 @@ class ProfileForm extends PureComponent {
   };
   onSubmit = e => {
     e.preventDefault();
+    console.log(this.state);
     this.props.updateUser(
       this.state,
       this.props.auth.user.id,
@@ -149,6 +178,26 @@ class ProfileForm extends PureComponent {
                 onChange={this.onChange}
                 value={this.state.confirm_password}
               />
+            </div>
+          </div>
+          <hr />
+          <div className="form-group-file">
+            <label htmlFor="profile_pic">Photo de profil</label>
+            <input
+              type="file"
+              className="form-control-file"
+              accept="image/*"
+              id="profile_pic"
+              name="profile_pic"
+              placeholder="Choisissez votre photo"
+              onChange={this.handleImageUpload}
+            />
+            <div>
+              <p>
+                <small>Taille maximum : 2Mo.</small>
+                <br />
+                <small>Types de fichiers autorisés: .jpg .png.</small>
+              </p>
             </div>
           </div>
           <hr />

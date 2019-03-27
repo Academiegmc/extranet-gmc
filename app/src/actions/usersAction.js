@@ -65,10 +65,11 @@ export const updateUser = (userData, authID, history) => dispatch => {
   formData.append("end_date", userData.end_date);
   formData.append("old_password", userData.old_password);
   formData.append("new_password", userData.new_password);
-  formData.append("profil_pic", userData.profil_pic);
+  formData.append("profile_pic", userData.profile_pic);
   formData.append("renseignement", userData.fiche_renseignement);
   formData.append("convention", userData.convention_stage);
   formData.append("recommandation", userData.lettre_recommandation);
+  console.log(formData);
   axios
     .put(`${userUrl}`, formData)
     // .put(`${userUrl}`, userData)

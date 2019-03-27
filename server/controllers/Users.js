@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const fs = require("fs");
+const path = require("path");
 const config = require("../config/mongo-key");
 const User = require("../models/User");
 const Job = require("../models/Job");
@@ -86,14 +88,41 @@ const Users = {
       const user = await User.findById(req.user.id);
       const salt = 10;
       if (!user) return res.status(404).send(ErrorMessage.userNotFound);
-      // console.log(req.body);
-      if (req.files.convention !== undefined && req.files.convention.length > 0)
-        user.convention = req.files.convention[0].filename;
+      // console.log(req.files);
+      if (
+        req.files.profile_pic !== undefined &&
+        req.files.profile_pic.length > 0
+      ) {
+        user.profile_pic = req.files.profile_pic[0].filename;
+      }
+      if (
+        req.files.convention !== undefined &&
+        req.files.convention.length > 0
+      ) {
+        if (user.convention !== "") {
+          fs.unlinkSync(
+            path.join(__dirname, "../public/pdf/" + user.convention)
+          );
+          console.log("File deleted");
+          user.convention = req.files.convention[0].filename;
+        } else {
+          user.convention = req.files.convention[0].filename;
+        }
+      }
       if (
         req.files.renseignement !== undefined &&
         req.files.renseignement.length > 0
-      )
-        user.personal_sheet = req.files.renseignement[0].filename;
+      ) {
+        if (user.personal_sheet !== "") {
+          fs.unlinkSync(
+            path.join(__dirname, "../public/pdf/" + user.personal_sheet)
+          );
+          console.log("File deleted");
+          user.personal_sheet = req.files.renseignement[0].filename;
+        } else {
+          user.personal_sheet = req.files.renseignement[0].filename;
+        }
+      }
       if (
         req.files.recommandation !== undefined &&
         req.files.recommandation.length > 0

@@ -37,7 +37,7 @@ UserSchema.methods.getProfileInfos = function() {
     profile_pic: this.profile_pic,
     experiences: this.experiences,
     convention: this.convention,
-    letters: this.profile_pic,
+    letters: this.letters,
     personal_sheet: this.personal_sheet,
     status: this.status
   };
