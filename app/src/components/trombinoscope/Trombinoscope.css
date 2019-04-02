@@ -1,0 +1,42 @@
+.portrait {
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+}
+
+.title {
+  font-size: 20px;
+  font-family: "Lato", sans-serif;
+}
+.text {
+  font-size: 15px;
+  font-family: "Lato", sans-serif;
+  width: 200px;
+}
+.animated-card {
+  animation: 1s ease-in slidein;
+}
+@keyframes slidein {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@media screen and (max-width: 512px) {
+  .portrait {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+  }
+
+  .title {
+    font-size: 20px;
+    font-family: "Lato", sans-serif;
+  }
+  .text {
+    font-size: 18px;
+    font-family: "Lato", sans-serif;
+  }
+}

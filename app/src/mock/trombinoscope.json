@@ -1,116 +1,186 @@
 {
   "administration": [
-    { "name": "Maud Lapoumeyroulie", "fonction": "Directrice" },
+    {
+      "name": "Maud Lapoumeyroulie",
+      "fonction": "Directrice",
+      "image": "maud.jpg"
+    },
     {
       "name": "Manon Lapoumeyroulie",
-      "fonction": "Directrice administrative et financière"
+      "fonction": "Directrice administrative et financière",
+      "image": "manon.jpg"
     },
-    { "name": "Chanthéa Chhuan", "fonction": "Assistant comptable" },
-    { "name": "Marie Pinson", "fonction": "Assistante comptable" },
-    { "name": "Karen Giglietta", "fonction": "Office manager" },
+    {
+      "name": "Chanthéa Chhuan",
+      "fonction": "Assistant comptable",
+      "image": "chantea.jpg"
+    },
+    {
+      "name": "Marie Pinson",
+      "fonction": "Assistante comptable",
+      "image": "marie.jpg"
+    },
+    {
+      "name": "Karen Giglietta",
+      "fonction": "Office manager",
+      "image": "karen.jpg"
+    },
     {
       "name": "Régine Trauttmann",
-      "fonction": "Responsable qualité développement"
+      "fonction": "Responsable qualité développement",
+      "image": "regine.jpg"
     },
     {
       "name": "Alexis Maingonnat",
-      "fonction": "Responsable recrutement alternance"
+      "fonction": "Responsable recrutement alternance",
+      "image": "alexis.jpg"
     },
     {
       "name": "Charlotte Souvigné",
-      "fonction": "Chargée de recrutement initial"
+      "fonction": "Chargée de recrutement initial",
+      "image": "charlotte.jpg"
     },
-    { "name": "Karen Giglietta", "fonction": "Office manager" },
-    { "name": "Julie Martin", "fonction": "Assistante ADV" },
+    {
+      "name": "Julie Martin",
+      "fonction": "Assistante ADV",
+      "image": "julie.jpg"
+    },
     {
       "name": "Roxane Fane",
-      "fonction": "Chargée de communication web et évenementielle"
+      "fonction": "Chargée de communication web et évenementielle",
+      "image": "roxane.jpg"
     },
     {
       "name": "Quentin Kabasele",
-      "fonction": "Service Informatique"
+      "fonction": "Service Informatique",
+      "image": "quentin.jpg"
     },
     {
       "name": "Bédir Missaoui",
-      "fonction": "Responsable maintenance et informatique"
+      "fonction": "Responsable maintenance et informatique",
+      "image": "bedir.jpg"
     }
   ],
   "pedagogie": [
     {
       "name": "Marion Lamarque",
-      "fonction": "Responsable pédagogique, professeur d'enseignement professionnel et professeur référent des classes de BTS initial"
+      "fonction": "Responsable pédagogique, professeur d'enseignement professionnel et professeur référent des classes de BTS initial",
+      "image": "marionL.jpg"
     },
     {
       "name": "Adeline Andrieux",
-      "fonction": "Professeur d'enseignement professionnel et professeur référent des classes de Spa"
+      "fonction": "Professeur d'enseignement professionnel et professeur référent des classes de Spa",
+      "image": "adelineA.jpg"
     },
     {
       "name": "Marion Ducouret",
-      "fonction": "Responsable du pôle 'stage', professeur d'enseignement professionnel et professeur référent des classes de BP"
+      "fonction": "Responsable du pôle stage, professeur d'enseignement professionnel et professeur référent des classes de BP",
+      "image": "marionD.jpg"
     },
     {
       "name": "Rachel Soulé",
-      "fonction": "professeur d'enseignement professionnel, professeur référent des classes de bac pro et responsable de l'institut d'application"
+      "fonction": "professeur d'enseignement professionnel, professeur référent des classes de bac pro et responsable de l'institut d'application",
+      "image": "rachelS.jpg"
     },
-    { "name": "Laetitia Ferrand", "fonction": "Responsable d'institut" },
     {
       "name": "Amel Imine",
-      "fonction": "Professeur de mathématiques et physique-chimie"
+      "fonction": "Professeur de mathématiques et physique-chimie",
+      "image": "amelI.jpg"
     },
     {
       "name": "Gaëlle Monferran",
-      "fonction": "Professeur d'enseignement professionnel"
+      "fonction": "Professeur d'enseignement professionnel",
+      "image": "gaelleM.jpg"
     },
     {
-      "name": "AmelArnaud Barthélémy",
-      "fonction": "Professeur d'environnement professionne"
+      "name": "Arnaud Barthélémy",
+      "fonction": "Professeur d'environnement professionne",
+      "image": "arnaudB.jpg"
     },
     {
       "name": "Marion Charasse",
-      "fonction": "Professeur d'enseignement professionnel"
+      "fonction": "Professeur d'enseignement professionnel",
+      "image": "marionC.jpg"
     },
-    { "name": "Simon Jeannot", "fonction": "Professeur d'arts appliqués" },
+    {
+      "name": "Simon Jeannot",
+      "fonction": "Professeur d'arts appliqués",
+      "image": "simonJ.jpg"
+    },
     {
       "name": "Christiane Calafat",
-      "fonction": "Professeur de mathématiques et physique/chimie"
+      "fonction": "Professeur de mathématiques et physique/chimie",
+      "image": "christianeC.jpg"
     },
     {
       "name": "Jennifer Bouseau",
-      "fonction": "Professeur d'enseignement professionnel"
+      "fonction": "Professeur d'enseignement professionnel",
+      "image": "jenniferB.jpg"
     },
-    { "name": "Karim Benhamida", "fonction": "Professeur de gestion" },
-    { "name": "Deirdre Thiriet", "fonction": "Professeur d'anglais" },
+    {
+      "name": "Karim Benhamida",
+      "fonction": "Professeur de gestion",
+      "image": "karimB.jpg"
+    },
+    {
+      "name": "Deirdre Thiriet",
+      "fonction": "Professeur d'anglais",
+      "image": "deirdreT.jpg"
+    },
     {
       "name": "Paulette Gomis",
-      "fonction": "Professeur d'anglais et de marketing"
+      "fonction": "Professeur d'anglais et de marketing",
+      "image": "pauletteG.jpg"
     },
-    { "name": "Marc Toquebiau", "fonction": "Professeur professeur de NRC" },
+    {
+      "name": "Marc Toquebiau",
+      "fonction": "Professeur professeur de NRC",
+      "image": "marcT.jpg"
+    },
     {
       "name": "Edith Pamart",
-      "fonction": "Professeur de groomin/wording, cadre organisationnel et vente appliquée"
+      "fonction": "Professeur de groomin/wording, cadre organisationnel et vente appliquée",
+      "image": "edithP.jpg"
     },
-    { "name": "Muriel Ménager", "fonction": "Formatrice des CAP samedi" },
+    {
+      "name": "Muriel Ménager",
+      "fonction": "Formatrice des CAP samedi",
+      "image": "murielM.jpg"
+    },
     {
       "name": "Chloé Costa",
-      "fonction": "Professeur d'enseignement professionnel et esthéticienne"
+      "fonction": "Professeur d'enseignement professionnel et esthéticienne",
+      "image": "chloeC.jpg"
     },
-    { "name": "Sophie Reggio", "fonction": "Coach sportive" },
+    {
+      "name": "Sophie Reggio",
+      "fonction": "Coach sportive",
+      "image": "sophieR.jpg"
+    },
     {
       "name": "Niame Traore",
-      "fonction": "Professeur de management, marketing, communication et environnement professionnel"
+      "fonction": "Professeur de management, marketing, communication et environnement professionnel",
+      "image": "niameT.jpg"
     },
     {
       "name": "Leslie Carombo",
-      "fonction": "Professeur de management des équipes et communication"
+      "fonction": "Professeur de management des équipes et communication",
+      "image": "leslieC.jpg"
     },
     {
       "name": "Floriane Lourdelle",
-      "fonction": "Professeur d'enseignement professionnel"
+      "fonction": "Professeur d'enseignement professionnel",
+      "image": "florianeL.jpg"
     },
     {
       "name": "Delphine Lieben",
-      "fonction": "Professeur d'enseignement professionnel"
+      "fonction": "Professeur d'enseignement professionnel",
+      "image": "delphineL.jpg"
     },
-    { "name": "Elizabeth Thomas", "fonction": "Professeur d'espagnol" }
+    {
+      "name": "Elizabeth Thomas",
+      "fonction": "Professeur d'espagnol",
+      "image": "elizabethT.jpg"
+    }
   ]
 }
