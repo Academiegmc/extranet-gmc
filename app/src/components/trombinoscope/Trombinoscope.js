@@ -19,7 +19,6 @@ class Trombinoscope extends PureComponent {
   }
   render() {
     let status;
-    console.log(this.state.data);
     const { administration, pedagogie } = this.state.data;
     const allUsers =
       administration !== undefined

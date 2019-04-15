@@ -15,6 +15,7 @@ class Annonce extends Component {
       ad: {},
       user: "",
       userName: "",
+      profile_pic: "",
       comment: {},
       disallowedTypes: ["image", "html", "inlineCode", "code"]
     };
@@ -28,6 +29,7 @@ class Annonce extends Component {
     let myComment = {
       text: e.target.value,
       user: this.state.user,
+      profile_pic: this.state.profile_pic,
       name: this.state.userName
     };
     this.setState({ comment: myComment });
@@ -51,11 +53,13 @@ class Annonce extends Component {
   };
   componentWillReceiveProps(nextProps) {
     if (nextProps.ads.ad.data) this.setState({ ad: nextProps.ads.ad.data });
-    if (nextProps.auth.user)
+    if (nextProps.auth.user) {
       this.setState({
         user: nextProps.auth.user.id,
-        userName: nextProps.auth.user.name
+        userName: nextProps.auth.user.name,
+        profile_pic: nextProps.auth.user.profile_pic
       });
+    }
   }
   componentDidMount() {
     this.props.getAnAd(this.props.match.params.id);

@@ -69,10 +69,8 @@ export const updateUser = (userData, authID, history) => dispatch => {
   formData.append("renseignement", userData.fiche_renseignement);
   formData.append("convention", userData.convention_stage);
   formData.append("recommandation", userData.lettre_recommandation);
-  console.log(formData);
   axios
     .put(`${userUrl}`, formData)
-    // .put(`${userUrl}`, userData)
     .then(res => {
       dispatch({ type: UPDATE_USER, payload: res.data });
       history.push(`/profile/${authID}`);

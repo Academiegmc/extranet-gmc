@@ -29,8 +29,6 @@ class ProfileForm extends PureComponent {
   }
   handleImageUpload = async event => {
     const imageFile = event.target.files[0];
-    console.log("originalFile instanceof Blob", imageFile instanceof Blob); // true
-    console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
 
     var options = {
       maxSizeMB: 1,
@@ -39,28 +37,12 @@ class ProfileForm extends PureComponent {
     };
     try {
       const compressedFile = await imageCompression(imageFile, options);
-      console.log(
-        "compressedFile instanceof Blob",
-        compressedFile instanceof Blob
-      ); // true
-      console.log(
-        `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-      ); // smaller than maxSizeMB
-
-      // await uploadToServer(compressedFile); // write your own logic
       this.setState({ profile_pic: compressedFile });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   onChange = e => {
-    // if (e.target.name === "profile_pic") {
-    //   if (e.target.files.length > 0) {
-    //     if (e.target.files.length === 1) {
-    //       this.setState({ profile_pic: e.target.files[0] });
-    //     }
-    //   }
-    // }
     if (e.target.name === "renseignement") {
       if (e.target.files.length > 0) {
         if (e.target.files.length === 1) {
@@ -86,7 +68,6 @@ class ProfileForm extends PureComponent {
   };
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     this.props.updateUser(
       this.state,
       this.props.auth.user.id,
@@ -119,16 +100,16 @@ class ProfileForm extends PureComponent {
 
   render() {
     let alert;
-    if (this.state.errors.status === 403) {
-      if (this.state.errors.data !== undefined) {
-        alert = this.showAlert(
-          "alert alert-warning alert-dismissible fade show",
-          "Session expirée. Vous serez redirigé vers la page d'accueil d'ici quelques secondes."
-        );
-        setTimeout(() => this.props.logout(), 2000);
-        clearTimeout();
-      }
-    }
+    // if (this.state.errors.status === 403) {
+    //   if (this.state.errors.data !== undefined) {
+    //     alert = this.showAlert(
+    //       "alert alert-warning alert-dismissible fade show",
+    //       "Session expirée. Vous serez redirigé vers la page d'accueil d'ici quelques secondes."
+    //     );
+    //     setTimeout(() => this.props.logout(), 2000);
+    //     clearTimeout();
+    //   }
+    // }
     if (this.props.users.user.success) {
       alert = this.showAlert(
         "alert alert-success alert-dismissible fade show",
@@ -257,28 +238,6 @@ class ProfileForm extends PureComponent {
               </p>
             </div>
           </div>
-          {/* <div className="form-group-file">
-            <input
-              type="file"
-              className="form-control-file"
-              id="profile_pic"
-              name="profile_pic"
-              multiple
-              onChange={this.onChange}
-            />
-            <div style={{ margin: "2%" }}>
-              <p>
-                <small>Types de fichiers autorisés: .jpg .png.</small>
-              </p>
-
-              <p>
-                <small>Taille maximum : 2Mo.</small>
-              </p>
-            </div>
-            <button className="btn btn-primary" style={{ width: "100%" }}>
-              Modifier le profil
-            </button>
-          </div> */}
           <hr />
           <h3>Ajouter une Expérience</h3>
           <div className="form-row">

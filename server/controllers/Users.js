@@ -193,6 +193,7 @@ const Users = {
         {
           id: user._id,
           name: user.name,
+          profile_pic: user.profile_pic,
           email: user.email,
           status: user.status,
           admin: user.admin

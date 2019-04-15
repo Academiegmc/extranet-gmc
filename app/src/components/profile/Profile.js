@@ -53,7 +53,6 @@ class Profile extends PureComponent {
     let allUserJobs;
     let allUserNews;
     let sessionAlert;
-    if (errors.status === 403) this.logoutUser();
     if (ads.length > 0) {
       allUserAds = ads.map((ad, index) => (
         <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>

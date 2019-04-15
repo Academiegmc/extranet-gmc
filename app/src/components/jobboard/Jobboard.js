@@ -20,7 +20,6 @@ class Jobboard extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.jobs) {
-      console.log(nextProps.jobs);
       const { jobs, search_jobs } = nextProps.jobs;
       if (jobs.data) this.setState({ jobs: jobs.data });
       if (search_jobs) this.setState({ items: search_jobs });
@@ -111,7 +110,7 @@ class Jobboard extends Component {
             wrapperStyle={{ display: "inline-block", width: "40%" }}
           />
           <Link
-            to={`/job/${this.state.job_chose.id}`}
+            to={`/job/${this.state.job_chose._id}`}
             className="btn btn-primary"
           >
             <i className="fas fa-search"> </i>

@@ -62,7 +62,7 @@ class Annonces extends Component {
                 class: "btn btn-loisir text-white w-25 rounded"
               };
             }
-            if (annonce.category === "cosmétique") {
+            if (annonce.category === "cosmetique") {
               categoryIcon = <i className="fas fa-gift my-auto annonce-icon" />;
               style = { height: "50px", backgroundColor: "#A46855" };
               button = {
@@ -80,22 +80,6 @@ class Annonces extends Component {
                 <div className="card-body d-flex flex-column mt-3">
                   <h4 className="card-title">{annonce.title}</h4>
                   <h6 className="card-subtitle text-muted">{annonce.name}</h6>
-                  {/* <h6 className="card-subtitle text-muted">{annonce.name}</h6>
-                <h4 className="card-title">{annonce.title}</h4> */}
-                  {/* <ReactMarkdown
-                    className="card-text d-inline-block text-justify text-truncate"
-                    source={annonce.description}
-                    disallowedTypes={this.state.disallowedTypes}
-                  /> */}
-                  {/* <div className="card-text d-inline-block text-justify text-truncate">
-                    {annonce.description}
-                  </div> */}
-                  {/* <Link
-                    className="btn btn-primary text-white"
-                    to={`/annonce/${annonce.id}`}
-                  >
-                    En savoir plus
-                  </Link> */}
                   {Button(
                     button.type,
                     button.class,
@@ -129,7 +113,7 @@ class Annonces extends Component {
               getItemValue={item => item.title}
               renderItem={(item, highlighted) => (
                 <div
-                  key={item.id}
+                  key={item._id}
                   style={{
                     backgroundColor: highlighted ? "#eee" : "transparent"
                   }}
@@ -162,7 +146,7 @@ class Annonces extends Component {
               wrapperStyle={{ display: "inline-block", width: "40%" }}
             />
             <Link
-              to={`/annonce/${this.state.ad_chose.id}`}
+              to={`/annonce/${this.state.ad_chose._id}`}
               className="btn btn-primary"
             >
               <i className="fas fa-search"> </i>

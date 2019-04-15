@@ -9,7 +9,6 @@ import ReturnButton from "../layout/ReturnButton";
 import "./News.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import User from "../../assets/user.jpg";
 class News extends Component {
   constructor(props) {
     super(props);
@@ -84,7 +83,9 @@ class News extends Component {
               <div className="col-sm d-sm-flex flex-sm-row justify-content-sm-center justify-content-md-start">
                 <img
                   className="img-fluid rounded-circle img-circle align-self-center mr-2"
-                  src={User}
+                  src={`http://${process.env.REACT_APP_NODE_API}/profiles/${
+                    news.user.profile_pic
+                  }`}
                   alt="User pic"
                 />
                 <h5 className="align-self-center">{news.title}</h5>

@@ -15,7 +15,8 @@ const verifyToken = (req, res, next) => {
     req.user = {
       id: decoded.id,
       mail: decoded.email,
-      name: decoded.name
+      name: decoded.name,
+      profile_pic: decoded.profile_pic
     };
     next();
   });

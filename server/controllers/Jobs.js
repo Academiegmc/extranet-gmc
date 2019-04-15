@@ -146,7 +146,7 @@ const Jobs = {
   },
   searchJobs: async (req, res) => {
     const { q } = req.query;
-    const jobs = Job.find({
+    const jobs = await Job.find({
       jobTitle: { $regex: new RegExp(q), $options: "mi" }
     })
       .select("jobTitle")
@@ -156,7 +156,6 @@ const Jobs = {
     jobs.map((job, index) => {
       jobSearched.push({ _id: job._id, title: job.jobTitle });
     });
-    // res.status(200).json(jobs);
     console.log(jobSearched);
     res.status(200).json(jobSearched);
   }
