@@ -146,26 +146,31 @@ class Profile extends PureComponent {
       ));
     }
     return (
-      <div className="">
+      <div className="container-fluid">
         {sessionAlert}
-        <ReturnButton history={this.props.history} />
-        <Link
-          className="btn btn-link"
-          to={`/profile/edit/${this.props.match.params.id}`}
-        >
-          <h2>Mon profil</h2>
-        </Link>
-        <Link className="btn btn-link" to="/markdown">
-          <h2>Documentation</h2>
-        </Link>
-        <div className="d-flex flex-sm-column flex-md-row justify-content-md-center">
-          <a className="btn btn-outline-primary ml-3" href="/admin/job">
+        <div className="flex-column flex-md-row">
+          <ReturnButton history={this.props.history} />
+          <Link
+            className="btn btn-link"
+            to={`/profile/edit/${this.props.match.params.id}`}
+          >
+            <h2>Mon profil</h2>
+          </Link>
+          <Link className="btn btn-link" to="/markdown">
+            <h2>Documentation</h2>
+          </Link>
+        </div>
+        <div className="d-flex flex-column flex-md-row justify-content-md-center">
+          <a className="btn btn-outline-primary ml-3 mb-3" href="/admin/job">
             <h3>Ajouter un job</h3>
           </a>
-          <a className="btn btn-outline-primary ml-3" href="/admin/annonce">
+          <a
+            className="btn btn-outline-primary ml-3 mb-3"
+            href="/admin/annonce"
+          >
             <h3>Ajouter une annonce</h3>
           </a>
-          <a className="btn btn-outline-primary ml-3" href="/admin/news">
+          <a className="btn btn-outline-primary ml-3 mb-3" href="/admin/news">
             <h3>Ajouter une news</h3>
           </a>
         </div>

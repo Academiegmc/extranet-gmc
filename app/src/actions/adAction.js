@@ -3,7 +3,6 @@ import {
   GET_ALL_ADS,
   GET_AN_AD,
   GET_ERRORS,
-  UPDATE_COMMENTS,
   SEARCH_ADS,
   DELETE_AD,
   GET_ALL_USER_ADS
@@ -41,7 +40,7 @@ export const createAd = (adData, history) => dispatch => {
 export const updateComments = (adID, comment) => dispatch => {
   axios
     .post(`${adUrl}/edit/${adID}/comments`, comment)
-    .then(ad => dispatch({ type: UPDATE_COMMENTS, payload: ad }))
+    .then(ad => dispatch({ type: GET_AN_AD, payload: ad }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 export const updateAd = (adId, adData, history) => {

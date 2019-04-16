@@ -80,7 +80,7 @@ class Annonce extends Component {
       categoryIcon = <i className="fas fa-dice align-self-center" />;
       style = { backgroundColor: "#7FD1AE" };
     }
-    if (ad.category === "cosmétique") {
+    if (ad.category === "cosmetique") {
       categoryIcon = <i className="fas fa-gift align-self-center" />;
       style = { backgroundColor: "#A46855" };
     }

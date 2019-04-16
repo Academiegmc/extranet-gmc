@@ -19,7 +19,6 @@ export const GET_ALL_ADS = "GET_ALL_ADS";
 export const GET_AN_AD = "GET_AN_AD";
 export const CREATE_AD = "CREATE_AD";
 export const DELETE_AD = "DELETE_AD";
-export const UPDATE_COMMENTS = "UPDATE_COMMENTS";
 
 export const GET_USERS = "GET_USERS";
 export const GET_USER = "GET_USER";

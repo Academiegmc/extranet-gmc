@@ -101,7 +101,7 @@ class Dashboard extends Component {
       );
     });
     return (
-      <div className="container-fluid h-100">
+      <div className="container-fluid vh-100">
         {/* <hr className="d-sm-flex flex-sm-column flex-md-row w-100" /> */}
         <div className="col w-100 h-50 ">
           <h1 className="welcome-text welcome-anim text-center">Extranet</h1>

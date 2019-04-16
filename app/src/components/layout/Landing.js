@@ -38,41 +38,37 @@ class Landing extends Component {
   };
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <img src={Logo} className="mx-auto" alt="logo" />
-        </div>
+      <div className="container h-80 d-flex flex-column justify-content-center align-items-center">
+        <img src={Logo} className="mx-auto" alt="logo" />
         <hr />
-        <div className="col-12">
-          <form className="d-flex flex-column" onSubmit={this.onSubmit}>
-            <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                name="email"
-                aria-describedby="emailHelp"
-                placeholder="Entrer votre email"
-                onChange={this.onChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="exampleInputPassword1">Mot de passe</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                name="password"
-                placeholder="Entrer votre mot de passe"
-                onChange={this.onChange}
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">
-              Connexion
-            </button>
-          </form>
-        </div>
+        <form className="col-12 d-flex flex-column" onSubmit={this.onSubmit}>
+          <div className="form-group">
+            <label htmlFor="exampleInputEmail1">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              name="email"
+              aria-describedby="emailHelp"
+              placeholder="Entrer votre email"
+              onChange={this.onChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="exampleInputPassword1">Mot de passe</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              name="password"
+              placeholder="Entrer votre mot de passe"
+              onChange={this.onChange}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Connexion
+          </button>
+        </form>
       </div>
     );
   }

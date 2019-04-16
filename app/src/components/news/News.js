@@ -120,7 +120,9 @@ class News extends Component {
     return (
       <div className="container">
         <ReturnButton history={this.props.history} />
-        <h1>Dernières News</h1>
+        <h2>
+          <span>Dernières News</span>
+        </h2>
         <div className="d-flex flex-column W-100">{allNews}</div>
       </div>
     );

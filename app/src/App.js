@@ -40,7 +40,7 @@ class App extends PureComponent {
       clearTimeout();
     }
     return (
-      <div>
+      <div className="h-20">
         <Navbar />
         {alert}
         {/* <Footer /> */}

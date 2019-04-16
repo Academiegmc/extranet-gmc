@@ -2,3 +2,8 @@
   max-height: 600px;
   width: auto;
 }
+.container h2 {
+  font-size: 40px;
+  font-weight: 300;
+  font-family: "Lato", sans-serif;
+}

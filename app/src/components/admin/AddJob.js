@@ -3,6 +3,7 @@ import Moment from "moment";
 import ReturnButton from "../layout/ReturnButton";
 import { connect } from "react-redux";
 import { getAJob, updateJob, createJob } from "../../actions/jobActions";
+import "./AddJob.css";
 class AddJob extends PureComponent {
   constructor(props) {
     super(props);
@@ -102,10 +103,13 @@ class AddJob extends PureComponent {
       );
     }
     return (
-      <div className="container bg-white rounded mt-3">
+      <div className="container mt-3">
         {alert}
         <ReturnButton history={this.props.history} />
-        <form className="flex-column flex-center" onSubmit={this.onSubmit}>
+        <form
+          className="form-shadow card rounded p-3 flex-column flex-center"
+          onSubmit={this.onSubmit}
+        >
           <h5>Poste</h5>
           <div className="form-group">
             <label htmlFor="jobTitle">Titre</label>

@@ -5,7 +5,7 @@ class AddNews extends Component {
   render() {
     return (
       <Form
-        formTitle="News"
+        formTitle="Ajouter une News"
         titleInputName="title"
         titleInputPlaceholder="Intitulé de la news"
         titleInputAria="newsTitleHelp"

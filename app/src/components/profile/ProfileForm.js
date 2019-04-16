@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import imageCompression from "browser-image-compression";
 import { updateUser, getUser } from "../../actions/usersAction";
 import { logout } from "../../actions/authActions";
+import "./Profile.css";
 class ProfileForm extends PureComponent {
   constructor(props) {
     super(props);
@@ -120,7 +121,11 @@ class ProfileForm extends PureComponent {
       <div className="container">
         {alert}
         <h1>Editer votre profil</h1>
-        <form onSubmit={this.onSubmit} encType="multipart/form-data">
+        <form
+          className="form-shadow p-3 rounded card"
+          onSubmit={this.onSubmit}
+          encType="multipart/form-data"
+        >
           <div className="form-group">
             <label htmlFor="old_password">Ancien mot de passe</label>
             <input
@@ -163,79 +168,111 @@ class ProfileForm extends PureComponent {
           </div>
           <hr />
           <div className="form-group-file">
-            <label htmlFor="profile_pic">Photo de profil</label>
-            <input
-              type="file"
-              className="form-control-file"
-              accept="image/*"
-              id="profile_pic"
-              name="profile_pic"
-              placeholder="Choisissez votre photo"
-              onChange={this.handleImageUpload}
-            />
-            <div>
-              <p>
-                <small>Taille maximum : 2Mo.</small>
-                <br />
-                <small>Types de fichiers autorisés: .jpg .png.</small>
-              </p>
+            <div className="custom-file">
+              <input
+                type="file"
+                className="custom-file-input"
+                accept="image/*"
+                id="profile_pic"
+                name="profile_pic"
+                placeholder="Choisissez votre photo"
+                onChange={this.handleImageUpload}
+              />
+              <label
+                className="custom-file-label"
+                data-browse="Parcourir"
+                htmlFor="profile_pic"
+              >
+                Photo de profil
+              </label>
+              <div>
+                <p>
+                  <small>Taille maximum : 2Mo.</small>
+                  <br />
+                  <small>Types de fichiers autorisés: .jpg .png.</small>
+                </p>
+              </div>
             </div>
           </div>
           <hr />
           <div className="form-group-file">
-            <label htmlFor="renseignement">Fiche de renseignement</label>
-            <input
-              type="file"
-              className="form-control-file"
-              id="renseignement"
-              name="renseignement"
-              placeholder="Choisissez votre fichier"
-              onChange={this.onChange}
-            />
-            <div>
-              <p>
-                <small>Taille maximum : 2Mo.</small>
-                <br />
-                <small>Types de fichiers autorisés: .jpg .png.</small>
-              </p>
+            <div className="custom-file">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="renseignement"
+                name="renseignement"
+                placeholder="Choisissez votre fichier"
+                onChange={this.onChange}
+              />
+              <label
+                className="custom-file-label"
+                data-browse="Parcourir"
+                htmlFor="renseignement"
+              >
+                Fiche de renseignement
+              </label>
+              <div>
+                <p>
+                  <small>Taille maximum : 2Mo.</small>
+                  <br />
+                  <small>Types de fichiers autorisés: .pdf.</small>
+                </p>
+              </div>
             </div>
           </div>
           <hr />
           <div className="form-group-file">
-            <label htmlFor="convention">Convention de stage</label>
-            <input
-              type="file"
-              className="form-control-file"
-              id="convention"
-              name="convention"
-              placeholder="Choisissez votre fichier"
-              onChange={this.onChange}
-            />
-            <div>
-              <p>
-                <small>Taille maximum : 2Mo.</small>
-                <br />
-                <small>Types de fichiers autorisés: .jpg .png.</small>
-              </p>
+            <div className="custom-file">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="convention"
+                name="convention"
+                placeholder="Choisissez votre fichier"
+                onChange={this.onChange}
+              />
+              <label
+                className="custom-file-label"
+                data-browse="Parcourir"
+                htmlFor="convention"
+              >
+                Convention de stage
+              </label>
+              <div>
+                <p>
+                  <small>Taille maximum : 2Mo.</small>
+                  <br />
+                  <small>Type de fichiers autorisé: .pdf.</small>
+                </p>
+              </div>
             </div>
           </div>
           <hr />
           <div className="form-group-file">
-            <label htmlFor="recommandation">Lettre de recommandation</label>
-            <input
-              type="file"
-              className="form-control-file"
-              id="recommandation"
-              name="recommandation"
-              placeholder="Choisissez votre fichier"
-              onChange={this.onChange}
-            />
-            <div>
-              <p>
-                <small>Taille maximum : 2Mo.</small>
-                <br />
-                <small>Types de fichiers autorisés: .jpg .png.</small>
-              </p>
+            <div className="custom-file">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="recommandation"
+                name="recommandation"
+                placeholder="Choisissez votre fichier"
+                onChange={this.onChange}
+              />
+              <label
+                className="custom-file-label"
+                data-browse="Parcourir"
+                htmlFor="recommandation"
+              >
+                Lettre de recommandation
+              </label>
+              <div>
+                <p>
+                  <small>Taille maximum : 2Mo.</small>
+                  <br />
+                  <small>Type de fichiers autorisé: .pdf.</small>
+                </p>
+              </div>
             </div>
           </div>
           <hr />

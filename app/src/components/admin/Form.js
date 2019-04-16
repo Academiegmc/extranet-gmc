@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import "./Form.css";
 import { createNews, getANews, updateNews } from "../../actions/newsActions";
 import { logout } from "../../actions/authActions";
 import { createAd, updateAd, getAnAd } from "../../actions/adAction";
@@ -14,10 +15,12 @@ class Form extends Component {
       description: "",
       category: "etude",
       images: [],
-      errors: {}
+      errors: {},
+      triggerShadowEvent: false
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.triggerShadow = this.triggerShadow.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) this.setState({ errors: nextProps.errors });
@@ -39,6 +42,9 @@ class Form extends Component {
     if (this.props.match.path === "/news/edit/:id") {
       this.props.getANews(this.props.match.params.id);
     }
+  }
+  triggerShadow(e) {
+    this.setState({ triggerShadowEvent: !this.state.triggerShadowEvent });
   }
   onChange = e => {
     if (e.target.name === "images") {
@@ -97,8 +103,13 @@ class Form extends Component {
     return (
       <div className="container">
         <ReturnButton history={this.props.history} />
-        <form className="flex-column flex-center" onSubmit={this.onSubmit}>
-          <h5>{formTitle}</h5>
+        <form
+          className="flex-column flex-center card rounded form-shadow fade show p-5"
+          onSubmit={this.onSubmit}
+          onMouseEnter={this.triggerShadow}
+          onMouseLeave={this.triggerShadow}
+        >
+          <h5 className="text-center">{formTitle}</h5>
           <div className="form-group-text">
             <label htmlFor={titleInputName}>Titre</label>
             <input

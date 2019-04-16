@@ -45,7 +45,7 @@ class Navbar extends Component {
     ) : null;
     return (
       <nav
-        className="navbar navbar-expand-lg navbar-light"
+        className="navbar navbar-expand-lg navbar-light h-100"
         style={{ backgroundColor: "#f4e9de" }}
       >
         <Link className="nav-item" to="/">
