@@ -28,7 +28,9 @@ const Users = {
   getUser: async (req, res) => {
     const user = await User.findById(req.params.id)
       .select("-password")
-      .select("-admin");
+      .select("-admin")
+      .populate("convention")
+      .populate("personal_sheet");
     if (!user) res.status(400).json({ success: false });
     else {
       res
@@ -88,79 +90,65 @@ const Users = {
       const user = await User.findById(req.user.id);
       const salt = 10;
       if (!user) return res.status(404).send(ErrorMessage.userNotFound);
-      // console.log(req.files);
-      if (
-        req.files.profile_pic !== undefined &&
-        req.files.profile_pic.length > 0
-      ) {
-        user.profile_pic = req.files.profile_pic[0].filename.trim();
-      }
+      // if (
+      //   req.files.profile_pic !== undefined &&
+      //   req.files.profile_pic.length > 0
+      // ) {
+      //   user.profile_pic = req.files.profile_pic[0].filename.trim();
+      // }
       if (
         req.files.convention !== undefined &&
         req.files.convention.length > 0
       ) {
-        if (user.convention !== "") {
-          fs.unlinkSync(
-            path.join(__dirname, "../public/pdf/" + user.convention)
-          );
-          console.log("File deleted");
-          user.convention = req.files.convention[0].filename;
-        } else {
-          user.convention = req.files.convention[0].filename;
-        }
+        user.convention = req.files.convention[0].id;
       }
       if (
         req.files.renseignement !== undefined &&
         req.files.renseignement.length > 0
       ) {
-        if (user.personal_sheet !== "") {
-          fs.unlinkSync(
-            path.join(__dirname, "../public/pdf/" + user.personal_sheet)
-          );
-          console.log("File deleted");
-          user.personal_sheet = req.files.renseignement[0].filename;
-        } else {
-          user.personal_sheet = req.files.renseignement[0].filename;
-        }
+        user.personal_sheet = req.files.renseignement[0].id;
       }
-      if (
-        req.files.recommandation !== undefined &&
-        req.files.recommandation.length > 0
-      ) {
-        req.files.recommandation.map(letter =>
-          user.letters.push(letter.filename)
-        );
-      }
-      if (
-        req.body.old_password &&
-        req.body.new_password &&
-        req.body.confirm_password
-      ) {
-        if (req.body.new_password !== req.body.confirm_password) {
-          return res.status(400).json({ error: "Mot de passe incorrect" });
-        }
-        const check_password = await bcrypt.compare(
-          req.body.old_password,
-          user.password
-        );
-        console.log(check_password);
-        if (check_password) {
-          user.password = await bcrypt.hash(req.body.new_password, salt);
-        } else {
-          res.status(400).json({ error: "Mot de passe incorrect" });
-        }
-      }
-      if (
-        req.body.name !== "" &&
-        req.body.description !== "" &&
-        req.body.poste !== "" &&
-        req.body.start_date !== "" &&
-        req.body.end_date !== ""
-      ) {
-        const { name, description, poste, start_date, end_date } = req.body;
-        const experience = { name, description, poste, start_date, end_date };
-        user.experiences.push(experience);
-      }
+      // if (
+      //   req.files.recommandation !== undefined &&
+      //   req.files.recommandation.length > 0
+      // ) {
+      //   req.files.recommandation.map(letter =>
+      //     user.letters.push(letter.filename)
+      //   );
+      // }
+      // if (
+      //   req.body.old_password &&
+      //   req.body.new_password &&
+      //   req.body.confirm_password
+      // ) {
+      //   if (req.body.new_password !== req.body.confirm_password) {
+      //     return res.status(400).json({ error: "Mot de passe incorrect" });
+      //   }
+      //   const check_password = await bcrypt.compare(
+      //     req.body.old_password,
+      //     user.password
+      //   );
+      //   console.log(check_password);
+      //   if (check_password) {
+      //     user.password = await bcrypt.hash(req.body.new_password, salt);
+      //   } else {
+      //     res.status(400).json({ error: "Mot de passe incorrect" });
+      //   }
+      // }
+      // if (
+      //   req.body.name !== "" &&
+      //   req.body.description !== "" &&
+      //   req.body.poste !== "" &&
+      //   req.body.start_date !== "" &&
+      //   req.body.end_date !== ""
+      // ) {
+      //   const { name, description, poste, start_date, end_date } = req.body;
+      //   const experience = { name, description, poste, start_date, end_date };
+      //   user.experiences.push(experience);
+      // }
+      // console.log(req.user);
+      // console.log(req.files);
+      // res.json(req.files);
       const userSaved = await user.save();
       if (!userSaved) return res.status(400).json({ success: false });
       res.status(200).json({ success: true, user: await userSaved.getInfos() });

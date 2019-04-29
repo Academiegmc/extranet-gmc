@@ -1,17 +1,21 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+const GFS = mongoose.model(
+  "UserFiles",
+  new Schema({}, { strict: false }),
+  "users-upload.files"
+);
 const UserSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
   admin: { type: Boolean, default: false },
   status: { type: Number, required: true },
-  profile_pic: { type: String },
-  experiences: { type: [{}] },
-  convention: { type: String },
-  letters: { type: [String] },
-  personal_sheet: { type: String }
+  profile_pic: { type: Schema.Types.ObjectId, ref: "UserFiles" },
+  experiences: { type: [{ type: Schema.Types.ObjectId, ref: "UserFiles" }] },
+  convention: { type: Schema.Types.ObjectId, ref: "UserFiles" },
+  letters: { type: [{ type: Schema.Types.ObjectId, ref: "UserFiles" }] },
+  personal_sheet: { type: Schema.Types.ObjectId, ref: "UserFiles" }
 });
 /*
   Status :
@@ -27,6 +31,10 @@ UserSchema.methods.getInfos = function() {
     id: this._id,
     name: this.name,
     profile_pic: this.profile_pic,
+    experiences: this.experiences,
+    convention: this.convention,
+    letters: this.letters,
+    personal_sheet: this.personal_sheet,
     status: this.status
   };
 };
