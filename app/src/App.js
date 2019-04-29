@@ -40,11 +40,11 @@ class App extends PureComponent {
       clearTimeout();
     }
     return (
-      <div className="h-20">
+      <header style={{ height: "10%" }}>
         <Navbar />
         {alert}
         {/* <Footer /> */}
-      </div>
+      </header>
     );
   }
 }

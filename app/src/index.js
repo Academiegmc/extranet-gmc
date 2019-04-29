@@ -23,7 +23,7 @@ if (
 }
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider className="vh-100" store={store}>
     <Router>
       <Routes />
     </Router>

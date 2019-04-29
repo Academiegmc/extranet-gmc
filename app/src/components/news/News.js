@@ -77,10 +77,13 @@ class News extends Component {
         ));
       }
       return (
-        <div className="card d-flex flex-column w-100 mr-3 mb-3" key={index}>
+        <div
+          className="card d-flex flex-column w-100 mr-3 mb-3 news-card"
+          key={index}
+        >
           <div className="d-flex flex-column card-body">
             <div className="card-title text-left w-100 bg-light">
-              <div className="col-sm d-sm-flex flex-sm-row justify-content-sm-center justify-content-md-start">
+              <div className="col-sm d-flex flex-row justify-content-sm-center justify-content-md-start">
                 <img
                   className="img-fluid rounded-circle img-circle align-self-center mr-2"
                   src={`http://${process.env.REACT_APP_NODE_API}/profiles/${
@@ -102,9 +105,6 @@ class News extends Component {
               disallowedTypes={this.state.disallowedTypes}
               linkTarget={"_blank"}
             />
-            {/* <p className="card-text p-2" style={{ whiteSpace: "pre-line" }}>
-              {news.description}
-            </p> */}
             <small>
               <i className="fas fa-calendar-alt" />{" "}
               {
@@ -123,7 +123,13 @@ class News extends Component {
         <h2>
           <span>Dernières News</span>
         </h2>
-        <div className="d-flex flex-column W-100">{allNews}</div>
+        <div className="d-flex flex-column W-100">
+          {allNews.length > 0 ? (
+            allNews
+          ) : (
+            <h3 className="text-center my-5">Les news vont tomber !</h3>
+          )}
+        </div>
       </div>
     );
   }

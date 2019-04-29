@@ -174,28 +174,28 @@ class Profile extends PureComponent {
             <h3>Ajouter une news</h3>
           </a>
         </div>
-        <div className="d-sm-flex flex-column">
+        <div className="d-flex flex-column">
           <h3
             className="text-left border border-dark mt-5 mb-3  p-4"
             style={{ fontFamily: "Lato", color: "#646363" }}
           >
             Annonces
           </h3>{" "}
-          <div className="d-sm-flex flex-row flex-wrap">{allUserAds}</div>
+          <div className="d-flex flex-row flex-wrap">{allUserAds}</div>
           <h3
             className="text-left border border-dark mt-5 mb-3  p-4"
             style={{ fontFamily: "Lato", color: "#646363" }}
           >
             Jobs
           </h3>{" "}
-          <div className="d-sm-flex flex-row flex-wrap">{allUserJobs}</div>
+          <div className="d-flex flex-row flex-wrap">{allUserJobs}</div>
           <h3
             className="text-left border border-dark mt-5 mb-3 p-4"
             style={{ fontFamily: "Lato", color: "#646363" }}
           >
             News
           </h3>{" "}
-          <div className="d-sm-flex flex-row flex-wrap">{allUserNews}</div>
+          <div className="d-flex flex-row flex-wrap">{allUserNews}</div>
         </div>
       </div>
     );

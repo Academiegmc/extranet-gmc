@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import imageCompression from "browser-image-compression";
 import { updateUser, getUser } from "../../actions/usersAction";
 import { logout } from "../../actions/authActions";
+import ReturnButton from "../layout/ReturnButton";
+
 import "./Profile.css";
 class ProfileForm extends PureComponent {
   constructor(props) {
@@ -119,6 +121,8 @@ class ProfileForm extends PureComponent {
     }
     return (
       <div className="container">
+        <ReturnButton history={this.props.history} />
+
         {alert}
         <h1>Editer votre profil</h1>
         <form

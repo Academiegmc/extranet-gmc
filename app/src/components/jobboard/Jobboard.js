@@ -123,7 +123,13 @@ class Jobboard extends Component {
             flexFlow: "column wrap"
           }}
         >
-          {jobs}
+          {jobs.length > 0 ? (
+            jobs
+          ) : (
+            <h3 className="text-center my-5">
+              La pluie d'emplois arrive très bientôt !
+            </h3>
+          )}
         </div>
       </div>
     );

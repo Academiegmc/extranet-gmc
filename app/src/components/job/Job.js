@@ -8,6 +8,7 @@ import { getAJob } from "../../actions/jobActions";
 import Axios from "axios";
 import ReturnButton from "../layout/ReturnButton";
 import { logout } from "../../actions/authActions";
+import "./Job.css";
 class Job extends PureComponent {
   constructor(props) {
     super(props);
@@ -98,7 +99,7 @@ class Job extends PureComponent {
     }
     const startDate = <Moment format="DD-MM-YYYY">{jobStartDate}</Moment>;
     return (
-      <div className="container mt-5 card rounded">
+      <div className="container mt-5 card rounded job">
         <ReturnButton history={this.props.history} />
         <div className="d-flex flex-column align-items-center w-100">
           <h3>{jobTitle}</h3>

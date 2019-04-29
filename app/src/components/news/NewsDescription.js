@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import ReactMarkdown from "react-markdown";
 import { getANews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
+import "./News.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 class NewsDescription extends Component {
@@ -80,7 +81,7 @@ class NewsDescription extends Component {
     return (
       <div className="container flex-column mt-5">
         <ReturnButton history={this.props.history} />
-        <div className="card rounded">
+        <div className="card news-card rounded">
           <Slider {...settings}>{imgTab}</Slider>
           <div className="card-body">
             <div className="card-title text-capitalize">

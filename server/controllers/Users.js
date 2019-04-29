@@ -93,7 +93,7 @@ const Users = {
         req.files.profile_pic !== undefined &&
         req.files.profile_pic.length > 0
       ) {
-        user.profile_pic = req.files.profile_pic[0].filename;
+        user.profile_pic = req.files.profile_pic[0].filename.trim();
       }
       if (
         req.files.convention !== undefined &&

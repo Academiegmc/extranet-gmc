@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { loginUser } from "../../actions/authActions";
 import Logo from "../../assets/logo.png";
+import "./Landing.css";
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +39,7 @@ class Landing extends Component {
   };
   render() {
     return (
-      <div className="container h-80 d-flex flex-column justify-content-center align-items-center">
+      <div className="container d-flex flex-column justify-content-center align-items-center mt-5 landing">
         <img src={Logo} className="mx-auto" alt="logo" />
         <hr />
         <form className="col-12 d-flex flex-column" onSubmit={this.onSubmit}>

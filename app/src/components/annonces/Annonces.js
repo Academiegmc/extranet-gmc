@@ -48,38 +48,43 @@ class Annonces extends Component {
               categoryIcon = (
                 <i className="fas fa-user-graduate my-auto annonce-icon" />
               );
-              style = { height: "50px", backgroundColor: "#FF8962" };
+              style = { height: "50%", backgroundColor: "#FF8962" };
               button = {
                 type: "link",
-                class: "btn btn-etude text-white w-25 rounded"
+                class: "btn btn-etude text-white rounded"
               };
             }
             if (annonce.category === "loisir") {
               categoryIcon = <i className="fas fa-dice my-auto annonce-icon" />;
-              style = { height: "50px", backgroundColor: "#7FD1AE" };
+              style = { height: "50%", backgroundColor: "#7FD1AE" };
               button = {
                 type: "link",
-                class: "btn btn-loisir text-white w-25 rounded"
+                class: "btn btn-loisir text-white rounded"
               };
             }
             if (annonce.category === "cosmetique") {
               categoryIcon = <i className="fas fa-gift my-auto annonce-icon" />;
-              style = { height: "50px", backgroundColor: "#A46855" };
+              style = { height: "50%", backgroundColor: "#A46855" };
               button = {
                 type: "link",
-                class: "btn btn-cosmetique text-white w-25 rounded"
+                class: "btn btn-cosmetique text-white rounded"
               };
             }
             return (
-              <div className="card annonce-card mx-2 my-2" key={index}>
-                <div className="w-100 border card-body" style={style}>
-                  <div className="d-flex flex-row justify-content-center border rounded-circle bg-light annonce-card-icon">
+              <div className="card annonce-card m-2" key={index}>
+                <div
+                  className="border card-body d-flex justify-content-center align-items-center"
+                  style={style}
+                >
+                  <div className="d-flex justify-content-center align-items-center border rounded-circle bg-light annonce-card-icon">
                     {categoryIcon}
                   </div>
                 </div>
                 <div className="card-body d-flex flex-column mt-3">
                   <h4 className="card-title">{annonce.title}</h4>
-                  <h6 className="card-subtitle text-muted">{annonce.name}</h6>
+                  <h6 className="card-subtitle text-muted mb-3">
+                    {annonce.name}
+                  </h6>
                   {Button(
                     button.type,
                     button.class,
@@ -153,7 +158,7 @@ class Annonces extends Component {
             </Link>
           </div>
         </div>
-        <div className="d-sm-flex flex-sm-column flex-md-row flex-md-wrap mt-5">
+        <div className="d-flex flex-column flex-md-row flex-md-wrap mt-5">
           {allAnnonces}
         </div>
       </div>

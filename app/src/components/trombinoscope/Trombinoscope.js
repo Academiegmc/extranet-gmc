@@ -79,7 +79,7 @@ class Trombinoscope extends PureComponent {
         <h2 className="text-center">Administration</h2>
         <div
           id="section-one"
-          className="d-sm-flex flex-sm-column flex-md-row flex-wrap"
+          className="d-flex flex-column flex-md-row flex-wrap"
         >
           {allUsers}
         </div>
@@ -87,7 +87,7 @@ class Trombinoscope extends PureComponent {
         <h2 className="text-center">Pédagogie</h2>
         <div
           id="section-two"
-          className="d-sm-flex flex-sm-column flex-md-row flex-wrap"
+          className="d-flex flex-column flex-md-row flex-wrap"
         >
           {allPedago}
         </div>

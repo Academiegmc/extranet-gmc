@@ -58,9 +58,17 @@ class Stages extends PureComponent {
 
   render() {
     const { user } = this.state;
+    let status;
     let displayExperiences;
     let displayLetters;
-    if (this.state.user.letters !== undefined) {
+    if (user.status === 0) status = "élève";
+    if (user.status === 1) status = "Ancien élève";
+    if (user.status === 2) status = "Professeur";
+    if (user.status === 3) status = "Administrateur";
+    if (
+      this.state.user.letters !== undefined &&
+      this.state.user.letters.length > 0
+    ) {
       displayLetters = this.state.user.letters.map((letter, index) => (
         <a
           key={index}
@@ -71,7 +79,7 @@ class Stages extends PureComponent {
         </a>
       ));
     } else {
-      displayLetters = <h3>Chargement...</h3>;
+      displayLetters = <h3>Présentez-nous vos lettres de recommendations !</h3>;
     }
     if (user.experiences !== undefined && user.experiences.length > 0) {
       displayExperiences = user.experiences.map((exp, index) => (
@@ -96,7 +104,7 @@ class Stages extends PureComponent {
         </li>
       ));
     } else {
-      displayExperiences = <h3>Chargement...</h3>;
+      displayExperiences = <span>Ajoutez des expériences</span>;
     }
     // const settings = {
     //   adaptiveHeight: true,
@@ -161,25 +169,29 @@ class Stages extends PureComponent {
                 }
                 alt="profile-pic"
               />
-              <a
-                className="btn btn-primary"
-                href={`http://${process.env.REACT_APP_NODE_API}/pdf/${
-                  this.state.user.personal_sheet
-                }`}
-              >
-                Fiche de renseignement
-              </a>
-              <a
-                className="btn btn-primary"
-                href={`http://${process.env.REACT_APP_NODE_API}/pdf/${
-                  this.state.user.convention
-                }`}
-              >
-                Convention de stage
-              </a>
-              <button onClick={this.openModal} className="btn btn-primary">
-                Lettres de recommandations
-              </button>
+              {user.status === 0 ? (
+                <div>
+                  <a
+                    className="btn btn-primary"
+                    href={`http://${process.env.REACT_APP_NODE_API}/pdf/${
+                      this.state.user.personal_sheet
+                    }`}
+                  >
+                    Fiche de renseignement
+                  </a>
+                  <a
+                    className="btn btn-primary"
+                    href={`http://${process.env.REACT_APP_NODE_API}/pdf/${
+                      this.state.user.convention
+                    }`}
+                  >
+                    Convention de stage
+                  </a>
+                  <button onClick={this.openModal} className="btn btn-primary">
+                    Lettres de recommandations
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -188,7 +200,7 @@ class Stages extends PureComponent {
               <h3 className="stage-title">
                 {user.name !== undefined ? user.name : "Chargement..."}
               </h3>
-              <p className="text-muted">Administrateur</p>
+              <p className="text-muted">{status}</p>
             </div>
             <hr />
             <div className="row">
@@ -210,16 +222,20 @@ class Stages extends PureComponent {
           }}
           className="container"
         >
-          <div
-            style={{ border: "1px solid black", borderRadius: "5px" }}
-            className="mt-3"
-          >
-            <button className="btn btn-outline-dark" onClick={this.closeModal}>
-              <i className="far fa-times-circle">Fermer</i>
+          <div className="card mt-3 rounded border">
+            <button
+              className="btn btn-dark text-white"
+              onClick={this.closeModal}
+            >
+              <i className="far fa-times-circle px-2" />
+              Fermer
             </button>
-            <h1 id="heading" className="text-center mt-3 mb-3">
+            <h2
+              id="heading"
+              className="text-center font-weight-lighter mt-3 mb-3"
+            >
               Lettres de recommandations
-            </h1>
+            </h2>
             <div
               id="full_description"
               className="d-flex justify-content-around"

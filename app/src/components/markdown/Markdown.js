@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
 import TextareaAutosize from "react-autosize-textarea";
+import ReturnButton from "../layout/ReturnButton";
 import "./Markdown.css";
 export default class Markdown extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ export default class Markdown extends Component {
   render() {
     return (
       <div className="container">
+        <ReturnButton history={this.props.history} />
         <div className="row w-100">
           <h2>Tuto : Ecrire un article</h2>
           <p>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../actions/authActions";
+import { getUser } from "../../actions/usersAction";
 import Logo from "../../assets/Favicon.png";
 
 class Navbar extends Component {
@@ -45,7 +46,7 @@ class Navbar extends Component {
     ) : null;
     return (
       <nav
-        className="navbar navbar-expand-lg navbar-light h-100"
+        className="navbar navbar-expand-lg navbar-light h-20"
         style={{ backgroundColor: "#f4e9de" }}
       >
         <Link className="nav-item" to="/">
@@ -74,25 +75,14 @@ class Navbar extends Component {
           {data}
         </div>
       </nav>
-      // <nav className="navbar d-flex" style={{ backgroundColor: "#f4e9de" }}>
-      //   <div className="d-flex flex-row mr-auto">
-      //     <Link className="" to="/">
-      //       <img src={Logo} alt="Logo" />
-      //     </Link>
-      //     <Link className="nav-link align-self-center" to="/">
-      //       Accueil <span className="sr-only">(current)</span>
-      //     </Link>
-      //     {adminLink}
-      //   </div>
-      //   <div className="">{data}</div>
-      // </nav>
     );
   }
 }
 const mapStatetoprops = state => ({
-  auth: state.auth
+  auth: state.auth,
+  users: state.users
 });
 export default connect(
   mapStatetoprops,
-  { logout }
+  { logout, getUser }
 )(Navbar);

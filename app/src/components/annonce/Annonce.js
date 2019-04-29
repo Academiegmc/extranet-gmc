@@ -88,7 +88,7 @@ class Annonce extends Component {
       <div className="container flex-column flex-center">
         <ReturnButton history={this.props.history} />
         <h1>Annonce</h1>
-        <div className="card rounded">
+        <div className="card annonce rounded">
           <div className="d-flex flex-row w-100 p-3 rounded" style={style}>
             <div className="annonce-category d-flex flex-row justify-content-center bg-light rounded-circle">
               {categoryIcon}
@@ -141,7 +141,8 @@ Annonce.propTypes = {
 };
 const mapStateToProps = state => ({
   ads: state.ads,
-  auth: state.auth
+  auth: state.auth,
+  users: state.users
 });
 export default connect(
   mapStateToProps,
