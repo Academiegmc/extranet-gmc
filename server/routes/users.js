@@ -104,23 +104,25 @@ const upload = multer({
 
 const router = express.Router();
 router.get("/all", Users.getAllUsers);
-router.get("/image/:id", async (req, res) => {
-  const file = await gfs.files.findOne({ _id: req.params.id });
-  if (!file || file.length === 0) {
-    return res.status(404).json({
-      error: "No file found"
-    });
-  }
-  //Check if image
-  if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
-    //Read output to browser
-    const readstream = gfs.createReadStream(file.filename);
-    readstream.pipe(res);
-  } else {
-    return res.status(404).json({
-      error: "Not an image"
-    });
-  }
+router.get("/image/:id", (req, res) => {
+  gfs.findOne({ _id: req.params.id }, (err, file) => {
+    if (err) return res.status(400).json({ err: "Bad Request" });
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        error: "No file found"
+      });
+    }
+    //Check if image
+    if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
+      //Read output to browser
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
+    } else {
+      return res.status(404).json({
+        error: "Not an image"
+      });
+    }
+  });
 });
 router.get("/pdf/:id", (req, res) => {
   gfs.findOne({ _id: req.params.id }, function(err, file) {

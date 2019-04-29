@@ -29,6 +29,7 @@ const Users = {
     const user = await User.findById(req.params.id)
       .select("-password")
       .select("-admin")
+      .populate("profile_pic")
       .populate("convention")
       .populate("personal_sheet");
     if (!user) res.status(400).json({ success: false });
@@ -90,12 +91,12 @@ const Users = {
       const user = await User.findById(req.user.id);
       const salt = 10;
       if (!user) return res.status(404).send(ErrorMessage.userNotFound);
-      // if (
-      //   req.files.profile_pic !== undefined &&
-      //   req.files.profile_pic.length > 0
-      // ) {
-      //   user.profile_pic = req.files.profile_pic[0].filename.trim();
-      // }
+      if (
+        req.files.profile_pic !== undefined &&
+        req.files.profile_pic.length > 0
+      ) {
+        user.profile_pic = req.files.profile_pic[0].id;
+      }
       if (
         req.files.convention !== undefined &&
         req.files.convention.length > 0
