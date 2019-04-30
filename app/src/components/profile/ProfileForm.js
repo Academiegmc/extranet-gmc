@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import imageCompression from "browser-image-compression";
+import bsCustomFileInput from "bs-custom-file-input";
 import { updateUser, getUser } from "../../actions/usersAction";
 import { logout } from "../../actions/authActions";
 import ReturnButton from "../layout/ReturnButton";
@@ -98,6 +99,7 @@ class ProfileForm extends PureComponent {
     }
   }
   componentDidMount() {
+    bsCustomFileInput.init();
     this.props.getUser(this.props.match.params.id);
   }
 
@@ -171,9 +173,15 @@ class ProfileForm extends PureComponent {
             </div>
           </div>
           <hr />
-          <div className="form-group-file">
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroupFileAddon01">
+                <i className="fas fa-user-circle" />
+              </span>
+            </div>
             <div className="custom-file">
               <input
+                aria-describedby="inputGroupFileAddon01"
                 type="file"
                 className="custom-file-input"
                 accept="image/*"
@@ -189,17 +197,14 @@ class ProfileForm extends PureComponent {
               >
                 Photo de profil
               </label>
-              <div>
-                <p>
-                  <small>Taille maximum : 2Mo.</small>
-                  <br />
-                  <small>Types de fichiers autorisés: .jpg .png.</small>
-                </p>
-              </div>
             </div>
           </div>
-          <hr />
-          <div className="form-group-file">
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroupFileAddon01">
+                <i className="fas fa-file-pdf" />
+              </span>
+            </div>
             <div className="custom-file">
               <input
                 type="file"
@@ -216,17 +221,14 @@ class ProfileForm extends PureComponent {
               >
                 Fiche de renseignement
               </label>
-              <div>
-                <p>
-                  <small>Taille maximum : 2Mo.</small>
-                  <br />
-                  <small>Types de fichiers autorisés: .pdf.</small>
-                </p>
-              </div>
             </div>
           </div>
-          <hr />
-          <div className="form-group-file">
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroupFileAddon01">
+                <i className="fas fa-file-pdf" />
+              </span>
+            </div>
             <div className="custom-file">
               <input
                 type="file"
@@ -243,17 +245,14 @@ class ProfileForm extends PureComponent {
               >
                 Convention de stage
               </label>
-              <div>
-                <p>
-                  <small>Taille maximum : 2Mo.</small>
-                  <br />
-                  <small>Type de fichiers autorisé: .pdf.</small>
-                </p>
-              </div>
             </div>
           </div>
-          <hr />
-          <div className="form-group-file">
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroupFileAddon01">
+                <i className="fas fa-file-pdf" />
+              </span>
+            </div>
             <div className="custom-file">
               <input
                 type="file"
@@ -270,13 +269,6 @@ class ProfileForm extends PureComponent {
               >
                 Lettre de recommandation
               </label>
-              <div>
-                <p>
-                  <small>Taille maximum : 2Mo.</small>
-                  <br />
-                  <small>Type de fichiers autorisé: .pdf.</small>
-                </p>
-              </div>
             </div>
           </div>
           <hr />
