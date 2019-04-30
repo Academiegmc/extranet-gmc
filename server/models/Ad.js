@@ -16,8 +16,6 @@ const AdSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "users"
       },
-      profile_pic: { type: String },
-      name: { type: String },
       text: { type: String, required: true },
       date: { type: Date, default: Date.now }
     }

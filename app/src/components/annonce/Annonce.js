@@ -28,9 +28,7 @@ class Annonce extends Component {
     e.preventDefault();
     let myComment = {
       text: e.target.value,
-      user: this.state.user,
-      profile_pic: this.state.profile_pic,
-      name: this.state.userName
+      user: this.state.user
     };
     this.setState({ comment: myComment });
   };

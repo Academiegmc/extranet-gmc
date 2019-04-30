@@ -25,7 +25,10 @@ const Ads = {
   },
   getAd: async (req, res) => {
     try {
-      const ad = await Ad.findById(req.params.id);
+      const ad = await Ad.findById(req.params.id).populate({
+        path: "comments.user",
+        model: "gmc-users"
+      });
       if (!ad)
         return res.status(404).json({ message: ErrorMessage.adNotFound });
       res.status(200).json(await ad.getData());

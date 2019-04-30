@@ -31,6 +31,7 @@ const Users = {
       .select("-admin")
       .populate("profile_pic")
       .populate("convention")
+      .populate("letters")
       .populate("personal_sheet");
     if (!user) res.status(400).json({ success: false });
     else {
@@ -109,14 +110,12 @@ const Users = {
       ) {
         user.personal_sheet = req.files.renseignement[0].id;
       }
-      // if (
-      //   req.files.recommandation !== undefined &&
-      //   req.files.recommandation.length > 0
-      // ) {
-      //   req.files.recommandation.map(letter =>
-      //     user.letters.push(letter.filename)
-      //   );
-      // }
+      if (
+        req.files.recommandation !== undefined &&
+        req.files.recommandation.length > 0
+      ) {
+        req.files.recommandation.map(letter => user.letters.push(letter.id));
+      }
       // if (
       //   req.body.old_password &&
       //   req.body.new_password &&

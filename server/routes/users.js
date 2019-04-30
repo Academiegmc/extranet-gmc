@@ -49,59 +49,6 @@ const storage = new GridFsStorage({
 const upload = multer({
   storage
 });
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     if (file.fieldname === "profile_pic") {
-//       cb(null, `${path.join(__dirname, "../")}public/profiles/`);
-//     } else {
-//       cb(null, `${path.join(__dirname, "../")}public/pdf/`);
-//     }
-//   },
-//   filename: (req, file, cb) => {
-//     if (file.fieldname === "profile_pic") {
-//       if (path.extname(file.originalname) === "") {
-//         cb(
-//           null,
-//           file.fieldname + "-" + req.user.name.replace(" ", "-").trim() + ".jpg"
-//         );
-//       } else {
-//         cb(
-//           null,
-//           file.fieldname + "-" + req.user.name + path.extname(file.originalname)
-//         );
-//       }
-//     } else {
-//       cb(
-//         null,
-//         file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-//       );
-//     }
-//   },
-//   fileFilter: (req, file, cb) => {
-//     // The function should call `cb` with a boolean
-//     // to indicate if the file should be accepted
-//     if (
-//       path.extname(file.originalname) !== "pdf" ||
-//       path.extname(file.originalname) !== "jpg" ||
-//       path.extname(file.originalname) !== "png"
-//     ) {
-//       // To reject this file pass `false`, like so:
-//       cb(null, false);
-//     } else {
-//       // To accept the file pass `true`, like so:
-//       cb(null, true);
-//     }
-
-//     // You can always pass an error if something goes wrong:
-//     cb(new Error("I don't have a clue!"));
-//   }
-// });
-// const fileSizeLimit = 2000000;
-// const upload = multer({
-//   storage: storage,
-//   limits: { fileSize: fileSizeLimit }
-// });
-
 const router = express.Router();
 router.get("/all", Users.getAllUsers);
 router.get("/image/:id", (req, res) => {
