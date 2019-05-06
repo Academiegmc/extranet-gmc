@@ -71,78 +71,63 @@ const Jobs = {
     }
   },
   updateJobs: async (req, res) => {
-    try {
-      const job = await Job.findById(req.params.id);
-      const skills = req.body.jobSkills.split(utils.arraySplit);
-      if (req.body.jobTitle !== "") job.jobTitle = req.body.jobTitle;
-      if (req.body.jobDescription !== "")
-        job.jobDescription = req.body.jobDescription;
-      if (req.body.jobContractType !== "")
-        job.jobContractType = req.body.jobContractType;
-      if (req.body.jobType !== "") job.jobType = req.body.jobType;
-      if (req.body.jobRemuneration !== "")
-        job.jobRemuneration = req.body.jobRemuneration;
-      if (req.body.jobStartDate !== "")
-        job.jobStartDate = req.body.jobStartDate;
-      if (req.body.jobSkills !== "") job.jobSkills = skills;
-      if (req.body.jobCity !== "") job.jobCity = req.body.jobCity;
-      if (req.body.jobCountry !== "") job.jobCountry = req.body.jobCountry;
-      if (req.body.jobCompany !== "") job.jobCompany = req.body.jobCompany;
-      if (req.body.jobCompanyDescription !== "")
-        job.jobCompanyDescription = req.body.jobCompanyDescription;
-      if (req.body.jobCompanySite !== "")
-        job.jobCompanySite = req.body.jobCompanySite;
-      await job.save();
-      res.status(200).json(job.getData());
-    } catch (error) {
-      console.error(error);
-    }
+    const job = await Job.findById(req.params.id);
+    if (!job)
+      return res.status(400).json({ success: false, message: "Not Found" });
+    const skills = req.body.jobSkills.split(utils.arraySplit);
+    if (req.body.jobTitle !== "") job.jobTitle = req.body.jobTitle;
+    if (req.body.jobDescription !== "")
+      job.jobDescription = req.body.jobDescription;
+    if (req.body.jobContractType !== "")
+      job.jobContractType = req.body.jobContractType;
+    if (req.body.jobType !== "") job.jobType = req.body.jobType;
+    if (req.body.jobRemuneration !== "")
+      job.jobRemuneration = req.body.jobRemuneration;
+    if (req.body.jobStartDate !== "") job.jobStartDate = req.body.jobStartDate;
+    if (req.body.jobSkills !== "") job.jobSkills = skills;
+    if (req.body.jobCity !== "") job.jobCity = req.body.jobCity;
+    if (req.body.jobCountry !== "") job.jobCountry = req.body.jobCountry;
+    if (req.body.jobCompany !== "") job.jobCompany = req.body.jobCompany;
+    if (req.body.jobCompanyDescription !== "")
+      job.jobCompanyDescription = req.body.jobCompanyDescription;
+    if (req.body.jobCompanySite !== "")
+      job.jobCompanySite = req.body.jobCompanySite;
+    await job.save();
+    res.status(200).json(job.getData());
   },
   deleteJobs: async (req, res) => {
-    try {
-      await Job.findOneAndRemove({ _id: req.params.id });
-      res.status(200).json({ success: true });
-    } catch (error) {
-      console.error(error);
-    }
+    await Job.findOneAndRemove({ _id: req.params.id });
+    res.status(200).json({ success: true });
   },
   sendApplication: async (req, res) => {
-    try {
-      const fileData = fs.readFileSync(req.file.path);
-      const user = await User.findOne({ email: req.user.mail });
-      if (!user)
-        return res
-          .status(404)
-          .json({ success: false, message: ErrorMessage.userNotFound });
-      let transport = nodemailer.createTransport({
-        service: config.mail.service,
-        secure: config.mail.secure,
-        auth: config.mail.auth,
-        tls: config.mail.tls
-      });
-      let output = `<h1>Hello ${user.name}</h1>`;
-      let mailOptions = {
-        from: user.name + "<" + user.email + ">",
-        to: config.mail.to,
-        subject:
-          config.mail.subject +
-          " - " +
-          req.body.poste +
-          " - " +
-          req.body.agence,
-        test: "Hello world?",
-        html: output,
-        attachments: [{ filename: req.file.originalname, content: fileData }]
-      };
-      transport.sendMail(mailOptions, (error, info) => {
-        if (error) return console.log(error);
-        console.log("Message envoyé : %s", info.messageId);
-        console.log("URL : %s", nodemailer.getTestMessageUrl(info));
-        res.status(200).json({ success: true, message: "Candidature envoyée" });
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    const fileData = fs.readFileSync(req.file.path);
+    const user = await User.findOne({ email: req.user.mail });
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: ErrorMessage.userNotFound });
+    let transport = nodemailer.createTransport({
+      service: config.mail.service,
+      secure: config.mail.secure,
+      auth: config.mail.auth,
+      tls: config.mail.tls
+    });
+    let output = `<h1>Hello ${user.name}</h1>`;
+    let mailOptions = {
+      from: user.name + "<" + user.email + ">",
+      to: config.mail.to,
+      subject:
+        config.mail.subject + " - " + req.body.poste + " - " + req.body.agence,
+      test: "Hello world?",
+      html: output,
+      attachments: [{ filename: req.file.originalname, content: fileData }]
+    };
+    transport.sendMail(mailOptions, (error, info) => {
+      if (error) return console.log(error);
+      console.log("Message envoyé : %s", info.messageId);
+      console.log("URL : %s", nodemailer.getTestMessageUrl(info));
+      res.status(200).json({ success: true, message: "Candidature envoyée" });
+    });
   },
   searchJobs: async (req, res) => {
     const { q } = req.query;

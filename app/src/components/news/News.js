@@ -65,6 +65,7 @@ class News extends Component {
     };
     let imgNews;
     const allNews = this.state.news.map((news, index) => {
+      console.log(news.user);
       if (news.images.length > 0) {
         imgNews = news.images.map((img, i) => (
           <div key={i}>
@@ -86,9 +87,9 @@ class News extends Component {
               <div className="col-sm d-flex flex-row justify-content-sm-center justify-content-md-start">
                 <img
                   className="img-fluid rounded-circle img-circle align-self-center mr-2"
-                  src={`http://${process.env.REACT_APP_NODE_API}/profiles/${
-                    news.user.profile_pic
-                  }`}
+                  src={`http://${
+                    process.env.REACT_APP_NODE_API
+                  }/api/users/image/${news.user.profile_pic}`}
                   alt="User pic"
                 />
                 <h5 className="align-self-center">{news.title}</h5>

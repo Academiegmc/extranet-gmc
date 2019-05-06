@@ -36,22 +36,28 @@ class Jobboard extends Component {
     const jobs = this.state.jobs.map((job, index) => (
       <div key={index}>
         <Link to={`/job/${job.id}`}>
-          <div className="row" style={{ borderColor: "#333B3E" }}>
-            <div className="col-sm-2 col-md-2 col-xs-6">
-              <strong style={{ display: "block" }}>
-                {job.jobContractType.toUpperCase()}
-              </strong>
+          <div
+            className="d-flex flex-row justify-content-between w-100"
+            style={{ color: "#333B3E" }}
+          >
+            {/* <div className="row" style={{ borderColor: "#333B3E" }}> */}
+            {/* <div className="col-sm-2 col-md-2 col-6"> */}
+            <div className="">
+              <strong>{job.jobContractType.toUpperCase()}</strong>
               <span>{job.type}</span>
             </div>
-            <div className="col-sm-4 col-md-4 col-xs-6">
-              <strong style={{ display: "block" }}>{job.jobTitle}</strong>
+            {/* <div className="col-sm-4 col-md-4 col-xs-6"> */}
+            <div className="">
+              <strong>{job.jobTitle}</strong>
             </div>
-            <div className="col-sm-3 col-md-3 col-xs-5">
-              <strong style={{ display: "block" }}>{job.jobCity}</strong>
+            {/* <div className="col-sm-3 col-md-3 col-xs-5"> */}
+            <div className="">
+              <strong>{job.jobCity}</strong>
               <span>{job.country}</span>
             </div>
-            <div className="col-sm-2 col-md-2 col-xs-6">
-              <strong style={{ display: "block" }}>Posté le </strong>
+            {/* <div className="col-sm-2 col-md-2 col-xs-6"> */}
+            <div className="">
+              <strong className="mr-2">Posté le </strong>
               <span>
                 <Moment format="YYYY-MM-DD">{job.jobStartDate}</Moment>
               </span>
@@ -63,7 +69,7 @@ class Jobboard extends Component {
     return (
       <div className="container">
         <ReturnButton history={this.props.history} />
-        <h3 className="text-center">Job board</h3>
+        <h3 className="text-left">Job board</h3>
         <div className="input-group">
           <span className="input-group-text" id="basic-addon1">
             <i className="fas fa-suitcase"> </i>
@@ -117,12 +123,7 @@ class Jobboard extends Component {
           </Link>
         </div>
         <hr />
-        <div
-          style={{
-            display: "flex",
-            flexFlow: "column wrap"
-          }}
-        >
+        <div className="d-flex flex-column">
           {jobs.length > 0 ? (
             jobs
           ) : (
