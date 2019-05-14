@@ -44,6 +44,7 @@ class Navbar extends Component {
         </button>
       </div>
     ) : null;
+    let active;
     return (
       <nav
         className="navbar navbar-expand-lg navbar-light h-20"
@@ -65,9 +66,38 @@ class Navbar extends Component {
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li className="nav-item active">
+            <li
+              className={
+                this.props.location.pathname === "/" ||
+                this.props.location.pathname === "/dashboard"
+                  ? "nav-item active"
+                  : "nav-item"
+              }
+            >
               <Link className="nav-link align-self-center" to="/">
                 Accueil <span className="sr-only">(current)</span>
+              </Link>
+            </li>
+            <li
+              className={
+                this.props.location.pathname === "/news"
+                  ? "nav-item active"
+                  : "nav-item"
+              }
+            >
+              <Link className="nav-link align-self-center" to="/news">
+                News
+              </Link>
+            </li>
+            <li
+              className={
+                this.props.location.pathname === "/annonces"
+                  ? "nav-item active"
+                  : "nav-item"
+              }
+            >
+              <Link className="nav-link align-self-center" to="/annonces">
+                Annonces <span className="sr-only">(current)</span>
               </Link>
             </li>
             {adminLink}

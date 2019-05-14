@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Landing from "./components/layout/Landing";
 import Dashboard from "./components/dashboard/Dashboard";
 import Annonce from "./components/annonce/Annonce";
@@ -16,7 +16,6 @@ import Trombinoscope from "./components/trombinoscope/Trombinoscope";
 import Profile from "./components/profile/Profile";
 import Stages from "./components/stages/Stages";
 import requireAuth from "./utils/requireAuth";
-import App from "./App";
 import ProfileForm from "./components/profile/ProfileForm";
 import Markdown from "./components/markdown/Markdown";
 import Navbar from "./components/layout/Navbar";
@@ -24,7 +23,7 @@ const Routes = () => {
   return (
     <main>
       {/* <Route path="/" component={App} /> */}
-      <Navbar />
+      <Route path="/" component={Navbar} />
       <Route exact path="/" component={Landing} />
       <Route exact path="/profile/:id" component={requireAuth(Profile)} />
       <Route exact path="/stage/:id" component={requireAuth(Stages)} />

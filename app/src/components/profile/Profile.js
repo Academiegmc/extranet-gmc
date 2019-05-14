@@ -47,7 +47,7 @@ class Profile extends PureComponent {
     this.props.history.push("/");
   };
   render() {
-    const { ads, jobs, news, errors } = this.state;
+    const { ads, jobs, news } = this.state;
     const updateMessage = "Modifier";
     let allUserAds;
     let allUserJobs;
