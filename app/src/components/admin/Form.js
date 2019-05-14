@@ -1,13 +1,17 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import bsCustomFileInput from "bs-custom-file-input";
+import imageCompression from "browser-image-compression";
 import "./Form.css";
 import { createNews, getANews, updateNews } from "../../actions/newsActions";
 import { logout } from "../../actions/authActions";
 import { createAd, updateAd, getAnAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
-class Form extends Component {
+import Loading from "../layout/Loading";
+
+class Form extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,12 +20,29 @@ class Form extends Component {
       category: "etude",
       images: [],
       errors: {},
+      loading: false,
       triggerShadowEvent: false
     };
+    this.handleImageUpload = this.handleImageUpload.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.triggerShadow = this.triggerShadow.bind(this);
   }
+  handleImageUpload = async event => {
+    const imageFile = event.target.files[0];
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true
+    };
+    try {
+      this.setState({ loading: true });
+      const compressedFile = await imageCompression(imageFile, options);
+      this.setState({ images: compressedFile, loading: false });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) this.setState({ errors: nextProps.errors });
     if (nextProps.ads.ad.data) {
@@ -36,6 +57,7 @@ class Form extends Component {
     }
   }
   componentDidMount() {
+    bsCustomFileInput.init();
     if (this.props.match.path === "/annonce/edit/:id") {
       this.props.getAnAd(this.props.match.params.id);
     }
@@ -47,17 +69,7 @@ class Form extends Component {
     this.setState({ triggerShadowEvent: !this.state.triggerShadowEvent });
   }
   onChange = e => {
-    if (e.target.name === "images") {
-      if (e.target.files.length > 0) {
-        if (e.target.files.length === 1) {
-          this.setState({ images: e.target.files[0] });
-        } else {
-          this.setState({ images: e.target.files });
-        }
-      }
-    }
-    // this.setState({ images: e.target.files[0] });
-    else this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   };
   onSubmit = e => {
     e.preventDefault();
@@ -100,6 +112,27 @@ class Form extends Component {
       descriptionInputAria,
       isNews
     } = this.props;
+    let loading;
+    let updateBtn;
+    let createBtn;
+    let btnClass = "btn btn-primary w-100 mt-3";
+    if (this.state.loading) {
+      updateBtn = (
+        <button className={btnClass} disabled>
+          Modifier la news
+        </button>
+      );
+      createBtn = (
+        <button className={btnClass} disabled>
+          Ajouter la news
+        </button>
+      );
+    } else {
+      updateBtn = <button className={btnClass}>Modifier la news</button>;
+      createBtn = <button className={btnClass}>Ajouter la news</button>;
+    }
+    if (this.state.loading) loading = <Loading />;
+    else loading = null;
     return (
       <div className="container">
         <ReturnButton history={this.props.history} />
@@ -139,33 +172,36 @@ class Form extends Component {
           </div>
 
           {isNews ? (
-            <div className="form-group-file">
-              <input
-                type="file"
-                className="form-control-file"
-                id="images"
-                name="images"
-                multiple
-                onChange={this.onChange}
-              />
-              <div style={{ margin: "2%" }}>
-                <p>
-                  <small>Types de fichiers autorisés: .jpg .png.</small>
-                </p>
-
-                <p>
-                  <small>Taille maximum : 2Mo.</small>
-                </p>
+            <div className="input-group mt-3 mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="inputGroupFileAddon01">
+                  <i className="fas fa-file-pdf" />
+                </span>
               </div>
-              {this.props.match.path === "/news/edit/:id" ? (
-                <button className="btn btn-primary" style={{ width: "100%" }}>
-                  Modifier la news
-                </button>
-              ) : (
-                <button className="btn btn-primary" style={{ width: "100%" }}>
-                  Ajouter la news
-                </button>
-              )}
+              <div className="custom-file">
+                <input
+                  type="file"
+                  className="custom-file-input"
+                  accept="image/*"
+                  id="images"
+                  name="images"
+                  multiple
+                  onChange={this.handleImageUpload}
+                />
+                <label
+                  className="custom-file-label"
+                  data-browse="Parcourir"
+                  htmlFor="images"
+                >
+                  Illustrez vos propos avec des images
+                </label>
+                <small>Types de fichiers autorisés: .jpg .png.</small>
+                <small>Taille maximum : 2Mo.</small>
+              </div>
+              {loading}
+              {this.props.match.path === "/news/edit/:id"
+                ? updateBtn
+                : createBtn}
             </div>
           ) : (
             <div className="form-group-select">

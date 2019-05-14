@@ -34,7 +34,7 @@ class ProfileForm extends PureComponent {
   handleImageUpload = async event => {
     const imageFile = event.target.files[0];
 
-    var options = {
+    const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
       useWebWorker: true

@@ -65,13 +65,14 @@ class News extends Component {
     };
     let imgNews;
     const allNews = this.state.news.map((news, index) => {
-      console.log(news.user);
       if (news.images.length > 0) {
         imgNews = news.images.map((img, i) => (
           <div key={i}>
             <img
               className="card-img-top"
-              src={`http://${process.env.REACT_APP_NODE_API}/images/${img}`}
+              src={`http://${
+                process.env.REACT_APP_NODE_API
+              }/api/news/image/${img}`}
               alt={`Card image cap ` + i}
             />
           </div>

@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const User = require("./User");
-
+const GFS = mongoose.model(
+  "NewsFiles",
+  new Schema({}, { strict: false }),
+  "news-upload.files"
+);
 const NewsSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
@@ -10,7 +14,7 @@ const NewsSchema = new Schema({
   name: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  images: [String],
+  images: [{ type: Schema.Types.ObjectId, ref: "NewsFiles" }],
   date: { type: Date, default: Date.now }
 });
 NewsSchema.methods.getData = async function() {
