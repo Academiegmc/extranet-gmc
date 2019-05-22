@@ -1,0 +1,18 @@
+.navbar-nav li.nav-item:hover {
+  border-bottom: 1px solid black;
+}
+.nav-animate img:hover {
+  animation: scaleBar 1s;
+}
+
+@keyframes scaleBar {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../actions/authActions";
 import { getUser } from "../../actions/usersAction";
 import Logo from "../../assets/Favicon.png";
-
-class Navbar extends Component {
+import "./Navbar.css";
+class Navbar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,23 +20,50 @@ class Navbar extends Component {
     logout();
     if (history) history.push("/");
   }
+  componentDidUpdate(prevProps, prevState) {
+    console.log("update:", this.props.users.user.user);
+    this.setState({ user: this.props.users.user.user });
+  }
+
   render() {
-    const { user, isAuthenticated } = this.props.auth;
-    let adminLink =
-      user.status === 3 ? (
-        <li className="nav-item active">
-          <Link className="nav-link  align-self-center" to="/admin">
-            Admin <span className="sr-only" />
-          </Link>
-        </li>
-      ) : null;
-    let data = isAuthenticated ? (
-      <div className="d-flex flex-row">
-        <Link className="nav-link" to={`/profile/${user.id}`}>
-          <h6 className="">{user.name}</h6>
+    const { isAuthenticated } = this.props.auth;
+    const { user } = this.state;
+    let adminLink;
+    let data;
+    let imageProfile;
+    if (this.props.users.user.user !== undefined) {
+      console.log(this.props.users.user.user.profile_pic._id);
+      if (this.props.users.user.user.profile_pic._id !== undefined)
+        imageProfile = this.props.users.user.user.profile_pic._id;
+      else imageProfile = this.props.users.user.user.profile_pic;
+    } else {
+      console.log("else case");
+      imageProfile = this.props.auth.user.profile_pic;
+    }
+    if (user !== undefined) {
+      adminLink =
+        user.status === 3 ? (
+          <li className="nav-item active">
+            <Link className="nav-link  align-self-center" to="/admin">
+              Admin <span className="sr-only" />
+            </Link>
+          </li>
+        ) : null;
+    }
+    data = isAuthenticated ? (
+      <div className="d-flex flex-row nav-animate">
+        <Link className="nav-link" to={`/profile/${this.props.auth.user.id}`}>
+          <img
+            className="rounded-circle"
+            style={{ width: "100px", height: "100px" }}
+            src={`http://${
+              process.env.REACT_APP_NODE_API
+            }/api/users/image/${imageProfile}`}
+            alt={this.props.auth.user.name}
+          />
         </Link>
         <button
-          className="btn btn-outline-primary"
+          className="btn btn-link"
           type="button"
           onClick={this.logoutUser}
         >
@@ -44,7 +71,6 @@ class Navbar extends Component {
         </button>
       </div>
     ) : null;
-    let active;
     return (
       <nav
         className="navbar navbar-expand-lg navbar-light h-20"
@@ -80,6 +106,17 @@ class Navbar extends Component {
             </li>
             <li
               className={
+                this.props.location.pathname === "/jobboard"
+                  ? "nav-item active"
+                  : "nav-item"
+              }
+            >
+              <Link className="nav-link align-self-center" to="/jobboard">
+                Jobboard
+              </Link>
+            </li>
+            <li
+              className={
                 this.props.location.pathname === "/news"
                   ? "nav-item active"
                   : "nav-item"
@@ -97,10 +134,21 @@ class Navbar extends Component {
               }
             >
               <Link className="nav-link align-self-center" to="/annonces">
-                Annonces <span className="sr-only">(current)</span>
+                Annonces
               </Link>
             </li>
-            {adminLink}
+            <li
+              className={
+                this.props.location.pathname === "/trombinoscope"
+                  ? "nav-item active"
+                  : "nav-item"
+              }
+            >
+              <Link className="nav-link align-self-center" to="/trombinoscope">
+                Trombinoscope
+              </Link>
+            </li>
+            {/* {adminLink} */}
           </ul>
           {data}
         </div>

@@ -161,16 +161,13 @@ class Profile extends PureComponent {
           </Link>
         </div>
         <div className="d-flex flex-column flex-md-row justify-content-md-center">
-          <a className="btn btn-outline-primary ml-3 mb-3" href="/admin/job">
+          <a className="btn btn-link ml-3 mb-3" href="/admin/job">
             <h3>Ajouter un job</h3>
           </a>
-          <a
-            className="btn btn-outline-primary ml-3 mb-3"
-            href="/admin/annonce"
-          >
+          <a className="btn btn-link ml-3 mb-3" href="/admin/annonce">
             <h3>Ajouter une annonce</h3>
           </a>
-          <a className="btn btn-outline-primary ml-3 mb-3" href="/admin/news">
+          <a className="btn btn-link ml-3 mb-3" href="/admin/news">
             <h3>Ajouter une news</h3>
           </a>
         </div>

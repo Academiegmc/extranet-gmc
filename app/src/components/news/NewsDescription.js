@@ -73,7 +73,7 @@ class NewsDescription extends Component {
       <div key={index}>
         <img
           className="card-img-top"
-          src={`http://${process.env.REACT_APP_NODE_API}/images/${img}`}
+          src={`http://${process.env.REACT_APP_NODE_API}/api/news/image/${img}`}
           alt={`Card image cap ` + index}
         />
       </div>

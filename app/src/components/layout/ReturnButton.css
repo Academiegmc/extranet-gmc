@@ -1,0 +1,14 @@
+.button-return {
+  padding: 1rem 1rem;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.button-return:focus {
+  outline: none;
+}
+
+.button-return i {
+  margin-right: 5px;
+}

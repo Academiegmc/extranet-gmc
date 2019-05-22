@@ -83,7 +83,7 @@ class Annonces extends Component {
                 <div className="card-body d-flex flex-column mt-3">
                   <h4 className="card-title">{annonce.title}</h4>
                   <h6 className="card-subtitle text-muted mb-3">
-                    {annonce.name}
+                    {annonce.user.name}
                   </h6>
                   {Button(
                     button.type,
