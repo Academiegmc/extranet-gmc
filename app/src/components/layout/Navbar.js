@@ -21,7 +21,6 @@ class Navbar extends PureComponent {
     if (history) history.push("/");
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log("update:", this.props.users.user.user);
     this.setState({ user: this.props.users.user.user });
   }
 
@@ -32,12 +31,10 @@ class Navbar extends PureComponent {
     let data;
     let imageProfile;
     if (this.props.users.user.user !== undefined) {
-      console.log(this.props.users.user.user.profile_pic._id);
       if (this.props.users.user.user.profile_pic._id !== undefined)
         imageProfile = this.props.users.user.user.profile_pic._id;
       else imageProfile = this.props.users.user.user.profile_pic;
     } else {
-      console.log("else case");
       imageProfile = this.props.auth.user.profile_pic;
     }
     if (user !== undefined) {

@@ -5,6 +5,10 @@
   animation: scaleBar 1s;
 }
 
+.active {
+  font-weight: 700;
+}
+
 @keyframes scaleBar {
   0% {
     transform: scale(1);

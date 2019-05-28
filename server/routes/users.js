@@ -108,17 +108,6 @@ router.put(
   ]),
   Users.update
 );
-// router.put(
-//   "/",
-//   verifyToken,
-//   upload.fields([
-//     { name: "profile_pic", maxCount: 1 },
-//     { name: "renseignement", maxCount: 1 },
-//     { name: "convention", maxCount: 1 },
-//     { name: "recommandation", maxCount: 3 }
-//   ]),
-//   Users.update
-// );
 router.delete("/:id", verifyToken, Users.delete);
 router.post("/login", Users.login);
 module.exports = router;

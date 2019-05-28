@@ -1,12 +1,11 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const fs = require("fs");
-const path = require("path");
 const config = require("../config/mongo-key");
 const User = require("../models/User");
 const Job = require("../models/Job");
 const News = require("../models/News");
 const Ad = require("../models/Ad");
+const UserFiles = require("../models/User-GFS");
 const ErrorMessage = require("../config/error-messages");
 const utils = require("../config/utils");
 const Users = {
@@ -73,15 +72,21 @@ const Users = {
       req.files.profile_pic !== undefined &&
       req.files.profile_pic.length > 0
     ) {
+      if (user.profile_pic !== undefined) {
+        console.log("Profile:", user.profile_pic);
+        await deleteFile(user.profile_pic, UserFiles);
+      }
       user.profile_pic = req.files.profile_pic[0].id;
     }
     if (req.files.convention !== undefined && req.files.convention.length > 0) {
+      await deleteFile(user.convention, UserFiles);
       user.convention = req.files.convention[0].id;
     }
     if (
       req.files.renseignement !== undefined &&
       req.files.renseignement.length > 0
     ) {
+      await deleteFile(user.personal_sheet, UserFiles);
       user.personal_sheet = req.files.renseignement[0].id;
     }
     if (
@@ -127,4 +132,10 @@ const Users = {
   }
 };
 
+const deleteFile = async (fileId, model) => {
+  const file = await model.findOne({ _id: fileId });
+  if (!file) return res.status(404).send({ message: "File not found" });
+  console.log(file);
+  await file.remove();
+};
 module.exports = Users;

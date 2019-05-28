@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const GFS = mongoose.model(
-  "UserFiles",
-  new Schema({}, { strict: false }),
-  "users-upload.files"
-);
+
 const UserSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
