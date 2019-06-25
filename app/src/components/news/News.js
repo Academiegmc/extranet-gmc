@@ -65,6 +65,7 @@ class News extends Component {
     };
     let imgNews;
     const allNews = this.state.news.map((news, index) => {
+      console.log(news.images);
       if (news.images.length > 0) {
         imgNews = news.images.map((img, i) => (
           <div key={i}>

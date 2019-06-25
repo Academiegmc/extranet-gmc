@@ -28,7 +28,7 @@ const NewsController = {
     res.status(200).json(await news.getData());
   },
   createNews: async (req, res) => {
-    console.log(req.files);
+    console.log("files", req.files);
     let imgTab = [];
     req.files.forEach(file => imgTab.push(file.id));
     const user = await User.findOne({ _id: req.user.id }, { password: 0 });
@@ -44,8 +44,9 @@ const NewsController = {
       description: req.body.description,
       images: imgTab
     });
-    await newNews.save();
-    res.status(200).json(await newNews.getData());
+    console.log("new news:", newNews);
+    // await newNews.save();
+    // res.status(200).json(await newNews.getData());
   },
   updateNews: (req, res) => {
     const { title, description } = req.body;

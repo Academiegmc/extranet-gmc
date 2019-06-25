@@ -92,6 +92,7 @@ router.get("/pdf/:id", (req, res) => {
     }
   });
 });
+
 router.post("/", Users.create);
 router.get("/:id", verifyToken, Users.getUser);
 router.get("/:id/jobs", verifyToken, Users.getUserJobs);
