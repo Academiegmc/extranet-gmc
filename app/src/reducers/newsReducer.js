@@ -7,7 +7,8 @@ import {
 const initialState = {
   isloading: false,
   news: {},
-  newsTab: []
+  newsTab: [],
+  errors: null
 };
 
 export default (state = initialState, action) => {

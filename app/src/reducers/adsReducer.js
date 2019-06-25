@@ -13,7 +13,8 @@ const initialState = {
   ads: [],
   search_ads: [],
   comments: [],
-  comment: {}
+  comment: {},
+  errors: null
 };
 
 export default (state = initialState, action) => {

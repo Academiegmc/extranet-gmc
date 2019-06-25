@@ -12,7 +12,8 @@ const initialState = {
   isSent: false,
   jobs: [],
   search_jobs: [],
-  job: {}
+  job: {},
+  errors: null
 };
 
 export default (state = initialState, action) => {

@@ -11,7 +11,8 @@ const initialState = {
   user: {},
   userAds: [],
   userNews: [],
-  userJobs: []
+  userJobs: [],
+  errors: null
 };
 export default (state = initialState, action) => {
   switch (action.type) {

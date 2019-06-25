@@ -21,7 +21,7 @@ import Markdown from "./components/markdown/Markdown";
 import Navbar from "./components/layout/Navbar";
 const Routes = () => {
   return (
-    <main>
+    <main style={{ height: "100vh", width: "100vw" }}>
       {/* <Route path="/" component={App} /> */}
       <Route path="/" component={Navbar} />
       <Route exact path="/" component={Landing} />
