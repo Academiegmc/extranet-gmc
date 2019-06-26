@@ -6,8 +6,8 @@ import {
 } from "../actions/types";
 const initialState = {
   isloading: false,
-  news: {},
-  newsTab: [],
+  news: null,
+  newsTab: null,
   errors: null
 };
 
