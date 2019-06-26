@@ -11,6 +11,8 @@ body {
   font-weight: 300;
   font-size: 1rem;
   color: #646363;
+  overflow-x: hidden;
+  widows: 100vw;
 }
 
 code {

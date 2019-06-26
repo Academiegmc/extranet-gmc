@@ -39,9 +39,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// export default function SimpleSnackbar() {
-
-// }
 const Landing = ({ auth, errors, history, loginUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,7 +46,7 @@ const Landing = ({ auth, errors, history, loginUser }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    console.log(auth);
+    // console.log(auth);
     if (auth.isAuthenticated) history.push("/dashboard");
   }, []);
   const handleClickShowPassword = () => {
@@ -61,7 +58,7 @@ const Landing = ({ auth, errors, history, loginUser }) => {
       email,
       password
     };
-    loginUser(userData);
+    loginUser(userData, history);
   };
   return (
     <Container styles={classes.root} maxWidth="md">
@@ -109,7 +106,7 @@ const Landing = ({ auth, errors, history, loginUser }) => {
               className={classes.button}
               variant="contained"
               fullWidth
-              style={{ backgroundColor: "#c9b8b7", color: "#fff" }}
+              style={buttonStyle}
               onClick={onSubmit}
             >
               Se connecter
@@ -118,41 +115,10 @@ const Landing = ({ auth, errors, history, loginUser }) => {
         </Grid>
       </FormControl>
     </Container>
-    // <div className="container d-flex flex-column justify-content-center align-items-center mt-5 landing">
-    //   <img src={Logo} className="mx-auto" alt="logo" />
-    //   <hr />
-    //   <form className="col-12 d-flex flex-column" onSubmit={onSubmit}>
-    //     <div className="form-group">
-    //       <label htmlFor="exampleInputEmail1">Email</label>
-    //       <input
-    //         type="email"
-    //         className="form-control"
-    //         id="email"
-    //         name="email"
-    //         aria-describedby="emailHelp"
-    //         placeholder="Entrer votre email"
-    //         onChange={e => setEmail(e.target.value)}
-    //       />
-    //     </div>
-    //     <div className="form-group">
-    //       <label htmlFor="exampleInputPassword1">Mot de passe</label>
-    //       <input
-    //         type="password"
-    //         className="form-control"
-    //         id="password"
-    //         name="password"
-    //         placeholder="Entrer votre mot de passe"
-    //         onChange={e => setPassword(e.target.value)}
-    //       />
-    //     </div>
-    //     <button type="submit" className="btn btn-primary">
-    //       Connexion
-    //     </button>
-    //   </form>
-    // </div>
   );
 };
 
+const buttonStyle = { backgroundColor: "#c9b8b7", color: "#fff" };
 Landing.prototypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,

@@ -41,12 +41,6 @@ const Navbar = ({ users, auth, logout, history }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const logoutUser = () => {
-    logout();
-    if (history) history.push("/");
-    setAnchorEl(null);
-  };
-
   function handleMenu(event) {
     setAnchorEl(event.currentTarget);
   }
@@ -145,7 +139,14 @@ const Navbar = ({ users, auth, logout, history }) => {
                     Stage
                   </Link>
                 </MenuItem>
-                <MenuItem onClick={logoutUser}>Déconnexion</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    logout();
+                    setAnchorEl(null);
+                  }}
+                >
+                  Déconnexion
+                </MenuItem>
               </Menu>
             </div>
           )}
