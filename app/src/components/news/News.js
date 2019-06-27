@@ -1,142 +1,260 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 import Moment from "react-moment";
 import Slider from "react-slick";
 import ReactMarkdown from "react-markdown";
+import {
+  Card,
+  CardActionArea,
+  CardActions,
+  CardMedia,
+  CardContent,
+  Button,
+  Typography,
+  makeStyles,
+  Grid,
+  Container,
+  Divider,
+  Link
+} from "@material-ui/core";
+import Clock from "react-live-clock";
 import { getAllNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
+import settings from "./newsCarouselConfig";
 import "./News.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-const News = ({ news, history, getAllNews, loading }) => {
+import { Today } from "@material-ui/icons";
+
+const useStyles = makeStyles({
+  card: {
+    maxWidth: "100%",
+    marginTop: "20px"
+  },
+  cardHeader: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column"
+  },
+  media: {
+    height: 200
+  },
+  mediaHeader: {
+    height: 75,
+    width: 75,
+    borderRadius: "50%"
+  }
+});
+
+const News = ({ news, auth: { user }, history, getAllNews, loading }) => {
+  let status;
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
     "html",
     "inlineCode",
     "code"
   ]);
+  const classes = useStyles();
 
   useEffect(() => {
     getAllNews();
   }, []);
-  const settings = {
-    adaptiveHeight: true,
-    dots: true,
-    infinite: true,
-    fade: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  };
   let imgNews;
-  if (loading || news.newsTab === null) {
+  if (loading || news.newsTab === null || user === null) {
     return <h2>Chargement...</h2>;
   }
   const allNews = news.newsTab.data.map((news, index) => {
     console.log(news.images);
     if (news.images.length > 0) {
       imgNews = news.images.map((img, i) => (
-        <div key={i}>
-          <img
-            className="card-img-top"
-            src={`http://${
-              process.env.REACT_APP_NODE_API
-            }/api/news/image/${img}`}
-            alt={`Card image cap ` + i}
-          />
-        </div>
+        <CardMedia
+          className={classes.media}
+          image={`http://${
+            process.env.REACT_APP_NODE_API
+          }/api/news/image/${img}`}
+          title={`Card image cap ` + i}
+          key={i}
+        />
+        // <div key={i}>
+        //   <img
+        //     className="card-img-top"
+        //     src={`http://${
+        //       process.env.REACT_APP_NODE_API
+        //     }/api/news/image/${img}`}
+        //     alt={`Card image cap ` + i}
+        //   />
+        // </div>
       ));
     }
+    // if(user.status === 0) status = 'élève';
+    switch (user.status) {
+      case 0:
+        status = "élève";
+      case 1:
+        status = "Ancien élève";
+      case 2:
+        status = "Professeur";
+      case 3:
+        status = "Administrateur";
+      default:
+        break;
+    }
     return (
-      <div
-        className="card d-flex flex-column w-100 mr-3 mb-3 news-card"
-        key={index}
-      >
-        <div className="d-flex flex-column card-body">
-          <div className="card-title text-left w-100 bg-light">
-            <div className="col-sm d-flex flex-row justify-content-sm-center justify-content-md-start">
-              <img
-                className="img-fluid rounded-circle img-circle align-self-center mr-2"
-                src={`http://${
-                  process.env.REACT_APP_NODE_API
-                }/api/users/image/${news.user.profile_pic}`}
-                alt="User pic"
-              />
-              <h5 className="align-self-center">{news.title}</h5>
-            </div>
-          </div>
+      <Card className={classes.card} key={news.id}>
+        <CardActionArea>
           {news.images.length > 0 ? (
-            <Slider className="mb-3" {...settings}>
-              {imgNews}
-            </Slider>
+            <Slider {...settings}>{imgNews}</Slider>
           ) : null}
-          <ReactMarkdown
-            className="card-text p-2"
-            source={news.description}
-            disallowedTypes={disallowedTypes}
-            linkTarget={"_blank"}
-          />
-          <small>
-            <i className="fas fa-calendar-alt" />{" "}
-            {
-              <Moment format="DD MMM, YYYY" locale="fr">
-                {news.date}
-              </Moment>
-            }
-          </small>
-        </div>
-      </div>
+          {/* <CardMedia
+            className={classes.media}
+            image="/static/images/cards/contemplative-reptile.jpg"
+            title="Contemplative Reptile"
+          /> */}
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {news.title}
+            </Typography>
+            <Divider />
+            <Typography
+              gutterBottom
+              variant="body2"
+              color="textSecondary"
+              component="p"
+            >
+              <ReactMarkdown
+                source={news.description}
+                disallowedTypes={disallowedTypes}
+                linkTarget={"_blank"}
+              />
+            </Typography>
+            <Divider style={{ marginBottom: "20px" }} />
+            <Typography variant="body2" color="textSecondary" component="p">
+              <small
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "30%"
+                }}
+              >
+                <Today />
+                {"  "}
+                {
+                  <Moment format="DD MMM, YYYY" locale="fr">
+                    {news.date}
+                  </Moment>
+                }
+              </small>
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button size="small" color="primary">
+            Share
+          </Button>
+          <Button size="small" color="primary">
+            Learn More
+          </Button>
+        </CardActions>
+      </Card>
     );
   });
   return (
-    <div className="container">
-      <ReturnButton history={history} />
-      <h2>
-        <span>Dernières News</span>
-      </h2>
-      <div className="d-flex flex-column W-100">
-        {allNews.length > 0 ? (
-          allNews
-        ) : (
-          <h3 className="text-center my-5">Les news vont tomber !</h3>
-        )}
-      </div>
-    </div>
+    <Container>
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <Card className={classes.card}>
+            <CardActionArea>
+              <CardContent className={classes.cardHeader}>
+                <CardMedia
+                  className={classes.mediaHeader}
+                  image={`http://${
+                    process.env.REACT_APP_NODE_API
+                  }/api/users/image/${user.profile_pic}`}
+                  title="Contemplative Reptile"
+                />
+                <Typography variant="body2" component="h3">
+                  {user.name}
+                </Typography>
+                <Typography variant="caption" component="h5" display="block">
+                  {status}
+                </Typography>
+                <Divider />
+                <Typography variant="body2" component="h3">
+                  <RouterLink to={`profile/${user.id}`}>
+                    <Link component="button" varian="body2">
+                      Voir mon profil
+                    </Link>
+                  </RouterLink>
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+        <Grid item xs={6}>
+          <Card className={classes.card}>
+            <CardActionArea>
+              <CardContent>
+                <Typography variant="body2" component="h3">
+                  Les news vont tomber !
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          {allNews.length > 0 ? (
+            allNews
+          ) : (
+            <Typography variant="body2" component="h3">
+              Les news vont tomber !
+            </Typography>
+          )}
+        </Grid>
+        <Grid item xs={3}>
+          <Card className={classes.card}>
+            <CardActionArea>
+              <CardContent className={classes.cardHeader}>
+                <Typography variant="h4">
+                  {<Moment format="DD/MM/YY">{Date.now()}</Moment>}
+                </Typography>
+                <Typography variant="h5" display="block">
+                  {
+                    <Clock
+                      format={"HH:mm:ss"}
+                      ticking={true}
+                      timezone={"Europe/Paris"}
+                    />
+                  }
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
+    // <div className="container">
+    //   <ReturnButton history={history} />
+    //   <h2>
+    //     <span>Dernières News</span>
+    //   </h2>
+    //   <div className="d-flex flex-column W-100">
+    //     {allNews.length > 0 ? (
+    //       allNews
+    //     ) : (
+    //       <h3 className="text-center my-5">Les news vont tomber !</h3>
+    //     )}
+    //   </div>
+    // </div>
   );
 };
 News.propTypes = {
   news: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
-  news: state.news
+  news: state.news,
+  auth: state.auth
 });
 export default connect(
   mapStateToProps,

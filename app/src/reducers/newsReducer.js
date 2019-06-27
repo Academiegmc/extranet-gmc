@@ -8,6 +8,7 @@ const initialState = {
   isloading: false,
   news: null,
   newsTab: null,
+  userNewsTab: null,
   errors: null
 };
 
@@ -18,7 +19,7 @@ export default (state = initialState, action) => {
     case GET_A_NEWS:
       return { ...state, isloading: true, news: action.payload };
     case GET_ALL_USER_NEWS:
-      return { ...state, newsTab: action.payload };
+      return { ...state, isloading: true, userNewsTab: action.payload };
     case DELETE_NEWS:
       return {
         ...state,
