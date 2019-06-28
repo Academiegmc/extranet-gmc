@@ -73,7 +73,7 @@ class Stages extends PureComponent {
         <a
           key={index}
           className="btn btn-link"
-          href={`http://${process.env.REACT_APP_NODE_API}/pdf/${letter.id}`}
+          href={`${process.env.REACT_APP_NODE_API}/pdf/${letter.id}`}
         >
           {letter}
         </a>
@@ -162,9 +162,9 @@ class Stages extends PureComponent {
                 className="img-fluid rounded"
                 src={
                   this.state.user.profile_pic !== undefined
-                    ? `http://${
-                        process.env.REACT_APP_NODE_API
-                      }/api/users/image/${this.state.user.profile_pic._id}`
+                    ? `${process.env.REACT_APP_NODE_API}/api/users/image/${
+                        this.state.user.profile_pic._id
+                      }`
                     : require("../../assets/user.jpg")
                 }
                 alt="profile-pic"
@@ -173,17 +173,17 @@ class Stages extends PureComponent {
                 <div>
                   <a
                     className="btn btn-primary"
-                    href={`http://${
-                      process.env.REACT_APP_NODE_API
-                    }/api/users/pdf/${this.state.user.personal_sheet._id}`}
+                    href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
+                      this.state.user.personal_sheet._id
+                    }`}
                   >
                     Fiche de renseignement
                   </a>
                   <a
                     className="btn btn-primary"
-                    href={`http://${
-                      process.env.REACT_APP_NODE_API
-                    }/api/users/pdf/${this.state.user.convention._id}`}
+                    href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
+                      this.state.user.convention._id
+                    }`}
                   >
                     Convention de stage
                   </a>

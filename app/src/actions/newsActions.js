@@ -4,10 +4,17 @@ import {
   GET_ALL_NEWS,
   GET_ERRORS,
   DELETE_NEWS,
-  GET_ALL_USER_NEWS
+  GET_ALL_USER_NEWS,
+  CREATE_NEWS,
+  SET_LOADING
 } from "./types";
 import { newsUrl } from "../utils";
+
+export const setLoading = () => {
+  return { type: SET_LOADING };
+};
 export const getAllNews = () => dispatch => {
+  setLoading();
   axios.get(newsUrl).then(news =>
     dispatch({
       type: GET_ALL_NEWS,
@@ -16,6 +23,7 @@ export const getAllNews = () => dispatch => {
   );
 };
 export const getAllUserNews = userId => dispatch => {
+  setLoading();
   axios
     .get(`${newsUrl}/user/${userId}`)
     .then(res =>
@@ -27,6 +35,7 @@ export const getAllUserNews = userId => dispatch => {
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 export const getANews = newsId => dispatch => {
+  setLoading();
   axios.get(`${newsUrl}/${newsId}`).then(news => {
     dispatch({
       type: GET_A_NEWS,
@@ -34,7 +43,7 @@ export const getANews = newsId => dispatch => {
     });
   });
 };
-export const createNews = (newsData, history) => dispatch => {
+export const createNews = (newsData, history) => async dispatch => {
   const { title, description, images } = newsData;
   const formData = new FormData();
   formData.append("title", title);
@@ -46,15 +55,14 @@ export const createNews = (newsData, history) => dispatch => {
       }
     } else formData.append("images", images);
   }
-  axios
-    .post(newsUrl, formData)
-    .then(res => history.push("/news"))
-    .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response
-      });
-    });
+  try {
+    setLoading();
+    const res = await axios.post(newsUrl, formData);
+    dispatch({ type: CREATE_NEWS, payload: res.data });
+    history.push("/news");
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
 };
 export const updateNews = (newsId, newsData, history) => dispatch => {
   const { title, description, images } = newsData;
@@ -70,6 +78,7 @@ export const updateNews = (newsId, newsData, history) => dispatch => {
       formData.append("images", images);
     }
   }
+  setLoading();
   axios
     .put(`${newsUrl}/${newsId}`, formData)
     .then(res => {
@@ -79,6 +88,7 @@ export const updateNews = (newsId, newsData, history) => dispatch => {
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
 export const deleteNews = newsId => dispatch => {
+  setLoading();
   axios
     .delete(`${newsUrl}/${newsId}`)
     .then(res => dispatch({ type: DELETE_NEWS, payload: newsId }))

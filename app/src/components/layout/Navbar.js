@@ -32,7 +32,8 @@ const useStyles = makeStyles(theme => ({
   },
   text: {
     fontFamily: "Lato",
-    color: "#6C6B6A"
+    // color: "#6C6B6A"
+    color: "#717171"
   }
 }));
 
@@ -48,6 +49,7 @@ const Navbar = ({ users, auth, logout, history }) => {
   function handleClose() {
     setAnchorEl(null);
   }
+  console.log(history.location.pathname);
   return (
     <nav className={classes.root}>
       <AppBar
@@ -73,27 +75,62 @@ const Navbar = ({ users, auth, logout, history }) => {
                 spacing={2}
               >
                 <Typography className={classes.text} variant="h6">
-                  <Link component={RouterLink} to="/">
+                  <Link
+                    className={
+                      history.location.pathname === "/" ||
+                      history.location.pathname === "/dashboard"
+                        ? "active"
+                        : ""
+                    }
+                    component={RouterLink}
+                    to="/"
+                  >
                     Accueil
                   </Link>
                 </Typography>
                 <Typography className={classes.text} variant="h6">
-                  <Link component={RouterLink} to="/jobboard">
+                  <Link
+                    className={
+                      history.location.pathname === "/jobboard" ? "active" : ""
+                    }
+                    component={RouterLink}
+                    to="/jobboard"
+                  >
                     Jobboard
                   </Link>
                 </Typography>
                 <Typography className={classes.text} variant="h6">
-                  <Link component={RouterLink} to="/news">
+                  <Link
+                    className={
+                      history.location.pathname === "/news" ? "active" : ""
+                    }
+                    component={RouterLink}
+                    to="/news"
+                  >
                     News
                   </Link>
                 </Typography>
                 <Typography className={classes.text} variant="h6">
-                  <Link component={RouterLink} to="/annonces">
+                  <Link
+                    className={
+                      history.location.pathname === "/annonces" ? "active" : ""
+                    }
+                    component={RouterLink}
+                    to="/annonces"
+                  >
                     Annonce
                   </Link>
                 </Typography>
                 <Typography className={classes.text} variant="h6">
-                  <Link component={RouterLink} to="/trombinoscope">
+                  <Link
+                    className={
+                      history.location.pathname === "/trombinoscope"
+                        ? "active"
+                        : ""
+                    }
+                    component={RouterLink}
+                    to="/trombinoscope"
+                  >
                     Trombinoscope
                   </Link>
                 </Typography>

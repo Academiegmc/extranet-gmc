@@ -9,7 +9,7 @@ class Comments extends Component {
       this.props.comments.length > 0
         ? this.props.comments.map((comment, index) => {
             if (comment.user.profile_pic !== undefined)
-              img = `http://${process.env.REACT_APP_NODE_API}/api/users/image/${
+              img = `${process.env.REACT_APP_NODE_API}/api/users/image/${
                 comment.user.profile_pic
               }`;
             else img = UserIcon;

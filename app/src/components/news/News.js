@@ -5,6 +5,7 @@ import { Link as RouterLink } from "react-router-dom";
 import Moment from "react-moment";
 import Slider from "react-slick";
 import ReactMarkdown from "react-markdown";
+import imageCompression from "browser-image-compression";
 import {
   Card,
   CardActionArea,
@@ -17,8 +18,11 @@ import {
   Grid,
   Container,
   Divider,
-  Link
+  Link,
+  TextField
 } from "@material-ui/core";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import SendIcon from "@material-ui/icons/Send";
 import Clock from "react-live-clock";
 import { getAllNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
@@ -26,9 +30,14 @@ import settings from "./newsCarouselConfig";
 import "./News.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Today } from "@material-ui/icons";
+import { TodayOutlined, CloudUploadOutlined } from "@material-ui/icons";
+import { createNews } from "../../actions/newsActions";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
   card: {
     maxWidth: "100%",
     marginTop: "20px"
@@ -37,7 +46,8 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
+    fontFamily: "Lato"
   },
   media: {
     height: 200
@@ -46,11 +56,30 @@ const useStyles = makeStyles({
     height: 75,
     width: 75,
     borderRadius: "50%"
+  },
+  input: {
+    display: "none"
+  },
+  button: {
+    // margin: theme.spacing(1)
+  },
+  rightIcon: {
+    marginLeft: theme.spacing(1)
   }
-});
+}));
 
-const News = ({ news, auth: { user }, history, getAllNews, loading }) => {
+const News = ({
+  news,
+  auth: { user },
+  history,
+  getAllNews,
+  loading,
+  createNews
+}) => {
   let status;
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [images, setImages] = useState([]);
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
     "html",
@@ -62,34 +91,50 @@ const News = ({ news, auth: { user }, history, getAllNews, loading }) => {
   useEffect(() => {
     getAllNews();
   }, []);
+  const handleImageUpload = files => {
+    const imagesTab = Object.values(files);
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true
+    };
+    let resTab = [];
+    imagesTab.map(async image => {
+      try {
+        const compressedFile = await imageCompression(image, options);
+        resTab.push(compressedFile);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+    console.log("resTab:", resTab);
+    setImages(resTab);
+  };
+  const onSubmit = e => {
+    e.preventDefault();
+    const newNews = {
+      title,
+      description,
+      images
+    };
+    console.log("Data Sent", newNews);
+    createNews(newNews, history);
+  };
   let imgNews;
   if (loading || news.newsTab === null || user === null) {
     return <h2>Chargement...</h2>;
   }
   const allNews = news.newsTab.data.map((news, index) => {
-    console.log(news.images);
     if (news.images.length > 0) {
       imgNews = news.images.map((img, i) => (
         <CardMedia
           className={classes.media}
-          image={`http://${
-            process.env.REACT_APP_NODE_API
-          }/api/news/image/${img}`}
+          image={`${process.env.REACT_APP_NODE_API}/api/news/image/${img}`}
           title={`Card image cap ` + i}
           key={i}
         />
-        // <div key={i}>
-        //   <img
-        //     className="card-img-top"
-        //     src={`http://${
-        //       process.env.REACT_APP_NODE_API
-        //     }/api/news/image/${img}`}
-        //     alt={`Card image cap ` + i}
-        //   />
-        // </div>
       ));
     }
-    // if(user.status === 0) status = 'élève';
     switch (user.status) {
       case 0:
         status = "élève";
@@ -140,7 +185,7 @@ const News = ({ news, auth: { user }, history, getAllNews, loading }) => {
                   width: "30%"
                 }}
               >
-                <Today />
+                <TodayOutlined />
                 {"  "}
                 {
                   <Moment format="DD MMM, YYYY" locale="fr">
@@ -167,42 +212,120 @@ const News = ({ news, auth: { user }, history, getAllNews, loading }) => {
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <Card className={classes.card}>
-            <CardActionArea>
-              <CardContent className={classes.cardHeader}>
-                <CardMedia
-                  className={classes.mediaHeader}
-                  image={`http://${
-                    process.env.REACT_APP_NODE_API
-                  }/api/users/image/${user.profile_pic}`}
-                  title="Contemplative Reptile"
-                />
-                <Typography variant="body2" component="h3">
-                  {user.name}
-                </Typography>
-                <Typography variant="caption" component="h5" display="block">
-                  {status}
-                </Typography>
-                <Divider />
-                <Typography variant="body2" component="h3">
-                  <RouterLink to={`profile/${user.id}`}>
-                    <Link component="button" varian="body2">
-                      Voir mon profil
-                    </Link>
-                  </RouterLink>
-                </Typography>
-              </CardContent>
-            </CardActionArea>
+            <CardContent className={classes.cardHeader}>
+              <CardMedia
+                className={classes.mediaHeader}
+                image={`${process.env.REACT_APP_NODE_API}/api/users/image/${
+                  user.profile_pic
+                }`}
+                title={user.name}
+              />
+              <Typography variant="body2" component="h3">
+                {user.name}
+              </Typography>
+              <Typography variant="caption" component="h5" display="block">
+                {status}
+              </Typography>
+              <Divider />
+              <Typography variant="body2" component="h3">
+                <RouterLink to={`profile/${user.id}`}>
+                  <Link component="button" varian="body2">
+                    Voir mon profil
+                  </Link>
+                </RouterLink>
+              </Typography>
+            </CardContent>
           </Card>
         </Grid>
         <Grid item xs={6}>
           <Card className={classes.card}>
-            <CardActionArea>
-              <CardContent>
-                <Typography variant="body2" component="h3">
-                  Les news vont tomber !
-                </Typography>
-              </CardContent>
-            </CardActionArea>
+            <CardContent>
+              <form
+                // className={classes.root}
+                onSubmit={onSubmit}
+              >
+                <Grid container direction="column">
+                  <Grid item xs>
+                    <Typography variant="body2" component="h3">
+                      <TextField
+                        placeholder="Entrer le titre de l'annonce"
+                        label="Titre de l'annonce"
+                        margin="normal"
+                        variant="outlined"
+                        InputLabelProps={{ shrink: true }}
+                        onChange={e => {
+                          setTitle(e.target.value);
+                        }}
+                        fullWidth
+                      />
+                    </Typography>
+                  </Grid>
+                  <Grid item xs>
+                    <Typography variant="body2" component="h3">
+                      <TextField
+                        // id="outlined-multiline-flexible"
+                        label="Description de l'article"
+                        multiline
+                        rowsMax="4"
+                        onChange={e => {
+                          setDescription(e.target.value);
+                        }}
+                        // className={classes.textField}
+                        margin="normal"
+                        placeholder="Entrer la description de l'article"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    </Typography>
+                  </Grid>
+                  <Grid item xs>
+                    <input
+                      accept="image/*"
+                      className={classes.input}
+                      id="contained-button-file"
+                      multiple
+                      type="file"
+                      onChange={e => handleImageUpload(e.target.files)}
+                    />
+                    <label htmlFor="contained-button-file">
+                      <Button
+                        variant="contained"
+                        component="span"
+                        className={classes.button}
+                      >
+                        Upload
+                        <CloudUploadIcon className={classes.rightIcon} />
+                      </Button>
+                    </label>
+                  </Grid>
+                  <Grid item xs>
+                    <Typography variant="body2" component="h3">
+                      <TextField
+                        onChange={e => {
+                          setDescription(e.target.value);
+                        }}
+                        value="Publier l'article"
+                        // className={classes.textField}
+                        margin="dense"
+                        variant="outlined"
+                        type="submit"
+                        fullWidth
+                      />
+                    </Typography>
+                    {/* <Button
+                      variant="contained"
+                      component="button"
+                      className={classes.button}
+                      fullWidth
+                    >
+                      <input type="submit" value="" />
+
+                      <SendIcon className={classes.rightIcon} />
+                    </Button> */}
+                  </Grid>
+                </Grid>
+              </form>
+            </CardContent>
           </Card>
           {allNews.length > 0 ? (
             allNews
@@ -214,22 +337,20 @@ const News = ({ news, auth: { user }, history, getAllNews, loading }) => {
         </Grid>
         <Grid item xs={3}>
           <Card className={classes.card}>
-            <CardActionArea>
-              <CardContent className={classes.cardHeader}>
-                <Typography variant="h4">
-                  {<Moment format="DD/MM/YY">{Date.now()}</Moment>}
-                </Typography>
-                <Typography variant="h5" display="block">
-                  {
-                    <Clock
-                      format={"HH:mm:ss"}
-                      ticking={true}
-                      timezone={"Europe/Paris"}
-                    />
-                  }
-                </Typography>
-              </CardContent>
-            </CardActionArea>
+            <CardContent className={classes.cardHeader}>
+              <Typography variant="h4">
+                {<Moment format="DD/MM/YY">{Date.now()}</Moment>}
+              </Typography>
+              <Typography variant="h5" display="block">
+                {
+                  <Clock
+                    format={"HH:mm:ss"}
+                    ticking={true}
+                    timezone={"Europe/Paris"}
+                  />
+                }
+              </Typography>
+            </CardContent>
           </Card>
         </Grid>
       </Grid>
@@ -258,5 +379,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { getAllNews }
+  { getAllNews, createNews }
 )(News);

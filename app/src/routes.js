@@ -1,5 +1,19 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Link as RouterLink } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import {
+  Button,
+  IconButton,
+  Snackbar,
+  SnackbarContent,
+  makeStyles
+} from "@material-ui/core";
+
+import { ErrorIcon } from "@material-ui/icons/Error";
+import { CloseIcon } from "@material-ui/icons/Close";
+
 import Landing from "./components/layout/Landing";
 import Dashboard from "./components/dashboard/Dashboard";
 import Annonce from "./components/annonce/Annonce";
@@ -19,7 +33,52 @@ import requireAuth from "./utils/requireAuth";
 import ProfileForm from "./components/profile/ProfileForm";
 import Markdown from "./components/markdown/Markdown";
 import Navbar from "./components/layout/Navbar";
-const Routes = () => {
+import SnackBarHelper from "./components/utils/SnackBarHelper";
+
+const variantIcon = {
+  error: ErrorIcon
+};
+
+const useStyles1 = makeStyles(theme => ({
+  error: {
+    backgroundColor: theme.palette.error.dark
+  },
+  icon: {
+    fontSize: 20
+  },
+  iconVariant: {
+    opacity: 0.9,
+    marginRight: theme.spacing(1)
+  },
+  message: {
+    display: "flex",
+    alignItems: "center"
+  },
+  button: {
+    margin: theme.spacing(1)
+  }
+}));
+
+const Icon = variantIcon.error;
+
+const Routes = ({ errors: { errors } }) => {
+  const classes = useStyles1();
+  const snack = (
+    <Button variant="contained" className={classes.button}>
+      <RouterLink to="/">Reconnectez-vous</RouterLink>
+    </Button>
+  );
+  if (errors !== null) {
+    console.log(errors);
+    // return <h3>{errors.message}</h3>;
+    return (
+      <SnackBarHelper
+        variant="error"
+        className={classes.margin}
+        message={errors.message}
+      />
+    );
+  }
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
       {/* <Route path="/" component={App} /> */}
@@ -68,4 +127,13 @@ const Routes = () => {
   );
 };
 
-export default Routes;
+Routes.propTypes = {
+  errors: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+export default connect(
+  mapStateToProps,
+  {}
+)(Routes);

@@ -44,7 +44,7 @@ const NewsController = {
       description: req.body.description,
       images: imgTab
     });
-    console.log("new news:", newNews);
+    // console.log("new news:", newNews);
     // await newNews.save();
     // res.status(200).json(await newNews.getData());
   },
