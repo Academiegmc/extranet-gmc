@@ -5,7 +5,8 @@ import {
   GET_ERRORS,
   SEARCH_ADS,
   DELETE_AD,
-  GET_ALL_USER_ADS
+  GET_ALL_USER_ADS,
+  CREATE_AD
 } from "./types";
 import { setLoading } from "./newsActions";
 import { adUrl } from "../utils";
@@ -32,14 +33,13 @@ export const getAnAd = adId => dispatch => {
     .then(ad => dispatch({ type: GET_AN_AD, payload: ad }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
 };
-export const createAd = (adData, history) => dispatch => {
-  const adsUrl = "/annonces";
-  axios
-    .post(adUrl, adData)
-    .then(ad => {
-      history.push(adsUrl);
-    })
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+export const createAd = adData => async dispatch => {
+  try {
+    const res = await axios.post(adUrl, adData);
+    dispatch({ type: CREATE_AD, payload: res.data });
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
 };
 export const updateComments = (adID, comment) => dispatch => {
   axios
