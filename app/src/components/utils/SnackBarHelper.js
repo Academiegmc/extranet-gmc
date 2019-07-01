@@ -75,7 +75,7 @@ const SnackBarHelper = ({ className, message, onClose, variant, logout }) => {
             className={classes.button}
             onClick={logout}
           >
-            <RouterLink to="/">Reconnectez-vous</RouterLink>
+            <a href="/">Reconnectez-vous</a>
           </Button>
         </span>
       }

@@ -13,26 +13,30 @@ import { newsUrl } from "../utils";
 export const setLoading = () => {
   return { type: SET_LOADING };
 };
-export const getAllNews = () => dispatch => {
-  setLoading();
-  axios.get(newsUrl).then(news =>
+export const getAllNews = () => async dispatch => {
+  try {
+    setLoading();
+    const res = await axios.get(newsUrl);
     dispatch({
       type: GET_ALL_NEWS,
-      payload: news
-    })
-  );
+      payload: res.data
+    });
+  } catch (error) {
+    console.error(error);
+    dispatch(error.response.data);
+  }
 };
-export const getAllUserNews = userId => dispatch => {
-  setLoading();
-  axios
-    .get(`${newsUrl}/user/${userId}`)
-    .then(res =>
-      dispatch({
-        type: GET_ALL_USER_NEWS,
-        payload: res.data
-      })
-    )
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+export const getAllUserNews = userId => async dispatch => {
+  try {
+    setLoading();
+    const res = await axios.get(`${newsUrl}/user/${userId}`);
+    dispatch({
+      type: GET_ALL_USER_NEWS,
+      payload: res.data
+    });
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
 };
 export const getANews = newsId => dispatch => {
   setLoading();
@@ -48,19 +52,19 @@ export const createNews = (newsData, history) => async dispatch => {
   const formData = new FormData();
   formData.append("title", title);
   formData.append("description", description);
-  if (images) {
+  if (images.length > 0) {
     if (images.length > 1) {
       for (let i = 0; i <= images.length; i++) {
         formData.append("images", images[i]);
       }
-    } else formData.append("images", images);
+    } else formData.append("images", images[0]);
   }
   try {
     setLoading();
     const res = await axios.post(newsUrl, formData);
     dispatch({ type: CREATE_NEWS, payload: res.data });
-    history.push("/news");
   } catch (error) {
+    console.error(error);
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };

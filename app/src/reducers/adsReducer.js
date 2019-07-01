@@ -9,11 +9,11 @@ import {
 const initialState = {
   isloading: false,
   isDeleted: false,
-  ad: {},
-  ads: [],
-  search_ads: [],
-  comments: [],
-  comment: {},
+  ad: null,
+  ads: null,
+  search_ads: null,
+  comments: null,
+  comment: null,
   errors: null
 };
 

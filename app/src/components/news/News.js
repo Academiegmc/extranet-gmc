@@ -22,10 +22,8 @@ import {
   TextField
 } from "@material-ui/core";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import SendIcon from "@material-ui/icons/Send";
 import Clock from "react-live-clock";
 import { getAllNews } from "../../actions/newsActions";
-import ReturnButton from "../layout/ReturnButton";
 import settings from "./newsCarouselConfig";
 import "./News.css";
 import "slick-carousel/slick/slick.css";
@@ -68,14 +66,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const News = ({
-  news,
-  auth: { user },
-  history,
-  getAllNews,
-  loading,
-  createNews
-}) => {
+const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
   let status;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -107,7 +98,6 @@ const News = ({
         console.error(error);
       }
     });
-    console.log("resTab:", resTab);
     setImages(resTab);
   };
   const onSubmit = e => {
@@ -117,58 +107,51 @@ const News = ({
       description,
       images
     };
-    console.log("Data Sent", newNews);
-    createNews(newNews, history);
+    createNews(newNews);
+    setTitle("");
+    setDescription("");
+    setImages([]);
   };
   let imgNews;
   if (loading || news.newsTab === null || user === null) {
     return <h2>Chargement...</h2>;
   }
-  const allNews = news.newsTab.data.map((news, index) => {
-    if (news.images.length > 0) {
-      imgNews = news.images.map((img, i) => (
-        <CardMedia
-          className={classes.media}
-          image={`${process.env.REACT_APP_NODE_API}/api/news/image/${img}`}
-          title={`Card image cap ` + i}
-          key={i}
-        />
-      ));
-    }
-    switch (user.status) {
-      case 0:
-        status = "élève";
-      case 1:
-        status = "Ancien élève";
-      case 2:
-        status = "Professeur";
-      case 3:
-        status = "Administrateur";
-      default:
-        break;
-    }
-    return (
-      <Card className={classes.card} key={news.id}>
-        <CardActionArea>
+  let allNews;
+  if (news.newsTab !== undefined && news.newsTab.length > 0) {
+    allNews = news.newsTab.map((news, index) => {
+      if (news.images.length > 0) {
+        imgNews = news.images.map((img, i) => (
+          <CardMedia
+            className={classes.media}
+            image={`${process.env.REACT_APP_NODE_API}/api/news/image/${img}`}
+            title={`Card image cap ` + i}
+            key={i}
+          />
+        ));
+      }
+      switch (user.status) {
+        case 0:
+          status = "élève";
+        case 1:
+          status = "Ancien élève";
+        case 2:
+          status = "Professeur";
+        case 3:
+          status = "Administrateur";
+        default:
+          break;
+      }
+      return (
+        <Card className={classes.card} key={news.id}>
           {news.images.length > 0 ? (
             <Slider {...settings}>{imgNews}</Slider>
           ) : null}
-          {/* <CardMedia
-            className={classes.media}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
-          /> */}
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               {news.title}
             </Typography>
             <Divider />
-            <Typography
-              gutterBottom
-              variant="body2"
-              color="textSecondary"
-              component="p"
-            >
+            <Typography gutterBottom variant="body2" color="textSecondary">
               <ReactMarkdown
                 source={news.description}
                 disallowedTypes={disallowedTypes}
@@ -195,18 +178,18 @@ const News = ({
               </small>
             </Typography>
           </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-        </CardActions>
-      </Card>
-    );
-  });
+          <CardActions>
+            <Button size="small" color="primary">
+              Share
+            </Button>
+            <Button size="small" color="primary">
+              Learn More
+            </Button>
+          </CardActions>
+        </Card>
+      );
+    });
+  }
   return (
     <Container>
       <Grid container spacing={2}>
@@ -240,10 +223,7 @@ const News = ({
         <Grid item xs={6}>
           <Card className={classes.card}>
             <CardContent>
-              <form
-                // className={classes.root}
-                onSubmit={onSubmit}
-              >
+              <form onSubmit={onSubmit}>
                 <Grid container direction="column">
                   <Grid item xs>
                     <Typography variant="body2" component="h3">
@@ -253,6 +233,7 @@ const News = ({
                         margin="normal"
                         variant="outlined"
                         InputLabelProps={{ shrink: true }}
+                        value={title}
                         onChange={e => {
                           setTitle(e.target.value);
                         }}
@@ -267,6 +248,7 @@ const News = ({
                         label="Description de l'article"
                         multiline
                         rowsMax="4"
+                        value={description}
                         onChange={e => {
                           setDescription(e.target.value);
                         }}
@@ -282,12 +264,13 @@ const News = ({
                     <input
                       accept="image/*"
                       className={classes.input}
-                      id="contained-button-file"
+                      id="images"
+                      name="images"
                       multiple
                       type="file"
                       onChange={e => handleImageUpload(e.target.files)}
                     />
-                    <label htmlFor="contained-button-file">
+                    <label htmlFor="images">
                       <Button
                         variant="contained"
                         component="span"
@@ -305,23 +288,12 @@ const News = ({
                           setDescription(e.target.value);
                         }}
                         value="Publier l'article"
-                        // className={classes.textField}
                         margin="dense"
                         variant="outlined"
                         type="submit"
                         fullWidth
                       />
                     </Typography>
-                    {/* <Button
-                      variant="contained"
-                      component="button"
-                      className={classes.button}
-                      fullWidth
-                    >
-                      <input type="submit" value="" />
-
-                      <SendIcon className={classes.rightIcon} />
-                    </Button> */}
                   </Grid>
                 </Grid>
               </form>
@@ -355,19 +327,6 @@ const News = ({
         </Grid>
       </Grid>
     </Container>
-    // <div className="container">
-    //   <ReturnButton history={history} />
-    //   <h2>
-    //     <span>Dernières News</span>
-    //   </h2>
-    //   <div className="d-flex flex-column W-100">
-    //     {allNews.length > 0 ? (
-    //       allNews
-    //     ) : (
-    //       <h3 className="text-center my-5">Les news vont tomber !</h3>
-    //     )}
-    //   </div>
-    // </div>
   );
 };
 News.propTypes = {

@@ -7,12 +7,16 @@ import {
   DELETE_AD,
   GET_ALL_USER_ADS
 } from "./types";
+import { setLoading } from "./newsActions";
 import { adUrl } from "../utils";
-export const getAllAds = () => dispatch => {
-  axios
-    .get(adUrl)
-    .then(ads => dispatch({ type: GET_ALL_ADS, payload: ads }))
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err }));
+export const getAllAds = () => async dispatch => {
+  try {
+    setLoading();
+    const res = await axios.get(adUrl);
+    dispatch({ type: GET_ALL_ADS, payload: res.data });
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
 };
 export const getAllUserAd = userId => dispatch => {
   axios

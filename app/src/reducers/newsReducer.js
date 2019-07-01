@@ -4,7 +4,8 @@ import {
   DELETE_NEWS,
   GET_ALL_USER_NEWS,
   CREATE_NEWS,
-  SET_LOADING
+  SET_LOADING,
+  GET_ERRORS
 } from "../actions/types";
 const initialState = {
   loading: false,
@@ -31,12 +32,17 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        newsTab: [...state, action.payload]
+        newsTab: [action.payload, ...state.newsTab]
       };
     case DELETE_NEWS:
       return {
         ...state,
         newsTab: state.newsTab.filter(news => news.id !== action.payload)
+      };
+    case GET_ERRORS:
+      return {
+        ...state,
+        errors: action.payload
       };
     default:
       return state;
