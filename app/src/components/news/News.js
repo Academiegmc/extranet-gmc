@@ -180,10 +180,7 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
           </CardContent>
           <CardActions>
             <Button size="small" color="primary">
-              Share
-            </Button>
-            <Button size="small" color="primary">
-              Learn More
+              Lire l'article
             </Button>
           </CardActions>
         </Card>
@@ -193,7 +190,7 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={3}>
           <Card className={classes.card}>
             <CardContent className={classes.cardHeader}>
               <CardMedia
@@ -220,11 +217,14 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Card className={classes.card}>
             <CardContent>
               <form onSubmit={onSubmit}>
                 <Grid container direction="column">
+                  <Typography variant="h5" component="h5">
+                    Ajouter un article
+                  </Typography>
                   <Grid item xs>
                     <Typography variant="body2" component="h3">
                       <TextField
@@ -307,7 +307,7 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} sm={3}>
           <Card className={classes.card}>
             <CardContent className={classes.cardHeader}>
               <Typography variant="h4">

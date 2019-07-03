@@ -117,12 +117,12 @@ const Annonces = ({ ads, searchAd, getAllAds, history }) => {
       <Grid container className={classes.grid}>
         <Grid className={classes.paper} item xs={12} sm={3}>
           <Typography variant="h5" component="h5">
-            Rechercher un article
+            Rechercher une annonce
           </Typography>
           <Grid item xs={12}>
             <TextField
               id="standard-name"
-              label="Article"
+              label="Annonce"
               className={classes.textField}
               value={value}
               onChange={e => {

@@ -243,21 +243,7 @@ const Navbar = ({ users, auth, logout, history }) => {
           <Typography className={classes.title} variant="h6" noWrap>
             Extranet
           </Typography>
-          {auth.isAuthenticated && history.location.pathname === "/annonces" && (
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Rechercher une annonce..."
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-                inputProps={{ "aria-label": "Search" }}
-              />
-            </div>
-          )}
+
           <div className={classes.grow} />
           {auth.isAuthenticated && (
             <Fragment>
