@@ -17,7 +17,6 @@ import {
 import ReactMarkdown from "react-markdown";
 import ReactAutocomplete from "react-autocomplete";
 import { getAllAds, searchAd } from "../../actions/adAction";
-import ReturnButton from "../layout/ReturnButton";
 import "./Annonces.css";
 
 // import Button from "../layout/Button";
@@ -50,35 +49,7 @@ const Annonces = ({ ads, searchAd, getAllAds, history }) => {
   useEffect(() => {
     getAllAds();
   }, []);
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     annonces: [],
-  //     ads: [],
-  //     items: [],
-  //     disallowedTypes: ["image", "html", "inlineCode", "code"],
-  //     value: "",
-  //     ad_chose: {}
-  //   };
-  //   this.searchAds = this.searchAds.bind(this);
-  // }
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.ads) {
-  //     const { ads, search_ads } = nextProps.ads;
-  //     if (ads.data) {
-  //       this.setState({ annonces: nextProps.ads.ads.data });
-  //     }
-  //     if (search_ads) this.setState({ items: search_ads });
-  //   }
-  // }
-  // componentDidMount() {
-  //   this.props.getAllAds();
-  // }
-  // searchAds(e) {
-  //   this.props.searchAd(e);
-  //   this.setState({ value: e });
-  // }
-  let button;
+
   if (ads.ads === null) {
     return <h3>Chargement...</h3>;
   }
@@ -119,100 +90,60 @@ const Annonces = ({ ads, searchAd, getAllAds, history }) => {
       </Card>
     ));
   }
-  // ads.ads.map((annonce, index) => {
-  //       let categoryIcon;
-  //       let style;
-  //       if (annonce.category === "etude") {
-  //         categoryIcon = (
-  //           <i className="fas fa-user-graduate my-auto annonce-icon" />
-  //         );
-  //         style = { height: "50%", backgroundColor: "#FF8962" };
-  //         button = {
-  //           type: "link",
-  //           class: "btn btn-etude text-white rounded"
-  //         };
-  //       }
-  //       if (annonce.category === "loisir") {
-  //         categoryIcon = <i className="fas fa-dice my-auto annonce-icon" />;
-  //         style = { height: "50%", backgroundColor: "#7FD1AE" };
-  //         button = {
-  //           type: "link",
-  //           class: "btn btn-loisir text-white rounded"
-  //         };
-  //       }
-  //       if (annonce.category === "cosmetique") {
-  //         categoryIcon = <i className="fas fa-gift my-auto annonce-icon" />;
-  //         style = { height: "50%", backgroundColor: "#A46855" };
-  //         button = {
-  //           type: "link",
-  //           class: "btn btn-cosmetique text-white rounded"
-  //         };
-  //       }
-  //       return (
-  //         // <Card key={annonce.id}>
-  //         //   <CardActionArea>
-  //         //     <CardMedia
-  //         //       component="img"
-  //         //       alt="Contemplative Reptile"
-  //         //       height="140"
-  //         //       image="/static/images/cards/contemplative-reptile.jpg"
-  //         //       title="Contemplative Reptile"
-  //         //     />
-  //         //     <CardContent>
-  //         //       <Typography gutterBottom variant="h5" component="h2">
-  //         //         Lizard
-  //         //       </Typography>
-  //         //       <Typography
-  //         //         variant="body2"
-  //         //         color="textSecondary"
-  //         //         component="p"
-  //         //       >
-  //         //         Lizards are a widespread group of squamate reptiles, with
-  //         //         over 6,000 species, ranging across all continents except
-  //         //         Antarctica
-  //         //       </Typography>
-  //         //     </CardContent>
-  //         //   </CardActionArea>
-  //         //   <CardActions>
-  //         //     <Button size="small" color="primary">
-  //         //       Share
-  //         //     </Button>
-  //         //     <Button size="small" color="primary">
-  //         //       Learn More
-  //         //     </Button>
-  //         //   </CardActions>
-  //         // </Card>
-  //         // <div className="card annonce-card m-2" key={index}>
-  //         //   <div
-  //         //     className="border card-body d-flex justify-content-center align-items-center"
-  //         //     style={style}
-  //         //   >
-  //         //     <div className="d-flex justify-content-center align-items-center border rounded-circle bg-light annonce-card-icon">
-  //         //       {categoryIcon}
-  //         //     </div>
-  //         //   </div>
-  //         //   <div className="card-body d-flex flex-column mt-3">
-  //         //     <h4 className="card-title">{annonce.title}</h4>
-  //         //     <h6 className="card-subtitle text-muted mb-3">
-  //         //       {annonce.user.name}
-  //         //     </h6>
-  //         //     {Button(
-  //         //       button.type,
-  //         //       button.class,
-  //         //       `/annonce/${annonce.id}`,
-  //         //       "En savoir plus"
-  //         //     )}
-  //         //   </div>
-  //         // </div>
-  //       );
-  //     })
-  //   : null;
 
   return (
     <Container fixed>
       <Grid className={classes.root} container spacing={7}>
-        <Grid item xs={4}>
-          TEST
+        <Grid container direction="column" item xs={4}>
+          <Grid item>
+            <ReactAutocomplete
+              className="form-control"
+              items={items}
+              shouldItemRender={(item, value) =>
+                item.title.toLowerCase().indexOf(value.toLowerCase()) > -1
+              }
+              getItemValue={item => item.title}
+              renderItem={(item, highlighted) => (
+                <div
+                  key={item._id}
+                  style={{
+                    backgroundColor: highlighted ? "#eee" : "transparent"
+                  }}
+                >
+                  <p onClick={() => setItems(item)}>{item.title}</p>
+                </div>
+              )}
+              renderInput={props => (
+                <input
+                  {...props}
+                  role="combobox"
+                  name="search"
+                  className="form-control"
+                  value={value}
+                />
+              )}
+              value={value}
+              onChange={e => {
+                setValue(e.target.value);
+                searchAd(e.target.value);
+                if (value === "") setItems([]);
+              }}
+              onSelect={(value, item) => {
+                setValue(value);
+                setItems(item);
+              }}
+              wrapperStyle={{ display: "inline-block", width: "40%" }}
+            />
+          </Grid>
+          <Grid item>
+            <Button onClick={() => alert("Etude")}>Etude</Button>
+          </Grid>
+          <Grid item>
+            <Button onClick={() => alert("Cosmétique")}>Cosmétique</Button>
+          </Grid>
+          <Grid item>
+            <Button onClick={() => alert("Emplois")}>Emplois</Button>
+          </Grid>
         </Grid>
         <Grid item xs={8}>
           {allAnnonces}

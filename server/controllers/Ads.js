@@ -62,13 +62,11 @@ const Ads = {
   },
   searchAds: async (req, res) => {
     const { q } = req.query;
-    const ad = await Ad.find({
-      title: { $regex: new RegExp(q), $options: "mi" }
-    })
-      .select("title")
-      .limit(10);
-    console.log(ad);
-    res.status(200).json(ad);
+    const ads = await Ad.find({
+      title: { $regex: new RegExp(`^${q}`), $options: "i" }
+    }).limit(10);
+    let result = ads.map(async ad => await ad.getData());
+    res.status(200).json(await Promise.all(result));
   }
 };
 

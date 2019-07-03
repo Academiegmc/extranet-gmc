@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
     case GET_AN_AD:
       return { ...state, loading: false, ad: action.payload };
     case SEARCH_ADS:
-      return { ...state, loading: false, search_ads: action.payload };
+      return { ...state, loading: false, ads: action.payload };
     case CREATE_AD:
       return {
         ...state,

@@ -1,0 +1,274 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { Link as RouterLink } from "react-router-dom";
+import { connect } from "react-redux";
+
+import {
+  AppBar,
+  makeStyles,
+  Toolbar,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem,
+  Link,
+  Grid,
+  InputBase
+} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
+import { AccountCircle } from "@material-ui/icons";
+import { logout } from "../../actions/authActions";
+import { getUser } from "../../actions/usersAction";
+import "./Navbar.css";
+import { fade } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    height: "5%"
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block"
+    }
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25)
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto"
+    }
+  },
+  searchIcon: {
+    width: theme.spacing(7),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  inputRoot: {
+    color: "inherit"
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 7),
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: 200
+    }
+  },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex"
+    }
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none"
+    }
+  },
+  text: {
+    fontFamily: "Lato",
+    // color: "#6C6B6A"
+    color: "#717171"
+  }
+}));
+
+const Navbar = ({ users, auth, logout, history }) => {
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  function handleMenu(event) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
+  console.log(history.location.pathname);
+  return (
+    <nav className={classes.root}>
+      <AppBar
+        position="static"
+        style={{ backgroundColor: "#f4e9de", height: "100%" }}
+      >
+        <Toolbar>
+          <Typography
+            className={`${classes.root} ${classes.title}`}
+            variant="h6"
+          >
+            <Link component={RouterLink} to="/">
+              Extranet
+            </Link>
+          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput
+              }}
+              inputProps={{ "aria-label": "Search" }}
+            />
+          </div>
+          {auth.isAuthenticated && (
+            <div style={{ flexGrow: 0.1 }}>
+              <Grid
+                container
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+                spacing={2}
+              >
+                <Typography className={classes.text} variant="h6">
+                  <Link
+                    className={
+                      history.location.pathname === "/" ||
+                      history.location.pathname === "/dashboard"
+                        ? "active"
+                        : ""
+                    }
+                    component={RouterLink}
+                    to="/"
+                  >
+                    Accueil
+                  </Link>
+                </Typography>
+                <Typography className={classes.text} variant="h6">
+                  <Link
+                    className={
+                      history.location.pathname === "/jobboard" ? "active" : ""
+                    }
+                    component={RouterLink}
+                    to="/jobboard"
+                  >
+                    Jobboard
+                  </Link>
+                </Typography>
+                <Typography className={classes.text} variant="h6">
+                  <Link
+                    className={
+                      history.location.pathname === "/news" ? "active" : ""
+                    }
+                    component={RouterLink}
+                    to="/news"
+                  >
+                    News
+                  </Link>
+                </Typography>
+                <Typography className={classes.text} variant="h6">
+                  <Link
+                    className={
+                      history.location.pathname === "/annonces" ? "active" : ""
+                    }
+                    component={RouterLink}
+                    to="/annonces"
+                  >
+                    Annonce
+                  </Link>
+                </Typography>
+                <Typography className={classes.text} variant="h6">
+                  <Link
+                    className={
+                      history.location.pathname === "/trombinoscope"
+                        ? "active"
+                        : ""
+                    }
+                    component={RouterLink}
+                    to="/trombinoscope"
+                  >
+                    Trombinoscope
+                  </Link>
+                </Typography>
+                {auth.user.status === 3 && (
+                  <Typography className={classes.text} variant="h6">
+                    <Link component={RouterLink} to="/admin">
+                      Admin
+                    </Link>
+                  </Typography>
+                )}
+                <IconButton
+                  aria-label="Account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  style={{ color: "#6C6B6A" }}
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Grid>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right"
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right"
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>
+                  <Link component={RouterLink} to={`/profile/${auth.user.id}`}>
+                    Mon Profil
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Link component={RouterLink} to="/stage">
+                    Stage
+                  </Link>
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    logout();
+                    setAnchorEl(null);
+                  }}
+                >
+                  Déconnexion
+                </MenuItem>
+              </Menu>
+            </div>
+          )}
+        </Toolbar>
+      </AppBar>
+    </nav>
+  );
+};
+
+Navbar.propTypes = {
+  auth: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
+};
+const mapStatetoprops = state => ({
+  auth: state.auth,
+  users: state.users
+});
+export default connect(
+  mapStatetoprops,
+  { logout, getUser }
+)(Navbar);
