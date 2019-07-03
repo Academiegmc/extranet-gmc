@@ -27,6 +27,13 @@ const useStyles = makeStyles(theme => ({
   icon: {
     margin: theme.spacing(1),
     fontSize: 32
+  },
+  links: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
+      textAlign: "center"
+    }
   }
 }));
 
@@ -94,9 +101,12 @@ const Dashboard = ({ auth }) => {
     return (
       <Grid
         item
-        xs="auto"
         key={id}
-        style={{ justifyContent: "center", alignItems: "center" }}
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: 20
+        }}
       >
         {title.link.indexOf("http") === -1 ? (
           <RouterLink to={title.link}>
@@ -108,11 +118,7 @@ const Dashboard = ({ auth }) => {
               }}
               className={`${classes.root} text-anim`}
             >
-              <Typography
-                variant="h5"
-                component="h3"
-                className="welcome-text welcome-anim"
-              >
+              <Typography variant="h5" component="h3" className="welcome-anim">
                 {title.icon}
               </Typography>
             </Paper>
@@ -127,34 +133,24 @@ const Dashboard = ({ auth }) => {
               }}
               className={`${classes.root} text-anim`}
             >
-              <Typography
-                variant="h5"
-                component="h3"
-                className="welcome-text welcome-anim"
-              >
+              <Typography variant="h5" component="h3" className=" welcome-anim">
                 {title.icon}
               </Typography>
             </Paper>
           </a>
         )}
-        <Typography component="p" className="text-center">
+        <Typography className={classes.links} component="p">
           {title.title}
         </Typography>
       </Grid>
     );
   });
   return (
-    <Grid
-      container
-      justify="center"
-      alignItems="center"
-      direction="column"
-      spacing={3}
-    >
-      <Grid item xs="auto">
+    <Grid container justify="center" alignItems="center" direction="column">
+      <Grid item xs>
         <h1 className="welcome-text welcome-anim text-center">Extranet</h1>
       </Grid>
-      <Grid container justify="space-around" alignItems="center" spacing={3}>
+      <Grid container justify="space-between" alignItems="center">
         {links}
       </Grid>
     </Grid>

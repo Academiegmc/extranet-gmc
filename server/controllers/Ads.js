@@ -63,7 +63,7 @@ const Ads = {
   searchAds: async (req, res) => {
     const { q } = req.query;
     const ads = await Ad.find({
-      title: { $regex: new RegExp(`^${q}`), $options: "i" }
+      title: { $regex: new RegExp(q), $options: "i" }
     }).limit(10);
     let result = ads.map(async ad => await ad.getData());
     res.status(200).json(await Promise.all(result));
