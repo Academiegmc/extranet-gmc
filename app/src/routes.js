@@ -1,18 +1,7 @@
-import React from "react";
-import { Route, Link as RouterLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import {
-  Button,
-  IconButton,
-  Snackbar,
-  SnackbarContent,
-  makeStyles
-} from "@material-ui/core";
-
-import { ErrorIcon } from "@material-ui/icons/Error";
-import { CloseIcon } from "@material-ui/icons/Close";
 
 import Landing from "./components/layout/Landing";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -33,56 +22,21 @@ import requireAuth from "./utils/requireAuth";
 import ProfileForm from "./components/profile/ProfileForm";
 import Markdown from "./components/markdown/Markdown";
 import Navbar from "./components/layout/Navbar";
-import SnackBarHelper from "./components/utils/SnackBarHelper";
-
-const variantIcon = {
-  error: ErrorIcon
-};
-
-const useStyles1 = makeStyles(theme => ({
-  error: {
-    backgroundColor: theme.palette.error.dark
-  },
-  icon: {
-    fontSize: 20
-  },
-  iconVariant: {
-    opacity: 0.9,
-    marginRight: theme.spacing(1)
-  },
-  message: {
-    display: "flex",
-    alignItems: "center"
-  },
-  button: {
-    margin: theme.spacing(1)
-  }
-}));
-
-const Icon = variantIcon.error;
+import Alert from "./components/layout/Alert";
 
 const Routes = ({ errors: { errors } }) => {
-  const classes = useStyles1();
-  const snack = (
-    <Button variant="contained" className={classes.button}>
-      <RouterLink to="/">Reconnectez-vous</RouterLink>
-    </Button>
-  );
+  const [alert, setAlert] = useState(null);
   if (errors !== null) {
     console.log(errors);
     // return <h3>{errors.message}</h3>;
-    return (
-      <SnackBarHelper
-        variant="error"
-        className={classes.margin}
-        message={errors.message}
-      />
-    );
+    setAlert({ msg: errors.message, type: "error" });
+    setTimeout(() => setAlert(null), 5000);
   }
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
       {/* <Route path="/" component={App} /> */}
       <Route path="/" component={Navbar} />
+      <Alert alert={alert} />
       <Route exact path="/" component={Landing} />
       <Route exact path="/profile/:id" component={requireAuth(Profile)} />
       <Route exact path="/stage/:id" component={requireAuth(Stages)} />

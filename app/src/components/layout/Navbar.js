@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+import clsx from "clsx";
+
 import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { fade, makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import {
   Work,
@@ -20,7 +21,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  InputBase,
   MenuItem,
   Menu
 } from "@material-ui/core";
@@ -101,6 +101,9 @@ const useStyles = makeStyles(theme => ({
   },
   links: {
     textDecoration: "none"
+  },
+  active: {
+    borderBottom: "1px solid"
   }
 }));
 
@@ -111,6 +114,8 @@ const Navbar = ({ users, auth, logout, history }) => {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const activeLink = clsx(classes.links, classes.active);
 
   function handleProfileMenuOpen(event) {
     setAnchorEl(event.currentTarget);
@@ -187,7 +192,12 @@ const Navbar = ({ users, auth, logout, history }) => {
         <IconButton aria-label="Show 11 new notifications" color="inherit">
           <NewReleases />
         </IconButton>
-        <RouterLink className={classes.links} to="/news">
+        <RouterLink
+          className={
+            history.location.pathname === "/news" ? activeLink : classes.links
+          }
+          to="/news"
+        >
           <p style={{ color: "black" }}>News</p>
         </RouterLink>
       </MenuItem>
@@ -248,22 +258,50 @@ const Navbar = ({ users, auth, logout, history }) => {
           {auth.isAuthenticated && (
             <Fragment>
               <div className={classes.sectionDesktop}>
-                <RouterLink className={classes.links} to="/">
+                <RouterLink
+                  className={
+                    history.location.pathname === "/dashboard"
+                      ? activeLink
+                      : classes.links
+                  }
+                  to="/"
+                >
                   <Typography className={classes.title} variant="h6" noWrap>
                     Accueil
                   </Typography>
                 </RouterLink>
-                <RouterLink className={classes.links} to="/news">
+                <RouterLink
+                  className={
+                    history.location.pathname === "/news"
+                      ? activeLink
+                      : classes.links
+                  }
+                  to="/news"
+                >
                   <Typography className={classes.title} variant="h6" noWrap>
                     News
                   </Typography>
                 </RouterLink>
-                <RouterLink className={classes.links} to="/annonces">
+                <RouterLink
+                  className={
+                    history.location.pathname === "/annonces"
+                      ? activeLink
+                      : classes.links
+                  }
+                  to="/annonces"
+                >
                   <Typography className={classes.title} variant="h6" noWrap>
                     Annonces
                   </Typography>
                 </RouterLink>
-                <RouterLink className={classes.links} to="/trombinoscope">
+                <RouterLink
+                  className={
+                    history.location.pathname === "/trombinoscope"
+                      ? activeLink
+                      : classes.links
+                  }
+                  to="/trombinoscope"
+                >
                   <Typography className={classes.title} variant="h6" noWrap>
                     Trombinoscope
                   </Typography>

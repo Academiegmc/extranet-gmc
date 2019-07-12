@@ -39,22 +39,36 @@ const Ads = {
     res.status(200).json(await newAd.getData());
   },
   updateCommentAd: async (req, res) => {
-    const ad = await Ad.findById(req.params.id);
+    const ad = await Ad.findById(req.params.id).populate({
+      path: "comments.user",
+      model: "gmc-users"
+    });
     if (!ad)
       return res.status(404).json({ success: false, message: "Not Found" });
     ad.comments.push(req.body);
     await ad.save();
-    res.status(200).json({ success: true, data: ad });
+    const updatedAd = await Ad.findById(req.params.id).populate({
+      path: "comments.user",
+      model: "gmc-users"
+    });
+    res.status(200).json(await updatedAd.getData());
   },
   updateAd: async (req, res) => {
-    const ad = await Ad.findById(req.params.id);
+    const ad = await Ad.findById(req.params.id).populate({
+      path: "comments.user",
+      model: "gmc-users"
+    });
     if (!ad)
       return res.status(404).json({ success: false, message: "NotFound" });
     if (req.body.title) ad.title = req.body.title;
     if (req.body.description) ad.description = req.body.description;
     if (req.body.category) ad.category = req.body.category;
     await ad.save();
-    return res.status(200).json(await ad.getData());
+    const updatedAd = await Ad.findById(req.params.id).populate({
+      path: "comments.user",
+      model: "gmc-users"
+    });
+    return res.status(200).json(await updatedAd.getData());
   },
   deleteAd: async (req, res) => {
     await Ad.findByIdAndRemove(req.params.id);

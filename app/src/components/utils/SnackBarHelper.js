@@ -2,11 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Link as RouterLink } from "react-router-dom";
 import {
   Button,
   IconButton,
-  Snackbar,
   SnackbarContent,
   makeStyles
 } from "@material-ui/core";
@@ -57,11 +55,7 @@ const useStyles1 = makeStyles(theme => ({
 const SnackBarHelper = ({ className, message, onClose, variant, logout }) => {
   const classes = useStyles1();
   const Icon = variantIcon[variant];
-  const snack = (
-    <Button variant="contained" className={classes.button}>
-      <RouterLink to="/">Reconnectez-vous</RouterLink>
-    </Button>
-  );
+
   return (
     <SnackbarContent
       className={clsx(classes[variant], className)}

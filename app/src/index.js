@@ -11,6 +11,7 @@ import store from "./store";
 import Routes from "./routes";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser } from "./actions/authActions";
+import "moment/locale/fr";
 
 if (
   localStorage.jwtToken &&

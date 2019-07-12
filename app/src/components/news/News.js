@@ -8,7 +8,6 @@ import ReactMarkdown from "react-markdown";
 import imageCompression from "browser-image-compression";
 import {
   Card,
-  CardActionArea,
   CardActions,
   CardMedia,
   CardContent,
@@ -19,8 +18,10 @@ import {
   Container,
   Divider,
   Link,
-  TextField
+  TextField,
+  Hidden
 } from "@material-ui/core";
+import { TodayOutlined } from "@material-ui/icons";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Clock from "react-live-clock";
 import { getAllNews } from "../../actions/newsActions";
@@ -28,8 +29,8 @@ import settings from "./newsCarouselConfig";
 import "./News.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { TodayOutlined, CloudUploadOutlined } from "@material-ui/icons";
 import { createNews } from "../../actions/newsActions";
+import Alert from "../layout/Alert";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,9 +59,6 @@ const useStyles = makeStyles(theme => ({
   input: {
     display: "none"
   },
-  button: {
-    // margin: theme.spacing(1)
-  },
   rightIcon: {
     marginLeft: theme.spacing(1)
   }
@@ -71,6 +69,7 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
+  const [alert, setAlert] = useState(null);
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
     "html",
@@ -102,15 +101,23 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
   };
   const onSubmit = e => {
     e.preventDefault();
-    const newNews = {
-      title,
-      description,
-      images
-    };
-    createNews(newNews);
-    setTitle("");
-    setDescription("");
-    setImages([]);
+    if (title !== "" && description !== "") {
+      const newNews = {
+        title,
+        description,
+        images
+      };
+      createNews(newNews);
+      setTitle("");
+      setDescription("");
+      setImages([]);
+    } else {
+      setAlert({
+        msg: "Veuillez entrer un titre et une description pour votre article",
+        type: "error"
+      });
+      setTimeout(() => setAlert(null), 5000);
+    }
   };
   let imgNews;
   if (loading || news.newsTab === null || user === null) {
@@ -132,12 +139,16 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
       switch (user.status) {
         case 0:
           status = "élève";
+          break;
         case 1:
           status = "Ancien élève";
+          break;
         case 2:
           status = "Professeur";
+          break;
         case 3:
           status = "Administrateur";
+          break;
         default:
           break;
       }
@@ -189,6 +200,7 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
   }
   return (
     <Container>
+      <Alert alert={alert} />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={3}>
           <Card className={classes.card}>
@@ -271,11 +283,7 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
                       onChange={e => handleImageUpload(e.target.files)}
                     />
                     <label htmlFor="images">
-                      <Button
-                        variant="contained"
-                        component="span"
-                        className={classes.button}
-                      >
+                      <Button variant="contained" component="span">
                         Upload
                         <CloudUploadIcon className={classes.rightIcon} />
                       </Button>
@@ -307,24 +315,26 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12} sm={3}>
-          <Card className={classes.card}>
-            <CardContent className={classes.cardHeader}>
-              <Typography variant="h4">
-                {<Moment format="DD/MM/YY">{Date.now()}</Moment>}
-              </Typography>
-              <Typography variant="h5" display="block">
-                {
-                  <Clock
-                    format={"HH:mm:ss"}
-                    ticking={true}
-                    timezone={"Europe/Paris"}
-                  />
-                }
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+        <Hidden only="xs">
+          <Grid item xs={12} sm={3}>
+            <Card className={classes.card}>
+              <CardContent className={classes.cardHeader}>
+                <Typography variant="h4">
+                  {<Moment format="DD/MM/YY">{Date.now()}</Moment>}
+                </Typography>
+                <Typography variant="h5" display="block">
+                  {
+                    <Clock
+                      format={"HH:mm:ss"}
+                      ticking={true}
+                      timezone={"Europe/Paris"}
+                    />
+                  }
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Hidden>
       </Grid>
     </Container>
   );

@@ -4,7 +4,8 @@ import {
   SEARCH_ADS,
   DELETE_AD,
   GET_ALL_USER_ADS,
-  CREATE_AD
+  CREATE_AD,
+  UPDATE_AD
 } from "../actions/types";
 
 const initialState = {
@@ -33,6 +34,12 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         ads: [action.payload, ...state.ads]
+      };
+    case UPDATE_AD:
+      return {
+        ...state,
+        loading: false,
+        ad: action.payload
       };
     case DELETE_AD:
       return {
