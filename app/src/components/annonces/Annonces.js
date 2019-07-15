@@ -16,7 +16,6 @@ import {
 import ReactMarkdown from "react-markdown";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import "./Annonces.css";
-import clsx from "clsx";
 
 // import Button from "../layout/Button";
 

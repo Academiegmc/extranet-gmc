@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
     case GET_ALL_ADS:
       return { ...state, loading: false, ads: action.payload };
     case GET_ALL_USER_ADS:
-      return { ...state, ads: action.payload };
+      return { ...state, loading: false, ads: action.payload };
     case GET_AN_AD:
       return { ...state, loading: false, ad: action.payload };
     case SEARCH_ADS:

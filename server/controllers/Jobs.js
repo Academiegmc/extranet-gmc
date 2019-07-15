@@ -130,19 +130,21 @@ const Jobs = {
     });
   },
   searchJobs: async (req, res) => {
-    const { q } = req.query;
-    const jobs = await Job.find({
-      jobTitle: { $regex: new RegExp(q), $options: "mi" }
-    })
-      .select("jobTitle")
-      .limit(10);
+    const { q, contractType } = req.query;
+    let jobs;
+    if (contractType !== "") {
+      jobs = await Job.find({
+        jobTitle: { $regex: new RegExp(q), $options: "mi" },
+        jobContractType: { $regex: new RegExp(contractType), $options: "mi" }
+      }).limit(10);
+    } else {
+      jobs = await Job.find({
+        jobTitle: { $regex: new RegExp(q), $options: "mi" }
+      }).limit(10);
+    }
     if (!jobs) return res.status(400).json({});
-    let jobSearched = [];
-    jobs.map((job, index) => {
-      jobSearched.push({ _id: job._id, title: job.jobTitle });
-    });
-    console.log(jobSearched);
-    res.status(200).json(jobSearched);
+    let result = jobs.map(async job => await job.getData());
+    res.status(200).json(await Promise.all(result));
   }
 };
 
