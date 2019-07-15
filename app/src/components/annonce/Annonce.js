@@ -18,10 +18,6 @@ import {
   Avatar
 } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
-  root: {
-    // width: "50%",
-    // margin: "auto"
-  },
   cardHader: {
     backgroundColor: "#2F4858",
     color: "white"
@@ -54,21 +50,6 @@ const Annonce = ({
   match,
   updateComments
 }) => {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     ad: {},
-  //     user: "",
-  //     userName: "",
-  //     profile_pic: "",
-  //     comment: {},
-  //     disallowedTypes: ["image", "html", "inlineCode", "code"]
-  //   };
-  //   this.handleChange = this.handleChange.bind(this);
-  //   this.handleSubmit = this.handleSubmit.bind(this);
-  //   this.getComments = this.getComments.bind(this);
-  // }
-  // const [ad, setAd] = useState(null);
   const [comment, setComment] = useState(null);
   const [text, setText] = useState("");
   const [disallowedTypes, setDisallowedTypes] = useState([
@@ -84,7 +65,6 @@ const Annonce = ({
   const handleChange = e => {
     e.preventDefault();
     setText(e.target.value);
-    console.log(text, e.target.value);
   };
   const handleSubmit = e => {
     e.preventDefault();
@@ -157,7 +137,7 @@ const Annonce = ({
           </CardContent>
         </Card>
         <Divider className={classes.divider} variant="fullWidth" />
-        <Card className={classes.root}>
+        <Card>
           <CardHeader
             className={classes.cardHader}
             title={
@@ -191,52 +171,6 @@ const Annonce = ({
         </Card>
       </Container>
     </Fragment>
-    // <div className="container flex-column flex-center">
-    //   {/* <ReturnButton history={history} /> */}
-    //   <h1>Annonce</h1>
-    //   <div className="card annonce rounded">
-    //     <div className="d-flex flex-row w-100 p-3 rounded" style={style}>
-    //       <div className="annonce-category d-flex flex-row justify-content-center bg-light rounded-circle">
-    //         {categoryIcon}
-    //       </div>
-    //       {/* {ad.category} */}
-    //     </div>
-    //     <div className="p-3">
-    //       <h6 className="card-subtitle mb-2 text-muted text-capitalize">
-    //         {ad.name}
-    //       </h6>
-    //       <h2 className="card-title">{ad.title}</h2>
-    //       <ReactMarkdown
-    //         className="card-text text-justify"
-    //         source={ad.description}
-    //         disallowedTypes={disallowedTypes}
-    //       />
-    //       {/* <p className="card-text text-justify">{ad.description}</p> */}
-    //       <hr />
-    //       <div className="d-flex justify-content-between">
-    //         <div className="badge badge-light p-2">
-    //           Il y a{" "}
-    //           <Moment fromNow ago locale="fr">
-    //             {ad.date}
-    //           </Moment>
-    //         </div>
-    //         <div className="badge badge-light text-uppercase p-2">
-    //           <i className="far fa-comments" style={{ fontSize: "15px" }}>
-    //             {ad.comments !== undefined ? ` ${ad.comments.length}` : null}
-    //           </i>
-    //         </div>
-    //       </div>
-    //       <hr />
-    //       <div className="d-flex flex-column m-3">{comments}</div>
-    //     </div>
-    //     <hr />
-    // <Comment
-    //   onChange={this.onChange}
-    //   handleChange={this.handleChange}
-    //   handleSubmit={this.handleSubmit}
-    // />
-    //   </div>
-    // </div>
   );
 };
 

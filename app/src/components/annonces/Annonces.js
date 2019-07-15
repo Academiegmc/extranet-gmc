@@ -10,11 +10,13 @@ import {
   CardActions,
   CardContent,
   Button,
-  TextField
+  TextField,
+  Container
 } from "@material-ui/core";
 import ReactMarkdown from "react-markdown";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import "./Annonces.css";
+import clsx from "clsx";
 
 // import Button from "../layout/Button";
 
@@ -29,13 +31,20 @@ const useStyles = makeStyles(theme => ({
     }
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
     width: "100%"
   },
-  button: { backgroundColor: "#c9b8b7", color: "#fff" },
+  button: {
+    backgroundColor: "#c9b8b7",
+    color: "#fff",
+    width: "100%",
+    marginTop: "5px",
+    marginBottom: "5px"
+    // [theme.breakpoints.up("md")]: {
+    // }
+  },
   control: {
-    margin: "0px 5px"
+    // margin: "0px 5px"
+    width: "100%"
   },
   grid: {
     display: "flex",
@@ -43,12 +52,28 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: "20px",
+    width: "100%",
+    height: "100%",
     [theme.breakpoints.up("md")]: {
-      flexDirection: "row"
+      flexDirection: "row",
+      alignItems: "flex-start"
     }
   },
   gridItem: {
-    margin: 20
+    margin: 20,
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "400px",
+      height: "100%"
+    }
+  },
+  gridAds: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    flexWrap: "wrap",
+    width: "100%",
+    height: "100%"
   }
 }));
 
@@ -72,7 +97,7 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
   console.log(ads.ads);
   if (ads.ads.length > 0) {
     allAnnonces = ads.ads.map(annonce => (
-      <Grid className={classes.gridItem} item xs={12} key={annonce.id}>
+      <Grid className={classes.gridItem} item key={annonce.id}>
         <Card>
           {/* <CardMedia
             component="img"
@@ -107,7 +132,7 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
   }
 
   return (
-    <div className={classes.root}>
+    <Container className={classes.root}>
       <Grid container className={classes.grid}>
         <Grid className={classes.paper} item xs={12} sm={3}>
           <Typography variant="h5" component="h5">
@@ -119,6 +144,7 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
               label="Annonce"
               className={classes.textField}
               value={value}
+              variant="outlined"
               onChange={e => {
                 setValue(e.target.value);
                 searchAd(e.target.value);
@@ -129,19 +155,22 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
           <Grid
             container
             item
-            direction="row"
+            direction="column"
             justify="space-around"
             alignItems="center"
           >
             <Grid item xs="auto" className={classes.control}>
-              <Button className={classes.button} onClick={() => alert("Etude")}>
+              <Button
+                className={classes.button}
+                onClick={() => searchAd(value, "etude")}
+              >
                 Etude
               </Button>
             </Grid>
             <Grid item xs="auto" className={classes.control}>
               <Button
                 className={classes.button}
-                onClick={() => alert("Cosmétique")}
+                onClick={() => searchAd(value, "cosmetique")}
               >
                 Cosmétique
               </Button>
@@ -149,18 +178,18 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
             <Grid item xs="auto" className={classes.control}>
               <Button
                 className={classes.button}
-                onClick={() => alert("Emplois")}
+                onClick={() => searchAd(value, "loisir")}
               >
-                Emplois
+                Loisir
               </Button>
             </Grid>
           </Grid>
         </Grid>
-        <Grid className={classes.grid} container item xs={12} sm={9}>
+        <Grid className={classes.gridAds} container item xs={12} sm={9}>
           {allAnnonces}
         </Grid>
       </Grid>
-    </div>
+    </Container>
   );
 };
 

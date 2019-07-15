@@ -76,10 +76,12 @@ export const deleteAd = adId => async dispatch => {
   }
 };
 
-export const searchAd = adTitle => async dispatch => {
+export const searchAd = (adTitle, adCategory) => async dispatch => {
   try {
     setLoading();
-    const res = await axios.get(`${adUrl}/title`, { params: { q: adTitle } });
+    const res = await axios.get(`${adUrl}/title`, {
+      params: { q: adTitle, category: adCategory }
+    });
     dispatch({ type: SEARCH_ADS, payload: res.data });
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });

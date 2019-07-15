@@ -32,11 +32,12 @@ const useStyles = makeStyles(theme => ({
   gridItem: {
     display: "flex",
     justifyContent: "center",
+    flexDirection: "column",
     alignItems: "center",
-    padding: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      flexDirection: "column"
-    }
+    padding: theme.spacing(2)
+    // [theme.breakpoints.up("sm")]: {
+    //   flexDirection: "column"
+    // }
   }
 }));
 const Comments = ({ comments }) => {

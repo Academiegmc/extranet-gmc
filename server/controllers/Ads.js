@@ -75,10 +75,19 @@ const Ads = {
     res.status(200).json({ success: true, message: ErrorMessage.adRemoved });
   },
   searchAds: async (req, res) => {
-    const { q } = req.query;
-    const ads = await Ad.find({
-      title: { $regex: new RegExp(q), $options: "i" }
-    }).limit(10);
+    console.log(req.query);
+    const { q, category } = req.query;
+    let ads;
+    if (category !== "") {
+      ads = await Ad.find({
+        title: { $regex: new RegExp(q), $options: "i" },
+        category: { $regex: new RegExp(category), $options: "i" }
+      }).limit(10);
+    } else {
+      ads = await Ad.find({
+        title: { $regex: new RegExp(q), $options: "i" }
+      }).limit(10);
+    }
     let result = ads.map(async ad => await ad.getData());
     res.status(200).json(await Promise.all(result));
   }
