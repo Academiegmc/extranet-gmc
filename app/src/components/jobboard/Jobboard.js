@@ -14,22 +14,26 @@ import {
   Card,
   CardHeader,
   CardContent,
+  CardActionArea,
   makeStyles,
   Button,
-  TextField
+  TextField,
+  Paper
 } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   cardContent: {
     display: "flex",
     flexFlow: "row wrap",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+    padding: theme.spacing(2),
     [theme.breakpoints.up("md")]: {
       flexFlow: "row wrap"
     }
   },
   paper: {
     textAlign: "center",
+    padding: theme.spacing(2),
     [theme.breakpoints.up("md")]: {
       padding: theme.spacing(2)
     }
@@ -49,9 +53,21 @@ const useStyles = makeStyles(theme => ({
   control: {
     // margin: "0px 5px"
     width: "100%"
+  },
+  text: {
+    fontSize: "12px"
+  },
+  gridItem: {
+    height: "100%"
+    // padding: theme.spacing(4)
   }
 }));
-const Jobboard = ({ jobs: { loading, jobs }, getAllJobs, searchJob }) => {
+const Jobboard = ({
+  jobs: { loading, jobs },
+  getAllJobs,
+  searchJob,
+  history
+}) => {
   const [value, setValue] = useState("");
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
@@ -89,10 +105,33 @@ const Jobboard = ({ jobs: { loading, jobs }, getAllJobs, searchJob }) => {
   }
   console.log(jobs);
   const displayJobs = jobs.map(job => (
-    <Grid item key={job.id} xs={12}>
-      <Card>
+    <Grid className={classes.gridItem} item key={job.id} xs={12}>
+      <CardActionArea onClick={() => history.push(`/job/${job.id}`)}>
+        <Paper className={classes.cardContent}>
+          <Typography
+            className={classes.text}
+            style={{ textTransform: "uppercase" }}
+            varient="p"
+            component="p"
+          >
+            {job.jobContractType}
+          </Typography>
+          <Typography className={classes.text} varient="p" component="p">
+            {job.jobTitle}
+          </Typography>
+          {/* <ReactMarkdown
+            source={job.jobDescription}
+            disallowedTypes={disallowedTypes}
+            linkTarget={"_blank"}
+          /> */}
+          <Typography className={classes.text} varient="p" component="p">
+            {job.jobCompany}
+          </Typography>
+        </Paper>
+      </CardActionArea>
+      {/* <Card>
         <CardContent className={classes.cardContent}>
-          <Typography varient="h6" component="h6">
+          <Typography varient="p" component="p">
             {job.jobTitle}
           </Typography>
           <ReactMarkdown
@@ -100,11 +139,12 @@ const Jobboard = ({ jobs: { loading, jobs }, getAllJobs, searchJob }) => {
             disallowedTypes={disallowedTypes}
             linkTarget={"_blank"}
           />
-          <Typography varient="h6" component="h6">
+          RECHERCHE
+          <Typography varient="p" component="p">
             {job.jobCompany}
           </Typography>
         </CardContent>
-      </Card>
+      </Card> */}
     </Grid>
     // <div key={index}>
     //   <Link to={`/job/${job.id}`}>
