@@ -11,15 +11,13 @@ import {
   Container,
   Typography,
   Grid,
-  Card,
-  CardHeader,
-  CardContent,
   CardActionArea,
   makeStyles,
   Button,
   TextField,
   Paper
 } from "@material-ui/core";
+import clsx from "clsx";
 const useStyles = makeStyles(theme => ({
   cardContent: {
     display: "flex",
@@ -51,15 +49,20 @@ const useStyles = makeStyles(theme => ({
     // }
   },
   control: {
-    // margin: "0px 5px"
     width: "100%"
   },
   text: {
-    fontSize: "12px"
+    // fontSize: "12px"
+  },
+  uppercase: { textTransform: "uppercase" },
+  grid: {
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "center",
+    alignItems: "center"
   },
   gridItem: {
     height: "100%"
-    // padding: theme.spacing(4)
   }
 }));
 const Jobboard = ({
@@ -69,37 +72,11 @@ const Jobboard = ({
   history
 }) => {
   const [value, setValue] = useState("");
-  const [disallowedTypes, setDisallowedTypes] = useState([
-    "image",
-    "html",
-    "inlineCode",
-    "code"
-  ]);
   const classes = useStyles();
   useEffect(() => {
     getAllJobs();
   }, []);
-  // this.state = {
-  //   jobs: [],
-  //   jobSearched: [],
-  //   value: "",
-  //   items: [],
-  //   job_chose: {}
-  // };
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.jobs) {
-  //     const { jobs, search_jobs } = nextProps.jobs;
-  //     if (jobs.data) this.setState({ jobs: jobs.data });
-  //     if (search_jobs) this.setState({ items: search_jobs });
-  //   }
-  // }
-  // componentDidMount() {
-  //   this.props.getAllJobs();
-  // }
-  // searchJobs(e) {
-  //   this.props.searchJob(e);
-  //   this.setState({ value: e });
-  // }
+
   if (loading || jobs === null) {
     return <h3>Chargement...</h3>;
   }
@@ -109,8 +86,7 @@ const Jobboard = ({
       <CardActionArea onClick={() => history.push(`/job/${job.id}`)}>
         <Paper className={classes.cardContent}>
           <Typography
-            className={classes.text}
-            style={{ textTransform: "uppercase" }}
+            className={clsx(classes.text, classes.uppercase)}
             varient="p"
             component="p"
           >
@@ -119,68 +95,16 @@ const Jobboard = ({
           <Typography className={classes.text} varient="p" component="p">
             {job.jobTitle}
           </Typography>
-          {/* <ReactMarkdown
-            source={job.jobDescription}
-            disallowedTypes={disallowedTypes}
-            linkTarget={"_blank"}
-          /> */}
           <Typography className={classes.text} varient="p" component="p">
             {job.jobCompany}
           </Typography>
         </Paper>
       </CardActionArea>
-      {/* <Card>
-        <CardContent className={classes.cardContent}>
-          <Typography varient="p" component="p">
-            {job.jobTitle}
-          </Typography>
-          <ReactMarkdown
-            source={job.jobDescription}
-            disallowedTypes={disallowedTypes}
-            linkTarget={"_blank"}
-          />
-          RECHERCHE
-          <Typography varient="p" component="p">
-            {job.jobCompany}
-          </Typography>
-        </CardContent>
-      </Card> */}
     </Grid>
-    // <div key={index}>
-    //   <Link to={`/job/${job.id}`}>
-    //     <div
-    //       className="d-flex flex-row justify-content-between w-100"
-    //       style={{ color: "#333B3E" }}
-    //     >
-    //       {/* <div className="row" style={{ borderColor: "#333B3E" }}> */}
-    //       {/* <div className="col-sm-2 col-md-2 col-6"> */}
-    //       <div className="">
-    //         <strong>{job.jobContractType.toUpperCase()}</strong>
-    //         <span>{job.type}</span>
-    //       </div>
-    //       {/* <div className="col-sm-4 col-md-4 col-xs-6"> */}
-    //       <div className="">
-    //         <strong>{job.jobTitle}</strong>
-    //       </div>
-    //       {/* <div className="col-sm-3 col-md-3 col-xs-5"> */}
-    //       <disv className="">
-    //         <strong>{job.jobCity}</strong>
-    //         <span>{job.country}</span>
-    //       </div>
-    //       {/* <div className="col-sm-2 col-md-2 col-xs-6"> */}
-    //       <div className="">
-    //         <strong className="mr-2">Posté le </strong>
-    //         <span>
-    //           <Moment format="YYYY-MM-DD">{job.jobStartDate}</Moment>
-    //         </span>
-    //       </div>
-    //     </div>
-    //   </Link>
-    // </div>
   ));
   return (
     <Container>
-      <Grid container>
+      <Grid className={classes.grid} container>
         <Grid className={classes.paper} item xs={12} sm={3}>
           <Typography variant="h5" component="h5">
             Rechercher un job
@@ -232,78 +156,19 @@ const Jobboard = ({
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          {displayJobs}
+        <Grid item xs={12} sm={9}>
+          <ReturnButton history={history} />
+          {jobs.length > 0 ? (
+            displayJobs
+          ) : (
+            <Typography variant="h3" component="h3">
+              Les offres arrivent très bientôt !
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Container>
   );
-  // return (
-  //   <div className="container">
-  //     <ReturnButton history={this.props.history} />
-  //     <h3 className="text-left">Job board</h3>
-  //     <div className="input-group">
-  //       <span className="input-group-text" id="basic-addon1">
-  //         <i className="fas fa-suitcase"> </i>
-  //       </span>
-  //       <ReactAutocomplete
-  //         className="form-control"
-  //         items={this.state.items}
-  //         shouldItemRender={(item, value) =>
-  //           item.title.toLowerCase().indexOf(value.toLowerCase()) > -1
-  //         }
-  //         getItemValue={item => item.title}
-  //         renderItem={(item, highlighted) => (
-  //           <div
-  //             key={item.id}
-  //             style={{
-  //               backgroundColor: highlighted ? "#eee" : "transparent"
-  //             }}
-  //           >
-  //             <p
-  //               onClick={() => {
-  //                 this.setState({ job_chose: item });
-  //               }}
-  //             >
-  //               {item.title}
-  //             </p>
-  //           </div>
-  //         )}
-  //         renderInput={props => (
-  //           <input
-  //             {...props}
-  //             role="combobox"
-  //             name="search"
-  //             className="form-control"
-  //           />
-  //         )}
-  //         value={this.state.value}
-  //         onChange={e => {
-  //           this.searchJobs(e.target.value);
-  //           if (this.state.value === "") this.setState({ job_chose: {} });
-  //         }}
-  //         onSelect={(value, item) => this.setState({ value, job_chose: item })}
-  //         wrapperStyle={{ display: "inline-block", width: "40%" }}
-  //       />
-  //       <Link
-  //         to={`/job/${this.state.job_chose._id}`}
-  //         className="btn btn-primary"
-  //       >
-  //         <i className="fas fa-search"> </i>
-  //       </Link>
-  //     </div>
-  //     <hr />
-  //     <div className="d-flex flex-column">
-  //       {jobs.length > 0 ? (
-  //         jobs
-  //       ) : (
-  //         <h3 className="text-center my-5">
-  //           La pluie d'emplois arrive très bientôt !
-  //         </h3>
-  //       )}
-  //     </div>
-  //   </div>
-  // );
 };
 
 Jobboard.propTypes = {

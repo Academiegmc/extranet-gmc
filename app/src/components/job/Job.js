@@ -18,12 +18,14 @@ import {
   Typography,
   makeStyles,
   TextField,
-  Button
+  Button,
+  Link
 } from "@material-ui/core";
 import { CloudUpload } from "@material-ui/icons";
 const useStyles = makeStyles(theme => ({
   card: {
-    flexGrow: 1
+    flexGrow: 1,
+    margin: theme.spacing(2)
   },
   cardHeader: {
     backgroundColor: "#2F4858",
@@ -31,9 +33,12 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     display: "flex",
-    flexFlow: "row wrap",
+    flexFlow: "column wrap",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    [theme.breakpoints.up("sm")]: {
+      flexFlow: "row wrap"
+    }
   },
   cardContentInfos: {
     display: "flex",
@@ -41,9 +46,22 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     alignItems: "center"
   },
+  grid: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "auto"
+  },
   gridItem: {
     display: "flex",
     flexFlow: "column wrap"
+  },
+  item: {
+    display: "flex",
+    flexDirection: "column",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row"
+    }
   },
   divider: {
     visibility: "hidden",
@@ -134,7 +152,7 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
         if (err.response.status === 403) {
           //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
           logout();
-          this.props.history.push("/");
+          history.push("/");
         }
       });
   };
@@ -171,7 +189,8 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
   console.log(job);
   return (
     <Container>
-      <Grid container>
+      <ReturnButton history={history} />
+      <Grid className={classes.grid} container>
         <Card className={classes.card}>
           <CardHeader
             className={classes.cardHeader}
@@ -183,21 +202,21 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
           />
           <CardContent className={classes.cardContent}>
             <Typography
-              style={{ textTransform: "uppercase", fontSize: "10px" }}
+              style={{ textTransform: "uppercase" }}
               variant="body2"
               component="p"
             >
               {jobContractType}
             </Typography>
             <Typography
-              style={{ textTransform: "uppercase", fontSize: "10px" }}
+              style={{ textTransform: "uppercase" }}
               variant="body2"
               component="p"
             >
               {`${jobCity}`}
             </Typography>
             <Typography
-              style={{ textTransform: "uppercase", fontSize: "10px" }}
+              style={{ textTransform: "uppercase" }}
               variant="body2"
               component="p"
             >
@@ -205,123 +224,122 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
             </Typography>
           </CardContent>
         </Card>
-        <Grid className={classes.gridItem} item xs={12}>
-          <Card className={classes.card}>
-            <CardHeader
-              className={classes.cardHeader}
-              title={
-                <Typography variant="h5" component="h2">
-                  Description de l'entreprise
-                </Typography>
-              }
-            />
-            <CardContent className={classes.cardContent}>
-              <Typography
-                style={{ textTransform: "uppercase", fontSize: "10px" }}
-                variant="body2"
-                component="p"
-              >
-                <ReactMarkdown
-                  source={jobCompanyDescription}
-                  disallowedTypes={disallowedTypes}
-                  linkTarget={"_blank"}
-                />
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card className={classes.card}>
-            <CardHeader
-              className={classes.cardHeader}
-              title={
-                <Typography variant="h5" component="h2">
-                  Description du poste
-                </Typography>
-              }
-            />
-            <CardContent className={classes.cardContent}>
-              <Typography
-                style={{ textTransform: "uppercase", fontSize: "10px" }}
-                variant="body2"
-                component="p"
-              >
-                <ReactMarkdown
-                  source={jobDescription}
-                  disallowedTypes={disallowedTypes}
-                  linkTarget={"_blank"}
-                />
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid className={classes.cardContent} item xs={12}>
-          <Card className={classes.card}>
-            <CardHeader
-              className={classes.cardHeader}
-              title={
-                <Typography variant="h5" component="h2">
-                  Informations sur l'entreprise
-                </Typography>
-              }
-            />
-            <CardContent className={classes.cardContentInfos}>
-              <Typography
-                style={{ textTransform: "uppercase", fontSize: "10px" }}
-                variant="body2"
-                component="p"
-              >
-                {jobCompany}
-              </Typography>
-              <Typography
-                style={{ textTransform: "uppercase", fontSize: "10px" }}
-                variant="body2"
-                component="p"
-              >
-                {jobCompanySite}
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card className={classes.card}>
-            <CardHeader
-              className={classes.cardHeader}
-              title={
-                <Typography variant="h5" component="h2">
-                  Postuler à cette offre
-                </Typography>
-              }
-            />
-            <CardContent className={classes.cardContent}>
-              <TextField
-                id="job-application"
-                label="Lettre de motivation"
-                multiline
-                rowsMax="4"
-                value={lm}
-                onChange={e => {
-                  setLm(e.target.value);
-                }}
-                // className={classes.textField}
-                margin="normal"
-                placeholder="Rédiger votre lettre de motivation"
-                variant="outlined"
-                fullWidth
+        <Grid className={classes.item} item xs={12}>
+          <Grid className={classes.gridItem} item xs={12}>
+            <Card className={classes.card}>
+              <CardHeader
+                className={classes.cardHeader}
+                title={
+                  <Typography variant="h5" component="h2">
+                    Description de l'entreprise
+                  </Typography>
+                }
               />
-              <input
-                accept="pdf/*"
-                className={classes.input}
-                id="cv"
-                name="cv"
-                type="file"
-                onChange={e => setCv(e.target.files)}
+              <CardContent className={classes.cardContent}>
+                <Typography
+                  style={{ textTransform: "uppercase" }}
+                  variant="body2"
+                  component="p"
+                >
+                  <ReactMarkdown
+                    source={jobCompanyDescription}
+                    disallowedTypes={disallowedTypes}
+                    linkTarget={"_blank"}
+                  />
+                </Typography>
+              </CardContent>
+            </Card>
+            <Card className={classes.card}>
+              <CardHeader
+                className={classes.cardHeader}
+                title={
+                  <Typography variant="h5" component="h2">
+                    Description du poste
+                  </Typography>
+                }
               />
-              <label htmlFor="cv">
-                <Button variant="contained" component="span">
-                  <CloudUpload className={classes.rightIcon} />
-                  {` Ajouter votre CV`}
-                </Button>
-              </label>
-              <Button variant="primary">Envoyer votre candidature</Button>
-            </CardContent>
-          </Card>
+              <CardContent className={classes.cardContent}>
+                <Typography
+                  style={{ textTransform: "uppercase" }}
+                  variant="body2"
+                  component="p"
+                >
+                  <ReactMarkdown
+                    source={jobDescription}
+                    disallowedTypes={disallowedTypes}
+                    linkTarget={"_blank"}
+                  />
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid className={classes.cardContent} item xs={12}>
+            <Card className={classes.card}>
+              <CardHeader
+                className={classes.cardHeader}
+                title={
+                  <Typography variant="h5" component="h2">
+                    Informations sur l'entreprise
+                  </Typography>
+                }
+              />
+              <CardContent className={classes.cardContentInfos}>
+                <Typography
+                  style={{ textTransform: "uppercase" }}
+                  variant="body2"
+                  component="p"
+                >
+                  {jobCompany}
+                </Typography>
+                {jobCompanySite !== "" && (
+                  <Link href={jobCompanySite}>{jobCompanySite}</Link>
+                )}
+              </CardContent>
+            </Card>
+            <Card className={classes.card}>
+              <CardHeader
+                className={classes.cardHeader}
+                title={
+                  <Typography variant="h5" component="h2">
+                    Postuler à cette offre
+                  </Typography>
+                }
+              />
+              <CardContent className={classes.cardContent}>
+                <TextField
+                  id="job-application"
+                  label="Lettre de motivation"
+                  multiline
+                  rowsMax="4"
+                  value={lm}
+                  onChange={e => {
+                    setLm(e.target.value);
+                  }}
+                  // className={classes.textField}
+                  margin="normal"
+                  placeholder="Rédiger votre lettre de motivation"
+                  variant="outlined"
+                  fullWidth
+                />
+                <input
+                  accept="pdf/*"
+                  className={classes.input}
+                  id="cv"
+                  name="cv"
+                  type="file"
+                  onChange={e => setCv(e.target.files)}
+                />
+                <label htmlFor="cv">
+                  <Button variant="contained" component="span">
+                    <CloudUpload className={classes.rightIcon} />
+                    {` Ajouter votre CV`}
+                  </Button>
+                </label>
+                <Button variant="primary">Envoyer votre candidature</Button>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
       </Grid>
     </Container>

@@ -272,6 +272,18 @@ const Navbar = ({ users, auth, logout, history }) => {
                 </RouterLink>
                 <RouterLink
                   className={
+                    history.location.pathname === "/jobboard"
+                      ? activeLink
+                      : classes.links
+                  }
+                  to="/jobboard"
+                >
+                  <Typography className={classes.title} variant="h6" noWrap>
+                    Job Board
+                  </Typography>
+                </RouterLink>
+                <RouterLink
+                  className={
                     history.location.pathname === "/news"
                       ? activeLink
                       : classes.links

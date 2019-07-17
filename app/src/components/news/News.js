@@ -31,6 +31,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { createNews } from "../../actions/newsActions";
 import Alert from "../layout/Alert";
+import ReturnButton from "../layout/ReturnButton";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,7 +65,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
+const News = ({
+  news,
+  auth: { user },
+  getAllNews,
+  loading,
+  createNews,
+  history
+}) => {
   let status;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -320,7 +328,11 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
             <Card className={classes.card}>
               <CardContent className={classes.cardHeader}>
                 <Typography variant="h4">
-                  {<Moment format="DD/MM/YY">{Date.now()}</Moment>}
+                  {
+                    <Moment format="DD MMMM YYYY" locale="fr">
+                      {Date.now()}
+                    </Moment>
+                  }
                 </Typography>
                 <Typography variant="h5" display="block">
                   {
@@ -331,6 +343,7 @@ const News = ({ news, auth: { user }, getAllNews, loading, createNews }) => {
                     />
                   }
                 </Typography>
+                <ReturnButton history={history} />
               </CardContent>
             </Card>
           </Grid>

@@ -154,20 +154,6 @@ const Dashboard = ({ auth }) => {
         {links}
       </Grid>
     </Grid>
-    // <div className="container-fluid vh-100">
-    //   <div className="col w-100 h-50 ">
-    //     <h1 className="welcome-text welcome-anim text-center">Extranet</h1>
-    //   </div>
-    //   <div className="col d-flex flex-column justify-self-sm-center h-50">
-    //     <div
-    //       style={{ position: "relative", top: "50px" }}
-    //       className="border-top d-none d-md-flex flex-md-row w-100 hr-anim"
-    //     />
-    //     <ul className="d-flex flex-column flex-md-row justify-content-between">
-    //       {links}
-    //     </ul>
-    //   </div>
-    // </div>
   );
 };
 
