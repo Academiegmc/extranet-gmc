@@ -5,7 +5,12 @@ const multer = require("multer");
 const crypto = require("crypto");
 const GridFsStorage = require("multer-gridfs-storage");
 const GridFsStream = require("gridfs-stream");
+
+const NewsController = require("../controllers/News");
+const verifyToken = require("../controllers/VerifyToken");
+
 const router = express.Router();
+
 eval(
   `GridFsStream.prototype.findOne = ${GridFsStream.prototype.findOne
     .toString()
@@ -49,24 +54,7 @@ const upload = multer({
   storage,
   limits: { fileSize: fileSizeLimit }
 });
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, `${path.join(__dirname, "../")}public/images/`);
-//   },
-//   filename: (req, file, cb) => {
-//     cb(
-//       null,
-//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-//     );
-//   }
-// });
-// const fileSizeLimit = 2000000;
-// const upload = multer({
-//   storage: storage,
-//   limits: { fileSize: fileSizeLimit }
-// });
-const NewsController = require("../controllers/News");
-const verifyToken = require("../controllers/VerifyToken");
+
 router.get("/image/:id", (req, res) => {
   gfs.findOne({ _id: req.params.id }, (err, file) => {
     if (err) return res.status(400).json({ err: "Bad Request" });

@@ -4,11 +4,7 @@ import { connect } from "react-redux";
 import Moment from "react-moment";
 import bsCustomFileInput from "bs-custom-file-input";
 import ReactMarkdown from "react-markdown";
-import { getAJob } from "../../actions/jobActions";
-import Axios from "axios";
-import ReturnButton from "../layout/ReturnButton";
-import { logout } from "../../actions/authActions";
-import "./Job.css";
+import clsx from "clsx";
 import {
   Container,
   Grid,
@@ -19,10 +15,27 @@ import {
   makeStyles,
   TextField,
   Button,
-  Link
+  Link,
+  Snackbar,
+  SnackbarContent,
+  Icon,
+  Chip
 } from "@material-ui/core";
 import { CloudUpload } from "@material-ui/icons";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { green } from "@material-ui/core/colors";
+import { getAJob } from "../../actions/jobActions";
+import Axios from "axios";
+import ReturnButton from "../layout/ReturnButton";
+import Alert from "../layout/Alert";
+import { logout } from "../../actions/authActions";
+import "./Job.css";
 const useStyles = makeStyles(theme => ({
+  success: {
+    backgroundColor: green[600]
+  },
   card: {
     flexGrow: 1,
     margin: theme.spacing(2)
@@ -78,12 +91,38 @@ const useStyles = makeStyles(theme => ({
     textTransform: "capitalize",
     fontStyle: "italic",
     fontSize: "1rem"
+  },
+  icon: {
+    fontSize: 20
+  },
+  iconVariant: {
+    opacity: 0.9,
+    marginRight: theme.spacing(1)
+  },
+  message: {
+    display: "flex",
+    alignItems: "center"
+  },
+  chip: {
+    margin: theme.spacing(1)
+  },
+  button: {
+    padding: "1rem",
+    fontFamily: "Lato",
+    fontWeight: "500",
+    backgroundColor: "#c9b8b7",
+    color: "#fff"
+  },
+  rightIcon: {
+    marginRight: 5
   }
 }));
 const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
   const [lm, setLm] = useState("");
   const [cv, setCv] = useState(null);
   const [isSent, setIsSent] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [alert, setAlert] = useState(null);
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
     "html",
@@ -98,43 +137,16 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
   if (loading || job === null) {
     return <h3>Chargement...</h3>;
   }
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     lm: "",
-  //     cv: null,
-  //     isSent: false,
-  //     job: {},
-  //     disallowedTypes: ["image", "html", "inlineCode", "code"]
-  //   };
-  //   this.onSubmit = this.onSubmit.bind(this);
-  //   onChange = onChange.bind(this);
-  //   this.fileUpload = this.fileUpload.bind(this);
-  // }
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState(nextProps.jobs.job.data);
-  // }
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (
-  //     Object.keys(this.props.jobs.job).length > 0 &&
-  //     this.props.jobs.job.constructor === Object &&
-  //     !Object.is(this.props.jobs.job, prevProps.jobs.job)
-  //   ) {
-  //     this.setState({ job: this.props.jobs.job });
-  //   }
-  // }
-  // componentDidMount() {
-  //   this.props.getAJob(this.props.match.params.id);
-  //   bsCustomFileInput.init();
-  // }
-  const onChange = e => {
-    if (e.target.name === "cv") this.setState({ cv: e.target.files[0] });
-    else this.setState({ [e.target.name]: e.target.value });
-  };
   const onSubmit = e => {
     e.preventDefault();
-    const { cv, lm, jobTitle, jobCompany } = this.state;
-    this.fileUpload(cv, lm, jobTitle, jobCompany);
+    if (cv !== null || lm !== "") fileUpload(cv[0], lm, jobTitle, jobCompany);
+    else {
+      setAlert({
+        msg: "Veuillez entrer votre lettre de motivation et votre CV",
+        type: "error"
+      });
+      setTimeout(() => setAlert(null), 5000);
+    }
   };
   const fileUpload = (file, lm, poste, agence) => {
     const url = "/api/jobs/application";
@@ -144,11 +156,15 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
     formData.append("poste", poste);
     formData.append("lm", lm);
     formData.append("cv", file);
-    Axios.post(url, formData, config)
+    Axios.post(process.env.REACT_APP_NODE_API + url, formData, config)
       .then(res => {
-        this.setState({ isSent: true });
+        console.log("Message envoyé !");
+        setOpen(true);
+        setCv(null);
+        setLm("");
       })
       .catch(err => {
+        console.log(err);
         if (err.response.status === 403) {
           //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
           logout();
@@ -186,9 +202,10 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
     ));
   }
   const startDate = <Moment format="DD-MM-YYYY">{jobStartDate}</Moment>;
-  console.log(job);
+  // console.log(job);
   return (
     <Container>
+      <Alert alert={alert} />
       <ReturnButton history={history} />
       <Grid className={classes.grid} container>
         <Card className={classes.card}>
@@ -220,7 +237,7 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
               variant="body2"
               component="p"
             >
-              Temps plein
+              {job.jobType}
             </Typography>
           </CardContent>
         </Card>
@@ -247,6 +264,13 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
                     linkTarget={"_blank"}
                   />
                 </Typography>
+                <Button
+                  variant="outlined"
+                  className={classes.margin}
+                  onClick={() => setIsSent(true)}
+                >
+                  Open success snackbar
+                </Button>
               </CardContent>
             </Card>
             <Card className={classes.card}>
@@ -269,6 +293,9 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
                     disallowedTypes={disallowedTypes}
                     linkTarget={"_blank"}
                   />
+                  {job.jobSkills.map((skill, index) => (
+                    <Chip key={index} label={skill} className={classes.chip} />
+                  ))}
                 </Typography>
               </CardContent>
             </Card>
@@ -316,7 +343,6 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
                   onChange={e => {
                     setLm(e.target.value);
                   }}
-                  // className={classes.textField}
                   margin="normal"
                   placeholder="Rédiger votre lettre de motivation"
                   variant="outlined"
@@ -333,143 +359,57 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
                 <label htmlFor="cv">
                   <Button variant="contained" component="span">
                     <CloudUpload className={classes.rightIcon} />
-                    {` Ajouter votre CV`}
+                    {`Ajouter votre CV`}
                   </Button>
                 </label>
-                <Button variant="primary">Envoyer votre candidature</Button>
+                <Button
+                  className={classes.button}
+                  onClick={onSubmit}
+                  variant="contained"
+                >
+                  Envoyer votre candidature
+                </Button>
               </CardContent>
             </Card>
           </Grid>
         </Grid>
       </Grid>
+      {open && (
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={() => setOpen(false)}
+        >
+          <SnackbarContent
+            className={classes.success}
+            aria-describedby="client-snackbar"
+            message={
+              <span id="client-snackbar" className={classes.message}>
+                <CheckCircleIcon
+                  className={clsx(classes.icon, classes.iconVariant)}
+                />
+                Merci d'avoir postulé !
+              </span>
+            }
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                onClick={() => setOpen(false)}
+              >
+                <CloseIcon className={classes.icon} />
+              </IconButton>
+            ]}
+          />
+        </Snackbar>
+      )}
     </Container>
   );
-  // return (
-  //   <div className="container mt-5 card rounded job">
-  //     <ReturnButton history={history} />
-  //     <div className="d-flex flex-column align-items-center w-100">
-  //       <h3>{jobTitle}</h3>
-  //       <h4>{jobCompany}</h4>
-  //     </div>
-  //     {/* Job infos */}
-  //     <div className="d-flex flex-wrap">
-  //       <div className="col-lg-4 col-md-4 col-xs-12">
-  //         <p>
-  //           {jobCity}, {jobCountry}
-  //         </p>
-  //         <p>{jobCompanySite}</p>
-  //       </div>
-  //       <div className="col-lg-4 col-md-4 col-xs-12">
-  //         <p>{jobType}</p>
-  //         <p>Rémunération: {jobRemuneration}</p>
-  //       </div>
-  //       <div className="col-lg-4 col-md-4 col-xs-12">
-  //         <p>Date souhaité : {startDate} </p>
-  //         <p> </p>
-  //       </div>
-  //     </div>
-
-  //     <div className="d-inline-flex justify-content-between align-items-center text-white bg-dark w-100 p-2">
-  //       <span className="font-weight-bold">
-  //         {jobContractType !== undefined ? jobContractType.toUpperCase() : ""}
-  //       </span>
-  //       <span className="font-weight-bold">Publié il y a {publishedDate}</span>
-  //     </div>
-
-  //     <div className="row mt-5">
-  //       {/* Offer */}
-  //       <div className="col-6">
-  //         <h4>Description de l'offre</h4>
-  // <ReactMarkdown
-  //   className=" text-justify"
-  //   source={jobDescription}
-  //   disallowedTypes={disallowedTypes}
-  //   linkTarget={"_blank"}
-  // />
-  //       </div>
-  //       {/* jobCompany */}
-  //       <div className="col-6">
-  //         <h4>Description de l'entreprise</h4>
-  //         <ReactMarkdown
-  //           className=" text-justify"
-  //           source={jobCompanyDescription}
-  //           disallowedTypes={disallowedTypes}
-  //           linkTarget={"_blank"}
-  //         />
-  //       </div>
-  //       {/* jobSkills */}
-  //       <div className="col-6">
-  //         <h4>Compétences clés</h4>
-  //         <div className="text">{skills}</div>
-  //       </div>
-  //     </div>
-
-  //     <div
-  //       className="mt-3"
-  //       style={{
-  //         display: "flex",
-  //         flexFlow: "column nowrap",
-  //         justifyContent: "center",
-  //         width: "100%"
-  //       }}
-  //     >
-  //       <div>
-  //         <h4>Envoyer votre candidature</h4>
-  //       </div>
-  //       <form encType="multipart/form-data" onSubmit={onSubmit}>
-  //         {/* Lettre de Motivation */}
-  //         <div className="form-group input-group">
-  //           <div className="input-group-prepend">
-  //             <span className="input-group-text">
-  //               <i className="fas fa-pencil-alt" />
-  //             </span>
-  //           </div>
-  //           <textarea
-  //             className="form-control"
-  //             placeholder="Motivation*"
-  //             name="lm"
-  //             onChange={e=>setLm(e.target.value)}
-  //             required
-  //           />
-  //         </div>
-  //         {/* CV */}
-  //         <div className="input-group mb-3">
-  //           <div className="input-group-prepend">
-  //             <span className="input-group-text" id="inputGroupFileAddon01">
-  //               <i className="fas fa-upload" />
-  //             </span>
-  //           </div>
-  //           <div className="custom-file">
-  //             <input
-  //               type="file"
-  //               className="custom-file-input"
-  //               id="cv"
-  //               name="cv"
-  //               required
-  //               aria-describedby="inputGroupFileAddon01"
-  //               onChange={e=>setCv(e.target.files[0])}
-  //             />
-  //             <label
-  //               htmlFor="cv"
-  //               className="custom-file-label"
-  //               data-browse="Parcourir"
-  //             >
-  //               Choisir un fichier
-  //             </label>
-  //           </div>
-  //         </div>
-  //         <p>
-  //           <small>Type de fichier autorisé: .pdf Taille maximum : 2Mo.</small>
-  //         </p>
-  //         <div className="form-group">
-  //           <button className="btn btn-primary" style={{ width: "100%" }}>
-  //             Envoyer
-  //           </button>
-  //         </div>
-  //       </form>
-  //     </div>
-  //   </div>
-  // );
 };
 
 Job.propTypes = {

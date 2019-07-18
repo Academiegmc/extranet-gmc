@@ -121,7 +121,7 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
           <CardActions>
             <RouterLink to={`/annonce/${annonce.id}`}>
               <Button size="small" color="primary">
-                Lire l'article
+                Lire l'annonce
               </Button>
             </RouterLink>
           </CardActions>

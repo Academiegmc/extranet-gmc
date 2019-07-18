@@ -17,6 +17,7 @@ import {
   CardHeader,
   Avatar
 } from "@material-ui/core";
+import ReturnButton from "../layout/ReturnButton";
 const useStyles = makeStyles(theme => ({
   cardHader: {
     backgroundColor: "#2F4858",
@@ -47,6 +48,7 @@ const Annonce = ({
   ads: { loading, ad },
   auth,
   getAnAd,
+  history,
   match,
   updateComments
 }) => {
@@ -84,8 +86,8 @@ const Annonce = ({
   comments = <Comments comments={ad.comments} />;
   return (
     <Fragment>
-      <h1>Annonce</h1>
       <Container>
+        <ReturnButton history={history} />
         <Card>
           <CardHeader
             className={classes.cardHader}
@@ -115,7 +117,7 @@ const Annonce = ({
                 </Typography>
                 <Typography
                   className={classes.subtitle}
-                  variant="p"
+                  variant="body2"
                   component="p"
                   style={{ color: "white" }}
                 >
@@ -136,18 +138,24 @@ const Annonce = ({
             </Typography>
           </CardContent>
         </Card>
-        <Divider className={classes.divider} variant="fullWidth" />
-        <Card>
-          <CardHeader
-            className={classes.cardHader}
-            title={
-              <Typography variant="h5" component="h2">
-                Commentaires
-              </Typography>
-            }
-          />
-          <CardContent className={classes.cardContent}>{comments}</CardContent>
-        </Card>
+        {ad.comments.length > 0 && (
+          <Fragment>
+            <Divider className={classes.divider} variant="fullWidth" />
+            <Card>
+              <CardHeader
+                className={classes.cardHader}
+                title={
+                  <Typography variant="h5" component="h2">
+                    Commentaires
+                  </Typography>
+                }
+              />
+              <CardContent className={classes.cardContent}>
+                {comments}
+              </CardContent>
+            </Card>
+          </Fragment>
+        )}
         <Divider className={classes.divider} variant="fullWidth" />
         <Card>
           <CardHeader

@@ -61,7 +61,7 @@ const Comments = ({ comments }) => {
               src={image}
               alt={comment.user.name}
             />
-            <Typography variant="body2" component="body2">
+            <Typography variant="body2" component="p">
               {comment.user.name}
             </Typography>
           </Grid>
