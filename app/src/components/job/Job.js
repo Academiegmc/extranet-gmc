@@ -32,6 +32,7 @@ import ReturnButton from "../layout/ReturnButton";
 import Alert from "../layout/Alert";
 import { logout } from "../../actions/authActions";
 import "./Job.css";
+import Breadcrumb from "../layout/Breadcrumb";
 const useStyles = makeStyles(theme => ({
   success: {
     backgroundColor: green[600]
@@ -158,7 +159,6 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
     formData.append("cv", file);
     Axios.post(process.env.REACT_APP_NODE_API + url, formData, config)
       .then(res => {
-        console.log("Message envoyé !");
         setOpen(true);
         setCv(null);
         setLm("");
@@ -203,10 +203,15 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
   }
   const startDate = <Moment format="DD-MM-YYYY">{jobStartDate}</Moment>;
   // console.log(job);
+  const links = [
+    { title: "Job Board", url: "/jobboard" },
+    { title: job.jobTitle, url: `/job/${job.id}` }
+  ];
   return (
     <Container>
       <Alert alert={alert} />
-      <ReturnButton history={history} />
+      <Breadcrumb links={links} />
+      {/* <ReturnButton history={history} /> */}
       <Grid className={classes.grid} container>
         <Card className={classes.card}>
           <CardHeader
@@ -264,13 +269,6 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
                     linkTarget={"_blank"}
                   />
                 </Typography>
-                <Button
-                  variant="outlined"
-                  className={classes.margin}
-                  onClick={() => setIsSent(true)}
-                >
-                  Open success snackbar
-                </Button>
               </CardContent>
             </Card>
             <Card className={classes.card}>

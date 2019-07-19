@@ -100,7 +100,6 @@ const Jobs = {
     res.status(200).json({ success: true });
   },
   sendApplication: async (req, res) => {
-    console.log(req.file);
     const fileData = fs.readFileSync(req.file.path);
     const user = await User.findOne({ email: req.user.mail });
     if (!user)

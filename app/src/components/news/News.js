@@ -32,6 +32,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { createNews } from "../../actions/newsActions";
 import Alert from "../layout/Alert";
 import ReturnButton from "../layout/ReturnButton";
+import Breadcrumb from "../layout/Breadcrumb";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -206,9 +207,11 @@ const News = ({
       );
     });
   }
+  const links = [{ title: "News", url: "/news" }];
   return (
     <Container>
       <Alert alert={alert} />
+      <Breadcrumb links={links} />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={3}>
           <Card className={classes.card}>

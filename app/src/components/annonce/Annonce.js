@@ -18,6 +18,7 @@ import {
   Avatar
 } from "@material-ui/core";
 import ReturnButton from "../layout/ReturnButton";
+import Breadcrumb from "../layout/Breadcrumb";
 const useStyles = makeStyles(theme => ({
   cardHader: {
     backgroundColor: "#2F4858",
@@ -84,10 +85,15 @@ const Annonce = ({
     return <h3>Chargement...</h3>;
   }
   comments = <Comments comments={ad.comments} />;
+  const links = [
+    { title: "Annonces", url: "/annonces" },
+    { title: ad.title, url: `/annonce/${ad.id}` }
+  ];
   return (
     <Fragment>
       <Container>
-        <ReturnButton history={history} />
+        <Breadcrumb links={links} />
+        {/* <ReturnButton history={history} /> */}
         <Card>
           <CardHeader
             className={classes.cardHader}

@@ -18,6 +18,7 @@ import {
   Paper
 } from "@material-ui/core";
 import clsx from "clsx";
+import Breadcrumb from "../layout/Breadcrumb";
 const useStyles = makeStyles(theme => ({
   cardContent: {
     display: "flex",
@@ -102,8 +103,10 @@ const Jobboard = ({
       </CardActionArea>
     </Grid>
   ));
+  const links = [{ title: "Job Board", url: "/jobboard" }];
   return (
     <Container>
+      <Breadcrumb links={links} />
       <Grid className={classes.grid} container>
         <Grid className={classes.paper} item xs={12} sm={3}>
           <Typography variant="h5" component="h5">

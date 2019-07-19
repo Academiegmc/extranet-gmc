@@ -16,6 +16,7 @@ import {
 import ReactMarkdown from "react-markdown";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import "./Annonces.css";
+import Breadcrumb from "../layout/Breadcrumb";
 
 // import Button from "../layout/Button";
 
@@ -129,9 +130,10 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
       </Grid>
     ));
   }
-
+  const links = [{ title: "Annonces", url: "/annonces" }];
   return (
     <Container className={classes.root}>
+      <Breadcrumb links={links} />
       <Grid container className={classes.grid}>
         <Grid className={classes.paper} item xs={12} sm={3}>
           <Typography variant="h5" component="h5">

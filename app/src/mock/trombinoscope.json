@@ -21,11 +21,6 @@
       "image": "chantea.jpg"
     },
     {
-      "name": "Marie Pinson",
-      "fonction": "Assistante comptable",
-      "image": "marie.jpg"
-    },
-    {
       "name": "Karen Giglietta",
       "fonction": "Office manager",
       "image": "karen.jpg"
@@ -79,7 +74,7 @@
     },
     {
       "name": "Rachel Soulé",
-      "fonction": "professeur d'enseignement professionnel, professeur référent des classes de bac pro et responsable de l'institut d'application",
+      "fonction": "Professeur d'enseignement professionnel, professeur référent des classes de bac pro et responsable de l'institut d'application",
       "image": "rachelS.jpg"
     },
     {
