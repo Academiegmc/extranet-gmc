@@ -6,21 +6,34 @@ const ErrorMessage = require("../config/error-messages");
 
 const NewsController = {
   getAllNews: async (req, res) => {
-    const news = await NewsModel.find().sort({ date: -1 });
+    const news = await NewsModel.find()
+      .sort({ date: -1 })
+      .populate({
+        path: "comments.user",
+        model: "gmc-users"
+      });
     if (!news) return res.status(400).json(err);
     let result = news.map(async post => await post.getData());
     res.status(200).json(await Promise.all(result));
   },
   getAllUserNews: async (req, res) => {
-    const news = await NewsModel.find({ user: req.params.id }).sort({
-      date: -1
-    });
+    const news = await NewsModel.find({ user: req.params.id })
+      .populate({
+        path: "comments.user",
+        model: "gmc-users"
+      })
+      .sort({
+        date: -1
+      });
     if (!news) return res.status(404).json(err);
     let result = news.map(async post => await post.getData());
     res.status(200).json(await Promise.all(result));
   },
   getNews: async (req, res) => {
-    const news = await NewsModel.findById({ _id: req.params.id });
+    const news = await NewsModel.findById({ _id: req.params.id }).populate({
+      path: "comments.user",
+      model: "gmc-users"
+    });
     if (!news)
       return res
         .status(404)
@@ -47,28 +60,38 @@ const NewsController = {
     console.log("new news:", await newsSaved.getData());
     res.status(200).json(await newsSaved.getData());
   },
-  updateNews: (req, res) => {
+  updateCommentNews: async (req, res) => {
+    console.log(req.body);
+    const news = await NewsModel.findById(req.params.id).populate({
+      path: "comments.user",
+      model: "gmc-users"
+    });
+    if (!news)
+      return res.status(404).json({ success: false, message: "Not Found" });
+    news.comments.push(req.body);
+    await news.save();
+    const updatedNews = await NewsModel.findById(req.params.id).populate({
+      path: "comments.user",
+      model: "gmc-users"
+    });
+    res.status(200).json(await updatedNews.getData());
+  },
+  updateNews: async (req, res) => {
     const { title, description } = req.body;
     let imgTab = [];
     req.files.forEach(file => imgTab.push(file.filename));
-    NewsModel.findById(req.params.id)
-      .then(news => {
-        news.title = title;
-        news.description = description;
-        imgTab.forEach(img => news.images.push(img));
-        news
-          .save()
-          .then(newsSaved => res.status(200).json(newsSaved))
-          .catch(error => res.status(400).json(error.response));
-      })
-      .catch(err => {
-        res.status(400).json(err.response);
-      });
+    const news = await NewsModel.findById(req.params.id);
+    if (!news) res.status(404).json({ success: false });
+    news.title = title;
+    news.description = description;
+    imgTab.forEach(img => news.images.push(img));
+    const newsUpdated = await news.save();
+    res.status(200).json(newsUpdated.getData());
   },
   deleteNews: async (req, res) => {
     try {
       const news = await NewsModel.findOneAndRemove({ _id: req.params.id });
-      if (!news) res.status(400).json({ success: false });
+      if (!news) res.status(404).json({ success: false });
       news.images.map(async img => {
         await fs.unlink(`${path.join(__dirname, "../")}public/images/${img}`);
       });

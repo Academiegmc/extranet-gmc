@@ -63,7 +63,7 @@ router.get("/image/:id", (req, res) => {
         error: "No file found"
       });
     }
-    console.log(file);
+    // console.log(file);
     //Check if image
     if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
       //Read output to browser
@@ -79,7 +79,7 @@ router.get("/image/:id", (req, res) => {
 router.get("/pdf/:id", (req, res) => {
   gfs.findOne({ _id: req.params.id }, function(err, file) {
     if (err) return res.status(400).json({ error: "Bad Request" });
-    console.log(file);
+    // console.log(file);
     if (!file || file.length === 0) {
       return res.status(404).json({
         error: "No file found"
@@ -100,6 +100,11 @@ router.get("/pdf/:id", (req, res) => {
 router.get("/", NewsController.getAllNews);
 router.get("/:id", NewsController.getNews);
 router.get("/user/:id", verifyToken, NewsController.getAllUserNews);
+router.post(
+  "/edit/:id/comments",
+  verifyToken,
+  NewsController.updateCommentNews
+);
 router.post(
   "/",
   verifyToken,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
@@ -21,7 +21,7 @@ import {
   TextField,
   Hidden
 } from "@material-ui/core";
-import { TodayOutlined } from "@material-ui/icons";
+import { TodayOutlined, CommentOutlined } from "@material-ui/icons";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Clock from "react-live-clock";
 import { getAllNews } from "../../actions/newsActions";
@@ -33,6 +33,8 @@ import { createNews } from "../../actions/newsActions";
 import Alert from "../layout/Alert";
 import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
+import Comment from "../comment/Comment";
+import { updateNewsComments } from "../../actions/newsActions";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,13 +70,17 @@ const useStyles = makeStyles(theme => ({
 
 const News = ({
   news,
-  auth: { user },
+  auth,
   getAllNews,
   loading,
   createNews,
-  history
+  history,
+  match,
+  updateNewsComments
 }) => {
+  const { user } = auth;
   let status;
+  let commentsLength = 0;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
@@ -85,6 +91,10 @@ const News = ({
     "inlineCode",
     "code"
   ]);
+
+  const [text, setText] = useState("");
+  const [comment, setComment] = useState(null);
+
   const classes = useStyles();
 
   useEffect(() => {
@@ -126,6 +136,17 @@ const News = ({
         type: "error"
       });
       setTimeout(() => setAlert(null), 5000);
+    }
+  };
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (text !== "") {
+      //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
+      if (comment !== null) {
+        console.log(comment, match, text);
+        updateNewsComments(match.params.id, comment);
+        setText("");
+      }
     }
   };
   let imgNews;
@@ -178,30 +199,82 @@ const News = ({
                 linkTarget={"_blank"}
               />
             </Typography>
-            <Divider style={{ marginBottom: "20px" }} />
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Divider />
+            <Typography
+              style={{ marginBottom: 20, marginTop: 20 }}
+              variant="body2"
+              color="textSecondary"
+              component="p"
+            >
               <small
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  width: "30%"
+                  width: "100%"
                 }}
               >
-                <TodayOutlined />
-                {"  "}
-                {
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%"
+                  }}
+                >
+                  <TodayOutlined style={{ marginRight: 2 }} />
                   <Moment format="DD MMM, YYYY" locale="fr">
                     {news.date}
                   </Moment>
-                }
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%"
+                  }}
+                >
+                  <CommentOutlined style={{ marginRight: 2 }} />
+                  {news.comments.length}
+                </div>
               </small>
             </Typography>
+            <Divider />
+            {news.comments.length > 0 && (
+              <Fragment>
+                <Typography variant="h6" component="h6">
+                  Commentaires
+                </Typography>
+                <Fragment>
+                  {news.comments.map(comment => (
+                    <Typography variant="body1" component="p">
+                      {`${comment.user.name} - ${comment.text}`}
+                    </Typography>
+                  ))}
+                </Fragment>
+                <Divider />
+              </Fragment>
+            )}
           </CardContent>
           <CardActions>
-            <Button size="small" color="primary">
-              Lire l'article
-            </Button>
+            <Comment
+              text={text}
+              setText={setText}
+              setComment={setComment}
+              auth={auth}
+              handleSubmit={e => {
+                e.preventDefault();
+                if (text !== "") {
+                  //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
+                  if (comment !== null) {
+                    console.log(comment, match, text);
+                    updateNewsComments(news.id, comment);
+                    setText("");
+                  }
+                }
+              }}
+            />
           </CardActions>
         </Card>
       );
@@ -364,5 +437,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { getAllNews, createNews }
+  { getAllNews, createNews, updateNewsComments }
 )(News);

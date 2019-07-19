@@ -5,7 +5,8 @@ import {
   GET_ALL_USER_NEWS,
   CREATE_NEWS,
   SET_LOADING,
-  GET_ERRORS
+  GET_ERRORS,
+  UPDATE_NEWS
 } from "../actions/types";
 const initialState = {
   loading: false,
@@ -33,6 +34,12 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         newsTab: [action.payload, ...state.newsTab]
+      };
+    case UPDATE_NEWS:
+      return {
+        ...state,
+        loading: false,
+        news: action.payload
       };
     case DELETE_NEWS:
       return {

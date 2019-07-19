@@ -5,6 +5,8 @@ export const GET_ALL_NEWS = "GET_ALL_NEWS";
 export const GET_A_NEWS = "GET_A_NEWS";
 export const CREATE_NEWS = "CREATE_NEWS";
 export const DELETE_NEWS = "DELETE_NEWS";
+export const UPDATE_NEWS = "UPDATE_NEWS";
+export const GET_USER_NEWS = "GET_USER_NEWS";
 
 export const SEARCH_JOBS = "SEARCH_JOBS";
 export const GET_ALL_JOBS = "GET_ALL_JOBS";
@@ -24,7 +26,6 @@ export const GET_USERS = "GET_USERS";
 export const GET_USER = "GET_USER";
 export const UPDATE_USER = "UPDATE_USER";
 
-export const GET_USER_NEWS = "GET_USER_NEWS";
 export const GET_USER_ADS = "GET_USER_ADS";
 export const GET_USER_JOBS = "GET_USER_JOBS";
 

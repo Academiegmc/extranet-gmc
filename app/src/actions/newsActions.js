@@ -6,7 +6,8 @@ import {
   DELETE_NEWS,
   GET_ALL_USER_NEWS,
   CREATE_NEWS,
-  SET_LOADING
+  SET_LOADING,
+  UPDATE_NEWS
 } from "./types";
 import { newsUrl } from "../utils";
 
@@ -66,6 +67,16 @@ export const createNews = (newsData, history) => async dispatch => {
   } catch (error) {
     console.error(error);
     dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
+};
+export const updateNewsComments = (newsId, comment) => async dispatch => {
+  console.log("TEXT", comment);
+  try {
+    setLoading();
+    const res = await axios.post(`${newsUrl}/edit/${newsId}/comments`, comment);
+    dispatch({ type: UPDATE_NEWS, payload: res.data });
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.message.data });
   }
 };
 export const updateNews = (newsId, newsData, history) => dispatch => {

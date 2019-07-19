@@ -10,6 +10,16 @@ const NewsSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   images: [{ type: Schema.Types.ObjectId, ref: "NewsFiles" }],
+  comments: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+      },
+      text: { type: String, required: true },
+      date: { type: Date, default: Date.now }
+    }
+  ],
   date: { type: Date, default: Date.now }
 });
 NewsSchema.methods.getData = async function() {
@@ -24,6 +34,7 @@ NewsSchema.methods.getData = async function() {
     name: this.name,
     title: this.title,
     description: this.description,
+    comments: this.comments,
     images: this.images,
     date: this.date,
     user: userData.getInfos()
