@@ -7,7 +7,8 @@ import {
   GET_ALL_USER_NEWS,
   CREATE_NEWS,
   SET_LOADING,
-  UPDATE_NEWS
+  UPDATE_NEWS,
+  ADD_COMMENT
 } from "./types";
 import { newsUrl } from "../utils";
 
@@ -48,7 +49,7 @@ export const getANews = newsId => dispatch => {
     });
   });
 };
-export const createNews = (newsData, history) => async dispatch => {
+export const createNews = newsData => async dispatch => {
   const { title, description, images } = newsData;
   const formData = new FormData();
   formData.append("title", title);
@@ -74,7 +75,7 @@ export const updateNewsComments = (newsId, comment) => async dispatch => {
   try {
     setLoading();
     const res = await axios.post(`${newsUrl}/edit/${newsId}/comments`, comment);
-    dispatch({ type: UPDATE_NEWS, payload: res.data });
+    dispatch({ type: ADD_COMMENT, payload: res.data });
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.message.data });
   }

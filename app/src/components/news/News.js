@@ -35,6 +35,7 @@ import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
 import Comment from "../comment/Comment";
 import { updateNewsComments } from "../../actions/newsActions";
+import NewsCard from "./NewsCard";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -69,7 +70,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const News = ({
-  news,
+  news: { newsTab },
   auth,
   getAllNews,
   loading,
@@ -85,6 +86,7 @@ const News = ({
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [alert, setAlert] = useState(null);
+  const [commentId, setCommentId] = useState("");
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
     "html",
@@ -138,24 +140,13 @@ const News = ({
       setTimeout(() => setAlert(null), 5000);
     }
   };
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (text !== "") {
-      //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
-      if (comment !== null) {
-        console.log(comment, match, text);
-        updateNewsComments(match.params.id, comment);
-        setText("");
-      }
-    }
-  };
   let imgNews;
-  if (loading || news.newsTab === null || user === null) {
+  if (loading || newsTab === null || user === null) {
     return <h2>Chargement...</h2>;
   }
   let allNews;
-  if (news.newsTab !== undefined && news.newsTab.length > 0) {
-    allNews = news.newsTab.map((news, index) => {
+  if (newsTab !== undefined && newsTab.length > 0) {
+    allNews = newsTab.map((news, index) => {
       if (news.images.length > 0) {
         imgNews = news.images.map((img, i) => (
           <CardMedia
@@ -183,100 +174,108 @@ const News = ({
           break;
       }
       return (
-        <Card className={classes.card} key={news.id}>
-          {news.images.length > 0 ? (
-            <Slider {...settings}>{imgNews}</Slider>
-          ) : null}
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {news.title}
-            </Typography>
-            <Divider />
-            <Typography gutterBottom variant="body2" color="textSecondary">
-              <ReactMarkdown
-                source={news.description}
-                disallowedTypes={disallowedTypes}
-                linkTarget={"_blank"}
-              />
-            </Typography>
-            <Divider />
-            <Typography
-              style={{ marginBottom: 20, marginTop: 20 }}
-              variant="body2"
-              color="textSecondary"
-              component="p"
-            >
-              <small
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%"
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%"
-                  }}
-                >
-                  <TodayOutlined style={{ marginRight: 2 }} />
-                  <Moment format="DD MMM, YYYY" locale="fr">
-                    {news.date}
-                  </Moment>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%"
-                  }}
-                >
-                  <CommentOutlined style={{ marginRight: 2 }} />
-                  {news.comments.length}
-                </div>
-              </small>
-            </Typography>
-            <Divider />
-            {news.comments.length > 0 && (
-              <Fragment>
-                <Typography variant="h6" component="h6">
-                  Commentaires
-                </Typography>
-                <Fragment>
-                  {news.comments.map(comment => (
-                    <Typography variant="body1" component="p">
-                      {`${comment.user.name} - ${comment.text}`}
-                    </Typography>
-                  ))}
-                </Fragment>
-                <Divider />
-              </Fragment>
-            )}
-          </CardContent>
-          <CardActions>
-            <Comment
-              text={text}
-              setText={setText}
-              setComment={setComment}
-              auth={auth}
-              handleSubmit={e => {
-                e.preventDefault();
-                if (text !== "") {
-                  //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
-                  if (comment !== null) {
-                    console.log(comment, match, text);
-                    updateNewsComments(news.id, comment);
-                    setText("");
-                  }
-                }
-              }}
-            />
-          </CardActions>
-        </Card>
+        <NewsCard
+          news={news}
+          auth={auth}
+          match={match}
+          updateNewsComments={updateNewsComments}
+          imgNews={imgNews}
+        />
+        // <Card className={classes.card} key={news.id}>
+        //   {news.images.length > 0 ? (
+        //     <Slider {...settings}>{imgNews}</Slider>
+        //   ) : null}
+        //   <CardContent>
+        //     <Typography gutterBottom variant="h5" component="h2">
+        //       {news.title}
+        //     </Typography>
+        //     <Divider />
+        //     <Typography gutterBottom variant="body2" color="textSecondary">
+        //       <ReactMarkdown
+        //         source={news.description}
+        //         disallowedTypes={disallowedTypes}
+        //         linkTarget={"_blank"}
+        //       />
+        //     </Typography>
+        //     <Divider />
+        //     <Typography
+        //       style={{ marginBottom: 20, marginTop: 20 }}
+        //       variant="body2"
+        //       color="textSecondary"
+        //       component="p"
+        //     >
+        //       <small
+        //         style={{
+        //           display: "flex",
+        //           justifyContent: "space-between",
+        //           alignItems: "center",
+        //           width: "100%"
+        //         }}
+        //       >
+        //         <div
+        //           style={{
+        //             display: "flex",
+        //             justifyContent: "center",
+        //             alignItems: "center",
+        //             width: "100%"
+        //           }}
+        //         >
+        //           <TodayOutlined style={{ marginRight: 2 }} />
+        //           <Moment format="DD MMM, YYYY" locale="fr">
+        //             {news.date}
+        //           </Moment>
+        //         </div>
+        //         <div
+        //           style={{
+        //             display: "flex",
+        //             justifyContent: "center",
+        //             alignItems: "center",
+        //             width: "100%"
+        //           }}
+        //         >
+        //           <CommentOutlined style={{ marginRight: 2 }} />
+        //           {news.comments.length}
+        //         </div>
+        //       </small>
+        //     </Typography>
+        //     <Divider />
+        //     {news.comments.length > 0 && (
+        //       <Fragment>
+        //         <Typography variant="h6" component="h6">
+        //           Commentaires
+        //         </Typography>
+        //         <Fragment>
+        //           {news.comments.map((comment, index) => (
+        //             <Typography key={index} variant="body1" component="p">
+        //               {`${comment.user.name} - ${comment.text}`}
+        //             </Typography>
+        //           ))}
+        //         </Fragment>
+        //         <Divider />
+        //       </Fragment>
+        //     )}
+        //   </CardContent>
+        //   <CardActions>
+        //     <Comment
+        //       text={text}
+        //       setText={setText}
+        //       setComment={setComment}
+        //       auth={auth}
+        //       comment={comment}
+        //       handleSubmit={e => {
+        //         e.preventDefault();
+        //         if (text !== "") {
+        //           //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
+        //           if (comment !== null) {
+        //             console.log(comment, match, text);
+        //             updateNewsComments(news.id, comment);
+        //             setText("");
+        //           }
+        //         }
+        //       }}
+        //     />
+        //   </CardActions>
+        // </Card>
       );
     });
   }

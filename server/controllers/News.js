@@ -61,20 +61,22 @@ const NewsController = {
     res.status(200).json(await newsSaved.getData());
   },
   updateCommentNews: async (req, res) => {
-    console.log(req.body);
-    const news = await NewsModel.findById(req.params.id).populate({
-      path: "comments.user",
-      model: "gmc-users"
-    });
+    const news = await NewsModel.findById(req.params.id);
     if (!news)
       return res.status(404).json({ success: false, message: "Not Found" });
     news.comments.push(req.body);
+    if (req.files === undefined) news.images = news.images;
     await news.save();
-    const updatedNews = await NewsModel.findById(req.params.id).populate({
-      path: "comments.user",
-      model: "gmc-users"
-    });
-    res.status(200).json(await updatedNews.getData());
+    const updatedNews = await NewsModel.find()
+      .sort({ date: -1 })
+      .populate({
+        path: "comments.user",
+        model: "gmc-users"
+      });
+    if (!updatedNews)
+      return res.status(404).json({ success: false, message: "Not Found" });
+    let result = updatedNews.map(async post => await post.getData());
+    res.status(200).json(await Promise.all(result));
   },
   updateNews: async (req, res) => {
     const { title, description } = req.body;

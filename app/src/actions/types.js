@@ -7,6 +7,7 @@ export const CREATE_NEWS = "CREATE_NEWS";
 export const DELETE_NEWS = "DELETE_NEWS";
 export const UPDATE_NEWS = "UPDATE_NEWS";
 export const GET_USER_NEWS = "GET_USER_NEWS";
+export const ADD_COMMENT = "ADD_COMMENT";
 
 export const SEARCH_JOBS = "SEARCH_JOBS";
 export const GET_ALL_JOBS = "GET_ALL_JOBS";
