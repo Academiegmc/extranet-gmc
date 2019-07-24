@@ -159,7 +159,7 @@ const Navbar = ({ users, auth, logout, history }) => {
         <RouterLink
           className={classes.links}
           style={{ color: "inherit" }}
-          to={`/stage`}
+          to={`/stage/${auth.user.id}`}
         >
           Stage
         </RouterLink>

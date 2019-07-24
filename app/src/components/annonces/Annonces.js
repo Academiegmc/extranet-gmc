@@ -94,7 +94,6 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
     return <h3>Chargement...</h3>;
   }
   let allAnnonces;
-  console.log(ads.ads);
   if (ads.ads.length > 0) {
     allAnnonces = ads.ads.map(annonce => (
       <Grid className={classes.gridItem} item key={annonce.id}>

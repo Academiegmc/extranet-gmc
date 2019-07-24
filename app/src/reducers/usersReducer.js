@@ -7,11 +7,11 @@ import {
   GET_USER_NEWS
 } from "../actions/types";
 const initialState = {
-  users: [],
-  user: {},
-  userAds: [],
-  userNews: [],
-  userJobs: [],
+  users: null,
+  user: null,
+  userAds: null,
+  userNews: null,
+  userJobs: null,
   errors: null
 };
 export default (state = initialState, action) => {

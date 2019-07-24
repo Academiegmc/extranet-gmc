@@ -1,14 +1,11 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import Moment from "react-moment";
-import Slider from "react-slick";
-import ReactMarkdown from "react-markdown";
 import imageCompression from "browser-image-compression";
 import {
   Card,
-  CardActions,
   CardMedia,
   CardContent,
   Button,
@@ -21,11 +18,9 @@ import {
   TextField,
   Hidden
 } from "@material-ui/core";
-import { TodayOutlined, CommentOutlined } from "@material-ui/icons";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Clock from "react-live-clock";
 import { getAllNews } from "../../actions/newsActions";
-import settings from "./newsCarouselConfig";
 import "./News.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -33,7 +28,6 @@ import { createNews } from "../../actions/newsActions";
 import Alert from "../layout/Alert";
 import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
-import Comment from "../comment/Comment";
 import { updateNewsComments } from "../../actions/newsActions";
 import NewsCard from "./NewsCard";
 
@@ -81,21 +75,10 @@ const News = ({
 }) => {
   const { user } = auth;
   let status;
-  let commentsLength = 0;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [alert, setAlert] = useState(null);
-  const [commentId, setCommentId] = useState("");
-  const [disallowedTypes, setDisallowedTypes] = useState([
-    "image",
-    "html",
-    "inlineCode",
-    "code"
-  ]);
-
-  const [text, setText] = useState("");
-  const [comment, setComment] = useState(null);
 
   const classes = useStyles();
 
@@ -175,107 +158,13 @@ const News = ({
       }
       return (
         <NewsCard
+          key={news.id}
           news={news}
           auth={auth}
           match={match}
           updateNewsComments={updateNewsComments}
           imgNews={imgNews}
         />
-        // <Card className={classes.card} key={news.id}>
-        //   {news.images.length > 0 ? (
-        //     <Slider {...settings}>{imgNews}</Slider>
-        //   ) : null}
-        //   <CardContent>
-        //     <Typography gutterBottom variant="h5" component="h2">
-        //       {news.title}
-        //     </Typography>
-        //     <Divider />
-        //     <Typography gutterBottom variant="body2" color="textSecondary">
-        //       <ReactMarkdown
-        //         source={news.description}
-        //         disallowedTypes={disallowedTypes}
-        //         linkTarget={"_blank"}
-        //       />
-        //     </Typography>
-        //     <Divider />
-        //     <Typography
-        //       style={{ marginBottom: 20, marginTop: 20 }}
-        //       variant="body2"
-        //       color="textSecondary"
-        //       component="p"
-        //     >
-        //       <small
-        //         style={{
-        //           display: "flex",
-        //           justifyContent: "space-between",
-        //           alignItems: "center",
-        //           width: "100%"
-        //         }}
-        //       >
-        //         <div
-        //           style={{
-        //             display: "flex",
-        //             justifyContent: "center",
-        //             alignItems: "center",
-        //             width: "100%"
-        //           }}
-        //         >
-        //           <TodayOutlined style={{ marginRight: 2 }} />
-        //           <Moment format="DD MMM, YYYY" locale="fr">
-        //             {news.date}
-        //           </Moment>
-        //         </div>
-        //         <div
-        //           style={{
-        //             display: "flex",
-        //             justifyContent: "center",
-        //             alignItems: "center",
-        //             width: "100%"
-        //           }}
-        //         >
-        //           <CommentOutlined style={{ marginRight: 2 }} />
-        //           {news.comments.length}
-        //         </div>
-        //       </small>
-        //     </Typography>
-        //     <Divider />
-        //     {news.comments.length > 0 && (
-        //       <Fragment>
-        //         <Typography variant="h6" component="h6">
-        //           Commentaires
-        //         </Typography>
-        //         <Fragment>
-        //           {news.comments.map((comment, index) => (
-        //             <Typography key={index} variant="body1" component="p">
-        //               {`${comment.user.name} - ${comment.text}`}
-        //             </Typography>
-        //           ))}
-        //         </Fragment>
-        //         <Divider />
-        //       </Fragment>
-        //     )}
-        //   </CardContent>
-        //   <CardActions>
-        //     <Comment
-        //       text={text}
-        //       setText={setText}
-        //       setComment={setComment}
-        //       auth={auth}
-        //       comment={comment}
-        //       handleSubmit={e => {
-        //         e.preventDefault();
-        //         if (text !== "") {
-        //           //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
-        //           if (comment !== null) {
-        //             console.log(comment, match, text);
-        //             updateNewsComments(news.id, comment);
-        //             setText("");
-        //           }
-        //         }
-        //       }}
-        //     />
-        //   </CardActions>
-        // </Card>
       );
     });
   }

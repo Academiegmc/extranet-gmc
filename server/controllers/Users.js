@@ -28,25 +28,35 @@ const Users = {
       .populate("personal_sheet");
     if (!user) res.status(400).json({ success: false });
     else {
-      res
-        .status(200)
-        .json({ succes: true, user: await user.getProfileInfos() });
+      res.status(200).json(await user.getProfileInfos());
     }
   },
   getUserJobs: async (req, res) => {
     const jobs = await Job.find({ user: req.params.id });
     if (!jobs) res.status(404).json({ success: false });
-    else res.status(200).json({ success: true, data: jobs });
+    else {
+      let result;
+      result = jobs.map(async job => await job.getData());
+      res.status(200).json(await Promise.all(result));
+    }
   },
   getUserAds: async (req, res) => {
-    const ads = await Ad.find({ user: req.params.id });
+    const ads = await Ad.find({ user: req.params.id }).sort({ date: -1 });
     if (!ads) res.status(404).json({ success: false });
-    else res.status(200).json({ success: true, data: ads });
+    else {
+      let result;
+      result = ads.map(async ad => await ad.getData());
+      res.status(200).json(await Promise.all(result));
+    }
   },
   getUserNews: async (req, res) => {
-    const news = await News.find({ user: req.params.id });
-    if (!news) res.status(404).json({ success: false });
-    else res.status(200).json({ success: true, data: news });
+    const newsTab = await News.find({ user: req.params.id });
+    if (!newsTab) res.status(404).json({ success: false });
+    else {
+      let result;
+      result = newsTab.map(async news => await news.getData());
+      res.status(200).json(await Promise.all(result));
+    }
   },
   create: async (req, res) => {
     let { name, email, password, status } = req.body;

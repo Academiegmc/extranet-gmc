@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        ads: [action.payload, ...state.ads]
+        ads: [...state.ads, action.payload]
       };
     case UPDATE_AD:
       return {

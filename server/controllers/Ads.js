@@ -24,6 +24,10 @@ const Ads = {
     res.status(200).json(await ad.getData());
   },
   createAd: async (req, res) => {
+    console.log("files", req.files);
+    let imgTab = [];
+    if (req.files !== undefined)
+      req.files.forEach(file => imgTab.push(file.id));
     const user = await User.findById(req.user.id);
     if (!user)
       return res
@@ -33,7 +37,8 @@ const Ads = {
       user: user.id,
       title: req.body.title,
       description: req.body.description,
-      category: req.body.category
+      category: req.body.category,
+      images: imgTab
     });
     await newAd.save();
     res.status(200).json(await newAd.getData());
@@ -82,11 +87,15 @@ const Ads = {
       ads = await Ad.find({
         title: { $regex: new RegExp(q), $options: "i" },
         category: { $regex: new RegExp(category), $options: "i" }
-      }).limit(10);
+      })
+        .sort({ date: -1 })
+        .limit(10);
     } else {
       ads = await Ad.find({
         title: { $regex: new RegExp(q), $options: "i" }
-      }).limit(10);
+      })
+        .sort({ date: -1 })
+        .limit(10);
     }
     let result = ads.map(async ad => await ad.getData());
     res.status(200).json(await Promise.all(result));

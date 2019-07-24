@@ -7,22 +7,14 @@ import ReactMarkdown from "react-markdown";
 import {
   Card,
   CardActions,
-  CardMedia,
   CardContent,
-  Button,
   Typography,
   makeStyles,
-  Grid,
-  Container,
-  Divider,
-  Link,
-  TextField,
-  Hidden
+  Divider
 } from "@material-ui/core";
 import { TodayOutlined, CommentOutlined } from "@material-ui/icons";
 
 import Comment from "../comment/Comment";
-import { updateNewsComments } from "../../actions/newsActions";
 import settings from "./newsCarouselConfig";
 
 const useStyles = makeStyles(theme => ({

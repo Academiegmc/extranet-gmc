@@ -38,11 +38,25 @@ export const getAnAd = adId => async dispatch => {
     dispatch({ type: GET_ERRORS, payload: error.message.data });
   }
 };
-export const createAd = adData => async dispatch => {
+export const createAd = (adData, history) => async dispatch => {
+  const { title, description, category, images } = adData;
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("category", category);
+  console.log("images", images);
+  if (images.length > 0) {
+    if (images.length > 1) {
+      for (let i = 0; i <= images.length; i++) {
+        formData.append("images", images[i]);
+      }
+    } else formData.append("images", images[0]);
+  }
   try {
     setLoading();
-    const res = await axios.post(adUrl, adData);
+    const res = await axios.post(adUrl, formData);
     dispatch({ type: CREATE_AD, payload: res.data });
+    history.push("/annonces");
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }

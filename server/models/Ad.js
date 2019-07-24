@@ -10,6 +10,7 @@ const AdSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },
+  images: [{ type: Schema.Types.ObjectId, ref: "AdsFiles" }],
   comments: [
     {
       user: {
@@ -37,6 +38,7 @@ AdSchema.methods.getData = async function() {
     name: this.name,
     title: this.title,
     description: this.description,
+    images: this.images,
     category: this.category,
     comments: this.comments,
     date: this.date,

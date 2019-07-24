@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
 import ReactMarkdown from "react-markdown";
+import Slider from "react-slick";
+import { Carousel } from "react-responsive-carousel";
 import { getAnAd, updateComments } from "../../actions/adAction";
 import Comments from "../comments/Comments";
 import Comment from "../comment/Comment";
@@ -15,10 +17,14 @@ import {
   Divider,
   makeStyles,
   CardHeader,
-  Avatar
+  Avatar,
+  Grid
 } from "@material-ui/core";
 import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
+import settings from "../news/newsCarouselConfig";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 const useStyles = makeStyles(theme => ({
   cardHader: {
     backgroundColor: "#2F4858",
@@ -43,6 +49,20 @@ const useStyles = makeStyles(theme => ({
     textTransform: "capitalize",
     fontStyle: "italic",
     fontSize: "1rem"
+  },
+  grid: {
+    display: "flex",
+    flexFlow: "column wrap",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    [theme.breakpoints.up("sm")]: {
+      flexFlow: "row wrap"
+    }
+  },
+  image: {
+    width: "100%",
+    height: "100%"
   }
 }));
 const Annonce = ({
@@ -79,7 +99,6 @@ const Annonce = ({
       }
     }
   };
-
   let comments = null;
   if (loading || auth === null || ad === null) {
     return <h3>Chargement...</h3>;
@@ -142,6 +161,23 @@ const Annonce = ({
                 linkTarget={"_blank"}
               />
             </Typography>
+            {ad.images.length > 0 && (
+              <Grid container className={classes.grid}>
+                <Carousel showArrows={false}>
+                  {ad.images.map((image, index) => (
+                    <Grid key={index} item xs={12}>
+                      <img
+                        className={classes.image}
+                        src={`${
+                          process.env.REACT_APP_NODE_API
+                        }/api/annonces/image/${image}`}
+                        alt={index}
+                      />
+                    </Grid>
+                  ))}
+                </Carousel>
+              </Grid>
+            )}
           </CardContent>
         </Card>
         {ad.comments.length > 0 && (

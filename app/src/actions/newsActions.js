@@ -7,7 +7,6 @@ import {
   GET_ALL_USER_NEWS,
   CREATE_NEWS,
   SET_LOADING,
-  UPDATE_NEWS,
   ADD_COMMENT
 } from "./types";
 import { newsUrl } from "../utils";
