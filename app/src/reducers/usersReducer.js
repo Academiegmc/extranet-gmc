@@ -4,7 +4,10 @@ import {
   UPDATE_USER,
   GET_USER_ADS,
   GET_USER_JOBS,
-  GET_USER_NEWS
+  GET_USER_NEWS,
+  DELETE_USER_ADS,
+  DELETE_USER_JOBS,
+  DELETE_USER_NEWS
 } from "../actions/types";
 const initialState = {
   users: null,
@@ -45,6 +48,24 @@ export default (state = initialState, action) => {
       return {
         ...state,
         userNews: action.payload
+      };
+    case DELETE_USER_ADS:
+      return {
+        ...state,
+        loading: false,
+        userAds: state.userAds.filter(ad => ad.id !== action.payload)
+      };
+    case DELETE_USER_NEWS:
+      return {
+        ...state,
+        loading: false,
+        userNews: state.userNews.filter(news => news.id !== action.payload)
+      };
+    case DELETE_USER_JOBS:
+      return {
+        ...state,
+        loading: false,
+        userJobs: state.userJobs.filter(job => job.id !== action.payload)
       };
     default:
       return state;

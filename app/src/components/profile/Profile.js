@@ -7,7 +7,10 @@ import { logout } from "../../actions/authActions";
 import {
   getUserAds,
   getUserJobs,
-  getUserNews
+  getUserNews,
+  deleteUserAds,
+  deleteUserJobs,
+  deleteUserNews
 } from "../../actions/usersAction";
 import { deleteNews } from "../../actions/newsActions";
 import { deleteJob } from "../../actions/jobActions";
@@ -102,6 +105,9 @@ const Profile = ({
   getUserAds,
   getUserJobs,
   getUserNews,
+  deleteUserAds,
+  deleteUserJobs,
+  deleteUserNews,
   history,
   match
 }) => {
@@ -133,7 +139,7 @@ const Profile = ({
             <Link to={`/annonce/${ad.id}`}>
               <Typography variant="h5" component="h5">
                 {ad.title}
-              </Typography>{" "}
+              </Typography>
             </Link>
           }
         />
@@ -141,7 +147,7 @@ const Profile = ({
           <Link to={`/annonce/edit/${ad.id}`}>
             <Button>Modifier</Button>
           </Link>
-          <Button onClick={() => deleteAd(ad.id)}>Supprimer</Button>
+          <Button onClick={() => deleteUserAds(ad.id)}>Supprimer</Button>
         </CardContent>
       </Card>
       // <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
@@ -189,7 +195,7 @@ const Profile = ({
           <Link to={`/job/edit/${job.id}`}>
             <Button>Modifier</Button>
           </Link>
-          <Button onClick={() => deleteJob(job.id)}>Supprimer</Button>
+          <Button onClick={() => deleteUserJobs(job.id)}>Supprimer</Button>
         </CardContent>
       </Card>
       // <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
@@ -236,7 +242,7 @@ const Profile = ({
           <Link to={`/news/edit/${news.id}`}>
             <Button>Modifier</Button>
           </Link>
-          <Button onClick={() => deleteNews(news.id)}>Supprimer</Button>
+          <Button onClick={() => deleteUserNews(news.id)}>Supprimer</Button>
         </CardContent>
       </Card>
       // <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
@@ -309,14 +315,23 @@ const Profile = ({
 };
 
 Profile.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  deleteUserAds: PropTypes.func.isRequired,
+  deleteUserJobs: PropTypes.func.isRequired,
+  deleteUserNews: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
+  deleteNews: PropTypes.func.isRequired,
+  deleteAd: PropTypes.func.isRequired,
+  deleteJob: PropTypes.func.isRequired,
+  getUserAds: PropTypes.func.isRequired,
+  getUserJobs: PropTypes.func.isRequired,
+  getUserNews: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   auth: state.auth,
   users: state.users,
-  ads: state.ads,
-  jobs: state.jobs,
-  news: state.news,
   errors: state.errors
 });
 export default connect(
@@ -328,6 +343,9 @@ export default connect(
     deleteJob,
     getUserAds,
     getUserJobs,
-    getUserNews
+    getUserNews,
+    deleteUserAds,
+    deleteUserJobs,
+    deleteUserNews
   }
 )(Profile);

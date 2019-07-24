@@ -110,5 +110,8 @@ router.put(
   Users.update
 );
 router.delete("/:id", verifyToken, Users.delete);
+router.delete("/job/:id", verifyToken, Users.deleteUserJobs);
+router.delete("/news/:id", verifyToken, Users.deleteUserNews);
+router.delete("/annonce/:id", verifyToken, Users.deleteUserAds);
 router.post("/login", Users.login);
 module.exports = router;

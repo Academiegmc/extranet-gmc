@@ -114,8 +114,32 @@ const Users = {
     if (!user) return res.status(404).send(ErrorMessage.userNotFound);
     res.status(200).json({ success: true, message: "Compte supprimé !" });
   },
+  deleteUserJobs: async (req, res) => {
+    const job = await Job.findOne({ user: req.params.id });
+    if (!job) res.status(404).json({ success: false });
+    else {
+      await job.remove();
+      res.status(200).json({ message: "job supprimé !" });
+    }
+  },
+  deleteUserAds: async (req, res) => {
+    const ad = await Ad.findById(req.params.id);
+    if (!ad) res.status(404).json({ success: false });
+    else {
+      await ad.remove();
+      res.status(200).json({ message: "Annonce supprimée !" });
+    }
+  },
+  deleteUserNews: async (req, res) => {
+    const news = await News.findById(req.params.id);
+    if (!news) res.status(404).json({ success: false });
+    else {
+      await news.remove();
+      res.status(200).json({ message: "News supprimée !" });
+    }
+  },
   login: async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findById(req.params.id);
     if (!user) return res.status(401).send(ErrorMessage.userNotFound);
     const passwordIsValid = bcrypt.compareSync(
       req.body.password,

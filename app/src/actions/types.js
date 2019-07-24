@@ -33,5 +33,8 @@ export const GET_USER_JOBS = "GET_USER_JOBS";
 export const GET_ALL_USER_ADS = "GET_ALL_USER_ADS";
 export const GET_ALL_USER_JOBS = "GET_ALL_USER_JOBS";
 export const GET_ALL_USER_NEWS = "GET_ALL_USER_NEWS";
+export const DELETE_USER_JOBS = "DELETE_USER_JOBS";
+export const DELETE_USER_ADS = "DELETE_USER_ADS";
+export const DELETE_USER_NEWS = "DELETE_USER_NEWS";
 
 export const SET_LOADING = "SET_LOADING";
