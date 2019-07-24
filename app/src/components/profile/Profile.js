@@ -12,9 +12,6 @@ import {
   deleteUserJobs,
   deleteUserNews
 } from "../../actions/usersAction";
-import { deleteNews } from "../../actions/newsActions";
-import { deleteJob } from "../../actions/jobActions";
-import { deleteAd } from "../../actions/adAction";
 import {
   Container,
   Grid,
@@ -26,7 +23,6 @@ import {
   Typography,
   Button
 } from "@material-ui/core";
-import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -99,9 +95,6 @@ const Profile = ({
   auth,
   loading,
   logout,
-  deleteNews,
-  deleteAd,
-  deleteJob,
   getUserAds,
   getUserJobs,
   getUserNews,
@@ -125,12 +118,10 @@ const Profile = ({
     logout();
     history.push("/");
   };
-  let { user, userNews, userAds, userJobs } = users;
-  const updateMessage = "Modifier";
+  let { userNews, userAds, userJobs } = users;
   let allUserAds;
   let allUserJobs;
   let allUserNews;
-  let sessionAlert;
   if (userAds && userAds.length > 0) {
     allUserAds = userAds.map((ad, index) => (
       <Card key={index} className={classes.wAuto}>
@@ -150,33 +141,6 @@ const Profile = ({
           <Button onClick={() => deleteUserAds(ad.id)}>Supprimer</Button>
         </CardContent>
       </Card>
-      // <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
-      //   <div className="card-body">
-      //     <Link to={`/annonce/${ad.id}`}>
-      //       <h5 className="card-title">{ad.title}</h5>
-      //     </Link>
-      //     <div className="flex-row">
-      //       <button
-      //         className="btn"
-      //         style={{ backgroundColor: "#9F1540", color: "white" }}
-      //         onClick={() => {
-      //           deleteAd(ad.id);
-      //         }}
-      //       >
-      //         Supprimer
-      //       </button>
-      //       <Link to={`/annonce/edit/${ad.id}`}>
-      //         <button
-      //           className="btn"
-      //           style={{ backgroundColor: "#539356", color: "white" }}
-      //         >
-      //           {updateMessage}
-      //         </button>
-      //       </Link>
-      //     </div>
-      //     <small className="card-subtitle">{ad.category}</small>
-      //   </div>
-      // </div>
     ));
   }
   if (userJobs && userJobs.length > 0) {
@@ -198,31 +162,6 @@ const Profile = ({
           <Button onClick={() => deleteUserJobs(job.id)}>Supprimer</Button>
         </CardContent>
       </Card>
-      // <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
-      //   <div className="card-body">
-      //     <Link to={`/job/${job.id}`}>
-      //       <h5 className="card-title">{job.jobTitle}</h5>
-      //     </Link>
-      //     <div className="flex-row">
-      //       <button
-      //         className="btn"
-      //         style={{ backgroundColor: "#9F1540", color: "white" }}
-      //         onClick={() => deleteJob(job.id)}
-      //       >
-      //         Supprimer
-      //       </button>
-      //       <Link to={`/job/edit/${job.id}`}>
-      //         <button
-      //           className="btn"
-      //           style={{ backgroundColor: "#539356", color: "white" }}
-      //         >
-      //           {updateMessage}
-      //         </button>
-      //       </Link>
-      //     </div>
-      //     <small className="card-subtitle">{job.jobCompany}</small>
-      //   </div>
-      // </div>
     ));
   }
 
@@ -245,33 +184,6 @@ const Profile = ({
           <Button onClick={() => deleteUserNews(news.id)}>Supprimer</Button>
         </CardContent>
       </Card>
-      // <div className="card ml-3 mb-3" style={{ width: "18rem" }} key={index}>
-      //   <div className="card-body">
-      //     <Link to={`/news/${aNews.id}`}>
-      //       <h5 className="card-title">{aNews.title}</h5>
-      //     </Link>
-      //     <div className=" flex-row">
-      //       <button
-      //         className="btn"
-      //         style={{ backgroundColor: "#9F1540", color: "white" }}
-      //         onClick={() => {
-      //           deleteNews(aNews.id);
-      //         }}
-      //       >
-      //         Supprimer
-      //       </button>
-      //       <Link to={`/news/edit/${aNews.id}`}>
-      //         <button
-      //           className="btn"
-      //           style={{ backgroundColor: "#539356", color: "white" }}
-      //         >
-      //           {updateMessage}
-      //         </button>
-      //       </Link>
-      //     </div>
-      //     <small className="card-subtitle">{aNews.name}</small>
-      //   </div>
-      // </div>
     ));
   }
   return (
@@ -322,9 +234,6 @@ Profile.propTypes = {
   deleteUserJobs: PropTypes.func.isRequired,
   deleteUserNews: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
-  deleteNews: PropTypes.func.isRequired,
-  deleteAd: PropTypes.func.isRequired,
-  deleteJob: PropTypes.func.isRequired,
   getUserAds: PropTypes.func.isRequired,
   getUserJobs: PropTypes.func.isRequired,
   getUserNews: PropTypes.func.isRequired
@@ -338,9 +247,6 @@ export default connect(
   mapStateToProps,
   {
     logout,
-    deleteNews,
-    deleteAd,
-    deleteJob,
     getUserAds,
     getUserJobs,
     getUserNews,
