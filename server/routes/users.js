@@ -104,8 +104,7 @@ router.put(
   upload.fields([
     { name: "profile_pic", maxCount: 1 },
     { name: "renseignement", maxCount: 1 },
-    { name: "convention", maxCount: 1 },
-    { name: "recommandation", maxCount: 3 }
+    { name: "convention", maxCount: 1 }
   ]),
   Users.update
 );

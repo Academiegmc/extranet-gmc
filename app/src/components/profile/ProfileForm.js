@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import imageCompression from "browser-image-compression";
@@ -17,16 +17,20 @@ import {
   TextField,
   CardHeader,
   Typography,
-  Button
+  Button,
+  Input,
+  Divider
 } from "@material-ui/core";
-import DateFnsUtils from "@date-io/date-fns";
-import MomentUtils from "@date-io/moment";
-
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import MomentUtils from "@date-io/moment";
+
 import "moment/locale/fr";
+import Alert from "../layout/Alert";
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -40,6 +44,17 @@ const useStyles = makeStyles(theme => ({
     marginTop: 20,
     marginBottom: 20
   },
+  cardContent: {
+    display: "flex",
+    flexFlow: "column wrap",
+    justifyContent: "center",
+    alignItems: "center",
+    [theme.breakpoints.up("sm")]: {
+      flexFlow: "row wrap",
+      justifyContent: "space-between",
+      alignItems: "center"
+    }
+  },
   textField: {
     width: "100%",
     marginTop: 10,
@@ -47,6 +62,13 @@ const useStyles = makeStyles(theme => ({
   },
   btn: {
     width: "100%"
+  },
+  rightIcon: {
+    marginLeft: theme.spacing(1)
+  },
+  divider: {
+    marginTop: 20,
+    marginBottom: 20
   }
 }));
 const ProfileForm = ({
@@ -72,54 +94,71 @@ const ProfileForm = ({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [ficheRenseignement, setFicheRenseignement] = useState(null);
   const [conventionStage, setConventionStage] = useState(null);
-  const [lettreRecommandation, setLettreRecommandation] = useState(null);
+  const [lettreRecommandation, setLettreRecommandation] = useState("");
+  const [author, setAuthor] = useState("");
+  const [alert, setAlert] = useState(null);
   const [success, setSuccess] = useState(false);
   useEffect(() => {
     bsCustomFileInput.init();
     getUser(match.params.id);
   }, []);
-  const handleImageUpload = async event => {
-    const imageFile = event.target.files[0];
-
+  const handleImageUpload = async () => {
+    // const imageFile = event.target.files[0];
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
       useWebWorker: true
     };
     try {
-      const compressedFile = await imageCompression(imageFile, options);
-      setProfilePic(compressedFile);
+      let compressedFile;
+      if (profilePic !== null) {
+        compressedFile = await imageCompression(profilePic, options);
+        setProfilePic(compressedFile);
+      }
     } catch (error) {
       console.error(error);
     }
   };
-  const onChange = e => {
-    if (e.target.name === "renseignement") {
-      if (e.target.files.length > 0) {
-        if (e.target.files.length === 1) {
-          setFicheRenseignement(e.target.files[0]);
-        }
-      }
-    }
-    if (e.target.name === "convention") {
-      if (e.target.files.length > 0) {
-        if (e.target.files.length === 1) {
-          setConventionStage(e.target.files[0]);
-        }
-      }
-    }
-    if (e.target.name === "recommandation") {
-      if (e.target.files.length > 0) {
-        if (e.target.files.length === 1) {
-          setLettreRecommandation(e.target.files[0]);
-        }
+  const checkPassword = (pass, new_pass, confirm_pass) => {
+    if (pass === "" && (new_pass !== "" || confirm_pass !== "")) {
+      setAlert({
+        msg: "Veuillez entrer un mot de passe.",
+        type: "error"
+      });
+      setTimeout(() => setAlert(null), 5000);
+    } else {
+      if (new_pass !== confirm_pass) {
+        setAlert({
+          msg: "Vos mots de passe ne correspondent pas.",
+          type: "error",
+          field: "password"
+        });
+        setTimeout(() => setAlert(null), 5000);
+        return;
       }
     }
   };
-  const onSubmit = e => {
+  const checkRecommandation = (rec_text, rec_author) => {
+    if (
+      (rec_text === "" && rec_author !== "") ||
+      (rec_text !== "" && rec_author === "")
+    ) {
+      setAlert({
+        msg: "Veuillez remplir les deux champs",
+        type: "error",
+        field: "recommandation"
+      });
+      setTimeout(() => setAlert(null), 5000);
+      return;
+    }
+  };
+  const onSubmit = async e => {
     e.preventDefault();
+    await handleImageUpload();
+    checkPassword(oldPassword, newPassword, confirmPassword);
+    checkRecommandation(lettreRecommandation, author);
     const data = {
-      name,
+      company_name: name,
       poste,
       description,
       start_date,
@@ -130,62 +169,149 @@ const ProfileForm = ({
       confirm_password: confirmPassword,
       fiche_renseignement: ficheRenseignement,
       convention_stage: conventionStage,
-      lettre_recommandation: lettreRecommandation
+      lettre_recommandation: lettreRecommandation,
+      author
     };
     console.log(data);
     // updateUser(data, auth.user.id, history);
-  };
-  const showAlert = (style, error) => {
-    return (
-      <div className={style} role="alert">
-        {error}
-        <button
-          type="button"
-          className="close"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    );
+    updateUser(data, auth.user.id);
   };
   if (loading || users === null) {
     return <h3>Chargement...</h3>;
   }
+  console.log(alert);
+
   return (
     <Container fixed>
+      <Alert alert={alert} />
       <Grid className={classes.root} container item xs={12}>
         <Card className={classes.card}>
           <CardHeader
             title={
               <Typography variant="h6" component="h6">
-                Editer son Mot de passe
+                Editer ses informations
               </Typography>
             }
           />
           <CardContent>
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              placeholder="Ancien Mot de passe"
-              label="Ancien Mot de passe"
-              onClick={e => setOldPassword(e.target.value)}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              placeholder="Nouveau Mot de passe"
-              label="Nouveau Mot de passe"
-              onClick={e => setNewPassword(e.target.value)}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              placeholder="Confirmation du Mot de passe"
-              label="Confirmation du Mot de passe"
-              onClick={e => setConfirmPassword(e.target.value)}
-            />
+            <Typography variant="body2" component="h5">
+              Mot de passe
+            </Typography>
+            {alert && alert.type === "error" && alert.field === "password" ? (
+              <Fragment>
+                <TextField
+                  error
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Ancien Mot de passe"
+                  label="Ancien Mot de passe"
+                  type="password"
+                  value={oldPassword}
+                  onChange={e => setOldPassword(e.target.value)}
+                />
+                <TextField
+                  error
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Nouveau Mot de passe"
+                  label="Nouveau Mot de passe"
+                  type="password"
+                  value={newPassword}
+                  onChange={e => setNewPassword(e.target.value)}
+                />
+                <TextField
+                  error
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Confirmation du Mot de passe"
+                  label="Confirmation du Mot de passe"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                />
+              </Fragment>
+            ) : (
+              <Fragment>
+                <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Ancien Mot de passe"
+                  label="Ancien Mot de passe"
+                  type="password"
+                  value={oldPassword}
+                  onChange={e => setOldPassword(e.target.value)}
+                />
+                <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Nouveau Mot de passe"
+                  label="Nouveau Mot de passe"
+                  type="password"
+                  value={newPassword}
+                  onChange={e => setNewPassword(e.target.value)}
+                />
+                <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Confirmation du Mot de passe"
+                  label="Confirmation du Mot de passe"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                />
+              </Fragment>
+            )}
+            <Divider className={classes.divider} />
+            <Typography variant="body2" component="h5">
+              Recommandations
+            </Typography>
+            {alert &&
+            alert.type === "error" &&
+            alert.field === "recommandation" ? (
+              <Fragment>
+                <TextField
+                  error
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Entrer une lettre de recommandation"
+                  label="Lettre de recommandation"
+                  value={lettreRecommandation}
+                  multiline
+                  rows={4}
+                  onChange={e => setLettreRecommandation(e.target.value)}
+                />
+                <TextField
+                  error
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Entrer l'auteur de cette recommandation"
+                  label="Auteur"
+                  value={author}
+                  onChange={e => setAuthor(e.target.value)}
+                />
+              </Fragment>
+            ) : (
+              <Fragment>
+                <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Entrer une lettre de recommandation"
+                  label="Lettre de recommandation"
+                  value={lettreRecommandation}
+                  multiline
+                  rows={4}
+                  onChange={e => setLettreRecommandation(e.target.value)}
+                />
+                <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  placeholder="Entrer l'auteur de cette recommandation"
+                  label="Auteur"
+                  value={author}
+                  onChange={e => setAuthor(e.target.value)}
+                />
+              </Fragment>
+            )}
           </CardContent>
         </Card>
 
@@ -197,28 +323,38 @@ const ProfileForm = ({
               </Typography>
             }
           />
-          <CardContent>
-            <TextField
+          <CardContent className={classes.cardContent}>
+            <input
+              accept="application/pdf"
               className={classes.textField}
-              variant="outlined"
-              placeholder="Ancien Mot de passe"
-              label="Ancien Mot de passe"
-              onClick={e => setOldPassword(e.target.value)}
+              type="file"
+              style={{ display: "none" }}
+              id="convention"
+              name="convention"
+              onChange={e => setConventionStage(e.target.files[0])}
             />
-            <TextField
+            <label htmlFor="convention">
+              <Button variant="contained" component="span">
+                Convention de stage
+                <CloudUploadIcon className={classes.rightIcon} />
+              </Button>
+            </label>
+
+            <input
+              accept="application/pdf"
               className={classes.textField}
-              variant="outlined"
-              placeholder="Nouveau Mot de passe"
-              label="Nouveau Mot de passe"
-              onClick={e => setNewPassword(e.target.value)}
+              style={{ display: "none" }}
+              id="renseignement"
+              name="renseignement"
+              type="file"
+              onChange={e => setFicheRenseignement(e.target.files[0])}
             />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              placeholder="Confirmation du Mot de passe"
-              label="Confirmation du Mot de passe"
-              onClick={e => setConfirmPassword(e.target.value)}
-            />
+            <label htmlFor="renseignement">
+              <Button variant="contained" component="span">
+                Fiche de renseignement
+                <CloudUploadIcon className={classes.rightIcon} />
+              </Button>
+            </label>
           </CardContent>
         </Card>
 
@@ -237,7 +373,7 @@ const ProfileForm = ({
               placeholder="Nom de l'entreprise"
               label="Nom de l'entreprise"
               value={name}
-              onClick={e => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
             />
             <TextField
               className={classes.textField}
@@ -245,7 +381,7 @@ const ProfileForm = ({
               placeholder="Nom du poste"
               label="Nom du poste"
               value={poste}
-              onClick={e => setPoste(e.target.value)}
+              onChange={e => setPoste(e.target.value)}
             />
             <TextField
               className={classes.textField}
@@ -254,7 +390,7 @@ const ProfileForm = ({
               label="Description du poste"
               multiline
               value={description}
-              onClick={e => setDescription(e.target.value)}
+              onChange={e => setDescription(e.target.value)}
             />
             <MuiPickersUtilsProvider utils={MomentUtils} locale="fr">
               <KeyboardDatePicker

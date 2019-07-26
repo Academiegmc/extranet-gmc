@@ -135,7 +135,6 @@ const Navbar = ({ users, auth, logout, history }) => {
   }
 
   const menuId = "primary-search-account-menu";
-  // console.log(history.location.pathname);
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -159,7 +158,7 @@ const Navbar = ({ users, auth, logout, history }) => {
         <RouterLink
           className={classes.links}
           style={{ color: "inherit" }}
-          to={`/stage/${auth.user.id}`}
+          to={`/stage/${auth.isAuthenticated ? auth.user.id : ""}`}
         >
           Stage
         </RouterLink>

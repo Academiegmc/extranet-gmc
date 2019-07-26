@@ -32,6 +32,7 @@ export default (state = initialState, action) => {
     case UPDATE_USER:
       return {
         ...state,
+        loading: false,
         user: action.payload
       };
     case GET_USER_ADS:

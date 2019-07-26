@@ -106,7 +106,7 @@ export const updateUser = (userData, authID, history) => async dispatch => {
   try {
     setLoading();
     let formData = new FormData();
-    formData.append("name", userData.name);
+    formData.append("company_name", userData.name);
     formData.append("poste", userData.poste);
     formData.append("description", userData.description);
     formData.append("start_date", userData.start_date);
@@ -117,9 +117,10 @@ export const updateUser = (userData, authID, history) => async dispatch => {
     formData.append("renseignement", userData.fiche_renseignement);
     formData.append("convention", userData.convention_stage);
     formData.append("recommandation", userData.lettre_recommandation);
+    formData.append("author", userData.author);
     const res = await axios.put(`${userUrl}`, formData);
     dispatch({ type: UPDATE_USER, payload: res.data });
-    history.push(`/profile/${authID}`);
+    // history.push(`/profile/${authID}`);
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }

@@ -8,9 +8,17 @@ const UserSchema = new Schema({
   admin: { type: Boolean, default: false },
   status: { type: Number, required: true },
   profile_pic: { type: Schema.Types.ObjectId, ref: "UserFiles" },
-  experiences: { type: [{ type: Schema.Types.ObjectId, ref: "UserFiles" }] },
+  experiences: [
+    {
+      company_name: { type: String, required: true },
+      poste: { type: String, required: true },
+      descritpion: { type: String, required: true },
+      start_date: { type: Date, required: true },
+      end_date: { type: Date, required: true }
+    }
+  ],
   convention: { type: Schema.Types.ObjectId, ref: "UserFiles" },
-  letters: { type: [{ type: Schema.Types.ObjectId, ref: "UserFiles" }] },
+  letters: [{ type: Schema.Types.ObjectId, ref: "gmc-letters" }],
   personal_sheet: { type: Schema.Types.ObjectId, ref: "UserFiles" }
 });
 /*

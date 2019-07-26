@@ -5,6 +5,7 @@ const User = require("../models/User");
 const Job = require("../models/Job");
 const News = require("../models/News");
 const Ad = require("../models/Ad");
+const Letter = require("../models/Letter");
 const UserFiles = require("../models/User-GFS");
 const ErrorMessage = require("../config/error-messages");
 const utils = require("../config/utils");
@@ -77,6 +78,8 @@ const Users = {
   update: async (req, res) => {
     const user = await User.findById(req.user.id);
     const salt = 10;
+    console.log(req.body);
+    console.log(req.files);
     if (!user) return res.status(404).send(ErrorMessage.userNotFound);
     if (
       req.files.profile_pic !== undefined &&
@@ -89,25 +92,27 @@ const Users = {
       user.profile_pic = req.files.profile_pic[0].id;
     }
     if (req.files.convention !== undefined && req.files.convention.length > 0) {
-      await deleteFile(user.convention, UserFiles);
       user.convention = req.files.convention[0].id;
     }
     if (
       req.files.renseignement !== undefined &&
       req.files.renseignement.length > 0
     ) {
-      await deleteFile(user.personal_sheet, UserFiles);
       user.personal_sheet = req.files.renseignement[0].id;
     }
-    if (
-      req.files.recommandation !== undefined &&
-      req.files.recommandation.length > 0
-    ) {
-      req.files.recommandation.map(letter => user.letters.push(letter.id));
+    if (req.body.lettre_recommandation !== "" && req.body.author !== "") {
+      const letter = new Letter({
+        author: req.body.author,
+        text: req.body.recommandation
+      });
+      console.log(letter);
+      // await letter.save();
+      user.letters.push(letter._id);
     }
-    const userSaved = await user.save();
-    if (!userSaved) return res.status(400).json({ success: false });
-    res.status(200).json({ success: true, user: await userSaved.getInfos() });
+    console.log(user);
+    // const userSaved = await user.save();
+    // if (!userSaved) return res.status(400).json({ success: false });
+    // res.status(200).json({ success: true, user: await userSaved.getInfos() });
   },
   delete: async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.id);
@@ -139,7 +144,7 @@ const Users = {
     }
   },
   login: async (req, res) => {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(401).send(ErrorMessage.userNotFound);
     const passwordIsValid = bcrypt.compareSync(
       req.body.password,
