@@ -97,6 +97,7 @@ const ProfileForm = ({
   const [lettreRecommandation, setLettreRecommandation] = useState("");
   const [author, setAuthor] = useState("");
   const [alert, setAlert] = useState(null);
+  const [errorFields, setErrorFields] = useState(null);
   const [success, setSuccess] = useState(false);
   useEffect(() => {
     bsCustomFileInput.init();
@@ -152,11 +153,76 @@ const ProfileForm = ({
       return;
     }
   };
+  const checkExperience = (
+    comp_name,
+    comp_job_name,
+    comp_desc,
+    comp_start_date,
+    comp_end_date
+  ) => {
+    let errorTab = [];
+    if (
+      comp_name === "" &&
+      (comp_desc !== "" ||
+        comp_job_name !== "" ||
+        comp_start_date !== null ||
+        comp_end_date !== null)
+    ) {
+      errorTab.push("company_name");
+    }
+    if (
+      comp_desc === "" &&
+      (comp_name !== "" ||
+        comp_job_name !== "" ||
+        comp_start_date !== null ||
+        comp_end_date !== null)
+    ) {
+      errorTab.push("company_description");
+    }
+    if (
+      comp_job_name === "" &&
+      (comp_name !== "" ||
+        comp_desc !== "" ||
+        comp_start_date !== null ||
+        comp_end_date !== null)
+    ) {
+      errorTab.push("company_job_name");
+    }
+    if (
+      comp_start_date === null &&
+      (comp_name !== "" ||
+        comp_desc !== "" ||
+        comp_job_name !== "" ||
+        comp_end_date !== null)
+    ) {
+      errorTab.push("company_start_date");
+    }
+    if (
+      comp_end_date === null &&
+      (comp_name !== "" ||
+        comp_desc !== "" ||
+        comp_job_name !== "" ||
+        comp_start_date !== null)
+    ) {
+      errorTab.push("company_end_date");
+    }
+    setErrorFields(errorTab);
+    if (errorTab.length > 0) {
+      setAlert({
+        msg: "Veuillez corriger les informations rentrées dans le formulaire",
+        type: "error",
+        field: errorTab
+      });
+      setTimeout(() => setAlert(null), 5000);
+      return;
+    }
+  };
   const onSubmit = async e => {
     e.preventDefault();
     await handleImageUpload();
     checkPassword(oldPassword, newPassword, confirmPassword);
     checkRecommandation(lettreRecommandation, author);
+    checkExperience(name, poste, description, start_date, end_date);
     const data = {
       company_name: name,
       poste,
@@ -172,14 +238,22 @@ const ProfileForm = ({
       lettre_recommandation: lettreRecommandation,
       author
     };
-    console.log(data);
-    // updateUser(data, auth.user.id, history);
+    // console.log(data);
+    console.log(errorFields);
     updateUser(data, auth.user.id);
+    if (errorFields && errorFields.length === 0) {
+      setAlert({
+        msg: "Vos informations ont été modifiées !",
+        type: "success",
+        field: []
+      });
+      setTimeout(() => setAlert(null), 5000);
+    }
   };
   if (loading || users === null) {
     return <h3>Chargement...</h3>;
   }
-  console.log(alert);
+  // console.log(alert);
 
   return (
     <Container fixed>
@@ -367,58 +441,147 @@ const ProfileForm = ({
             }
           />
           <CardContent>
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              placeholder="Nom de l'entreprise"
-              label="Nom de l'entreprise"
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              placeholder="Nom du poste"
-              label="Nom du poste"
-              value={poste}
-              onChange={e => setPoste(e.target.value)}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              placeholder="Description du poste"
-              label="Description du poste"
-              multiline
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-            />
+            {errorFields && errorFields.includes("company_name") ? (
+              <TextField
+                error
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Nom de l'entreprise"
+                label="Nom de l'entreprise"
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
+            ) : (
+              <TextField
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Nom de l'entreprise"
+                label="Nom de l'entreprise"
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
+            )}
+
+            {errorFields && errorFields.includes("company_job_name") ? (
+              <TextField
+                error
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Nom du poste"
+                label="Nom du poste"
+                value={poste}
+                onChange={e => setPoste(e.target.value)}
+              />
+            ) : (
+              <TextField
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Nom du poste"
+                label="Nom du poste"
+                value={poste}
+                onChange={e => setPoste(e.target.value)}
+              />
+            )}
+            {errorFields && errorFields.includes("company_description") ? (
+              <TextField
+                error
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Description du poste"
+                label="Description du poste"
+                multiline
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+              />
+            ) : (
+              <TextField
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Description du poste"
+                label="Description du poste"
+                multiline
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+              />
+            )}
             <MuiPickersUtilsProvider utils={MomentUtils} locale="fr">
-              <KeyboardDatePicker
-                margin="normal"
-                id="start-date"
-                label="Date de début"
-                value={start_date}
-                onChange={setStart_date}
-                KeyboardButtonProps={{
-                  "aria-label": "change date"
-                }}
-              />
-              <KeyboardDatePicker
-                margin="normal"
-                id="end-date"
-                label="Date de fin"
-                value={end_date}
-                onChange={setEnd_date}
-                KeyboardButtonProps={{
-                  "aria-label": "change date"
-                }}
-              />
+              {errorFields && errorFields.includes("company_start_date") ? (
+                <KeyboardDatePicker
+                  error
+                  margin="normal"
+                  id="start-date"
+                  label="Date de début"
+                  value={start_date}
+                  onChange={setStart_date}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date"
+                  }}
+                />
+              ) : (
+                <KeyboardDatePicker
+                  margin="normal"
+                  id="start-date"
+                  label="Date de début"
+                  value={start_date}
+                  onChange={setStart_date}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date"
+                  }}
+                />
+              )}
+              {errorFields && errorFields.includes("company_end_date") ? (
+                <KeyboardDatePicker
+                  error
+                  margin="normal"
+                  id="end-date"
+                  label="Date de fin"
+                  value={end_date}
+                  onChange={setEnd_date}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date"
+                  }}
+                />
+              ) : (
+                <KeyboardDatePicker
+                  margin="normal"
+                  id="end-date"
+                  label="Date de fin"
+                  value={end_date}
+                  onChange={setEnd_date}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date"
+                  }}
+                />
+              )}
             </MuiPickersUtilsProvider>
           </CardContent>
         </Card>
-        <Button className={classes.btn} onClick={onSubmit} variant="outlined">
-          Modifier ses informations
-        </Button>
+        {name !== "" ||
+        poste !== "" ||
+        description !== "" ||
+        start_date !== null ||
+        end_date !== null ||
+        profilePic !== null ||
+        oldPassword !== "" ||
+        newPassword !== "" ||
+        confirmPassword !== "" ||
+        ficheRenseignement !== null ||
+        conventionStage !== null ||
+        lettreRecommandation !== "" ||
+        author !== "" ? (
+          <Button className={classes.btn} onClick={onSubmit} variant="outlined">
+            Modifier ses informations
+          </Button>
+        ) : (
+          <Button
+            disabled
+            className={classes.btn}
+            onClick={onSubmit}
+            variant="outlined"
+          >
+            Modifier ses informations
+          </Button>
+        )}
       </Grid>
     </Container>
     // <div className="container">
