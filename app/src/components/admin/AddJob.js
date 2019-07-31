@@ -1,310 +1,319 @@
-import React, { PureComponent } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Moment from "moment";
 import ReturnButton from "../layout/ReturnButton";
 import { connect } from "react-redux";
 import { getAJob, updateJob, createJob } from "../../actions/jobActions";
-import "./AddJob.css";
-class AddJob extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      jobTitle: "",
-      jobDescription: "",
-      jobContractType: "Stage",
-      jobType: "Temps plein",
-      jobRemuneration: "Tarif conventionnel",
-      jobStartDate: "",
-      jobSkills: "",
-      jobCity: "",
-      jobCountry: "France",
-      jobCompany: "",
-      jobCompanyDescription: "",
-      jobCompanySite: "",
-      isLoaded: false
-    };
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.dissmissAlert = this.dissmissAlert.bind(this);
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      Object.keys(this.props.jobs.job).length > 0 &&
-      this.props.jobs.job.constructor === Object &&
-      !Object.is(this.props.jobs.job, prevProps.jobs.job)
-    ) {
-      if (
-        this.props.jobs.job.jobSkills &&
-        this.props.jobs.job.jobSkills.constructor === Array &&
-        this.props.jobs.job.jobSkills.length > 0
-      ) {
-        this.props.jobs.job.jobSkills = this.props.jobs.job.jobSkills.join();
-      }
-      this.setState({
-        jobTitle: this.props.jobs.job.jobTitle,
-        jobDescription: this.props.jobs.job.jobDescription,
-        jobContractType: this.props.jobs.job.jobContractType,
-        jobType: this.props.jobs.job.jobType,
-        jobRemuneration: this.props.jobs.job.jobRemuneration,
-        jobStartDate: this.props.jobs.job.jobStartDate,
-        jobSkills: this.props.jobs.job.jobSkills,
-        jobCity: this.props.jobs.job.jobCity,
-        jobCountry: this.props.jobs.job.jobCountry,
-        jobCompany: this.props.jobs.job.jobCompany,
-        jobCompanyDescription: this.props.jobs.job.jobCompanyDescription,
-        jobCompanySite: this.props.jobs.job.jobCompanySite,
-        isLoaded: this.props.jobs.isLoaded
-      });
-    }
-  }
+import {
+  makeStyles,
+  Container,
+  Card,
+  CardHeader,
+  Typography,
+  CardContent,
+  TextField,
+  NativeSelect,
+  Input,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Divider,
+  Button
+} from "@material-ui/core";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from "@material-ui/pickers";
+import MomentUtils from "@date-io/moment";
+import "moment/locale/fr";
 
-  componentDidMount() {
-    if (this.props.match.path === "/job/edit/:id") {
-      this.props.getAJob(this.props.match.params.id);
-    }
+import Alert from "../layout/Alert";
+import "./AddJob.css";
+
+const useStyle = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexFlow: "column wrap",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  },
+  input: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: "100%"
+  },
+  divider: {
+    width: "100%",
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: "black"
+  },
+  btn: {
+    width: "100%",
+    padding: theme.spacing(1),
+    backgroundColor: "#C9B8B7",
+    color: "white"
   }
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-  onSubmit = e => {
+}));
+const AddJob = ({
+  jobs,
+  getAJob,
+  createJob,
+  updateJob,
+  loading,
+  match,
+  history
+}) => {
+  const classes = useStyle();
+  const updateUrl = "/job/edit/:id";
+  const createUrl = "/admin/job";
+  const inputLabel = useRef(null);
+  const [labelWidth, setLabelWidth] = useState(0);
+  const [jobTitle, setJobTitle] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [jobContractType, setJobContractType] = useState("");
+  const [jobType, setJobType] = useState("");
+  const [jobRemuneration, setJobRemuneration] = useState("");
+  const [jobStartDate, setJobStartDate] = useState(null);
+  const [jobSkills, setJobSkills] = useState("");
+  const [jobCity, setJobCity] = useState("");
+  const [jobCountry, setJobCountry] = useState("");
+  const [jobCompany, setJobCompany] = useState("");
+  const [jobCompanyDescription, setJobCompanyDescription] = useState("");
+  const [jobCompanySite, setJobCompanySite] = useState("");
+  const [alert, setAlert] = useState(null);
+  useEffect(() => {
+    setLabelWidth(inputLabel.current.offsetWidth);
+    if (match.path === updateUrl) {
+      getAJob(match.params.id);
+    }
+  }, []);
+  const onSubmit = e => {
     e.preventDefault();
-    if (this.props.match.path === "/job/edit/:id") {
-      this.props.updateJob(
-        this.props.match.params.id,
-        this.state,
-        this.props.history
-      );
+    if (match.path === updateUrl) {
+      const newJob = {};
+      updateJob(match.params.id, newJob, history);
+      setAlert({
+        msg: "Les informations ont été modifiées !",
+        type: "success",
+        field: []
+      });
+      setTimeout(() => setAlert(null), 5000);
     }
-    if (this.props.match.path === "/admin/job") {
-      this.props.createJob(this.state, this.props.history);
+    if (match.path === createUrl) {
+      const newJob = {};
+      createJob(newJob, history);
+      setAlert({
+        msg: "Le job a été créé avec succès !",
+        type: "success",
+        field: []
+      });
+      setTimeout(() => setAlert(null), 5000);
     }
   };
-  dissmissAlert = () => {
+  const dissmissAlert = () => {
     this.setState({ isLoaded: false });
   };
-  render() {
-    let alert;
-    if (this.state.isLoaded) {
-      alert = (
-        <div
-          className="alert alert-success alert-dismissible fade show"
-          role="alert"
-        >
-          <strong>Job modifié !</strong>
-          <button
-            type="button"
-            className="close"
-            data-dismiss="alert"
-            aria-label="Close"
-            onClick={this.dissmissAlert}
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      );
-    }
-    return (
-      <div className="container mt-3">
-        {alert}
-        <ReturnButton history={this.props.history} />
-        <form
-          className="form-shadow card rounded p-3 flex-column flex-center"
-          onSubmit={this.onSubmit}
-        >
-          <h5>Poste</h5>
-          <div className="form-group">
-            <label htmlFor="jobTitle">Titre</label>
-            <input
-              type="text"
-              className="form-control"
-              id="jobTitle"
-              name="jobTitle"
+  if (loading) {
+    return <h1>Chargement...</h1>;
+  }
+  return (
+    <Container className={classes.root}>
+      <Alert alert={alert} />
+      <ReturnButton history={history} />
+      <Card>
+        <CardHeader
+          title={
+            <Typography variant="h3" component="h3">
+              Ajouter un job
+            </Typography>
+          }
+        />
+        <CardContent>
+          <form className={classes.input} onSubmit={onSubmit}>
+            <Typography variant="h5" component="h5">
+              Poste
+            </Typography>
+            <TextField
+              className={classes.input}
               aria-describedby="jobTitleHelp"
+              label="Intitulé du poste"
               placeholder="Intitulé du poste"
-              onChange={this.onChange}
-              value={this.state.jobTitle}
+              onChange={e => setJobTitle(e.target.value)}
+              value={jobTitle}
+              variant="outlined"
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="jobDescription">Description du poste</label>
-            <textarea
-              type="text"
-              className="form-control"
-              id="jobDescription"
-              name="jobDescription"
+            <TextField
+              className={classes.input}
               aria-describedby="jobDescriptionHelp"
+              label="Description du poste"
               placeholder="Description du poste"
-              onChange={this.onChange}
-              value={this.state.jobDescription}
+              onChange={e => setJobDescription(e.target.value)}
+              value={jobDescription}
+              variant="outlined"
             />
-          </div>
-
-          <div className="form-row">
-            <div className="col form-group">
-              <label htmlFor="jobContractType">Type de contrat</label>
-              <select
-                type="text"
-                className="form-control"
-                id="jobContractType"
-                name="jobContractType"
-                aria-describedby="jobContractTypeHelp"
-                placeholder="Type de contrat"
-                onChange={this.onChange}
-                value={this.state.jobContractType}
+            <FormControl variant="outlined" className={classes.input}>
+              <InputLabel ref={inputLabel} htmlFor="jobDescription">
+                Type de contrat
+              </InputLabel>
+              <NativeSelect
+                value={jobContractType}
+                onChange={e => setJobContractType(e.target.value)}
+                input={
+                  <OutlinedInput name="jobDescription" id="jobDescription" />
+                }
               >
+                <option value="" />
                 <option value="stage">Stage</option>
                 <option value="cdi">CDI</option>
                 <option value="cdd">CDD</option>
                 <option value="ca">Contrat d'apprentissage</option>
                 <option value="cp">Contrat de professionnalisation</option>
-              </select>
-            </div>
+              </NativeSelect>
+            </FormControl>
 
-            <div className="col form-group">
-              <label htmlFor="jobType">Durée de travail</label>
-              <select
-                type="text"
-                className="form-control"
-                id="jobType"
-                name="jobType"
-                aria-describedby="jobTypeHelp"
-                placeholder="Durée de travail"
-                onChange={this.onChange}
-                value={this.state.jobType}
+            <FormControl variant="outlined" className={classes.input}>
+              <InputLabel ref={inputLabel} htmlFor="jobType">
+                Durée de travail
+              </InputLabel>
+              <NativeSelect
+                value={jobType}
+                onChange={e => setJobType(e.target.value)}
+                input={
+                  <OutlinedInput
+                    name="jobType"
+                    aria-describedby="jobTypeHelp"
+                    placeholder="Durée de travail"
+                  />
+                }
               >
+                <option value="" />
                 <option value="temps-plein">Temps plein</option>
                 <option value="temps-partiel">Temps partiel</option>
-              </select>
-            </div>
-          </div>
+              </NativeSelect>
+            </FormControl>
 
-          <div className="form-row">
-            <div className="col form-group">
-              <label htmlFor="jobRemuneration">Rémunération</label>
-              <select
-                className="form-control"
-                id="jobRemuneration"
-                name="jobRemuneration"
-                aria-describedby="jobRemunerationHelp"
-                placeholder="Rémunération"
-                onChange={this.onChange}
-                value={this.state.jobRemuneration}
-              >
-                <option value="tarif-conventionnel">Tarif conventionnel</option>
-              </select>
-            </div>
-
-            <div className="col form-group">
-              <label htmlFor="jobStartDate">Date de départ</label>
-              <input
-                type="date"
-                className="form-control"
+            <TextField
+              className={classes.input}
+              aria-describedby="jobRemunerationHelp"
+              label="Rémunération"
+              placeholder="Rémunération"
+              onChange={e => setJobRemuneration(e.target.value)}
+              value={jobRemuneration}
+              variant="outlined"
+            />
+            <MuiPickersUtilsProvider utils={MomentUtils} locale="fr">
+              <KeyboardDatePicker
+                margin="normal"
                 id="jobStartDate"
-                name="jobStartDate"
-                aria-describedby="jobStartDateHelp"
-                placeholder="Date de départ"
-                onChange={this.onChange}
-                value={Moment(this.state.jobStartDate).format("YYYY-MM-DD")}
+                label="Date de début"
+                value={jobStartDate}
+                onChange={setJobStartDate}
+                KeyboardButtonProps={{
+                  "aria-label": "change date"
+                }}
               />
-            </div>
-          </div>
+            </MuiPickersUtilsProvider>
 
-          <div className="form-group">
-            <label htmlFor="jobSkills">Compétences clés</label>
-            <input
-              type="text"
-              className="form-control"
+            <TextField
+              className={classes.input}
+              label="Compétences clés"
               id="jobSkills"
               name="jobSkills"
               aria-describedby="jobSkillsHelp"
               placeholder="Compétences clés"
-              onChange={this.onChange}
-              value={this.state.jobSkills}
+              onChange={e => setJobSkills(e.target.value)}
+              value={jobSkills}
+              variant="outlined"
             />
-          </div>
 
-          <hr />
-          <h5>Localisation</h5>
-          <div className="form-row">
-            <div className="col form-group">
-              <label htmlFor="jobCity">Ville</label>
-              <input
-                type="text"
-                className="form-control"
-                id="jobCity"
-                name="jobCity"
-                aria-describedby="jobCityHelp"
-                placeholder="Ville"
-                onChange={this.onChange}
-                value={this.state.jobCity}
-              />
-            </div>
-
-            <div className="col form-group">
-              <label htmlFor="jobCountry">Pays</label>
-              <select
-                className="form-control"
-                id="jobCountry"
-                name="jobCountry"
-                aria-describedby="jobCountryHelp"
-                placeholder="Pays"
-                onChange={this.onChange}
-                value={this.state.jobCountry}
+            <Divider className={classes.divider} />
+            <Typography variant="h5" component="h5">
+              Localisation
+            </Typography>
+            <TextField
+              className={classes.input}
+              label="Ville"
+              id="jobCity"
+              name="jobCity"
+              aria-describedby="jobCityHelp"
+              placeholder="Ville"
+              onChange={e => setJobCity(e.target.value)}
+              value={jobCity}
+              variant="outlined"
+            />
+            <FormControl variant="outlined" className={classes.input}>
+              <InputLabel ref={inputLabel} htmlFor="jobCountry">
+                Pays
+              </InputLabel>
+              <NativeSelect
+                value={jobCountry}
+                onChange={e => setJobCountry(e.target.value)}
+                input={
+                  <OutlinedInput
+                    name="jobCountry"
+                    aria-describedby="jobCountryHelp"
+                    placeholder="Pays"
+                  />
+                }
               >
-                <option>France</option>
-              </select>
-            </div>
-          </div>
-          <hr />
-          <h5>Entreprise</h5>
-          <div className="form-group">
-            <label htmlFor="jobCompany">Nom de l'entreprise</label>
-            <input
-              type="text"
-              className="form-control"
+                <option value="" />
+                <option value="france">France</option>
+              </NativeSelect>
+            </FormControl>
+            <Divider className={classes.divider} />
+            <Typography variant="h5" component="h5">
+              Entreprise
+            </Typography>
+            <TextField
+              className={classes.input}
+              label="Nom de l'entreprise"
               id="jobCompany"
               name="jobCompany"
               aria-describedby="jobCompanyHelp"
               placeholder="Nom de l'entreprise"
-              onChange={this.onChange}
-              value={this.state.jobCompany}
+              onChange={e => setJobCompany(e.target.value)}
+              value={jobCompany}
+              variant="outlined"
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="jobCompanyDescription">
-              Description de l'entreprise
-            </label>
-            <textarea
-              type="text"
-              className="form-control"
+            <TextField
+              className={classes.input}
+              multiline
+              label="Description de l'entreprise"
               id="jobCompanyDescription"
               name="jobCompanyDescription"
               aria-describedby="jobCompanyDescriptionHelp"
               placeholder="Description de l'entreprise"
-              onChange={this.onChange}
-              value={this.state.jobCompanyDescription}
+              onChange={e => setJobCompanyDescription(e.target.value)}
+              value={jobCompanyDescription}
+              variant="outlined"
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="jobCompanySite">Site de l'entreprise</label>
-            <input
-              type="text"
-              className="form-control"
+            <TextField
+              className={classes.input}
+              label="Site de l'entreprise"
               id="jobCompanySite"
               name="jobCompanySite"
               aria-describedby="jobCompanySiteHelp"
               placeholder="Site de l'entreprise"
-              onChange={this.onChange}
-              value={this.state.jobCompanySite}
+              onChange={e => setJobCompanySite(e.target.value)}
+              value={jobCompanySite}
+              variant="outlined"
             />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Envoyer
-          </button>
-        </form>
-      </div>
-    );
-  }
-}
+            <Button className={classes.btn} variant="outlined">
+              Ajouter un job
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </Container>
+  );
+};
 
 const mapStateToprops = state => ({
   jobs: state.jobs

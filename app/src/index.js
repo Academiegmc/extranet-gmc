@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { Provider } from "react-redux";
-// import "./css/style.css";
 import "./index.css";
 import "moment/locale/fr";
 import * as serviceWorker from "./serviceWorker";

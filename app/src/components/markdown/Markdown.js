@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
-import clsx from "clsx";
 import TextareaAutosize from "react-autosize-textarea";
 import { makeStyles, Grid } from "@material-ui/core";
 import ReturnButton from "../layout/ReturnButton";

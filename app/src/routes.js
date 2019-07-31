@@ -28,19 +28,16 @@ const Routes = ({ errors: { errors } }) => {
   const [alert, setAlert] = useState(null);
   if (errors !== null) {
     console.log(errors);
-    // return <h3>{errors.message}</h3>;
     setAlert({ msg: errors.message, type: "error" });
     setTimeout(() => setAlert(null), 5000);
   }
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
-      {/* <Route path="/" component={App} /> */}
       <Route path="/" component={Navbar} />
       <Alert alert={alert} />
       <Route exact path="/" component={Landing} />
       <Route exact path="/profile/:id" component={requireAuth(Profile)} />
       <Route exact path="/stage/:id" component={requireAuth(Stages)} />
-      {/* <Route exact path="/profile/:id" component={Profile} /> */}
       <Route
         exact
         path="/trombinoscope"
