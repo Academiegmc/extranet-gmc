@@ -102,7 +102,7 @@ export const deleteUserAds = adId => async dispatch => {
   }
 };
 
-export const updateUser = (userData, authID, history) => async dispatch => {
+export const updateUser = userData => async dispatch => {
   try {
     setLoading();
     let formData = new FormData();
@@ -120,7 +120,6 @@ export const updateUser = (userData, authID, history) => async dispatch => {
     formData.append("author", userData.author);
     const res = await axios.put(`${userUrl}`, formData);
     dispatch({ type: UPDATE_USER, payload: res.data });
-    // history.push(`/profile/${authID}`);
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }

@@ -32,7 +32,8 @@ import "./Navbar.css";
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    flexGrow: 1
+    flexGrow: 1,
+    height: "10%"
   },
   menuButton: {
     marginRight: theme.spacing(2)

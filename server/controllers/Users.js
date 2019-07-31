@@ -106,13 +106,13 @@ const Users = {
         text: req.body.recommandation
       });
       console.log(letter);
-      // await letter.save();
+      await letter.save();
       user.letters.push(letter._id);
     }
     console.log(user);
-    // const userSaved = await user.save();
-    // if (!userSaved) return res.status(400).json({ success: false });
-    // res.status(200).json({ success: true, user: await userSaved.getInfos() });
+    const userSaved = await user.save();
+    if (!userSaved) return res.status(400).json({ success: false });
+    res.status(200).json({ success: true, user: await userSaved.getInfos() });
   },
   delete: async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.id);

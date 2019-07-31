@@ -26,9 +26,9 @@ _Ce texte_ est en italique
 
 <!-- Liens internet -->
 
-[Lien vers google](www.google.com)
+[Lien vers google](https://www.google.com)
 
-[Lien vers google avec titre](www.google.com, "Google")
+[Lien vers google avec titre](https://www.google.com "Google")
 
 <!-- Liste désordonnée -->
 
@@ -47,4 +47,4 @@ _Ce texte_ est en italique
 
 <!-- Images -->
 
-![Markdown Logo](https://images.unsplash.com/photo-1552254855-826f2c0a260c?ixlib=rb-1.2.1&auto=format&fit=crop&w=2700&q=80)
+![Markdown Logo](https://images.unsplash.com/photo-1552254855-826f2c0a260c?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80)

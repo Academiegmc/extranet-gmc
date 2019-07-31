@@ -14,7 +14,6 @@ const useStyles = makeStyles(theme => ({
 }));
 const Alert = ({ alert }) => {
   const classes = useStyles();
-  console.log(alert);
   return (
     alert !== null && (
       <Paper

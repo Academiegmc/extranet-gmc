@@ -188,6 +188,7 @@ const Profile = ({
   }
   return (
     <Container fixed>
+      <ReturnButton history={history} />
       <Grid className={classes.grid} container item xs={12}>
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
