@@ -208,9 +208,6 @@ const Profile = ({
               <Link className={classes.links} to="/admin/annonce">
                 Ajouter une annonce
               </Link>
-              <Link className={classes.links} to="/admin/news">
-                Ajouter une news
-              </Link>
             </div>
           </CardContent>
         </Card>

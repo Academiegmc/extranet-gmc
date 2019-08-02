@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -12,12 +12,30 @@ import { logout } from "../../actions/authActions";
 import { createAd, updateAd, getAnAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
 import Loading from "../layout/Loading";
-import { Grid, Button, makeStyles } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  makeStyles,
+  Card,
+  CardHeader,
+  Typography,
+  CardContent,
+  TextField,
+  Input,
+  FormControl,
+  InputLabel,
+  NativeSelect,
+  FormHelperText
+} from "@material-ui/core";
+import { Fragment } from "react";
+import Alert from "../layout/Alert";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    flexWrap: "wrap"
+    flexFlow: "column wrap",
+    justifyContent: "center",
+    alignItems: "center"
   },
   card: {
     maxWidth: "100%",
@@ -30,6 +48,10 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     fontFamily: "Lato"
   },
+  cardContent: {
+    display: "flex",
+    flexFlow: "column wrap"
+  },
   media: {
     height: 200
   },
@@ -39,10 +61,17 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "50%"
   },
   input: {
-    display: "none"
+    width: "100%",
+    marginTop: 20,
+    marginBottom: 20
   },
   rightIcon: {
     marginLeft: theme.spacing(1)
+  },
+  btn: {
+    padding: theme.spacing(1),
+    fontFamily: "Lato",
+    fontWeight: "500"
   }
 }));
 
@@ -53,6 +82,7 @@ const Form = ({
   history,
   errors,
   ads,
+  news,
   formTitle,
   titleInputName,
   titleInputPlaceholder,
@@ -69,28 +99,20 @@ const Form = ({
   const [category, setCategory] = useState("etude");
   const [images, setImages] = useState(null);
   const [triggerShadowEvent, setTriggerShadowEvent] = useState(false);
+  const [labelWidth, setLabelWidth] = useState(0);
+  const [alert, setAlert] = useState(null);
+
+  let inputLabel = useRef(null);
   useEffect(() => {
     bsCustomFileInput.init();
+    setLabelWidth(inputLabel.current.offsetWidth);
     if (match.path === "/annonce/edit/:id") {
       getAnAd(match.params.id);
     }
+    if (match.path === "/news/edit/:id") {
+      getANews(match.params.id);
+    }
   }, []);
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     title: "",
-  //     description: "",
-  //     category: "etude",
-  //     images: [],
-  //     errors: {},
-  //     loading: false,
-  //     triggerShadowEvent: false
-  //   };
-  //   this.handleImageUpload = this.handleImageUpload.bind(this);
-  //   this.onChange = this.onChange.bind(this);
-  //   this.onSubmit = this.onSubmit.bind(this);
-  //   this.triggerShadow = this.triggerShadow.bind(this);
-  // }
   const handleImageUpload = files => {
     const imagesTab = Object.values(files);
     const options = {
@@ -105,66 +127,46 @@ const Form = ({
         resTab.push(compressedFile);
       } catch (error) {
         console.error(error);
+        setAlert({
+          msg: "Veuillez uploader une photo !",
+          type: "error",
+          field: ["image"]
+        });
+        setTimeout(() => setAlert(null), 5000);
       }
     });
     setImages(resTab);
   };
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.errors) this.setState({ errors: nextProps.errors });
-  //   if (nextProps.ads.ad.data) {
-  //     this.setState({ title: nextProps.ads.ad.data.title });
-  //     this.setState({ description: nextProps.ads.ad.data.description });
-  //     this.setState({ category: nextProps.ads.ad.data.category });
-  //   }
-  //   if (nextProps.news.news.data) {
-  //     this.setState({ title: nextProps.news.news.data.title });
-  //     this.setState({ description: nextProps.news.news.data.description });
-  //     this.setState({ category: nextProps.news.news.data.category });
-  //   }
-  // }
-  // componentDidMount() {
-  //   bsCustomFileInput.init();
-  // if (this.props.match.path === "/annonce/edit/:id") {
-  //   this.props.getAnAd(this.props.match.params.id);
-  // }
-  //   if (this.props.match.path === "/news/edit/:id") {
-  //     this.props.getANews(this.props.match.params.id);
-  //   }
-  // }
   // triggerShadow(e) {
   //   this.setState({ triggerShadowEvent: !this.state.triggerShadowEvent });
   // }
   const onSubmit = e => {
     e.preventDefault();
-    const newAd = {
-      title,
-      description,
-      category,
-      images
-    };
-    createAd(newAd, history);
-    // if (match.path === "/admin/news") {
-    //   createNews({ images, description, title }, history);
-    // }
-    // if (match.path === "/news/edit/:id") {
-    //   updateNews(
-    //     match.params.id,
-    //     { images, description, title, images },
-    //     history
-    //   );
-    // }
-    // if (match.path === "/admin/annonce") {
-    //   const newAd = {
-    //     title,
-    //     description,
-    //     category,
-    //     images
-    //   };
-    //   createAd(newAd, history);
-    // }
-    // if (match.path === "/annonce/edit/:id") {
-    //   updateAd(match.params.id, { title, description, category }, history);
-    // }
+    let formErrors = [];
+    if (match.path === "/admin/annonce") {
+      if (title === "" || description === "") {
+        formErrors.push("title", "description");
+        setAlert({
+          msg: "Veuillez remplir les deux champs !",
+          type: "error",
+          field: formErrors
+        });
+        setTimeout(() => setAlert(null), 5000);
+      }
+      if (formErrors.length === 0) {
+        const newAd = {
+          title,
+          description,
+          category,
+          images
+        };
+        console.log(newAd);
+        createAd(newAd, history);
+      }
+    }
+    if (match.path === "/annonce/edit/:id") {
+      updateAd(match.params.id, { title, description, category }, history);
+    }
   };
   if (errors.status === 403) logout();
   let updateBtn;
@@ -188,120 +190,205 @@ const Form = ({
   if (loading) loading = <Loading />;
   else loading = null;
   return (
-    <div className="container">
+    <div className={classes.root}>
+      <Alert alert={alert} />
       <ReturnButton history={history} />
-      <form
-        className="flex-column flex-center card rounded form-shadow fade show p-5"
-        onSubmit={onSubmit}
-        onMouseEnter={() => setTriggerShadowEvent(!triggerShadowEvent)}
-        onMouseLeave={() => setTriggerShadowEvent(!triggerShadowEvent)}
-      >
-        <h5 className="text-center">{formTitle}</h5>
-        <div className="form-group-text">
-          <label htmlFor={titleInputName}>Titre</label>
-          <input
-            type="text"
-            className="form-control"
-            id={titleInputName}
-            name={titleInputName}
-            aria-describedby={titleInputAria}
-            placeholder={titleInputPlaceholder}
-            onChange={e => setTitle(e.target.value)}
-            value={title}
-          />
-        </div>
-
-        <div className="form-group-textarea">
-          <label htmlFor={descriptionInputName}>Description</label>
-          <textarea
-            className="form-control"
-            style={{ whiteSpace: "pre-wrap" }}
-            id={descriptionInputName}
-            name={descriptionInputName}
-            aria-describedby={descriptionInputAria}
-            placeholder={descriptionInputPlaceholder}
-            onChange={e => setDescription(e.target.value)}
-            value={description}
-          />
-        </div>
-        <Grid item xs>
-          <input
-            accept="image/*"
-            className={classes.input}
-            id="images"
-            name="images"
-            multiple
-            type="file"
-            onChange={e => handleImageUpload(e.target.files)}
-          />
-          <label htmlFor="images">
-            <Button variant="contained" component="span">
-              Upload
-              <CloudUploadIcon className={classes.rightIcon} />
-            </Button>
-          </label>
-        </Grid>
-
-        {isNews ? (
-          <div className="input-group mt-3 mb-3">
-            <div className="input-group-prepend">
-              <span className="input-group-text" id="inputGroupFileAddon01">
-                <i className="fas fa-file-pdf" />
-              </span>
-            </div>
-            <div className="custom-file">
-              <input
+      <Card>
+        <CardHeader
+          title={
+            <Typography variant="h5" component="h5">
+              {formTitle}
+            </Typography>
+          }
+        />
+        <CardContent className={classes.cardContent}>
+          <form
+            className=""
+            onSubmit={onSubmit}
+            onMouseEnter={() => setTriggerShadowEvent(!triggerShadowEvent)}
+            onMouseLeave={() => setTriggerShadowEvent(!triggerShadowEvent)}
+          >
+            {alert &&
+            alert.type === "error" &&
+            (alert.field.includes("title") ||
+              alert.field.includes("description")) ? (
+              <Fragment>
+                <TextField
+                  className={classes.input}
+                  id={titleInputName}
+                  name={titleInputName}
+                  onChange={e => setTitle(e.target.value)}
+                  value={title}
+                  label="Titre"
+                  placeholder={titleInputPlaceholder}
+                  aria-describedby={titleInputAria}
+                  error
+                />
+                <TextField
+                  className={classes.input}
+                  id={descriptionInputName}
+                  name={descriptionInputName}
+                  onChange={e => setDescription(e.target.value)}
+                  value={description}
+                  label="Description"
+                  multiline
+                  placeholder={descriptionInputPlaceholder}
+                  aria-describedby={descriptionInputAria}
+                  error
+                />
+              </Fragment>
+            ) : (
+              <Fragment>
+                <TextField
+                  className={classes.input}
+                  id={titleInputName}
+                  name={titleInputName}
+                  onChange={e => setTitle(e.target.value)}
+                  value={title}
+                  label="Titre"
+                  placeholder={titleInputPlaceholder}
+                  aria-describedby={titleInputAria}
+                />
+                <TextField
+                  className={classes.input}
+                  id={descriptionInputName}
+                  name={descriptionInputName}
+                  onChange={e => setDescription(e.target.value)}
+                  value={description}
+                  label="Description"
+                  multiline
+                  placeholder={descriptionInputPlaceholder}
+                  aria-describedby={descriptionInputAria}
+                />
+              </Fragment>
+            )}
+            {alert &&
+            alert.type === "error" &&
+            alert.field.includes("image") ? (
+              <FormControl className={classes.formControl} error>
+                <Input
+                  type="file"
+                  id="images"
+                  name="images"
+                  multiple
+                  error
+                  onChange={e => handleImageUpload(e.target.files)}
+                />
+                <FormHelperText id="component-error-text">
+                  Le fichier n'est pas une image.
+                </FormHelperText>
+              </FormControl>
+            ) : (
+              <Input
                 type="file"
-                className="custom-file-input"
-                accept="image/*"
                 id="images"
                 name="images"
                 multiple
-                onChange={handleImageUpload}
+                onChange={e => handleImageUpload(e.target.files)}
               />
-              <label
-                className="custom-file-label"
-                data-browse="Parcourir"
-                htmlFor="images"
-              >
-                Illustrez vos propos avec des images
-              </label>
-              <small>Types de fichiers autorisés: .jpg .png.</small>
-              <small>Taille maximum : 2Mo.</small>
-            </div>
-            {match.path === "/news/edit/:id" ? updateBtn : createBtn}
-          </div>
-        ) : (
-          <div className="form-group-select">
-            <label htmlFor="category">Catégorie</label>
-            <select
-              className="form-control"
-              id="category"
-              name="category"
-              aria-describedby="categoryHelp"
-              placeholder="Type de contrat"
-              onChange={e => setCategory(e.target.value)}
-              value={category}
-            >
-              <option value="etude">Etude</option>
-              <option value="loisir">Loisir</option>
-              <option value="cosmetique">Cosmétique</option>
-            </select>
-            {match.path === "/annonce/edit/:id" ? (
-              <button className="btn btn-primary" style={{ width: "100%" }}>
-                Modifier l'annonce
-              </button>
-            ) : (
-              <button
-                className="btn btn-primary"
-                style={{ width: "100%", marginTop: "2%" }}
-              >
-                Ajouter l'annonce
-              </button>
             )}
-          </div>
-        )}
-      </form>
+
+            {isNews ? (
+              <Typography variant="body1" component="p">
+                News
+              </Typography>
+            ) : (
+              // <div className="input-group mt-3 mb-3">
+              //   <div className="input-group-prepend">
+              //     <span className="input-group-text" id="inputGroupFileAddon01">
+              //       <i className="fas fa-file-pdf" />
+              //     </span>
+              //   </div>
+              //   <div className="custom-file">
+              //     <input
+              //       type="file"
+              //       className="custom-file-input"
+              //       accept="image/*"
+              //       id="images"
+              //       name="images"
+              //       multiple
+              //       onChange={handleImageUpload}
+              //     />
+              //     <label
+              //       className="custom-file-label"
+              //       data-browse="Parcourir"
+              //       htmlFor="images"
+              //     >
+              //       Illustrez vos propos avec des images
+              //     </label>
+              //     <small>Types de fichiers autorisés: .jpg .png.</small>
+              //     <small>Taille maximum : 2Mo.</small>
+              //   </div>
+              //   {match.path === "/news/edit/:id" ? updateBtn : createBtn}
+              // </div>
+              <Fragment>
+                <FormControl className={classes.input}>
+                  <InputLabel ref={inputLabel} htmlFor="category">
+                    Catégorie
+                  </InputLabel>
+                  <NativeSelect
+                    value={category}
+                    onChange={e => setCategory(e.target.value)}
+                    input={<Input name="category" id="category" />}
+                  >
+                    <option value="etude">Etude</option>
+                    <option value="loisir">Loisir</option>
+                    <option value="cosmetique">Cosmétique</option>
+                  </NativeSelect>
+                </FormControl>
+                {alert ? (
+                  <Button
+                    className={classes.btn}
+                    variant="contained"
+                    onClick={onSubmit}
+                    fullWidth
+                    disabled
+                  >
+                    Ajouter l'annonce
+                  </Button>
+                ) : (
+                  <Button
+                    className={classes.btn}
+                    variant="contained"
+                    onClick={onSubmit}
+                    fullWidth
+                  >
+                    Ajouter l'annonce
+                  </Button>
+                )}
+              </Fragment>
+              // <div className="form-group-select">
+              //   <label htmlFor="category">Catégorie</label>
+              //   <select
+              //     className="form-control"
+              //     id="category"
+              //     name="category"
+              //     aria-describedby="categoryHelp"
+              //     placeholder="Type de contrat"
+              //     onChange={e => setCategory(e.target.value)}
+              //     value={category}
+              //   >
+              // <option value="etude">Etude</option>
+              // <option value="loisir">Loisir</option>
+              // <option value="cosmetique">Cosmétique</option>
+              //   </select>
+              //   {match.path === "/annonce/edit/:id" ? (
+              //     <button className="btn btn-primary" style={{ width: "100%" }}>
+              //       Modifier l'annonce
+              //     </button>
+              //   ) : (
+              // <button
+              //   className="btn btn-primary"
+              //   style={{ width: "100%", marginTop: "2%" }}
+              // >
+              //   Ajouter l'annonce
+              // </button>
+              //   )}
+              // </div>
+            )}
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };

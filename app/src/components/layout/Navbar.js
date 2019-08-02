@@ -32,8 +32,7 @@ import "./Navbar.css";
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    flexGrow: 1,
-    height: "10%"
+    flexGrow: 1
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -42,33 +41,10 @@ const useStyles = makeStyles(theme => ({
     display: "none",
     margin: 2,
     color: "#717171",
+    fontWeight: 400,
     [theme.breakpoints.up("sm")]: {
       display: "block"
     }
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto"
-    }
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
   },
   inputRoot: {
     color: "inherit"
@@ -86,7 +62,8 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("md")]: {
       display: "flex",
       justifyContent: "space-between",
-      alignItems: "center"
+      alignItems: "center",
+      width: "30%"
     }
   },
   sectionMobile: {
