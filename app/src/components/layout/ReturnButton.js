@@ -1,19 +1,24 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "./ReturnButton.css";
-import { Button } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
-class ReturnButton extends Component {
-  render() {
-    const { history } = this.props;
-    return (
-      <Button onClick={history.goBack}>
-        <ArrowBack />
-        Retour
-      </Button>
-    );
+
+const useStyle = makeStyles(theme => ({
+  root: {
+    marginTop: 20,
+    marginBottom: 20
   }
-}
+}));
+const ReturnButton = ({ history }) => {
+  const classes = useStyle();
+  return (
+    <Button className={classes.root} onClick={history.goBack}>
+      <ArrowBack />
+      Retour
+    </Button>
+  );
+};
 
 ReturnButton.propTypes = {
   history: PropTypes.object.isRequired

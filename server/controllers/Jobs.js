@@ -10,7 +10,7 @@ const Jobs = {
   getAllJobs: async (req, res) => {
     let result;
     try {
-      const jobs = await Job.find().sort({ jobStartDate: -1 });
+      const jobs = await Job.find().sort({ createdAt: -1 });
       if (!jobs) return res.status(404).json({ success: false });
       result = jobs.map(async job => await job.getData());
       res.status(200).json(await Promise.all(result));
@@ -20,7 +20,9 @@ const Jobs = {
   },
   getAllUserAds: async (req, res) => {
     try {
-      const jobs = await Job.find({ user: req.params.id }).sort({ date: -1 });
+      const jobs = await Job.find({ user: req.params.id }).sort({
+        createdAt: -1
+      });
       if (!jobs) return res.status(404).json(err);
       let result = jobs.map(async job => await job.getData());
       res.status(200).json(await Promise.all(result));
@@ -136,11 +138,15 @@ const Jobs = {
       jobs = await Job.find({
         jobTitle: { $regex: new RegExp(q), $options: "mi" },
         jobContractType: { $regex: new RegExp(contractType), $options: "mi" }
-      }).limit(10);
+      })
+        .limit(10)
+        .sort({ createdAt: -1 });
     } else {
       jobs = await Job.find({
         jobTitle: { $regex: new RegExp(q), $options: "mi" }
-      }).limit(10);
+      })
+        .limit(10)
+        .sort({ createdAt: -1 });
     }
     if (!jobs) return res.status(400).json({});
     let result = jobs.map(async job => await job.getData());

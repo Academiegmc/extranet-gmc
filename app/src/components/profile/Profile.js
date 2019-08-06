@@ -87,6 +87,9 @@ const useStyles = makeStyles(theme => ({
       margin: "1rem",
       fontSize: "1.4rem"
     }
+  },
+  CardHeader: {
+    textAlign: "center"
   }
 }));
 
@@ -126,6 +129,7 @@ const Profile = ({
     allUserAds = userAds.map((ad, index) => (
       <Card key={index} className={classes.wAuto}>
         <CardHeader
+          className={classes.CardHeader}
           title={
             <Link to={`/annonce/${ad.id}`}>
               <Typography variant="h5" component="h5">
@@ -147,10 +151,11 @@ const Profile = ({
     allUserJobs = userJobs.map((job, index) => (
       <Card key={index} className={classes.wAuto}>
         <CardHeader
+          className={classes.CardHeader}
           title={
             <Link to={`/job/${job.id}`}>
               <Typography variant="h5" component="h5">
-                {job.title}
+                {job.jobTitle}
               </Typography>
             </Link>
           }
@@ -169,6 +174,7 @@ const Profile = ({
     allUserNews = userNews.map((news, index) => (
       <Card key={index} className={classes.wAuto}>
         <CardHeader
+          className={classes.CardHeader}
           title={
             <Link to={`/news/${news.id}`}>
               <Typography variant="h5" component="h5">

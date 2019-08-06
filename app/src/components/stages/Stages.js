@@ -1,16 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import {} from "../../actions/usersAction";
-// import Slider from "react-slick";
+import Slider from "react-slick";
 import Moment from "react-moment";
 import ReactModal from "react-modal";
 import ReactMarkdown from "react-markdown";
 import ReturnButton from "../layout/ReturnButton";
 import { getUser } from "../../actions/usersAction";
-import { Container, Grid, makeStyles } from "@material-ui/core";
+import {
+  Container,
+  Grid,
+  makeStyles,
+  Typography,
+  Divider,
+  Card,
+  CardContent
+} from "@material-ui/core";
 ReactModal.setAppElement(document.getElementById("root"));
 
 const useStyles = makeStyles(theme => ({
+  flex: {
+    display: "flex",
+    width: "100%",
+    height: "50%"
+  },
   grid: {
     display: "flex",
     flexFlow: "column wrap",
@@ -18,13 +31,27 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     alignItems: "center",
     margin: "auto",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       flexFlow: "row wrap"
+    }
+  },
+  item: {
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "50%"
     }
   },
   portrait: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    borderRadius: "50%",
+    [theme.breakpoints.up("md")]: {
+      width: "50%",
+      height: "50%"
+    }
+  },
+  divider: {
+    width: "100%"
   }
 }));
 
@@ -37,49 +64,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
     "inlineCode",
     "code"
   ]);
-  const [recommendations, setRecommendations] = useState([
-    {
-      message: "Très bon élément qui travaille bien !",
-      from: "Employeur 1"
-    },
-    {
-      message:
-        "Elément indispensable à notre équipe tout le temps où il était avec nous",
-      from: "Employeur 2"
-    },
-    {
-      message: "Elément indispensable !",
-      from: "Employeur 3"
-    }
-  ]);
   const [stages, setStages] = useState([]);
-  // constructor(props) {
-  //   super(props);
-  //   state = {
-  //     modalIsOpen: false,
-  //     user: {},
-  //     disallowedTypes: ["image", "html", "inlineCode", "code"],
-  //     recommendations: [
-  // {
-  //   message: "Très bon élément qui travaille bien !",
-  //   from: "Employeur 1"
-  // },
-  // {
-  //   message:
-  //     "Elément indispensable à notre équipe tout le temps où il était avec nous",
-  //   from: "Employeur 2"
-  // },
-  // {
-  //   message: "Elément indispensable !",
-  //   from: "Employeur 3"
-  // }
-  //     ],
-  //     stages: []
-  //   };
-  //   this.openModal = this.openModal.bind(this);
-  //   this.afterOpenModal = this.afterOpenModal.bind(this);
-  //   this.closeModal = this.closeModal.bind(this);
-  // }
   useEffect(() => {
     getUser(match.params.id);
   }, []);
@@ -96,13 +81,6 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
   const closeModal = () => {
     setModalIsOpen(false);
   };
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.users.user.user)
-  //     this.setState({ user: this.props.users.user.user });
-  // }
-  // componentDidMount() {
-  //   this.props.getUser(this.props.match.params.id);
-  // }
 
   if (loading || user === null) {
     return <h1>Chargement...</h1>;
@@ -152,84 +130,123 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
   } else {
     displayExperiences = <span>Ajoutez des expériences</span>;
   }
-  // const settings = {
-  //   adaptiveHeight: true,
-  //   dots: true,
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  //   initialSlide: 0,
-  //   responsive: [
-  //     {
-  //       breakpoint: 1024,
-  //       settings: {
-  //         slidesToShow: 3,
-  //         slidesToScroll: 3,
-  //         infinite: true,
-  //         dots: true
-  //       }
-  //     },
-  //     {
-  //       breakpoint: 600,
-  //       settings: {
-  //         slidesToShow: 2,
-  //         slidesToScroll: 2,
-  //         initialSlide: 2
-  //       }
-  //     },
-  //     {
-  //       breakpoint: 480,
-  //       settings: {
-  //         slidesToShow: 1,
-  //         slidesToScroll: 1
-  //       }
-  //     }
-  //   ]
-  // };
-  // let recommendTab = recommendations.map(
-  //   (recommendation, index) => (
-  //     <div key={index}>
-  //       <blockquote className="">
-  //         <p>{recommendation.message}</p>
-  //         <i>{recommendation.from}</i>
-  //       </blockquote>
-  //     </div>
-  //   )
-  // );
+  const settings = {
+    adaptiveHeight: true,
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+  let recommendTab = user.letters.map((letter, index) => (
+    <div key={letter._id}>
+      <blockquote className="">
+        <p>{letter.text}</p>
+        <i>{letter.author}</i>
+      </blockquote>
+    </div>
+  ));
   return (
-    <Container fixed>
-      <Grid className={classes.grid} container item xs={12}>
-        <Grid item xs={12}>
-          <img
-            className={classes.portrait}
-            src={`${process.env.REACT_APP_NODE_API}/api/users/image/${
-              user.profile_pic._id
-            }`}
-          />
-          {user.status === 0 ? (
-            <div>
-              <a
-                className="btn btn-primary"
-                href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
-                  user.personal_sheet._id
+    <Container className={classes.flex} fixed>
+      <Grid className={classes.grid} container>
+        <Grid className={classes.item} item xs={12} md={3}>
+          <Card>
+            <CardContent>
+              <img
+                className={classes.portrait}
+                src={`${process.env.REACT_APP_NODE_API}/api/users/image/${
+                  user.profile_pic._id
                 }`}
-              >
-                Fiche de renseignement
-              </a>
-              <a
-                className="btn btn-primary"
-                href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
-                  user.convention._id
-                }`}
-              >
-                Convention de stage
-              </a>
-              <button onClick={openModal} className="btn btn-primary">
-                Lettres de recommandations
-              </button>
-            </div>
-          ) : null}
+              />
+              <Typography variant="h6" component="h6">
+                {user.name}
+              </Typography>
+              {user.status === 0 ? (
+                <div>
+                  <a
+                    className="btn btn-primary"
+                    href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
+                      user.personal_sheet._id
+                    }`}
+                  >
+                    Fiche de renseignement
+                  </a>
+                  <a
+                    className="btn btn-primary"
+                    href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
+                      user.convention._id
+                    }`}
+                  >
+                    Convention de stage
+                  </a>
+                  <button onClick={openModal} className="btn btn-primary">
+                    Lettres de recommandations
+                  </button>
+                </div>
+              ) : null}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid className={classes.item} item xs={12} md={9}>
+          <Card>
+            <CardContent>
+              {user.experiences.length > 0 ? (
+                <Fragment>
+                  <Typography variant="h5" commponent="h5">
+                    Expériences
+                  </Typography>
+                  <ul>{displayExperiences}</ul>
+                  <Divider className={classes.divider} />
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Typography variant="body1" commponent="p">
+                    Ajoutez vos expériences !
+                  </Typography>
+                  <Divider className={classes.divider} />
+                </Fragment>
+              )}
+              {user.letters.length > 0 ? (
+                <Fragment>
+                  <Typography variant="h5" component="h5">
+                    Recommandations
+                  </Typography>
+                  <Slider {...settings}>{recommendTab}</Slider>
+                </Fragment>
+              ) : (
+                <Typography variant="body1" commponent="p">
+                  Demandez des lettres de recommandations à vos employeurs !
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
     </Container>

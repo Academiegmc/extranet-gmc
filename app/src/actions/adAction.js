@@ -45,7 +45,7 @@ export const createAd = (adData, history) => async dispatch => {
   formData.append("description", description);
   formData.append("category", category);
   console.log("images", images);
-  if (images.length > 0) {
+  if (images !== null && images.length > 0) {
     if (images.length > 1) {
       for (let i = 0; i <= images.length; i++) {
         formData.append("images", images[i]);

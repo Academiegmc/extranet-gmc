@@ -97,7 +97,20 @@ const AddJob = ({
   const onSubmit = e => {
     e.preventDefault();
     if (match.path === updateUrl) {
-      const newJob = {};
+      const newJob = {
+        jobTitle,
+        jobDescription,
+        jobContractType,
+        jobType,
+        jobRemuneration,
+        jobStartDate,
+        jobSkills,
+        jobCity,
+        jobCountry,
+        jobCompany,
+        jobCompanyDescription,
+        jobCompanySite
+      };
       updateJob(match.params.id, newJob, history);
       setAlert({
         msg: "Les informations ont été modifiées !",
@@ -107,7 +120,20 @@ const AddJob = ({
       setTimeout(() => setAlert(null), 5000);
     }
     if (match.path === createUrl) {
-      const newJob = {};
+      const newJob = {
+        jobTitle,
+        jobDescription,
+        jobContractType,
+        jobType,
+        jobRemuneration,
+        jobStartDate,
+        jobSkills,
+        jobCity,
+        jobCountry,
+        jobCompany,
+        jobCompanyDescription,
+        jobCompanySite
+      };
       createJob(newJob, history);
       setAlert({
         msg: "Le job a été créé avec succès !",
@@ -116,9 +142,6 @@ const AddJob = ({
       });
       setTimeout(() => setAlert(null), 5000);
     }
-  };
-  const dissmissAlert = () => {
-    this.setState({ isLoaded: false });
   };
   if (loading) {
     return <h1>Chargement...</h1>;
@@ -152,6 +175,7 @@ const AddJob = ({
             <TextField
               className={classes.input}
               aria-describedby="jobDescriptionHelp"
+              multiline
               label="Description du poste"
               placeholder="Description du poste"
               onChange={e => setJobDescription(e.target.value)}
@@ -305,9 +329,14 @@ const AddJob = ({
               value={jobCompanySite}
               variant="outlined"
             />
-            <Button className={classes.btn} variant="outlined">
+            <Input
+              className={classes.btn}
+              variant="outlined"
+              onClick={onSubmit}
+              type="submit"
+            >
               Ajouter un job
-            </Button>
+            </Input>
           </form>
         </CardContent>
       </Card>

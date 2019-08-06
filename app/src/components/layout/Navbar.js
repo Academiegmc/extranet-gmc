@@ -32,7 +32,9 @@ import "./Navbar.css";
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    flexGrow: 1
+    flexGrow: 1,
+    height: "10vh",
+    width: "100%"
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -63,6 +65,9 @@ const useStyles = makeStyles(theme => ({
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
+      width: "50%"
+    },
+    [theme.breakpoints.up("lg")]: {
       width: "30%"
     }
   },

@@ -129,7 +129,8 @@ const Dashboard = ({ auth }) => {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                textAlign: "center"
               }}
               className={`${classes.root} text-anim`}
             >

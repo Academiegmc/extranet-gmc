@@ -146,8 +146,8 @@ const Trombinoscope = ({ history }) => {
     <Container className={classes.root} fixed>
       <Grid container item xs={12}>
         <Grid item xs={12}>
-          {/* <ReturnButton history={history} /> */}
           <Breadcrumb links={links} />
+          <ReturnButton history={history} />
         </Grid>
         <Typography variant="h3" component="h3">
           Direction

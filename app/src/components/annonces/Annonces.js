@@ -17,8 +17,7 @@ import ReactMarkdown from "react-markdown";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import "./Annonces.css";
 import Breadcrumb from "../layout/Breadcrumb";
-
-// import Button from "../layout/Button";
+import ReturnButton from "../layout/ReturnButton";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,11 +38,8 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     marginTop: "5px",
     marginBottom: "5px"
-    // [theme.breakpoints.up("md")]: {
-    // }
   },
   control: {
-    // margin: "0px 5px"
     width: "100%"
   },
   grid: {
@@ -77,7 +73,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Annonces = ({ ads, searchAd, getAllAds }) => {
+const Annonces = ({ ads, searchAd, getAllAds, history }) => {
   const [value, setValue] = useState("");
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
@@ -98,13 +94,6 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
     allAnnonces = ads.ads.map(annonce => (
       <Grid className={classes.gridItem} item key={annonce.id}>
         <Card>
-          {/* <CardMedia
-            component="img"
-            alt="Contemplative Reptile"
-            height="140"
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
-          /> */}
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               {annonce.title}
@@ -135,6 +124,7 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
       <Breadcrumb links={links} />
       <Grid container className={classes.grid}>
         <Grid className={classes.paper} item xs={12} sm={3}>
+          <ReturnButton history={history} />
           <Typography variant="h5" component="h5">
             Rechercher une annonce
           </Typography>
@@ -186,7 +176,15 @@ const Annonces = ({ ads, searchAd, getAllAds }) => {
           </Grid>
         </Grid>
         <Grid className={classes.gridAds} container item xs={12} sm={9}>
-          {allAnnonces}
+          {allAnnonces.length > 0 ? (
+            allAnnonces
+          ) : (
+            <Grid className={classes.gridItem} item>
+              <Typography variant="h5" component="h5">
+                Les annonces vont tomber !
+              </Typography>
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </Container>

@@ -112,7 +112,7 @@ const Users = {
     console.log(user);
     const userSaved = await user.save();
     if (!userSaved) return res.status(400).json({ success: false });
-    res.status(200).json({ success: true, user: await userSaved.getInfos() });
+    res.status(200).json(await userSaved.getInfos());
   },
   delete: async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.id);

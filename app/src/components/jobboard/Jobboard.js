@@ -63,7 +63,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center"
   },
   gridItem: {
-    height: "100%"
+    height: "100%",
+    marginTop: 20,
+    marginBottom: 20
   }
 }));
 const Jobboard = ({

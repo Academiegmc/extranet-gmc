@@ -7,13 +7,12 @@ import imageCompression from "browser-image-compression";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 import "./Form.css";
-import { createNews, getANews, updateNews } from "../../actions/newsActions";
+import { getANews, updateNews } from "../../actions/newsActions";
 import { logout } from "../../actions/authActions";
 import { createAd, updateAd, getAnAd } from "../../actions/adAction";
 import ReturnButton from "../layout/ReturnButton";
 import Loading from "../layout/Loading";
 import {
-  Grid,
   Button,
   makeStyles,
   Card,
@@ -169,24 +168,6 @@ const Form = ({
     }
   };
   if (errors.status === 403) logout();
-  let updateBtn;
-  let createBtn;
-  let btnClass = "btn btn-primary w-100 mt-3";
-  if (loading) {
-    updateBtn = (
-      <button className={btnClass} disabled>
-        Modifier la news
-      </button>
-    );
-    createBtn = (
-      <button className={btnClass} disabled>
-        Ajouter la news
-      </button>
-    );
-  } else {
-    updateBtn = <button className={btnClass}>Modifier la news</button>;
-    createBtn = <button className={btnClass}>Ajouter la news</button>;
-  }
   if (loading) loading = <Loading />;
   else loading = null;
   return (
