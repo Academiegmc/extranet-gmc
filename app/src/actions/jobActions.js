@@ -7,7 +7,8 @@ import {
   GET_ALL_USER_JOBS,
   DELETE_JOB,
   UPDATE_JOB,
-  CREATE_JOB
+  CREATE_JOB,
+  SEND_JOB_APPLICATION
 } from "./types";
 import { jobUrl } from "../utils";
 import { logout } from "./authActions";
@@ -92,5 +93,21 @@ export const searchJob = (jobTitle, jobContractType) => async dispatch => {
     dispatch({ type: SEARCH_JOBS, payload: res.data });
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
+};
+
+export const sendApplication = (jobId, jobData) => async dispatch => {
+  try {
+    console.log(jobId, jobData);
+    setLoading();
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await axios.post(
+      `${jobUrl}/${jobId}/application`,
+      jobData,
+      config
+    );
+    dispatch({ type: SEND_JOB_APPLICATION, payload: res.data });
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.message.data });
   }
 };

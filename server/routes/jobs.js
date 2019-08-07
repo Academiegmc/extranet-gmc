@@ -86,7 +86,7 @@ router.get("/", Jobs.getAllJobs);
 router.get("/search", Jobs.searchJobs);
 router.post("/", verifyToken, Jobs.createJobs);
 router.post(
-  "/application",
+  "/:id/application",
   verifyToken,
   upload.single("cv"),
   Jobs.sendApplication

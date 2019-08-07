@@ -32,6 +32,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     margin: "auto",
     [theme.breakpoints.up("md")]: {
+      justifyContent: "space-between",
       flexFlow: "row wrap"
     }
   },
@@ -46,12 +47,18 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     borderRadius: "50%",
     [theme.breakpoints.up("md")]: {
-      width: "50%",
-      height: "50%"
+      width: "150px",
+      height: "150px"
     }
   },
   divider: {
     width: "100%"
+  },
+  cardContent: {
+    display: "flex",
+    flexFlow: "column wrap",
+    justifyContent: "center",
+    alignItems: "center"
   }
 }));
 
@@ -178,7 +185,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
       <Grid className={classes.grid} container>
         <Grid className={classes.item} item xs={12} md={3}>
           <Card>
-            <CardContent>
+            <CardContent className={classes.cardContent}>
               <img
                 className={classes.portrait}
                 src={`${process.env.REACT_APP_NODE_API}/api/users/image/${
@@ -214,7 +221,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid className={classes.item} item xs={12} md={9}>
+        <Grid className={classes.item} item xs={12} md={8}>
           <Card>
             <CardContent>
               {user.experiences.length > 0 ? (

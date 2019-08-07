@@ -5,7 +5,8 @@ import {
   GET_ALL_USER_JOBS,
   DELETE_JOB,
   UPDATE_JOB,
-  CREATE_JOB
+  CREATE_JOB,
+  SEND_JOB_APPLICATION
 } from "../actions/types";
 
 const initialState = {
@@ -37,6 +38,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         jobs: state.jobs.filter(job => job.id !== action.payload)
+      };
+    case SEND_JOB_APPLICATION:
+      return {
+        ...state,
+        loading: false,
+        isSent: true
       };
     case SEARCH_JOBS:
       return { ...state, loading: false, jobs: action.payload };

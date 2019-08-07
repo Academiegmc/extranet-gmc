@@ -15,6 +15,7 @@ const jobSchema = new Schema({
   jobCompany: { type: String, required: true },
   jobCompanyDescription: { type: String, required: true },
   jobCompanySite: { type: String, required: true },
+  jobCandidates: [{ type: Schema.Types.ObjectId, ref: "users" }],
   createdAt: { type: Date, required: true, default: Date.now }
 });
 jobSchema.methods.getData = async function() {
@@ -38,6 +39,7 @@ jobSchema.methods.getData = async function() {
     jobCompany: this.jobCompany,
     jobCompanyDescription: this.jobCompanyDescription,
     jobCompanySite: this.jobCompanySite,
+    jobCandidates: this.jobCandidates,
     createdAt: this.createdAt,
     user: userData.getInfos()
   };

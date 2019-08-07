@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
@@ -21,12 +21,12 @@ import {
   Icon,
   Chip
 } from "@material-ui/core";
-import { CloudUpload } from "@material-ui/icons";
+import { CloudUpload, Done } from "@material-ui/icons";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { green } from "@material-ui/core/colors";
-import { getAJob } from "../../actions/jobActions";
+import { getAJob, sendApplication } from "../../actions/jobActions";
 import Axios from "axios";
 import ReturnButton from "../layout/ReturnButton";
 import Alert from "../layout/Alert";
@@ -116,12 +116,30 @@ const useStyles = makeStyles(theme => ({
   },
   rightIcon: {
     marginRight: 5
+  },
+  offerContent: {
+    width: "70%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: "auto",
+    [theme.breakpoints.up("md")]: {
+      width: "40%"
+    }
   }
 }));
-const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
+const Job = ({
+  auth: { user },
+  jobs: { job, isSent },
+  getAJob,
+  sendApplication,
+  logout,
+  history,
+  match,
+  loading
+}) => {
   const [lm, setLm] = useState("");
   const [cv, setCv] = useState(null);
-  const [isSent, setIsSent] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [alert, setAlert] = useState(null);
   const [disallowedTypes, setDisallowedTypes] = useState([
@@ -140,8 +158,15 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
   }
   const onSubmit = e => {
     e.preventDefault();
-    if (cv !== null || lm !== "") fileUpload(cv[0], lm, jobTitle, jobCompany);
-    else {
+    // if (cv !== null || lm !== "") fileUpload(cv[0], lm, jobTitle, jobCompany);
+    if (cv !== null || lm !== "") {
+      const formData = new FormData();
+      formData.append("jobCompany", jobCompany);
+      formData.append("jobTitle", jobTitle);
+      formData.append("lm", lm);
+      formData.append("cv", cv[0]);
+      sendApplication(id, formData);
+    } else {
       setAlert({
         msg: "Veuillez entrer votre lettre de motivation et votre CV",
         type: "error"
@@ -174,6 +199,7 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
   };
 
   const {
+    id,
     jobCompany,
     jobContractType,
     jobType,
@@ -182,6 +208,7 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
     jobCountry,
     jobCompanySite,
     jobRemuneration,
+    jobCandidates,
     jobStartDate,
     jobDescription,
     jobCompanyDescription,
@@ -202,11 +229,18 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
     ));
   }
   const startDate = <Moment format="DD-MM-YYYY">{jobStartDate}</Moment>;
-  // console.log(job);
   const links = [
     { title: "Job Board", url: "/jobboard" },
     { title: job.jobTitle, url: `/job/${job.id}` }
   ];
+  if (isSent) {
+    setAlert({
+      msg: "Votre candidature a été envoyée avec succès !",
+      type: "success",
+      field: []
+    });
+    setTimeout(() => setAlert(null), 5000);
+  }
   return (
     <Container>
       <Alert alert={alert} />
@@ -332,41 +366,50 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
                 }
               />
               <CardContent className={classes.cardContent}>
-                <TextField
-                  id="job-application"
-                  label="Lettre de motivation"
-                  multiline
-                  rowsMax="4"
-                  value={lm}
-                  onChange={e => {
-                    setLm(e.target.value);
-                  }}
-                  margin="normal"
-                  placeholder="Rédiger votre lettre de motivation"
-                  variant="outlined"
-                  fullWidth
-                />
-                <input
-                  accept="pdf/*"
-                  className={classes.input}
-                  id="cv"
-                  name="cv"
-                  type="file"
-                  onChange={e => setCv(e.target.files)}
-                />
-                <label htmlFor="cv">
-                  <Button variant="contained" component="span">
-                    <CloudUpload className={classes.rightIcon} />
-                    {`Ajouter votre CV`}
-                  </Button>
-                </label>
-                <Button
-                  className={classes.button}
-                  onClick={onSubmit}
-                  variant="contained"
-                >
-                  Envoyer votre candidature
-                </Button>
+                {jobCandidates.includes(user.id) === false ? (
+                  <Fragment>
+                    <TextField
+                      id="job-application"
+                      label="Lettre de motivation"
+                      multiline
+                      rowsMax="4"
+                      value={lm}
+                      onChange={e => {
+                        setLm(e.target.value);
+                      }}
+                      margin="normal"
+                      placeholder="Rédiger votre lettre de motivation"
+                      variant="outlined"
+                      fullWidth
+                    />
+                    <input
+                      accept="pdf/*"
+                      className={classes.input}
+                      id="cv"
+                      name="cv"
+                      type="file"
+                      onChange={e => setCv(e.target.files)}
+                    />
+                    <label htmlFor="cv">
+                      <Button variant="contained" component="span">
+                        <CloudUpload className={classes.rightIcon} />
+                        {`Ajouter votre CV`}
+                      </Button>
+                    </label>
+                    <Button
+                      className={classes.button}
+                      onClick={onSubmit}
+                      variant="contained"
+                    >
+                      Envoyer votre candidature
+                    </Button>
+                  </Fragment>
+                ) : (
+                  <div className={classes.offerContent}>
+                    <h4>Déjà postulé !</h4>
+                    <Done />
+                  </div>
+                )}
               </CardContent>
             </Card>
           </Grid>
@@ -412,12 +455,15 @@ const Job = ({ jobs: { job }, getAJob, logout, history, match, loading }) => {
 
 Job.propTypes = {
   getAJob: PropTypes.func.isRequired,
-  jobs: PropTypes.object.isRequired
+  sendApplication: PropTypes.func.isRequired,
+  jobs: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
+  auth: state.auth,
   jobs: state.jobs
 });
 export default connect(
   mapStateToProps,
-  { getAJob }
+  { getAJob, sendApplication }
 )(Job);

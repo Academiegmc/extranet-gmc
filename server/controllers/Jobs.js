@@ -102,30 +102,47 @@ const Jobs = {
     res.status(200).json({ success: true });
   },
   sendApplication: async (req, res) => {
-    const fileData = fs.readFileSync(req.file.path);
+    console.log(req.file);
+    const fileData = await fs.readFileSync(req.file.path);
     const user = await User.findOne({ email: req.user.mail });
     if (!user)
       return res
         .status(404)
         .json({ success: false, message: ErrorMessage.userNotFound });
+
     let transport = nodemailer.createTransport({
       service: config.mail.service,
       secure: config.mail.secure,
       auth: config.mail.auth,
       tls: config.mail.tls
     });
-    let output = `<h1>Hello ${user.name}</h1>`;
+    let output = `<h1>Hello ${
+      user.name
+    }</h1><p>Merci d'avoir postulé au poste de ${req.body.jobTitle} chez ${
+      req.body.jobCompany
+    }</p><h3>Lettre de motivation</h3><p>${req.body.lm}</p>`;
     let mailOptions = {
       from: user.name + "<" + user.email + ">",
       to: config.mail.to,
       subject:
-        config.mail.subject + " - " + req.body.poste + " - " + req.body.agence,
+        config.mail.subject +
+        " - " +
+        req.body.jobTitle +
+        " - " +
+        req.body.jobCompany,
       test: "Hello world?",
       html: output,
       attachments: [{ filename: req.file.originalname, content: fileData }]
     };
-    transport.sendMail(mailOptions, (error, info) => {
+    transport.sendMail(mailOptions, async (error, info) => {
       if (error) return console.log(error);
+      const job = await Job.findById(req.params.id);
+      if (!job)
+        return res
+          .status(404)
+          .json({ success: false, message: ErrorMessage.jobNotFound });
+      job.jobCandidates.push(req.user.id);
+      await job.save();
       console.log("Message envoyé : %s", info.messageId);
       console.log("URL : %s", nodemailer.getTestMessageUrl(info));
       res.status(200).json({ success: true, message: "Candidature envoyée" });
