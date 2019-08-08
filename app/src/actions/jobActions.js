@@ -52,10 +52,8 @@ export const getAJob = jobId => async dispatch => {
 export const createJob = (jobData, history) => async dispatch => {
   try {
     setLoading();
-    const jobboardLink = "/jobboard";
     const res = await axios.post(jobUrl, jobData);
     dispatch({ type: CREATE_JOB, payload: res.data });
-    history.push(jobboardLink);
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.message.data });
     if (error.response.status === 403) {
@@ -65,7 +63,7 @@ export const createJob = (jobData, history) => async dispatch => {
     }
   }
 };
-export const updateJob = (jobId, jobData, history) => async dispatch => {
+export const updateJob = (jobId, jobData) => async dispatch => {
   try {
     setLoading();
     const res = await axios.put(`${jobUrl}/edit/${jobId}`, jobData);
@@ -98,7 +96,6 @@ export const searchJob = (jobTitle, jobContractType) => async dispatch => {
 
 export const sendApplication = (jobId, jobData) => async dispatch => {
   try {
-    console.log(jobId, jobData);
     setLoading();
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     const res = await axios.post(

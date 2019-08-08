@@ -111,7 +111,7 @@ const AddJob = ({
         jobCompanyDescription,
         jobCompanySite
       };
-      updateJob(match.params.id, newJob, history);
+      updateJob(match.params.id, newJob);
       setAlert({
         msg: "Les informations ont été modifiées !",
         type: "success",

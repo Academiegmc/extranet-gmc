@@ -16,7 +16,8 @@ import {
   Divider,
   Link,
   TextField,
-  Hidden
+  Hidden,
+  Input
 } from "@material-ui/core";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Clock from "react-live-clock";
@@ -56,7 +57,11 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "50%"
   },
   input: {
-    display: "none"
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
+      width: "100%"
+    }
   },
   rightIcon: {
     marginLeft: theme.spacing(1)
@@ -245,7 +250,7 @@ const News = ({
                     </Typography>
                   </Grid>
                   <Grid item xs>
-                    <input
+                    <Input
                       accept="image/*"
                       className={classes.input}
                       id="images"
@@ -254,12 +259,12 @@ const News = ({
                       type="file"
                       onChange={e => handleImageUpload(e.target.files)}
                     />
-                    <label htmlFor="images">
+                    {/* <label htmlFor="images">
                       <Button variant="contained" component="span">
                         Upload
                         <CloudUploadIcon className={classes.rightIcon} />
                       </Button>
-                    </label>
+                    </label> */}
                   </Grid>
                   <Grid item xs>
                     <Typography variant="body2" component="h3">

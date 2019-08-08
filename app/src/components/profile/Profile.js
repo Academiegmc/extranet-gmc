@@ -2,16 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import ReturnButton from "../layout/ReturnButton";
-import { logout } from "../../actions/authActions";
-import {
-  getUserAds,
-  getUserJobs,
-  getUserNews,
-  deleteUserAds,
-  deleteUserJobs,
-  deleteUserNews
-} from "../../actions/usersAction";
+import Slider from "react-slick";
 import {
   Container,
   Grid,
@@ -23,6 +14,17 @@ import {
   Typography,
   Button
 } from "@material-ui/core";
+
+import ReturnButton from "../layout/ReturnButton";
+import { logout } from "../../actions/authActions";
+import {
+  getUserAds,
+  getUserJobs,
+  getUserNews,
+  deleteUserAds,
+  deleteUserJobs,
+  deleteUserNews
+} from "../../actions/usersAction";
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -47,13 +49,12 @@ const useStyles = makeStyles(theme => ({
     }
   },
   wAuto: {
-    width: "auto",
-    margin: 20
+    width: "auto"
   },
   card: {
-    width: "100%",
-    marginTop: 20,
-    marginBottom: 20
+    width: "100%"
+    // marginTop: 20,
+    // marginBottom: 20
   },
   cardContent: {
     width: "100%",
@@ -116,6 +117,41 @@ const Profile = ({
   if (loading || users === null) {
     return <h1>Chargement...</h1>;
   }
+  const settings = {
+    adaptiveHeight: true,
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
   const logoutUser = () => {
     //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
     logout();
@@ -217,14 +253,30 @@ const Profile = ({
             </div>
           </CardContent>
         </Card>
-        <h2 style={{ width: "100%", textAlign: "center" }}>Annonces</h2>
-        <div className={classes.gridFlex}>{allUserAds}</div>
-        <Divider style={{ width: "100%" }} />
+        <div style={{ width: "100%" }}>
+          <h2 style={{ width: "100%", textAlign: "center" }}>Annonces</h2>
+          {/* <div className={classes.gridFlex}>{allUserAds}</div> */}
+          <Slider {...settings}>{allUserAds}</Slider>
+        </div>
+
+        <div style={{ width: "100%" }}>
+          <h2 style={{ width: "100%", textAlign: "center" }}>News</h2>
+          {/* <div className={classes.gridFlex}>{allUserAds}</div> */}
+          <Slider {...settings}>{allUserNews}</Slider>
+        </div>
+
+        <div style={{ width: "100%" }}>
+          <h2 style={{ width: "100%", textAlign: "center" }}>Jobs</h2>
+          {/* <div className={classes.gridFlex}>{allUserAds}</div> */}
+          <Slider {...settings}>{allUserJobs}</Slider>
+        </div>
+
+        {/* <Divider style={{ width: "100%" }} />
         <h2 style={{ width: "100%", textAlign: "center" }}>News</h2>
         <div className={classes.gridFlex}>{allUserNews}</div>
         <Divider style={{ width: "100%" }} />
         <h2 style={{ width: "100%", textAlign: "center" }}>Jobs</h2>
-        <div className={classes.gridFlex}>{allUserJobs}</div>
+        <div className={classes.gridFlex}>{allUserJobs}</div> */}
       </Grid>
     </Container>
   );

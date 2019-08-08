@@ -34,6 +34,13 @@ const useStyles = makeStyles(theme => ({
       display: "block",
       textAlign: "center"
     }
+  },
+  container: {
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "80%",
+      height: "80vh"
+    }
   }
 }));
 
@@ -77,7 +84,7 @@ const Dashboard = ({ auth }) => {
       link: urls.classroom
     },
     {
-      title: "Règlement Intérieur",
+      title: "Règlement",
       icon: <School className={classes.icon} />,
       link: urls.ri
     },
@@ -151,7 +158,12 @@ const Dashboard = ({ auth }) => {
       <Grid item xs>
         <h1 className="welcome-text welcome-anim text-center">Extranet</h1>
       </Grid>
-      <Grid container justify="space-between" alignItems="center">
+      <Grid
+        className={classes.container}
+        container
+        justify="space-between"
+        alignItems="center"
+      >
         {links}
       </Grid>
     </Grid>

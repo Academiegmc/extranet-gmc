@@ -45,7 +45,8 @@ const useStyles = makeStyles(theme => ({
     color: "#717171",
     fontWeight: 400,
     [theme.breakpoints.up("sm")]: {
-      display: "block"
+      display: "block",
+      width: "100%"
     }
   },
   inputRoot: {
@@ -65,10 +66,10 @@ const useStyles = makeStyles(theme => ({
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      width: "50%"
+      width: "90%"
     },
     [theme.breakpoints.up("lg")]: {
-      width: "30%"
+      width: "70%"
     }
   },
   sectionMobile: {
