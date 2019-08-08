@@ -254,28 +254,18 @@ const Profile = ({
         </Card>
         <div style={{ width: "100%" }}>
           <h2 style={{ width: "100%", textAlign: "center" }}>Annonces</h2>
-          {/* <div className={classes.gridFlex}>{allUserAds}</div> */}
           <Slider {...settings}>{allUserAds}</Slider>
         </div>
 
         <div style={{ width: "100%" }}>
           <h2 style={{ width: "100%", textAlign: "center" }}>News</h2>
-          {/* <div className={classes.gridFlex}>{allUserAds}</div> */}
           <Slider {...settings}>{allUserNews}</Slider>
         </div>
 
         <div style={{ width: "100%" }}>
           <h2 style={{ width: "100%", textAlign: "center" }}>Jobs</h2>
-          {/* <div className={classes.gridFlex}>{allUserAds}</div> */}
           <Slider {...settings}>{allUserJobs}</Slider>
         </div>
-
-        {/* <Divider style={{ width: "100%" }} />
-        <h2 style={{ width: "100%", textAlign: "center" }}>News</h2>
-        <div className={classes.gridFlex}>{allUserNews}</div>
-        <Divider style={{ width: "100%" }} />
-        <h2 style={{ width: "100%", textAlign: "center" }}>Jobs</h2>
-        <div className={classes.gridFlex}>{allUserJobs}</div> */}
       </Grid>
     </Container>
   );
