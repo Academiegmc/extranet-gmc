@@ -117,10 +117,21 @@ const Profile = ({
   if (loading || users === null) {
     return <h1>Chargement...</h1>;
   }
+  console.log(users);
+  const logoutUser = () => {
+    //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
+    logout();
+    history.push("/");
+  };
+  let { userNews, userAds, userJobs } = users;
+  let allUserAds;
+  let allUserJobs;
+  let allUserNews;
   const settings = {
     adaptiveHeight: true,
     dots: true,
     infinite: true,
+    arrows: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -152,15 +163,6 @@ const Profile = ({
       }
     ]
   };
-  const logoutUser = () => {
-    //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
-    logout();
-    history.push("/");
-  };
-  let { userNews, userAds, userJobs } = users;
-  let allUserAds;
-  let allUserJobs;
-  let allUserNews;
   if (userAds && userAds.length > 0) {
     allUserAds = userAds.map((ad, index) => (
       <Card key={index} className={classes.wAuto}>
@@ -220,9 +222,6 @@ const Profile = ({
           }
         />
         <CardContent className={classes.cardContentBtn}>
-          <Link to={`/news/edit/${news.id}`}>
-            <Button>Modifier</Button>
-          </Link>
           <Button onClick={() => deleteUserNews(news.id)}>Supprimer</Button>
         </CardContent>
       </Card>
