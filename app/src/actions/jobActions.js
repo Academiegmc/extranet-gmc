@@ -22,7 +22,8 @@ export const getAllJobs = () => async dispatch => {
       payload: res.data
     });
   } catch (error) {
-    dispatch({ type: GET_ERRORS, payload: error.message.data });
+    console.log(error);
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };
 export const getAllUserJobs = userId => async dispatch => {
@@ -34,7 +35,7 @@ export const getAllUserJobs = userId => async dispatch => {
       payload: res.data
     });
   } catch (error) {
-    dispatch({ type: GET_ERRORS, payload: error.message.data });
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };
 export const getAJob = jobId => async dispatch => {
@@ -46,7 +47,7 @@ export const getAJob = jobId => async dispatch => {
       payload: res.data
     });
   } catch (error) {
-    dispatch({ type: GET_ERRORS, payload: error.message.data });
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };
 export const createJob = (jobData, history) => async dispatch => {
@@ -55,7 +56,7 @@ export const createJob = (jobData, history) => async dispatch => {
     const res = await axios.post(jobUrl, jobData);
     dispatch({ type: CREATE_JOB, payload: res.data });
   } catch (error) {
-    dispatch({ type: GET_ERRORS, payload: error.message.data });
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
     if (error.response.status === 403) {
       //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
       logout();
@@ -69,7 +70,7 @@ export const updateJob = (jobId, jobData) => async dispatch => {
     const res = await axios.put(`${jobUrl}/edit/${jobId}`, jobData);
     dispatch({ type: UPDATE_JOB, payload: res.data });
   } catch (error) {
-    dispatch({ type: GET_ERRORS, payload: error.message.data });
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };
 export const deleteJob = jobId => async dispatch => {
@@ -105,6 +106,6 @@ export const sendApplication = (jobId, jobData) => async dispatch => {
     );
     dispatch({ type: SEND_JOB_APPLICATION, payload: res.data });
   } catch (error) {
-    dispatch({ type: GET_ERRORS, payload: error.message.data });
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };

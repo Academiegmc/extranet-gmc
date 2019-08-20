@@ -83,7 +83,6 @@ const Jobboard = ({
   if (loading || jobs === null) {
     return <h3>Chargement...</h3>;
   }
-  console.log(jobs);
   const displayJobs = jobs.map(job => (
     <Grid className={classes.gridItem} item key={job.id} xs={12}>
       <CardActionArea onClick={() => history.push(`/job/${job.id}`)}>

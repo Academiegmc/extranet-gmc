@@ -148,7 +148,7 @@ const AddJob = ({
   }
   return (
     <Container className={classes.root}>
-      <Alert alert={alert} />
+      <Alert alert={alert} setAlert={setAlert} />
       <ReturnButton history={history} />
       <Card>
         <CardHeader

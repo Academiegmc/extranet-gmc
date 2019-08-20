@@ -5,7 +5,6 @@ import {
   GET_ALL_USER_NEWS,
   CREATE_NEWS,
   SET_LOADING,
-  GET_ERRORS,
   ADD_COMMENT,
   UPDATE_NEWS
 } from "../actions/types";
@@ -52,11 +51,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         newsTab: state.newsTab.filter(news => news.id !== action.payload)
-      };
-    case GET_ERRORS:
-      return {
-        ...state,
-        errors: action.payload
       };
     default:
       return state;

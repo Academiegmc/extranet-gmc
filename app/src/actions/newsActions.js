@@ -23,8 +23,8 @@ export const getAllNews = () => async dispatch => {
       payload: res.data
     });
   } catch (error) {
-    console.error(error);
-    dispatch(error.response.data);
+    console.error(error.response.status);
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };
 export const getAllUserNews = userId => async dispatch => {

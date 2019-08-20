@@ -3,15 +3,14 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 export default ComposedComponent => {
-  class RequireAuth extends Component {
-    render() {
-      if (!localStorage.jwtToken || !this.props.isAuthenticated) {
-        return <Redirect to="/" />;
-      } else {
-        return <ComposedComponent {...this.props} />;
-      }
+  const RequireAuth = props => {
+    const { isAuthenticated } = props;
+    if (!localStorage.jwtToken || !isAuthenticated) {
+      return <Redirect to="/" />;
+    } else {
+      return <ComposedComponent {...props} />;
     }
-  }
+  };
   RequireAuth.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired
   };

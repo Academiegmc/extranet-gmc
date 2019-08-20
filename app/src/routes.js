@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Route } from "react-router-dom";
+import React, { useState, useEffect, Fragment } from "react";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -24,17 +24,29 @@ import Markdown from "./components/markdown/Markdown";
 import Navbar from "./components/layout/Navbar";
 import Alert from "./components/layout/Alert";
 
-const Routes = ({ errors: { errors } }) => {
+const Routes = ({ errors: { errors }, auth }) => {
   const [alert, setAlert] = useState(null);
-  if (errors !== null) {
+  useEffect(() => {
     console.log(errors);
-    setAlert({ msg: errors.message, type: "error" });
-    setTimeout(() => setAlert(null), 5000);
-  }
+    if (errors !== null) {
+      setAlert({ msg: errors.message, type: "error", auth: false });
+      // setTimeout(() => setAlert(null), 5000);
+    }
+  }, [errors]);
+
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
-      <Route path="/" component={Navbar} />
-      <Alert alert={alert} />
+      {/* <Route path="/" component={Navbar} /> */}
+      <Route
+        path="/"
+        render={props => (
+          <Fragment>
+            <Navbar {...props} />
+            <Alert {...props} alert={alert} setAlert={setAlert} />
+          </Fragment>
+        )}
+      />
+      {/* <Alert alert={alert} /> */}
       <Route exact path="/" component={Landing} />
       <Route exact path="/profile/:id" component={requireAuth(Profile)} />
       <Route exact path="/stage/:id" component={requireAuth(Stages)} />
@@ -46,7 +58,14 @@ const Routes = ({ errors: { errors } }) => {
       <Route exact path="/markdown" component={requireAuth(Markdown)} />
       <Route exact path="/dashboard" component={requireAuth(Dashboard)} />
       <Route exact path="/annonce/:id" component={requireAuth(Annonce)} />
-      <Route exact path="/news" component={requireAuth(News)} />
+      {/* <Route exact path="/news" component={requireAuth(News)} /> */}
+      <Route
+        exact
+        path="/news"
+        render={props =>
+          auth.isAuthenticated ? <News {...props} /> : <Redirect to="/" />
+        }
+      />
       <Route exact path="/news/:id" component={requireAuth(NewsDescription)} />
       <Route exact path="/annonces" component={requireAuth(Annonces)} />
       <Route exact path="/job/:id" component={requireAuth(Job)} />
@@ -82,6 +101,7 @@ Routes.propTypes = {
   errors: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
+  auth: state.auth,
   errors: state.errors
 });
 export default connect(

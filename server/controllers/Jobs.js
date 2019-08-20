@@ -9,38 +9,26 @@ const config = require("../config/config");
 const Jobs = {
   getAllJobs: async (req, res) => {
     let result;
-    try {
-      const jobs = await Job.find().sort({ createdAt: -1 });
-      if (!jobs) return res.status(404).json({ success: false });
-      result = jobs.map(async job => await job.getData());
-      res.status(200).json(await Promise.all(result));
-    } catch (error) {
-      console.err(error);
-    }
+    const jobs = await Job.find().sort({ createdAt: -1 });
+    if (!jobs) return res.status(404).json({ success: false });
+    result = jobs.map(async job => await job.getData());
+    res.status(200).json(await Promise.all(result));
   },
   getAllUserAds: async (req, res) => {
-    try {
-      const jobs = await Job.find({ user: req.params.id }).sort({
-        createdAt: -1
-      });
-      if (!jobs) return res.status(404).json(err);
-      let result = jobs.map(async job => await job.getData());
-      res.status(200).json(await Promise.all(result));
-    } catch (error) {
-      console.error(error);
-    }
+    const jobs = await Job.find({ user: req.params.id }).sort({
+      createdAt: -1
+    });
+    if (!jobs) return res.status(404).json(err);
+    let result = jobs.map(async job => await job.getData());
+    res.status(200).json(await Promise.all(result));
   },
   getJob: async (req, res) => {
-    try {
-      const job = await Job.findById({ _id: req.params.id });
-      if (!job)
-        return res
-          .status(404)
-          .json({ success: false, message: ErrorMessage.jobNotFound });
-      res.status(200).json(await job.getData());
-    } catch (error) {
-      console.error(error);
-    }
+    const job = await Job.findById({ _id: req.params.id });
+    if (!job)
+      return res
+        .status(404)
+        .json({ success: false, message: ErrorMessage.jobNotFound });
+    res.status(200).json(await job.getData());
   },
   createJobs: async (req, res) => {
     try {

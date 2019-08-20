@@ -176,7 +176,7 @@ const News = ({
   const links = [{ title: "News", url: "/news" }];
   return (
     <Container>
-      <Alert alert={alert} />
+      <Alert alert={alert} setAlert={setAlert} />
       <Breadcrumb links={links} />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={3}>

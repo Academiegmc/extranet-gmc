@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { Provider } from "react-redux";
 import "./index.css";
@@ -25,7 +25,9 @@ if (
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Routes />
+      <Switch>
+        <Routes />
+      </Switch>
     </Router>
   </Provider>,
   document.getElementById("root")

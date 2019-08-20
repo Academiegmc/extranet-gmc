@@ -82,8 +82,8 @@ const upload = multer({
   }
 });
 
-router.get("/", Jobs.getAllJobs);
-router.get("/search", Jobs.searchJobs);
+router.get("/", verifyToken, Jobs.getAllJobs);
+router.get("/search", verifyToken, Jobs.searchJobs);
 router.post("/", verifyToken, Jobs.createJobs);
 router.post(
   "/:id/application",

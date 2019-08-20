@@ -262,7 +262,7 @@ const ProfileForm = ({
   }
   return (
     <Container fixed>
-      <Alert alert={alert} />
+      <Alert alert={alert} setAlert={setAlert} />
       <ReturnButton history={history} />
       <Grid className={classes.root} container item xs={12}>
         <Card className={classes.card}>

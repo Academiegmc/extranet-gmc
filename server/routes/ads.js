@@ -76,10 +76,10 @@ router.get("/image/:id", (req, res) => {
   });
 });
 
-router.get("/", Ads.getAllAds);
+router.get("/", verifyToken, Ads.getAllAds);
 router.get("/title", verifyToken, Ads.searchAds);
 router.post("/", verifyToken, upload.array("images", 5), Ads.createAd);
-router.get("/:id", Ads.getAd);
+router.get("/:id", verifyToken, Ads.getAd);
 router.get("/user/:id", verifyToken, Ads.getAllUserAds);
 router.post("/edit/:id/comments", verifyToken, Ads.updateCommentAd);
 router.put("/edit/:id", verifyToken, upload.array("images", 5), Ads.updateAd);

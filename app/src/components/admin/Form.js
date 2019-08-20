@@ -172,7 +172,7 @@ const Form = ({
   else loading = null;
   return (
     <div className={classes.root}>
-      <Alert alert={alert} />
+      <Alert alert={alert} setAlert={setAlert} />
       <ReturnButton history={history} />
       <Card>
         <CardHeader

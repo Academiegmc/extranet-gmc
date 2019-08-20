@@ -1,8 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Paper, Typography, makeStyles } from "@material-ui/core";
+import { Paper, Typography, makeStyles, Button } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
+
+import { logout } from "../../actions/authActions";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -10,10 +14,25 @@ const useStyles = makeStyles(theme => ({
     color: "white"
   },
   success: { backgroundColor: "#43A047" },
-  error: { backgroundColor: "#D32F2F" }
+  error: { backgroundColor: "#D32F2F" },
+  btnLogin: {
+    padding: theme.spacing(2),
+    border: "1px solid black",
+    backgroundColor: "white",
+    borderRadius: "10px",
+    textDecoration: "none",
+    color: "black",
+    fontSize: "1rem",
+    cursor: "pointer"
+  }
 }));
-const Alert = ({ alert }) => {
+const Alert = ({ alert, setAlert, logout }) => {
   const classes = useStyles();
+  console.log(alert);
+  const logoutUser = () => {
+    logout();
+    setAlert(null);
+  };
   return (
     alert !== null && (
       <Paper
@@ -24,7 +43,12 @@ const Alert = ({ alert }) => {
         }
       >
         <Typography component="p">
-          <Info /> {alert.msg}
+          <Info /> {alert.msg}{" "}
+          {!alert.auth && (
+            <Button className={classes.btnLogin} onClick={logoutUser}>
+              Reconnectez-vous
+            </Button>
+          )}
         </Typography>
       </Paper>
     )
@@ -32,7 +56,12 @@ const Alert = ({ alert }) => {
 };
 
 Alert.propTypes = {
-  alert: PropTypes.object
+  alert: PropTypes.object.isRequired,
+  setAlert: PropTypes.func.isRequired,
+  logout: PropTypes.func
 };
 
-export default Alert;
+export default connect(
+  null,
+  { logout }
+)(Alert);

@@ -97,8 +97,8 @@ router.get("/pdf/:id", (req, res) => {
     }
   });
 });
-router.get("/", NewsController.getAllNews);
-router.get("/:id", NewsController.getNews);
+router.get("/", verifyToken, NewsController.getAllNews);
+router.get("/:id", verifyToken, NewsController.getNews);
 router.get("/user/:id", verifyToken, NewsController.getAllUserNews);
 router.post(
   "/edit/:id/comments",

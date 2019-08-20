@@ -243,7 +243,7 @@ const Job = ({
   }
   return (
     <Container>
-      <Alert alert={alert} />
+      <Alert alert={alert} setAlert={setAlert} />
       <Breadcrumb links={links} />
       {/* <ReturnButton history={history} /> */}
       <Grid className={classes.grid} container>
