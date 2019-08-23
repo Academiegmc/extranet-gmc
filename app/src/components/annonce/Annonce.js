@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
 import ReactMarkdown from "react-markdown";
-import Slider from "react-slick";
 import { Carousel } from "react-responsive-carousel";
 import { getAnAd, updateComments } from "../../actions/adAction";
 import Comments from "../comments/Comments";
@@ -22,7 +21,6 @@ import {
 } from "@material-ui/core";
 import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
-import settings from "../news/newsCarouselConfig";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const useStyles = makeStyles(theme => ({

@@ -5,6 +5,7 @@ import Moment from "react-moment";
 import bsCustomFileInput from "bs-custom-file-input";
 import ReactMarkdown from "react-markdown";
 import clsx from "clsx";
+import { toast } from "react-toastify";
 import {
   Container,
   Grid,
@@ -31,8 +32,12 @@ import Axios from "axios";
 import ReturnButton from "../layout/ReturnButton";
 import Alert from "../layout/Alert";
 import { logout } from "../../actions/authActions";
-import "./Job.css";
 import Breadcrumb from "../layout/Breadcrumb";
+import "./Job.css";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
+
 const useStyles = makeStyles(theme => ({
   success: {
     backgroundColor: green[600]
@@ -128,6 +133,7 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
+
 const Job = ({
   auth: { user },
   jobs: { job, isSent },
@@ -156,22 +162,27 @@ const Job = ({
   if (loading || job === null) {
     return <h3>Chargement...</h3>;
   }
-  const onSubmit = e => {
-    e.preventDefault();
+  const onSubmit = async () => {
     // if (cv !== null || lm !== "") fileUpload(cv[0], lm, jobTitle, jobCompany);
-    if (cv !== null || lm !== "") {
+    if (cv !== null && lm !== "") {
       const formData = new FormData();
       formData.append("jobCompany", jobCompany);
       formData.append("jobTitle", jobTitle);
       formData.append("lm", lm);
       formData.append("cv", cv[0]);
-      sendApplication(id, formData);
-    } else {
-      setAlert({
-        msg: "Veuillez entrer votre lettre de motivation et votre CV",
-        type: "error"
-      });
-      setTimeout(() => setAlert(null), 5000);
+      const res = await sendApplication(id, formData);
+      console.log(res);
+      if (res.status === "success") {
+        toast("Votre candidature a été envoyée avec succès !", {
+          type: "success"
+        });
+        setCv(null);
+        setLm("");
+      } else {
+        toast("Une erreur est survenue lors de l'envoi de votre CV.", {
+          type: "error"
+        });
+      }
     }
   };
   const fileUpload = (file, lm, poste, agence) => {
@@ -187,9 +198,13 @@ const Job = ({
         setOpen(true);
         setCv(null);
         setLm("");
+        toast("Merci d'avoir postulé !", { type: "success" });
       })
       .catch(err => {
         console.log(err);
+        toast("Une erreur est survenue lors de l'envoi de votre CV.", {
+          type: "error"
+        });
         if (err.response.status === 403) {
           //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
           logout();
@@ -233,14 +248,6 @@ const Job = ({
     { title: "Job Board", url: "/jobboard" },
     { title: job.jobTitle, url: `/job/${job.id}` }
   ];
-  if (isSent) {
-    setAlert({
-      msg: "Votre candidature a été envoyée avec succès !",
-      type: "success",
-      field: []
-    });
-    setTimeout(() => setAlert(null), 5000);
-  }
   return (
     <Container>
       <Alert alert={alert} setAlert={setAlert} />
@@ -276,7 +283,7 @@ const Job = ({
               variant="body2"
               component="p"
             >
-              {job.jobType}
+              {`${job.jobRemuneration}€ / mois`}
             </Typography>
           </CardContent>
         </Card>

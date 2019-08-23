@@ -56,7 +56,7 @@ const Alert = ({ alert, setAlert, logout }) => {
 };
 
 Alert.propTypes = {
-  alert: PropTypes.object.isRequired,
+  alert: PropTypes.object,
   setAlert: PropTypes.func.isRequired,
   logout: PropTypes.func
 };

@@ -36,7 +36,6 @@ const Routes = ({ errors: { errors }, auth }) => {
 
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
-      {/* <Route path="/" component={Navbar} /> */}
       <Route
         path="/"
         render={props => (
@@ -46,7 +45,6 @@ const Routes = ({ errors: { errors }, auth }) => {
           </Fragment>
         )}
       />
-      {/* <Alert alert={alert} /> */}
       <Route exact path="/" component={Landing} />
       <Route exact path="/profile/:id" component={requireAuth(Profile)} />
       <Route exact path="/stage/:id" component={requireAuth(Stages)} />

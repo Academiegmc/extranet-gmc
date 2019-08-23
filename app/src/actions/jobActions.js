@@ -105,7 +105,9 @@ export const sendApplication = (jobId, jobData) => async dispatch => {
       config
     );
     dispatch({ type: SEND_JOB_APPLICATION, payload: res.data });
+    return res.data;
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
+    return error.response.data;
   }
 };

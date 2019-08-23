@@ -19,7 +19,6 @@ import {
   Hidden,
   Input
 } from "@material-ui/core";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Clock from "react-live-clock";
 import { getAllNews } from "../../actions/newsActions";
 import "./News.css";
