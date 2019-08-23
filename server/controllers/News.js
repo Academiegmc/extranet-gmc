@@ -91,18 +91,12 @@ const NewsController = {
     res.status(200).json(newsUpdated.getData());
   },
   deleteNews: async (req, res) => {
-    try {
-      const news = await NewsModel.findOneAndRemove({ _id: req.params.id });
-      if (!news) res.status(404).json({ success: false });
-      news.images.map(async img => {
-        await fs.unlink(`${path.join(__dirname, "../")}public/images/${img}`);
-      });
-      res
-        .status(200)
-        .json({ success: true, message: ErrorMessage.newsRemoved });
-    } catch (error) {
-      console.error(error);
-    }
+    const news = await NewsModel.findOneAndRemove({ _id: req.params.id });
+    if (!news) res.status(404).json({ success: false });
+    news.images.map(async img => {
+      await fs.unlink(`${path.join(__dirname, "../")}public/images/${img}`);
+    });
+    res.status(200).json({ success: true, message: ErrorMessage.newsRemoved });
   }
 };
 
