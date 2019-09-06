@@ -22,6 +22,7 @@ import {
 import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { apiUrl } from "../../utils";
 
 const useStyles = makeStyles(theme => ({
   cardHader: {
@@ -117,9 +118,7 @@ const Annonce = ({
             avatar={
               <Avatar
                 alt={ad.user.name}
-                src={`${process.env.REACT_APP_NODE_API}/api/users/image/${
-                  ad.user.profile_pic
-                }`}
+                src={`${apiUrl}/api/users/image/${ad.user.profile_pic}`}
                 className={classes.bigAvatar}
               />
             }
@@ -166,9 +165,7 @@ const Annonce = ({
                     <Grid key={index} item xs={12}>
                       <img
                         className={classes.image}
-                        src={`${
-                          process.env.REACT_APP_NODE_API
-                        }/api/annonces/image/${image}`}
+                        src={`${apiUrl}/api/annonces/image/${image}`}
                         alt={index}
                       />
                     </Grid>

@@ -176,7 +176,7 @@ const Annonces = ({ ads, searchAd, getAllAds, history }) => {
           </Grid>
         </Grid>
         <Grid className={classes.gridAds} container item xs={12} sm={9}>
-          {allAnnonces.length > 0 ? (
+          {allAnnonces !== undefined && allAnnonces.length > 0 ? (
             allAnnonces
           ) : (
             <Grid className={classes.gridItem} item>

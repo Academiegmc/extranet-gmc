@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import bsCustomFileInput from "bs-custom-file-input";
 import imageCompression from "browser-image-compression";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 import "./Form.css";
 import { getANews, updateNews } from "../../actions/newsActions";

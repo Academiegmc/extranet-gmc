@@ -7,6 +7,7 @@ import ReturnButton from "../layout/ReturnButton";
 import "./News.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { apiUrl } from "../../utils";
 class NewsDescription extends Component {
   constructor(props) {
     super(props);
@@ -73,7 +74,7 @@ class NewsDescription extends Component {
       <div key={index}>
         <img
           className="card-img-top"
-          src={`${process.env.REACT_APP_NODE_API}/api/news/image/${img}`}
+          src={`${apiUrl}/api/news/image/${img}`}
           alt={`Card image cap ` + index}
         />
       </div>

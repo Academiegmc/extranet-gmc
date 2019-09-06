@@ -16,6 +16,7 @@ import {
   Card,
   CardContent
 } from "@material-ui/core";
+import { apiUrl } from "../../utils";
 ReactModal.setAppElement(document.getElementById("root"));
 
 const useStyles = makeStyles(theme => ({
@@ -104,7 +105,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
       <a
         key={index}
         className="btn btn-link"
-        href={`${process.env.REACT_APP_NODE_API}/pdf/${letter.id}`}
+        href={`${apiUrl}/pdf/${letter.id}`}
       >
         {letter}
       </a>
@@ -172,7 +173,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
       }
     ]
   };
-  let recommendTab = user.letters.map((letter, index) => (
+  let recommendTab = user.letters.map(letter => (
     <div key={letter._id}>
       <blockquote className="">
         <p>{letter.text}</p>
@@ -186,12 +187,12 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
         <Grid className={classes.item} item xs={12} md={3}>
           <Card>
             <CardContent className={classes.cardContent}>
-              <img
-                className={classes.portrait}
-                src={`${process.env.REACT_APP_NODE_API}/api/users/image/${
-                  user.profile_pic._id
-                }`}
-              />
+              {user.profile_pic !== undefined && (
+                <img
+                  className={classes.portrait}
+                  src={`${apiUrl}/api/users/image/${user.profile_pic._id}`}
+                />
+              )}
               <Typography variant="h6" component="h6">
                 {user.name}
               </Typography>
@@ -199,17 +200,13 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
                 <div>
                   <a
                     className="btn btn-primary"
-                    href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
-                      user.personal_sheet._id
-                    }`}
+                    href={`${apiUrl}/api/users/pdf/${user.personal_sheet._id}`}
                   >
                     Fiche de renseignement
                   </a>
                   <a
                     className="btn btn-primary"
-                    href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
-                      user.convention._id
-                    }`}
+                    href={`${apiUrl}/api/users/pdf/${user.convention._id}`}
                   >
                     Convention de stage
                   </a>
@@ -266,7 +263,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
     //           className="img-fluid rounded"
     //           src={
     //             user.profile_pic !== undefined
-    //               ? `${process.env.REACT_APP_NODE_API}/api/users/image/${
+    //               ? `${apiUrl}/api/users/image/${
     //                   user.profile_pic._id
     //                 }`
     //               : require("../../assets/user.jpg")
@@ -277,7 +274,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
     //   <div>
     //     <a
     //       className="btn btn-primary"
-    //       href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
+    //       href={`${apiUrl}/api/users/pdf/${
     //         user.personal_sheet._id
     //       }`}
     //     >
@@ -285,7 +282,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
     //     </a>
     //     <a
     //       className="btn btn-primary"
-    //       href={`${process.env.REACT_APP_NODE_API}/api/users/pdf/${
+    //       href={`${apiUrl}/api/users/pdf/${
     //         user.convention._id
     //       }`}
     //     >

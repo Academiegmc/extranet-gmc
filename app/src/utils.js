@@ -1,9 +1,15 @@
+export let apiUrl;
+if (process.env.NODE_ENV !== "production") {
+  apiUrl = process.env.REACT_APP_NODE_API_DEV;
+} else {
+  apiUrl = process.env.REACT_APP_NODE_API_PROD;
+}
 export const tokenType = "jwtToken";
-export const userLoginUrl = `${process.env.REACT_APP_NODE_API}/api/users/login`;
-export const adUrl = `${process.env.REACT_APP_NODE_API}/api/annonces`;
-export const newsUrl = `${process.env.REACT_APP_NODE_API}/api/news`;
-export const jobUrl = `${process.env.REACT_APP_NODE_API}/api/jobs`;
-export const userUrl = `${process.env.REACT_APP_NODE_API}/api/users`;
+export const userLoginUrl = `${apiUrl}/api/users/login`;
+export const adUrl = `${apiUrl}/api/annonces`;
+export const newsUrl = `${apiUrl}/api/news`;
+export const jobUrl = `${apiUrl}/api/jobs`;
+export const userUrl = `${apiUrl}/api/users`;
 
 export const urls = {
   admin: "/admin",
@@ -15,7 +21,5 @@ export const urls = {
   mails: "https://mail.google.com/",
   classroom: "https://classroom.google.com/",
   trombinoscope: "/trombinoscope",
-  ri: `${
-    process.env.REACT_APP_NODE_API
-  }/reglement-interieur/2019-2020-Reglement-Interieur.pdf`
+  ri: `${apiUrl}/reglement-interieur/2019-2020-Reglement-Interieur.pdf`
 };

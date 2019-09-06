@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import UserIcon from "../../assets/user_icon.png";
 import { Typography, makeStyles, Avatar, Grid } from "@material-ui/core";
 import "./Comments.css";
+import { apiUrl } from "../../utils";
 const useStyles = makeStyles(theme => ({
   cardHader: {
     backgroundColor: "#2F4858",
@@ -47,9 +48,7 @@ const Comments = ({ comments }) => {
   if (comments.length > 0) {
     displayComments = comments.map((comment, index) => {
       if (comment.user.profile_pic !== undefined) {
-        image = `${process.env.REACT_APP_NODE_API}/api/users/image/${
-          comment.user.profile_pic
-        }`;
+        image = `${apiUrl}/api/users/image/${comment.user.profile_pic}`;
       } else {
         image = UserIcon;
       }
@@ -84,7 +83,7 @@ const Comments = ({ comments }) => {
   //   this.props.comments.length > 0
   //     ? this.props.comments.map((comment, index) => {
   //         if (comment.user.profile_pic !== undefined)
-  //           img = `${process.env.REACT_APP_NODE_API}/api/users/image/${
+  //           img = `${apiUrl}/api/users/image/${
   //             comment.user.profile_pic
   //           }`;
   //         else img = UserIcon;

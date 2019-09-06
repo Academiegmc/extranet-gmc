@@ -35,6 +35,7 @@ import { logout } from "../../actions/authActions";
 import Breadcrumb from "../layout/Breadcrumb";
 import "./Job.css";
 import "react-toastify/dist/ReactToastify.css";
+import { apiUrl } from "../../utils";
 
 toast.configure();
 
@@ -193,7 +194,7 @@ const Job = ({
     formData.append("poste", poste);
     formData.append("lm", lm);
     formData.append("cv", file);
-    Axios.post(process.env.REACT_APP_NODE_API + url, formData, config)
+    Axios.post(apiUrl + url, formData, config)
       .then(res => {
         setOpen(true);
         setCv(null);

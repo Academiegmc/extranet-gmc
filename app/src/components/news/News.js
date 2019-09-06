@@ -30,6 +30,7 @@ import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
 import { updateNewsComments } from "../../actions/newsActions";
 import NewsCard from "./NewsCard";
+import { apiUrl } from "../../utils";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -138,7 +139,7 @@ const News = ({
         imgNews = news.images.map((img, i) => (
           <CardMedia
             className={classes.media}
-            image={`${process.env.REACT_APP_NODE_API}/api/news/image/${img}`}
+            image={`${apiUrl}/api/news/image/${img}`}
             title={`Card image cap ` + i}
             key={i}
           />
@@ -183,9 +184,7 @@ const News = ({
             <CardContent className={classes.cardHeader}>
               <CardMedia
                 className={classes.mediaHeader}
-                image={`${process.env.REACT_APP_NODE_API}/api/users/image/${
-                  user.profile_pic
-                }`}
+                image={`${apiUrl}/api/users/image/${user.profile_pic}`}
                 title={user.name}
               />
               <Typography variant="body2" component="h3">
@@ -216,7 +215,7 @@ const News = ({
                   <Grid item xs>
                     <Typography variant="body2" component="h3">
                       <TextField
-                        placeholder="Entrer le titre de l'annonce"
+                        placeholder="Entrer le titre de l'article"
                         label="Titre de l'annonce"
                         margin="normal"
                         variant="outlined"
@@ -232,7 +231,6 @@ const News = ({
                   <Grid item xs>
                     <Typography variant="body2" component="h3">
                       <TextField
-                        // id="outlined-multiline-flexible"
                         label="Description de l'article"
                         multiline
                         rowsMax="4"
@@ -240,7 +238,6 @@ const News = ({
                         onChange={e => {
                           setDescription(e.target.value);
                         }}
-                        // className={classes.textField}
                         margin="normal"
                         placeholder="Entrer la description de l'article"
                         variant="outlined"
@@ -258,12 +255,6 @@ const News = ({
                       type="file"
                       onChange={e => handleImageUpload(e.target.files)}
                     />
-                    {/* <label htmlFor="images">
-                      <Button variant="contained" component="span">
-                        Upload
-                        <CloudUploadIcon className={classes.rightIcon} />
-                      </Button>
-                    </label> */}
                   </Grid>
                   <Grid item xs>
                     <Typography variant="body2" component="h3">
@@ -283,7 +274,7 @@ const News = ({
               </form>
             </CardContent>
           </Card>
-          {allNews.length > 0 ? (
+          {allNews !== undefined && allNews.length > 0 ? (
             allNews
           ) : (
             <Typography variant="body2" component="h3">
@@ -295,7 +286,7 @@ const News = ({
           <Grid item xs={12} sm={3}>
             <Card className={classes.card}>
               <CardContent className={classes.cardHeader}>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {
                     <Moment format="DD MMMM YYYY" locale="fr">
                       {Date.now()}
