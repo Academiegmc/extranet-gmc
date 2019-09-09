@@ -164,16 +164,14 @@ const Job = ({
     return <h3>Chargement...</h3>;
   }
   const onSubmit = async () => {
-    // if (cv !== null || lm !== "") fileUpload(cv[0], lm, jobTitle, jobCompany);
     if (cv !== null && lm !== "") {
       const formData = new FormData();
       formData.append("jobCompany", jobCompany);
       formData.append("jobTitle", jobTitle);
       formData.append("lm", lm);
       formData.append("cv", cv[0]);
-      const res = await sendApplication(id, formData);
-      console.log(res);
-      if (res.status === "success") {
+      const { status } = await sendApplication(id, formData);
+      if (status === "success") {
         toast("Votre candidature a été envoyée avec succès !", {
           type: "success"
         });
@@ -185,33 +183,6 @@ const Job = ({
         });
       }
     }
-  };
-  const fileUpload = (file, lm, poste, agence) => {
-    const url = "/api/jobs/application";
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
-    const formData = new FormData();
-    formData.append("agence", agence);
-    formData.append("poste", poste);
-    formData.append("lm", lm);
-    formData.append("cv", file);
-    Axios.post(apiUrl + url, formData, config)
-      .then(res => {
-        setOpen(true);
-        setCv(null);
-        setLm("");
-        toast("Merci d'avoir postulé !", { type: "success" });
-      })
-      .catch(err => {
-        console.log(err);
-        toast("Une erreur est survenue lors de l'envoi de votre CV.", {
-          type: "error"
-        });
-        if (err.response.status === 403) {
-          //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
-          logout();
-          history.push("/");
-        }
-      });
   };
 
   const {

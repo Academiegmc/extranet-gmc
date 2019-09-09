@@ -44,7 +44,7 @@ const Alert = ({ alert, setAlert, logout }) => {
       >
         <Typography component="p">
           <Info /> {alert.msg}{" "}
-          {alert.auth && (
+          {!alert.auth && (
             <Button className={classes.btnLogin} onClick={logoutUser}>
               Reconnectez-vous
             </Button>

@@ -120,7 +120,9 @@ export const updateUser = userData => async dispatch => {
     formData.append("author", userData.author);
     const res = await axios.put(`${userUrl}`, formData);
     dispatch({ type: UPDATE_USER, payload: res.data });
+    return res.data;
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
+    return error.response.data;
   }
 };

@@ -54,7 +54,7 @@ const Jobs = {
       jobCompanySite: req.body.jobCompanySite
     });
     await newJob.save();
-    res.status(200).json(newJob.getData());
+    res.status(200).json({ job: await newJob.getData(), status: "success" });
   },
   updateJobs: async (req, res) => {
     const job = await Job.findById(req.params.id);
@@ -79,27 +79,19 @@ const Jobs = {
     if (req.body.jobCompanySite !== "")
       job.jobCompanySite = req.body.jobCompanySite;
     await job.save();
-    res.status(200).json(job.getData());
+    res.status(200).json({ job: await job.getData(), status: "success" });
   },
   deleteJobs: async (req, res) => {
     await Job.findOneAndRemove({ _id: req.params.id });
-    res.status(200).json({ success: true });
+    res.status(200).json({ status: "success" });
   },
   sendApplication: async (req, res) => {
-    console.log(req.file);
     const fileData = await fs.readFileSync(req.file.path);
     const user = await User.findOne({ email: req.user.mail });
     if (!user)
       return res
         .status(404)
         .json({ success: false, message: ErrorMessage.userNotFound });
-
-    // let transport = nodemailer.createTransport({
-    //   service: config.mail.service,
-    //   secure: config.mail.secure,
-    //   auth: config.mail.auth,
-    //   tls: config.mail.tls
-    // });
     let transport = nodemailer.createTransport({
       host: process.env.NODEMAILER_SMTP,
       port: process.env.NODEMAILER_SMTP_PORT,
@@ -110,11 +102,7 @@ const Jobs = {
       },
       tls: { rejectUnauthorized: process.env.NODEMAILER_TLS }
     });
-    let output = `<h1>Hello ${
-      user.name
-    }</h1><p>Merci d'avoir postulé au poste de ${req.body.jobTitle} chez ${
-      req.body.jobCompany
-    }</p><h3>Lettre de motivation</h3><p>${req.body.lm}</p>`;
+    let output = `<h1>Hello ${user.name}</h1><p>Merci d'avoir postulé au poste de ${req.body.jobTitle} chez ${req.body.jobCompany}</p><h3>Lettre de motivation</h3><p>${req.body.lm}</p>`;
     let mailOptions = {
       from: user.name + "<" + user.email + ">",
       to: process.env.NODEMAILER_USER_RECEIVER,
@@ -129,7 +117,10 @@ const Jobs = {
       attachments: [{ filename: req.file.originalname, content: fileData }]
     };
     transport.sendMail(mailOptions, async (error, info) => {
-      if (error) return console.log(error);
+      if (error) {
+        console.error(error);
+        return error;
+      }
       const job = await Job.findById(req.params.id);
       if (!job)
         return res
@@ -139,13 +130,11 @@ const Jobs = {
       await job.save();
       console.log("Message envoyé : %s", info.messageId);
       console.log("URL : %s", nodemailer.getTestMessageUrl(info));
-      res
-        .status(200)
-        .json({
-          success: true,
-          message: "Candidature envoyée",
-          status: "success"
-        });
+      res.status(200).json({
+        success: true,
+        message: "Candidature envoyée",
+        status: "success"
+      });
     });
   },
   searchJobs: async (req, res) => {

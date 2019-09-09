@@ -30,17 +30,7 @@ app.use(async (req, res, next) => {
   }
 });
 //DB Config
-// const db = keys.mongoURI;
-let db;
-if (process.env.NODE_ENV !== "production") {
-  if (process.env.NODE_ENV === "test") {
-    db = process.env.MONGOURITEST;
-  } else {
-    db = process.env.MONGOURIDEV;
-  }
-} else {
-  db = process.env.MONGOURIPROD;
-}
+const db = keys.mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log("MongoDB connected..."))

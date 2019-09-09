@@ -3,11 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import imageCompression from "browser-image-compression";
 import bsCustomFileInput from "bs-custom-file-input";
-import { updateUser, getUser } from "../../actions/usersAction";
-import { logout } from "../../actions/authActions";
-import ReturnButton from "../layout/ReturnButton";
-
-import "./Profile.css";
+import { toast } from "react-toastify";
 import {
   Container,
   Grid,
@@ -31,6 +27,14 @@ import MomentUtils from "@date-io/moment";
 
 import "moment/locale/fr";
 import Alert from "../layout/Alert";
+import { updateUser, getUser } from "../../actions/usersAction";
+import { logout } from "../../actions/authActions";
+import ReturnButton from "../layout/ReturnButton";
+import "react-toastify/dist/ReactToastify.css";
+import "./Profile.css";
+
+toast.configure();
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -120,34 +124,27 @@ const ProfileForm = ({
   };
   const checkPassword = (pass, new_pass, confirm_pass) => {
     if (pass === "" && (new_pass !== "" || confirm_pass !== "")) {
-      setAlert({
-        msg: "Veuillez entrer un mot de passe.",
+      toast("Veuillez entrer un mot de passe.", {
         type: "error"
       });
-      setTimeout(() => setAlert(null), 5000);
     } else {
       if (new_pass !== confirm_pass) {
-        setAlert({
-          msg: "Vos mots de passe ne correspondent pas.",
-          type: "error",
-          field: "password"
+        toast("Vos mots de passe ne correspondent pas.", {
+          type: "error"
         });
-        setTimeout(() => setAlert(null), 5000);
         return;
       }
     }
   };
   const checkRecommandation = (rec_text, rec_author) => {
-    if (
-      (rec_text === "" && rec_author !== "") ||
-      (rec_text !== "" && rec_author === "")
-    ) {
-      setAlert({
-        msg: "Veuillez remplir les deux champs",
-        type: "error",
-        field: "recommandation"
+    let errorTab = [];
+    if (rec_text === "" && rec_author !== "") errorTab.push("rec_text");
+    if (rec_text !== "" && rec_author === "") errorTab.push("rec_author");
+    if (errorTab.length > 0) {
+      setErrorFields(errorTab);
+      toast("Veuillez remplir les deux champs de recommandation.", {
+        type: "error"
       });
-      setTimeout(() => setAlert(null), 5000);
       return;
     }
   };
@@ -204,14 +201,11 @@ const ProfileForm = ({
     ) {
       errorTab.push("company_end_date");
     }
-    setErrorFields(errorTab);
     if (errorTab.length > 0) {
-      setAlert({
-        msg: "Veuillez corriger les informations rentrées dans le formulaire",
-        type: "error",
-        field: errorTab
+      setErrorFields(errorTab);
+      toast("Veuillez corriger les informations rentrées dans le formulaire.", {
+        type: "error"
       });
-      setTimeout(() => setAlert(null), 5000);
       return;
     }
   };
@@ -237,12 +231,19 @@ const ProfileForm = ({
       author
     };
     if (errorFields && errorFields.length === 0) {
-      updateUser(data);
-      setAlert({
-        msg: "Vos informations ont été modifiées !",
-        type: "success",
-        field: []
-      });
+      const { status } = await updateUser(data);
+      if (status === "success") {
+        toast("Vos informations ont été modifiées !", {
+          type: "success"
+        });
+      } else {
+        toast(
+          "Une erreur est survenue lors de la modification de votre profil.",
+          {
+            type: "error"
+          }
+        );
+      }
       setAuthor("");
       setName("");
       setPoste("");
@@ -254,7 +255,6 @@ const ProfileForm = ({
       setFicheRenseignement(null);
       setStart_date(null);
       setEnd_date(null);
-      setTimeout(() => setAlert(null), 5000);
     }
   };
   if (loading || users === null) {
@@ -345,52 +345,49 @@ const ProfileForm = ({
             <Typography variant="body2" component="h5">
               Recommandations
             </Typography>
-            {alert &&
-            alert.type === "error" &&
-            alert.field === "recommandation" ? (
-              <Fragment>
-                <TextField
-                  error
-                  className={classes.textField}
-                  variant="outlined"
-                  placeholder="Entrer une lettre de recommandation"
-                  label="Lettre de recommandation"
-                  value={lettreRecommandation}
-                  multiline
-                  rows={4}
-                  onChange={e => setLettreRecommandation(e.target.value)}
-                />
-                <TextField
-                  error
-                  className={classes.textField}
-                  variant="outlined"
-                  placeholder="Entrer l'auteur de cette recommandation"
-                  label="Auteur"
-                  value={author}
-                  onChange={e => setAuthor(e.target.value)}
-                />
-              </Fragment>
+            {errorFields && errorFields.includes("rec_text") ? (
+              <TextField
+                error
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Entrer une lettre de recommandation"
+                label="Lettre de recommandation"
+                value={lettreRecommandation}
+                multiline
+                rows={4}
+                onChange={e => setLettreRecommandation(e.target.value)}
+              />
             ) : (
-              <Fragment>
-                <TextField
-                  className={classes.textField}
-                  variant="outlined"
-                  placeholder="Entrer une lettre de recommandation"
-                  label="Lettre de recommandation"
-                  value={lettreRecommandation}
-                  multiline
-                  rows={4}
-                  onChange={e => setLettreRecommandation(e.target.value)}
-                />
-                <TextField
-                  className={classes.textField}
-                  variant="outlined"
-                  placeholder="Entrer l'auteur de cette recommandation"
-                  label="Auteur"
-                  value={author}
-                  onChange={e => setAuthor(e.target.value)}
-                />
-              </Fragment>
+              <TextField
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Entrer une lettre de recommandation"
+                label="Lettre de recommandation"
+                value={lettreRecommandation}
+                multiline
+                rows={4}
+                onChange={e => setLettreRecommandation(e.target.value)}
+              />
+            )}
+            {errorFields && errorFields.includes("rec_author") ? (
+              <TextField
+                error
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Entrer l'auteur de cette recommandation"
+                label="Auteur"
+                value={author}
+                onChange={e => setAuthor(e.target.value)}
+              />
+            ) : (
+              <TextField
+                className={classes.textField}
+                variant="outlined"
+                placeholder="Entrer l'auteur de cette recommandation"
+                label="Auteur"
+                value={author}
+                onChange={e => setAuthor(e.target.value)}
+              />
             )}
           </CardContent>
         </Card>

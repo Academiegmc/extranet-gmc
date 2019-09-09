@@ -70,16 +70,13 @@ const Users = {
         .json({ success: false, message: "User already exists" });
     password = await bcrypt.hash(password, salt);
     const newUser = new User({ name, email, password, status, admin: false });
-    console.log(newUser);
     await newUser.save();
     utils.sendRegisterMail(email, passwordToSend);
-    res.status(201).json({ success: true, user: newUser });
+    res.status(201).json({ status: "success", user: newUser });
   },
   update: async (req, res) => {
     const user = await User.findById(req.user.id);
-    const salt = 10;
-    console.log(req.body);
-    console.log(req.files);
+    const salt = process.env.SALT || 10;
     if (!user) return res.status(404).send(ErrorMessage.userNotFound);
     if (
       req.files.profile_pic !== undefined &&
@@ -109,10 +106,21 @@ const Users = {
       await letter.save();
       user.letters.push(letter._id);
     }
-    console.log(user);
+    if (req.body.old_password !== "" && req.body.new_password !== "") {
+      const isMatch = await bcrypt.compare(
+        req.body.old_password,
+        user.password
+      );
+      if (isMatch)
+        user.password = await bcrypt.hash(req.body.new_password, salt);
+      console.log({ isMatch });
+    }
+    console.log({ user });
     const userSaved = await user.save();
     if (!userSaved) return res.status(400).json({ success: false });
-    res.status(200).json(await userSaved.getInfos());
+    res
+      .status(200)
+      .json({ user: await userSaved.getInfos(), status: "success" });
   },
   delete: async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.id);

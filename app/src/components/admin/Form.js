@@ -135,9 +135,6 @@ const Form = ({
     });
     setImages(resTab);
   };
-  // triggerShadow(e) {
-  //   this.setState({ triggerShadowEvent: !this.state.triggerShadowEvent });
-  // }
   const onSubmit = e => {
     e.preventDefault();
     let formErrors = [];
@@ -158,7 +155,6 @@ const Form = ({
           category,
           images
         };
-        console.log(newAd);
         createAd(newAd, history);
       }
     }
