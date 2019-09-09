@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Moment from "moment";
 import ReturnButton from "../layout/ReturnButton";
 import { connect } from "react-redux";
-import { getAJob, updateJob, createJob } from "../../actions/jobActions";
+import { toast } from "react-toastify";
 import {
   makeStyles,
   Container,
@@ -27,7 +27,12 @@ import MomentUtils from "@date-io/moment";
 import "moment/locale/fr";
 
 import Alert from "../layout/Alert";
+import { getAJob, updateJob, createJob } from "../../actions/jobActions";
+
+import "react-toastify/dist/ReactToastify.css";
 import "./AddJob.css";
+
+toast.configure();
 
 const useStyle = makeStyles(theme => ({
   root: {
@@ -56,8 +61,9 @@ const useStyle = makeStyles(theme => ({
   },
   btn: {
     width: "100%",
-    padding: theme.spacing(1),
-    backgroundColor: "#C9B8B7",
+    // padding: theme.spacing(1),
+    // backgroundColor: "#C9B8B7",
+    fontSize: "2rem",
     color: "white"
   }
 }));
@@ -94,7 +100,7 @@ const AddJob = ({
       getAJob(match.params.id);
     }
   }, []);
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
     if (match.path === updateUrl) {
       const newJob = {
@@ -111,13 +117,11 @@ const AddJob = ({
         jobCompanyDescription,
         jobCompanySite
       };
-      updateJob(match.params.id, newJob);
-      setAlert({
-        msg: "Les informations ont été modifiées !",
-        type: "success",
-        field: []
-      });
-      setTimeout(() => setAlert(null), 5000);
+      // history.push('/jobboard');
+      const { status } = await updateJob(match.params.id, newJob);
+      if (status === "success") {
+        toast("Les informations ont été modifiées !", { type: "success" });
+      }
     }
     if (match.path === createUrl) {
       const newJob = {
@@ -134,13 +138,11 @@ const AddJob = ({
         jobCompanyDescription,
         jobCompanySite
       };
-      createJob(newJob, history);
-      setAlert({
-        msg: "Le job a été créé avec succès !",
-        type: "success",
-        field: []
-      });
-      setTimeout(() => setAlert(null), 5000);
+      const { status } = await createJob(newJob);
+      // history.push('/jobboard');
+      if (status === "success") {
+        toast("Le job a été créé avec succès !", { type: "success" });
+      }
     }
   };
   if (loading) {
@@ -329,14 +331,9 @@ const AddJob = ({
               value={jobCompanySite}
               variant="outlined"
             />
-            <Input
-              className={classes.btn}
-              variant="outlined"
-              onClick={onSubmit}
-              type="submit"
-            >
+            <TextField className={classes.btn} variant="outlined" type="submit">
               Ajouter un job
-            </Input>
+            </TextField>
           </form>
         </CardContent>
       </Card>

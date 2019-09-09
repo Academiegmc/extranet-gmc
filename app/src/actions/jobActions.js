@@ -50,36 +50,37 @@ export const getAJob = jobId => async dispatch => {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };
-export const createJob = (jobData, history) => async dispatch => {
+export const createJob = jobData => async dispatch => {
   try {
     setLoading();
     const res = await axios.post(jobUrl, jobData);
-    dispatch({ type: CREATE_JOB, payload: res.data });
+    dispatch({ type: CREATE_JOB, payload: res.data.job });
+    return res.data;
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
-    if (error.response.status === 403) {
-      //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
-      logout();
-      history.push("/");
-    }
+    return error.response.data;
   }
 };
 export const updateJob = (jobId, jobData) => async dispatch => {
   try {
     setLoading();
     const res = await axios.put(`${jobUrl}/edit/${jobId}`, jobData);
-    dispatch({ type: UPDATE_JOB, payload: res.data });
+    dispatch({ type: UPDATE_JOB, payload: res.data.job });
+    return res.data;
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
+    return error.response.data;
   }
 };
 export const deleteJob = jobId => async dispatch => {
   try {
     setLoading();
-    await axios.delete(`${jobUrl}/${jobId}`);
+    const res = await axios.delete(`${jobUrl}/${jobId}`);
     dispatch({ type: DELETE_JOB, payload: jobId });
+    return res.data;
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
+    return error.response.data;
   }
 };
 
