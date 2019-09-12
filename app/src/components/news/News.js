@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
+import { toast } from "react-toastify";
 import Moment from "react-moment";
 import imageCompression from "browser-image-compression";
 import {
@@ -25,12 +26,14 @@ import "./News.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { createNews } from "../../actions/newsActions";
-import Alert from "../layout/Alert";
 import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
 import { updateNewsComments } from "../../actions/newsActions";
 import NewsCard from "./NewsCard";
 import { apiUrl } from "../../utils";
+import { TagFacesRounded } from "@material-ui/icons";
+import Face from "../../assets/face.png";
+toast.configure();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -83,7 +86,6 @@ const News = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
-  const [alert, setAlert] = useState(null);
 
   const classes = useStyles();
 
@@ -121,11 +123,9 @@ const News = ({
       setDescription("");
       setImages([]);
     } else {
-      setAlert({
-        msg: "Veuillez entrer un titre et une description pour votre article",
+      toast("Veuillez entrer un titre et une description pour votre article", {
         type: "error"
       });
-      setTimeout(() => setAlert(null), 5000);
     }
   };
   let imgNews;
@@ -176,7 +176,6 @@ const News = ({
   const links = [{ title: "News", url: "/news" }];
   return (
     <Container>
-      <Alert alert={alert} setAlert={setAlert} />
       <Breadcrumb links={links} />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={3}>
@@ -184,7 +183,11 @@ const News = ({
             <CardContent className={classes.cardHeader}>
               <CardMedia
                 className={classes.mediaHeader}
-                image={`${apiUrl}/api/users/image/${user.profile_pic}`}
+                image={
+                  user.profile_pic
+                    ? `${apiUrl}/api/users/image/${user.profile_pic}`
+                    : Face
+                }
                 title={user.name}
               />
               <Typography variant="body2" component="h3">

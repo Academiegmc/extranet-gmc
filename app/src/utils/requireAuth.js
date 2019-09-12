@@ -25,10 +25,7 @@ export default ComposedComponent => {
       } else {
         return <ComposedComponent {...props} />;
       }
-      // return <ComposedComponent {...props} />;
-      // return <h1>Hello</h1>;
     }
-    // return <ComposedComponent {...props} />;
   };
   RequireAuth.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
