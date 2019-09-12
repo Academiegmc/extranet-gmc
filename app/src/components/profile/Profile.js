@@ -52,7 +52,8 @@ const useStyles = makeStyles(theme => ({
     width: "auto"
   },
   card: {
-    width: "100%"
+    width: "100%",
+    height: "200px"
     // marginTop: 20,
     // marginBottom: 20
   },
@@ -117,22 +118,17 @@ const Profile = ({
   if (loading || users === null) {
     return <h1>Chargement...</h1>;
   }
-  const logoutUser = () => {
-    //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
-    logout();
-    history.push("/");
-  };
   let { userNews, userAds, userJobs } = users;
   let allUserAds;
   let allUserJobs;
   let allUserNews;
   const settings = {
-    adaptiveHeight: true,
+    // adaptiveHeight: true,
     dots: true,
     infinite: true,
     arrows: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     initialSlide: 0,
     responsive: [
