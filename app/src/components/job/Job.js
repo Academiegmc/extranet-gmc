@@ -28,14 +28,9 @@ import IconButton from "@material-ui/core/IconButton";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { green } from "@material-ui/core/colors";
 import { getAJob, sendApplication } from "../../actions/jobActions";
-import Axios from "axios";
-import ReturnButton from "../layout/ReturnButton";
-import Alert from "../layout/Alert";
-import { logout } from "../../actions/authActions";
 import Breadcrumb from "../layout/Breadcrumb";
 import "./Job.css";
 import "react-toastify/dist/ReactToastify.css";
-import { apiUrl } from "../../utils";
 
 toast.configure();
 
@@ -148,7 +143,6 @@ const Job = ({
   const [lm, setLm] = useState("");
   const [cv, setCv] = useState(null);
   const [open, setOpen] = React.useState(false);
-  const [alert, setAlert] = useState(null);
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
     "html",
@@ -222,7 +216,6 @@ const Job = ({
   ];
   return (
     <Container>
-      <Alert alert={alert} setAlert={setAlert} />
       <Breadcrumb links={links} />
       {/* <ReturnButton history={history} /> */}
       <Grid className={classes.grid} container>

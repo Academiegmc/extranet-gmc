@@ -56,7 +56,6 @@ const NewsCard = ({ news, auth, match, updateNewsComments, imgNews }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
-  const [alert, setAlert] = useState(null);
   const [commentId, setCommentId] = useState("");
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",

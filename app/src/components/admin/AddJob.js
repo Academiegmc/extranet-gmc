@@ -26,7 +26,6 @@ import {
 import MomentUtils from "@date-io/moment";
 import "moment/locale/fr";
 
-import Alert from "../layout/Alert";
 import { getAJob, updateJob, createJob } from "../../actions/jobActions";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -93,7 +92,6 @@ const AddJob = ({
   const [jobCompany, setJobCompany] = useState("");
   const [jobCompanyDescription, setJobCompanyDescription] = useState("");
   const [jobCompanySite, setJobCompanySite] = useState("");
-  const [alert, setAlert] = useState(null);
   useEffect(() => {
     setLabelWidth(inputLabel.current.offsetWidth);
     if (match.path === updateUrl) {
@@ -150,7 +148,6 @@ const AddJob = ({
   }
   return (
     <Container className={classes.root}>
-      <Alert alert={alert} setAlert={setAlert} />
       <ReturnButton history={history} />
       <Card>
         <CardHeader

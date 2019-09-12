@@ -117,7 +117,6 @@ const Profile = ({
   if (loading || users === null) {
     return <h1>Chargement...</h1>;
   }
-  console.log(users);
   const logoutUser = () => {
     //Rediriger l'utilisateur vers la page de login après quelques secondes en l'avertissant au préalable
     logout();

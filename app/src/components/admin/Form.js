@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import bsCustomFileInput from "bs-custom-file-input";
 import imageCompression from "browser-image-compression";
@@ -25,8 +26,9 @@ import {
   NativeSelect,
   FormHelperText
 } from "@material-ui/core";
-import { Fragment } from "react";
-import Alert from "../layout/Alert";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -98,7 +100,7 @@ const Form = ({
   const [images, setImages] = useState(null);
   const [triggerShadowEvent, setTriggerShadowEvent] = useState(false);
   const [labelWidth, setLabelWidth] = useState(0);
-  const [alert, setAlert] = useState(null);
+  const [errorFields, setErrorFields] = useState(null);
 
   let inputLabel = useRef(null);
   useEffect(() => {
@@ -125,12 +127,9 @@ const Form = ({
         resTab.push(compressedFile);
       } catch (error) {
         console.error(error);
-        setAlert({
-          msg: "Veuillez uploader une photo !",
-          type: "error",
-          field: ["image"]
+        toast("Veuillez uploader une photo !", {
+          type: "error"
         });
-        setTimeout(() => setAlert(null), 5000);
       }
     });
     setImages(resTab);
@@ -141,12 +140,10 @@ const Form = ({
     if (match.path === "/admin/annonce") {
       if (title === "" || description === "") {
         formErrors.push("title", "description");
-        setAlert({
-          msg: "Veuillez remplir les deux champs !",
-          type: "error",
-          field: formErrors
+        setErrorFields(formErrors);
+        toast("Veuillez remplir les deux champs !", {
+          type: "error"
         });
-        setTimeout(() => setAlert(null), 5000);
       }
       if (formErrors.length === 0) {
         const newAd = {
@@ -167,7 +164,6 @@ const Form = ({
   else loading = null;
   return (
     <div className={classes.root}>
-      <Alert alert={alert} setAlert={setAlert} />
       <ReturnButton history={history} />
       <Card>
         <CardHeader
@@ -184,10 +180,9 @@ const Form = ({
             onMouseEnter={() => setTriggerShadowEvent(!triggerShadowEvent)}
             onMouseLeave={() => setTriggerShadowEvent(!triggerShadowEvent)}
           >
-            {alert &&
-            alert.type === "error" &&
-            (alert.field.includes("title") ||
-              alert.field.includes("description")) ? (
+            {errorFields &&
+            (errorFields.includes("title") ||
+              errorFields.includes("description")) ? (
               <Fragment>
                 <TextField
                   className={classes.input}
@@ -238,9 +233,7 @@ const Form = ({
                 />
               </Fragment>
             )}
-            {alert &&
-            alert.type === "error" &&
-            alert.field.includes("image") ? (
+            {errorFields && errorFields.includes("image") ? (
               <FormControl className={classes.formControl} error>
                 <Input
                   type="file"
@@ -312,11 +305,11 @@ const Form = ({
                     <option value="cosmetique">Cosmétique</option>
                   </NativeSelect>
                 </FormControl>
-                {alert ? (
+                {title === "" && description === "" ? (
                   <Button
                     className={classes.btn}
                     variant="contained"
-                    onClick={onSubmit}
+                    // onClick={onSubmit}
                     fullWidth
                     disabled
                   >
