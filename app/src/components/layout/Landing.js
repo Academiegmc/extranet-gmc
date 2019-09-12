@@ -39,16 +39,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Landing = ({ auth, errors, history, loginUser }) => {
+const Landing = ({ auth, errors: { errors }, history, loginUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
-    // console.log(auth);
-    if (auth.isAuthenticated) history.push("/dashboard");
-  }, []);
+    if (errors === null && auth.isAuthenticated) history.push("/dashboard");
+  }, [auth, errors]);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };

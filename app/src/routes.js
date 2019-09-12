@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 import Landing from "./components/layout/Landing";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -22,18 +23,13 @@ import requireAuth from "./utils/requireAuth";
 import ProfileForm from "./components/profile/ProfileForm";
 import Markdown from "./components/markdown/Markdown";
 import Navbar from "./components/layout/Navbar";
-import Alert from "./components/layout/Alert";
 
-const Routes = ({ errors: { errors }, auth }) => {
-  const [alert, setAlert] = useState(null);
-  useEffect(() => {
-    console.log(errors);
-    if (errors !== null) {
-      setAlert({ msg: errors.message, type: "error", auth: false });
-      // setTimeout(() => setAlert(null), 5000);
-    }
-  }, [errors]);
+import "react-toastify/dist/ReactToastify.css";
+import { logout } from "./actions/authActions";
 
+toast.configure();
+
+const Routes = ({ errors: { errors }, auth, logout }) => {
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
       <Route
@@ -41,7 +37,6 @@ const Routes = ({ errors: { errors }, auth }) => {
         render={props => (
           <Fragment>
             <Navbar {...props} />
-            <Alert {...props} alert={alert} setAlert={setAlert} />
           </Fragment>
         )}
       />
@@ -104,5 +99,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  {}
+  { logout }
 )(Routes);

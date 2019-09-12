@@ -11,7 +11,7 @@ import {
   SEND_JOB_APPLICATION
 } from "./types";
 import { jobUrl } from "../utils";
-import { logout } from "./authActions";
+import { logout, setCurrentUser } from "./authActions";
 import { setLoading } from "./newsActions";
 export const getAllJobs = () => async dispatch => {
   try {
@@ -22,7 +22,6 @@ export const getAllJobs = () => async dispatch => {
       payload: res.data
     });
   } catch (error) {
-    console.log(error);
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
 };
