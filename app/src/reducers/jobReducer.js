@@ -12,7 +12,7 @@ import {
 const initialState = {
   loading: false,
   isSent: false,
-  jobs: [],
+  jobs: null,
   search_jobs: null,
   job: null,
   errors: null
