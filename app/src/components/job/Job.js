@@ -19,7 +19,6 @@ import {
   Link,
   Snackbar,
   SnackbarContent,
-  Icon,
   Chip
 } from "@material-ui/core";
 import { CloudUpload, Done } from "@material-ui/icons";

@@ -5,13 +5,6 @@ import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import bsCustomFileInput from "bs-custom-file-input";
 import imageCompression from "browser-image-compression";
-
-import "./Form.css";
-import { getANews, updateNews } from "../../actions/newsActions";
-import { logout } from "../../actions/authActions";
-import { createAd, updateAd, getAnAd } from "../../actions/adAction";
-import ReturnButton from "../layout/ReturnButton";
-import Loading from "../layout/Loading";
 import {
   Button,
   makeStyles,
@@ -26,7 +19,15 @@ import {
   NativeSelect,
   FormHelperText
 } from "@material-ui/core";
+
+import { getANews, updateNews } from "../../actions/newsActions";
+import { logout } from "../../actions/authActions";
+import { createAd, updateAd, getAnAd } from "../../actions/adAction";
+import ReturnButton from "../layout/ReturnButton";
+import Loading from "../layout/Loading";
+
 import "react-toastify/dist/ReactToastify.css";
+import "./Form.css";
 
 toast.configure();
 
@@ -126,7 +127,6 @@ const Form = ({
         const compressedFile = await imageCompression(image, options);
         resTab.push(compressedFile);
       } catch (error) {
-        console.error(error);
         toast("Veuillez uploader une photo !", {
           type: "error"
         });
@@ -262,34 +262,6 @@ const Form = ({
                 News
               </Typography>
             ) : (
-              // <div className="input-group mt-3 mb-3">
-              //   <div className="input-group-prepend">
-              //     <span className="input-group-text" id="inputGroupFileAddon01">
-              //       <i className="fas fa-file-pdf" />
-              //     </span>
-              //   </div>
-              //   <div className="custom-file">
-              //     <input
-              //       type="file"
-              //       className="custom-file-input"
-              //       accept="image/*"
-              //       id="images"
-              //       name="images"
-              //       multiple
-              //       onChange={handleImageUpload}
-              //     />
-              //     <label
-              //       className="custom-file-label"
-              //       data-browse="Parcourir"
-              //       htmlFor="images"
-              //     >
-              //       Illustrez vos propos avec des images
-              //     </label>
-              //     <small>Types de fichiers autorisés: .jpg .png.</small>
-              //     <small>Taille maximum : 2Mo.</small>
-              //   </div>
-              //   {match.path === "/news/edit/:id" ? updateBtn : createBtn}
-              // </div>
               <Fragment>
                 <FormControl className={classes.input}>
                   <InputLabel ref={inputLabel} htmlFor="category">
@@ -309,7 +281,6 @@ const Form = ({
                   <Button
                     className={classes.btn}
                     variant="contained"
-                    // onClick={onSubmit}
                     fullWidth
                     disabled
                   >
@@ -326,34 +297,6 @@ const Form = ({
                   </Button>
                 )}
               </Fragment>
-              // <div className="form-group-select">
-              //   <label htmlFor="category">Catégorie</label>
-              //   <select
-              //     className="form-control"
-              //     id="category"
-              //     name="category"
-              //     aria-describedby="categoryHelp"
-              //     placeholder="Type de contrat"
-              //     onChange={e => setCategory(e.target.value)}
-              //     value={category}
-              //   >
-              // <option value="etude">Etude</option>
-              // <option value="loisir">Loisir</option>
-              // <option value="cosmetique">Cosmétique</option>
-              //   </select>
-              //   {match.path === "/annonce/edit/:id" ? (
-              //     <button className="btn btn-primary" style={{ width: "100%" }}>
-              //       Modifier l'annonce
-              //     </button>
-              //   ) : (
-              // <button
-              //   className="btn btn-primary"
-              //   style={{ width: "100%", marginTop: "2%" }}
-              // >
-              //   Ajouter l'annonce
-              // </button>
-              //   )}
-              // </div>
             )}
           </form>
         </CardContent>
