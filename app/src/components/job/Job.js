@@ -30,6 +30,7 @@ import { getAJob, sendApplication } from "../../actions/jobActions";
 import Breadcrumb from "../layout/Breadcrumb";
 import "./Job.css";
 import "react-toastify/dist/ReactToastify.css";
+import ReturnButton from "../layout/ReturnButton";
 
 toast.configure();
 
@@ -216,7 +217,7 @@ const Job = ({
   return (
     <Container>
       <Breadcrumb links={links} />
-      {/* <ReturnButton history={history} /> */}
+      <ReturnButton history={history} />
       <Grid className={classes.grid} container>
         <Card className={classes.card}>
           <CardHeader
