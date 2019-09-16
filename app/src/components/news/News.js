@@ -18,7 +18,8 @@ import {
   Link,
   TextField,
   Hidden,
-  Input
+  Input,
+  CircularProgress
 } from "@material-ui/core";
 import Clock from "react-live-clock";
 import { getAllNews } from "../../actions/newsActions";
@@ -68,6 +69,15 @@ const useStyles = makeStyles(theme => ({
   },
   rightIcon: {
     marginLeft: theme.spacing(1)
+  },
+  grid: {
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  progress: {
+    margin: theme.spacing(2)
   }
 }));
 
@@ -130,7 +140,11 @@ const News = ({
   };
   let imgNews;
   if (loading || newsTab === null || user === null) {
-    return <h2>Chargement...</h2>;
+    return (
+      <div className={classes.grid}>
+        <CircularProgress className={classes.progress} />
+      </div>
+    );
   }
   let allNews;
   if (newsTab !== undefined && newsTab.length > 0) {

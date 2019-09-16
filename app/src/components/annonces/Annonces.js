@@ -11,7 +11,8 @@ import {
   CardContent,
   Button,
   TextField,
-  Container
+  Container,
+  CircularProgress
 } from "@material-ui/core";
 import ReactMarkdown from "react-markdown";
 import { getAllAds, searchAd } from "../../actions/adAction";
@@ -70,10 +71,19 @@ const useStyles = makeStyles(theme => ({
     flexWrap: "wrap",
     width: "100%",
     height: "100%"
+  },
+  gridProcess: {
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  progress: {
+    margin: theme.spacing(2)
   }
 }));
 
-const Annonces = ({ ads, searchAd, getAllAds, history }) => {
+const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
   const [value, setValue] = useState("");
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
@@ -86,12 +96,16 @@ const Annonces = ({ ads, searchAd, getAllAds, history }) => {
     getAllAds();
   }, []);
 
-  if (ads.ads === null) {
-    return <h3>Chargement...</h3>;
+  if (ads === null) {
+    return (
+      <div className={classes.gridProcess}>
+        <CircularProgress className={classes.progress} />
+      </div>
+    );
   }
   let allAnnonces;
-  if (ads.ads.length > 0) {
-    allAnnonces = ads.ads.map(annonce => (
+  if (ads.length > 0) {
+    allAnnonces = ads.map(annonce => (
       <Grid className={classes.gridItem} item key={annonce.id}>
         <Card>
           <CardContent>
@@ -118,6 +132,7 @@ const Annonces = ({ ads, searchAd, getAllAds, history }) => {
       </Grid>
     ));
   }
+
   const links = [{ title: "Annonces", url: "/annonces" }];
   return (
     <Container className={classes.root}>

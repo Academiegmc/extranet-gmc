@@ -15,7 +15,8 @@ import {
   makeStyles,
   Button,
   TextField,
-  Paper
+  Paper,
+  CircularProgress
 } from "@material-ui/core";
 import clsx from "clsx";
 import Breadcrumb from "../layout/Breadcrumb";
@@ -66,6 +67,9 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     marginTop: 20,
     marginBottom: 20
+  },
+  progress: {
+    margin: theme.spacing(2)
   }
 }));
 const Jobboard = ({
@@ -81,7 +85,11 @@ const Jobboard = ({
   }, []);
 
   if (loading || jobs === null) {
-    return <h3>Chargement...</h3>;
+    return (
+      <div className={classes.grid}>
+        <CircularProgress className={classes.progress} />
+      </div>
+    );
   }
   const displayJobs = jobs.map(job => (
     <Grid className={classes.gridItem} item key={job.id} xs={12}>

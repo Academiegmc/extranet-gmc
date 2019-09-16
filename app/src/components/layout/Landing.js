@@ -4,9 +4,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import {
   IconButton,
-  Button,
   makeStyles,
-  Container,
   Grid,
   TextField,
   InputAdornment,
@@ -16,7 +14,6 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { loginUser } from "../../actions/authActions";
 import Logo from "../../assets/logo.png";
 import "./Landing.css";
-import { Fragment } from "react";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +26,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center"
   },
   item: {
-    width: "50%"
+    width: "80%",
+    [theme.breakpoints.up("md")]: {
+      width: "50%"
+    }
   },
   margin: {
     margin: theme.spacing(1)
@@ -117,16 +117,8 @@ const Landing = ({ auth, errors: { errors }, history, loginUser }) => {
           variant="outlined"
           fullWidth
           type="submit"
+          value="Se connecter"
         />
-        {/* <Button
-          className={classes.button}
-          variant="contained"
-          fullWidth
-          style={buttonStyle}
-          onClick={onSubmit}
-        >
-          Se connecter
-        </Button> */}
       </Grid>
     </form>
   );
