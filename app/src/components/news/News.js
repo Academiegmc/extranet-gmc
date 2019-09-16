@@ -32,8 +32,8 @@ import Breadcrumb from "../layout/Breadcrumb";
 import { updateNewsComments } from "../../actions/newsActions";
 import NewsCard from "./NewsCard";
 import { apiUrl } from "../../utils";
-import { TagFacesRounded } from "@material-ui/icons";
 import Face from "../../assets/face.png";
+
 toast.configure();
 
 const useStyles = makeStyles(theme => ({

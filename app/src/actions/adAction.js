@@ -38,7 +38,7 @@ export const getAnAd = adId => async dispatch => {
     dispatch({ type: GET_ERRORS, payload: error.message.data });
   }
 };
-export const createAd = (adData, history) => async dispatch => {
+export const createAd = adData => async dispatch => {
   const { title, description, category, images } = adData;
   const formData = new FormData();
   formData.append("title", title);
@@ -56,9 +56,13 @@ export const createAd = (adData, history) => async dispatch => {
     setLoading();
     const res = await axios.post(adUrl, formData);
     dispatch({ type: CREATE_AD, payload: res.data });
-    history.push("/annonces");
+    // history.push("/annonces");
+    console.log({ res: res.data });
+    return res.data;
   } catch (error) {
+    console.log({ error });
     dispatch({ type: GET_ERRORS, payload: error.response.data });
+    return error.response.data;
   }
 };
 export const updateComments = (adID, comment) => async dispatch => {
@@ -70,14 +74,15 @@ export const updateComments = (adID, comment) => async dispatch => {
     dispatch({ type: GET_ERRORS, payload: error.message.data });
   }
 };
-export const updateAd = (adId, adData, history) => async dispatch => {
+export const updateAd = (adId, adData) => async dispatch => {
   try {
     setLoading();
     const res = await axios.put(`${adUrl}/edit/${adId}`, adData);
     dispatch({ type: UPDATE_AD, payload: res.data });
-    history.push("/annonces");
+    return res.data;
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.message.data });
+    return error.message.data;
   }
 };
 export const deleteAd = adId => async dispatch => {

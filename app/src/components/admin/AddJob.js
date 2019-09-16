@@ -119,6 +119,10 @@ const AddJob = ({
       const { status } = await updateJob(match.params.id, newJob);
       if (status === "success") {
         toast("Les informations ont été modifiées !", { type: "success" });
+      } else {
+        toast("Une erreur est survenue lors de la modification du job", {
+          type: "error"
+        });
       }
     }
     if (match.path === createUrl) {
@@ -140,6 +144,22 @@ const AddJob = ({
       // history.push('/jobboard');
       if (status === "success") {
         toast("Le job a été créé avec succès !", { type: "success" });
+        setJobTitle("");
+        setJobDescription("");
+        setJobContractType("");
+        setJobType("");
+        setJobRemuneration("");
+        setJobStartDate("");
+        setJobSkills("");
+        setJobCity("");
+        setJobCountry("");
+        setJobCompany("");
+        setJobCompanyDescription("");
+        setJobCompanySite("");
+      } else {
+        toast("Une erreur est survenue lors de la modification du job", {
+          type: "error"
+        });
       }
     }
   };

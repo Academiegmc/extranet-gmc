@@ -12,9 +12,9 @@ const initialState = {
   loading: false,
   isDeleted: false,
   ad: null,
-  ads: null,
+  ads: [],
   search_ads: null,
-  comments: null,
+  comments: [],
   comment: null,
   errors: null
 };
@@ -33,13 +33,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        ads: [...state.ads, action.payload]
+        ads: [...state.ads, action.payload.ad]
       };
     case UPDATE_AD:
       return {
         ...state,
         loading: false,
-        ad: action.payload
+        ad: action.payload.ad
       };
     case DELETE_AD:
       return {

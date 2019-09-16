@@ -23,6 +23,7 @@ import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { apiUrl } from "../../utils";
+import Face from "../../assets/face.png";
 
 const useStyles = makeStyles(theme => ({
   cardHader: {
@@ -67,6 +68,7 @@ const useStyles = makeStyles(theme => ({
 const Annonce = ({
   ads: { loading, ad },
   auth,
+  users: { user },
   getAnAd,
   history,
   match,
@@ -118,7 +120,11 @@ const Annonce = ({
             avatar={
               <Avatar
                 alt={ad.user.name}
-                src={`${apiUrl}/api/users/image/${ad.user.profile_pic}`}
+                src={
+                  user !== null && user.profile_pic
+                    ? `${apiUrl}/api/annonces/image/${user.profile_pic}`
+                    : Face
+                }
                 className={classes.bigAvatar}
               />
             }

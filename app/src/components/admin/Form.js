@@ -134,7 +134,7 @@ const Form = ({
     });
     setImages(resTab);
   };
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
     let formErrors = [];
     if (match.path === "/admin/annonce") {
@@ -152,14 +152,42 @@ const Form = ({
           category,
           images
         };
-        createAd(newAd, history);
+        const { status } = await createAd(newAd);
+        if (status === "success") {
+          toast("L'annonce a été crééé avec succès !", { type: "success" });
+          setTitle("");
+          setDescription("");
+          setCategory("");
+          setImages(null);
+        } else {
+          toast("Une erreur est survenue lors de la création de l'annonce !", {
+            type: "error"
+          });
+        }
       }
     }
     if (match.path === "/annonce/edit/:id") {
-      updateAd(match.params.id, { title, description, category }, history);
+      const { status } = updateAd(match.params.id, {
+        title,
+        description,
+        category
+      });
+      if (status === "success") {
+        toast("L'annonce a été modifiée avec succès !", { type: "success" });
+        setTitle("");
+        setDescription("");
+        setCategory("");
+      } else {
+        toast(
+          "Une erreur est survenue lors de la modification de l'annonce !",
+          {
+            type: "error"
+          }
+        );
+      }
     }
   };
-  if (errors.status === 403) logout();
+  // if (errors.status === 403) logout();
   if (loading) loading = <Loading />;
   else loading = null;
   return (

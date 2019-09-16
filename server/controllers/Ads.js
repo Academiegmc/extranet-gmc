@@ -41,7 +41,7 @@ const Ads = {
       images: imgTab
     });
     await newAd.save();
-    res.status(200).json(await newAd.getData());
+    res.status(200).json({ ad: await newAd.getData(), status: "success" });
   },
   updateCommentAd: async (req, res) => {
     const ad = await Ad.findById(req.params.id).populate({
@@ -56,7 +56,7 @@ const Ads = {
       path: "comments.user",
       model: "gmc-users"
     });
-    res.status(200).json(await updatedAd.getData());
+    res.status(200).json({ ad: await updatedAd.getData(), status: "success" });
   },
   updateAd: async (req, res) => {
     const ad = await Ad.findById(req.params.id).populate({
@@ -73,7 +73,9 @@ const Ads = {
       path: "comments.user",
       model: "gmc-users"
     });
-    return res.status(200).json(await updatedAd.getData());
+    return res
+      .status(200)
+      .json({ ad: await updatedAd.getData(), status: "success" });
   },
   deleteAd: async (req, res) => {
     await Ad.findByIdAndRemove(req.params.id);
