@@ -1,61 +1,20 @@
 const express = require("express");
-const path = require("path");
-const mongoose = require("mongoose");
 const multer = require("multer");
-const crypto = require("crypto");
-const GridFsStorage = require("multer-gridfs-storage");
-const GridFsStream = require("gridfs-stream");
 
 const NewsController = require("../controllers/News");
 const verifyToken = require("../controllers/VerifyToken");
+const { initGridFSMulter, initStorage } = require("../services/gridFSMulter");
 
 const router = express.Router();
-
-eval(
-  `GridFsStream.prototype.findOne = ${GridFsStream.prototype.findOne
-    .toString()
-    .replace("nextObject", "next")}`
-);
-const config = require("../config/mongo-key");
-mongoose.Promise = global.Promise;
-mongoose.set("debug", true);
-const connection = mongoose.createConnection(config.mongoURI, {
-  useNewUrlParser: true,
-  useCreateIndex: true
-});
-let gfs;
-connection.on("open", () => {
-  // Init stream
-  gfs = GridFsStream(connection.db, mongoose.mongo);
-  gfs.collection("news-upload");
-  console.log("News gridfs connection");
-});
-// Create Multer Storage
 const fileSizeLimit = 2000000;
-const storage = new GridFsStorage({
-  url: config.mongoURI,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) {
-          return reject(err);
-        }
-        const filename = buf.toString("hex") + path.extname(file.originalname);
-        const fileInfo = {
-          filename: filename,
-          bucketName: "news-upload"
-        };
-        resolve(fileInfo);
-      });
-    });
-  }
-});
 const upload = multer({
-  storage,
+  storage: initStorage("news-upload"),
   limits: { fileSize: fileSizeLimit }
 });
 
-router.get("/image/:id", (req, res) => {
+router.get("/image/:id", initGridFSMulter, (req, res) => {
+  const { gfs } = req.gridFSMulter;
+  console.log({ _id: req.params.id });
   gfs.findOne({ _id: req.params.id }, (err, file) => {
     if (err) return res.status(400).json({ err: "Bad Request" });
     if (!file || file.length === 0) {
@@ -77,6 +36,7 @@ router.get("/image/:id", (req, res) => {
   });
 });
 router.get("/pdf/:id", (req, res) => {
+  const { gfs } = req.gridFSMulter;
   gfs.findOne({ _id: req.params.id }, function(err, file) {
     if (err) return res.status(400).json({ error: "Bad Request" });
     // console.log(file);

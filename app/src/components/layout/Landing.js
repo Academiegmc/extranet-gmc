@@ -124,7 +124,6 @@ const Landing = ({ auth, errors: { errors }, history, loginUser }) => {
   );
 };
 
-const buttonStyle = { backgroundColor: "#c9b8b7", color: "#fff" };
 Landing.prototypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,

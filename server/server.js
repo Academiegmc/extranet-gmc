@@ -32,10 +32,13 @@ app.use(async (req, res, next) => {
 //DB Config
 const db = keys.mongoURI;
 mongoose
-  .connect(db, { useNewUrlParser: true, useFindAndModify: false })
+  .connect(db, {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+  })
   .then(() => console.log("MongoDB connected..."))
   .catch(err => console.error(err));
-mongoose.set("useCreateIndex", true);
 app.use("/api/users", users);
 app.use("/api/annonces", ads);
 app.use("/api/news", news);
