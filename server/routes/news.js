@@ -37,7 +37,7 @@ router.get("/image/:id", initGridFSMulter, (req, res) => {
 });
 router.get("/pdf/:id", (req, res) => {
   const { gfs } = req.gridFSMulter;
-  gfs.findOne({ _id: req.params.id }, function(err, file) {
+  gfs.findOne({ _id: req.params.id }, (err, file) => {
     if (err) return res.status(400).json({ error: "Bad Request" });
     // console.log(file);
     if (!file || file.length === 0) {
@@ -54,6 +54,22 @@ router.get("/pdf/:id", (req, res) => {
       return res.status(404).json({
         error: "Not a PDF"
       });
+    }
+  });
+});
+router.delete("/image/:id", initGridFSMulter, (req, res) => {
+  const { gfs } = req.gridFSMulter;
+  gfs.exist({ _id: req.params.id }, (err, found) => {
+    if (err) return handleError(err);
+    if (found) {
+      console.log("File exists");
+      gfs.remove({ _id: found._id }, (err, gridStore) => {
+        if (err) return res.status(400).json({ err: "Bad Request" });
+        console.log("success");
+        res.status(200).json({ status: "success" });
+      });
+    } else {
+      console.log("File does not exist");
     }
   });
 });

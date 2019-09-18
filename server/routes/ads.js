@@ -33,7 +33,22 @@ router.get("/image/:id", initGridFSMulter, (req, res) => {
     }
   });
 });
-
+router.delete("/image/:id", initGridFSMulter, (req, res) => {
+  const { gfs } = req.gridFSMulter;
+  gfs.exist({ _id: req.params.id }, (err, found) => {
+    if (err) return handleError(err);
+    if (found) {
+      console.log("File exists");
+      gfs.remove({ _id: found._id }, (err, gridStore) => {
+        if (err) return res.status(400).json({ err: "Bad Request" });
+        console.log("success");
+        res.status(200).json({ status: "success" });
+      });
+    } else {
+      console.log("File does not exist");
+    }
+  });
+});
 router.get("/", verifyToken, Ads.getAllAds);
 router.get("/title", verifyToken, Ads.searchAds);
 router.post("/", verifyToken, upload.array("images", 5), Ads.createAd);
