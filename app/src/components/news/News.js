@@ -153,7 +153,7 @@ const News = ({
         imgNews = news.images.map((img, i) => (
           <CardMedia
             className={classes.media}
-            image={`${apiUrl}/api/news/image/${img}`}
+            image={`${apiUrl}/api/news/image/news/${img}`}
             title={`Card image cap ` + i}
             key={i}
           />

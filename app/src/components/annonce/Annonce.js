@@ -171,7 +171,7 @@ const Annonce = ({
                     <Grid key={index} item xs={12}>
                       <img
                         className={classes.image}
-                        src={`${apiUrl}/api/annonces/image/${image}`}
+                        src={`${apiUrl}/api/annonces/image/annonce/${image}`}
                         alt={index}
                       />
                     </Grid>

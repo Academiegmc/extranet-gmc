@@ -36,9 +36,11 @@ const initStorage = collection => {
 const initGridFSMulter = (req, res, next) => {
   let gfs;
   let collection;
+  console.log({ params: req.params });
 
-  if (req.headers.referer.includes("annonce")) collection = "ads-upload";
-  if (req.headers.referer.includes("news")) collection = "news-upload";
+  if (req.params.type === "annonce") collection = "ads-upload";
+  if (req.params.type === "news") collection = "news-upload";
+
   mongoose.Promise = global.Promise;
   mongoose.set("debug", true);
   const connection = mongoose.createConnection(config.mongoURI, {
@@ -47,14 +49,32 @@ const initGridFSMulter = (req, res, next) => {
   });
   connection.on("open", () => {
     // Init stream
-    gfs = GridFsStream(connection.db, mongoose.mongo);
-    gfs.collection(collection);
+    gfs = new mongoose.mongo.GridFSBucket(connection.db, {
+      bucketName: collection
+    });
     console.log(collection + " : gridfs connection");
+    console.log("Passing to next function");
     req.gridFSMulter = {
       gfs
     };
+    // console.log({ gfs });
     next();
   });
 };
 
-module.exports = { initGridFSMulter, initStorage };
+const deleteGridFSBucket = async (gfs, chunks, files, id) => {
+  const chunksQuery = await chunks.find({
+    files_id: id
+  });
+  const filesQuery = await files.find({ _id: id });
+  await gfs.delete(id);
+  chunksQuery.toArray((error, docs) => {
+    if (error) return res.status(400).json({ message: "Bad Request" });
+    console.log({ docs });
+  });
+  filesQuery.toArray((error, docs) => {
+    if (error) return res.status(400).json({ message: "Bad Request" });
+    console.log({ docs });
+  });
+};
+module.exports = { initGridFSMulter, initStorage, deleteGridFSBucket };

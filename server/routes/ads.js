@@ -12,7 +12,7 @@ const upload = multer({
   limits: { fileSize: fileSizeLimit }
 });
 
-router.get("/image/:id", initGridFSMulter, (req, res) => {
+router.get("/image/:type/:id", initGridFSMulter, (req, res) => {
   const { gfs } = req.gridFSMulter;
   gfs.findOne({ _id: req.params.id }, (err, file) => {
     if (err) return res.status(400).json({ err: "Bad Request" });
@@ -52,10 +52,16 @@ router.delete("/image/:id", initGridFSMulter, (req, res) => {
 router.get("/", verifyToken, Ads.getAllAds);
 router.get("/title", verifyToken, Ads.searchAds);
 router.post("/", verifyToken, upload.array("images", 5), Ads.createAd);
-router.get("/:id", verifyToken, Ads.getAd);
-router.get("/user/:id", verifyToken, Ads.getAllUserAds);
+router.get("/:type/:id", initGridFSMulter, verifyToken, Ads.getAd);
+router.get("/user/:type/:id", initGridFSMulter, verifyToken, Ads.getAllUserAds);
 router.post("/edit/:id/comments", verifyToken, Ads.updateCommentAd);
-router.put("/edit/:id", verifyToken, upload.array("images", 5), Ads.updateAd);
-router.delete("/:id", verifyToken, Ads.deleteAd);
+router.put(
+  "/edit/:type/:id",
+  verifyToken,
+  upload.array("images", 5),
+  initGridFSMulter,
+  Ads.updateAd
+);
+router.delete("/:type/:id", verifyToken, Ads.deleteAd);
 
 module.exports = router;

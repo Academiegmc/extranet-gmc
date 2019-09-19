@@ -74,9 +74,10 @@ export const getUserNews = userId => async dispatch => {
 export const deleteUserNews = newsId => async dispatch => {
   try {
     setLoading();
-    const url = `${userUrl}/news/${newsId}`;
-    await axios.delete(url);
+    const url = `${userUrl}/news/news/${newsId}`;
+    const res = await axios.delete(url);
     dispatch({ type: DELETE_USER_NEWS, payload: newsId });
+    return res.data;
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
@@ -94,9 +95,10 @@ export const deleteUserJobs = jobId => async dispatch => {
 export const deleteUserAds = adId => async dispatch => {
   try {
     setLoading();
-    const url = `${userUrl}/annonce/${adId}`;
-    await axios.delete(url);
+    const url = `${userUrl}/annonce/annonce/${adId}`;
+    const res = await axios.delete(url);
     dispatch({ type: DELETE_USER_ADS, payload: adId });
+    return res.data;
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }

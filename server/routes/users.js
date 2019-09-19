@@ -85,11 +85,22 @@ router.put(
     { name: "renseignement", maxCount: 1 },
     { name: "convention", maxCount: 1 }
   ]),
+  initGridFSMulter,
   Users.update
 );
-router.delete("/:id", verifyToken, Users.delete);
+router.delete("/:id", verifyToken, initGridFSMulter, Users.delete);
 router.delete("/job/:id", verifyToken, Users.deleteUserJobs);
-router.delete("/news/:id", verifyToken, Users.deleteUserNews);
-router.delete("/annonce/:id", verifyToken, Users.deleteUserAds);
+router.delete(
+  "/news/:type/:id",
+  verifyToken,
+  initGridFSMulter,
+  Users.deleteUserNews
+);
+router.delete(
+  "/annonce/:type/:id",
+  verifyToken,
+  initGridFSMulter,
+  Users.deleteUserAds
+);
 router.post("/login", Users.login);
 module.exports = router;

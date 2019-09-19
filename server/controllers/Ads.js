@@ -1,6 +1,7 @@
 const Ad = require("../models/Ad");
 const User = require("../models/User");
 const ErrorMessage = require("../config/error-messages");
+const { deleteGridFSBucket } = require("../services/gridFSMulter");
 
 const Ads = {
   getAllAds: async (req, res) => {
@@ -68,6 +69,17 @@ const Ads = {
     if (req.body.title) ad.title = req.body.title;
     if (req.body.description) ad.description = req.body.description;
     if (req.body.category) ad.category = req.body.category;
+    if (req.files !== undefined) {
+      let imgTab = [];
+      req.files.forEach(file => imgTab.push(file.id));
+      ad.images.map(image => {
+        gfs.remove({ _id: image._id }, async (err, gridStore) => {
+          if (err) return res.status(400).json({ err: "Bad Request" });
+          console.log("success");
+        });
+      });
+      ad.images = imgTab;
+    }
     await ad.save();
     const updatedAd = await Ad.findById(req.params.id).populate({
       path: "comments.user",
@@ -78,8 +90,27 @@ const Ads = {
       .json({ ad: await updatedAd.getData(), status: "success" });
   },
   deleteAd: async (req, res) => {
-    await Ad.findByIdAndRemove(req.params.id);
-    res.status(200).json({ success: true, message: ErrorMessage.adRemoved });
+    console.log("Deleting ad....");
+    const ad = await Ad.findById(req.params.id);
+    if (!ad) res.status(404).json({ success: false });
+    else {
+      if (ad.images.lenght > 0) {
+        ad.images.map(async image => {
+          await deleteGridFSBucket(
+            gfs,
+            gfs.s._chunksCollection,
+            gfs.s._filesCollection,
+            image
+          );
+        });
+      }
+      await ad.remove();
+      res.status(200).json({
+        success: true,
+        message: ErrorMessage.adRemoved,
+        status: "success"
+      });
+    }
   },
   searchAds: async (req, res) => {
     console.log(req.query);

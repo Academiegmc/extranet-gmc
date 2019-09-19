@@ -9,6 +9,7 @@ const Letter = require("../models/Letter");
 const UserFiles = require("../models/User-GFS");
 const ErrorMessage = require("../config/error-messages");
 const utils = require("../config/utils");
+const { deleteGridFSBucket } = require("../services/gridFSMulter");
 const Users = {
   getAllUsers: async (req, res) => {
     const users = await User.find()
@@ -128,27 +129,55 @@ const Users = {
     res.status(200).json({ success: true, message: "Compte supprimé !" });
   },
   deleteUserJobs: async (req, res) => {
+    console.log("Deleting user job....");
     const job = await Job.findOne({ user: req.params.id });
     if (!job) res.status(404).json({ success: false });
     else {
       await job.remove();
-      res.status(200).json({ message: "job supprimé !" });
+      res.status(200).json({ message: "job supprimé !", status: "success" });
     }
   },
   deleteUserAds: async (req, res) => {
+    console.log("Deleting user ad....");
+    const { gfs } = req.gridFSMulter;
     const ad = await Ad.findById(req.params.id);
     if (!ad) res.status(404).json({ success: false });
     else {
+      if (ad.images.length > 0) {
+        ad.images.map(async image => {
+          await deleteGridFSBucket(
+            gfs,
+            gfs.s._chunksCollection,
+            gfs.s._filesCollection,
+            image
+          );
+        });
+      }
       await ad.remove();
-      res.status(200).json({ message: "Annonce supprimée !" });
+      res.status(200).json({
+        success: true,
+        status: "success"
+      });
     }
   },
   deleteUserNews: async (req, res) => {
+    console.log("Deleting user ad....");
+    const { gfs } = req.gridFSMulter;
     const news = await News.findById(req.params.id);
     if (!news) res.status(404).json({ success: false });
     else {
+      if (news.images.length > 0) {
+        news.images.map(async image => {
+          await deleteGridFSBucket(
+            gfs,
+            gfs.s._chunksCollection,
+            gfs.s._filesCollection,
+            image
+          );
+        });
+      }
       await news.remove();
-      res.status(200).json({ message: "News supprimée !" });
+      res.status(200).json({ message: "News supprimée !", status: "success" });
     }
   },
   login: async (req, res) => {

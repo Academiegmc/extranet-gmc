@@ -32,7 +32,7 @@ export const getAllUserAd = userId => async dispatch => {
 export const getAnAd = adId => async dispatch => {
   try {
     setLoading();
-    const res = await axios.get(`${adUrl}/${adId}`);
+    const res = await axios.get(`${adUrl}/annonce/${adId}`);
     dispatch({ type: GET_AN_AD, payload: res.data });
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.message.data });

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import { toast } from "react-toastify";
 import {
   Container,
   Grid,
@@ -25,6 +26,8 @@ import {
   deleteUserJobs,
   deleteUserNews
 } from "../../actions/usersAction";
+
+toast.configure();
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -175,7 +178,21 @@ const Profile = ({
           <Link to={`/annonce/edit/${ad.id}`}>
             <Button>Modifier</Button>
           </Link>
-          <Button onClick={() => deleteUserAds(ad.id)}>Supprimer</Button>
+          <Button
+            onClick={async () => {
+              const { status } = await deleteUserAds(ad.id);
+              if (status === "success") {
+                toast("L'annonce a bien été supprimée !", { type: "success" });
+              } else {
+                toast(
+                  "Une erreur es survenue lors de la suppression de l'annonce.",
+                  { type: "error" }
+                );
+              }
+            }}
+          >
+            Supprimer
+          </Button>
         </CardContent>
       </Card>
     ));
@@ -217,7 +234,21 @@ const Profile = ({
           }
         />
         <CardContent className={classes.cardContentBtn}>
-          <Button onClick={() => deleteUserNews(news.id)}>Supprimer</Button>
+          <Button
+            onClick={async () => {
+              const { status } = await deleteUserNews(news.id);
+              if (status === "success") {
+                toast("La news a bien été supprimée !", { type: "success" });
+              } else {
+                toast(
+                  "Une erreur es survenue lors de la suppression de la news.",
+                  { type: "error" }
+                );
+              }
+            }}
+          >
+            Supprimer
+          </Button>
         </CardContent>
       </Card>
     ));

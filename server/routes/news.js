@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-
+const mongoose = require("mongoose");
 const NewsController = require("../controllers/News");
 const verifyToken = require("../controllers/VerifyToken");
 const { initGridFSMulter, initStorage } = require("../services/gridFSMulter");
@@ -12,26 +12,40 @@ const upload = multer({
   limits: { fileSize: fileSizeLimit }
 });
 
-router.get("/image/:id", initGridFSMulter, (req, res) => {
+router.get("/image/:type/:id", initGridFSMulter, async (req, res) => {
   const { gfs } = req.gridFSMulter;
-  console.log({ _id: req.params.id });
-  gfs.findOne({ _id: req.params.id }, (err, file) => {
-    if (err) return res.status(400).json({ err: "Bad Request" });
-    if (!file || file.length === 0) {
-      return res.status(404).json({
-        error: "No file found"
-      });
-    }
-    // console.log(file);
-    //Check if image
-    if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
-      //Read output to browser
-      const readstream = gfs.createReadStream(file.filename);
-      readstream.pipe(res);
-    } else {
-      return res.status(404).json({
-        error: "Not an image"
-      });
+  console.log({ filesCollection: gfs.s._filesCollection });
+  const filesQuery = await gfs.s._filesCollection.find({
+    _id: mongoose.Types.ObjectId(req.params.id)
+  });
+  filesQuery.toArray((error, docs) => {
+    if (error) res.status(400).json({ message: "Bad Request" });
+    console.log({ docs });
+    let files;
+    let file;
+    if (docs.lenght > 0) {
+      if (docs.length > 1) files = docs;
+      else {
+        file = docs[0];
+        if (!file || file.length === 0) {
+          return res.status(404).json({
+            error: "No file found"
+          });
+        }
+        //Check if image
+        if (
+          file.contentType === "image/jpeg" ||
+          file.contentType === "image/png"
+        ) {
+          //Read output to browser
+          const readstream = gfs.openDownloadStreamByName(file.filename);
+          readstream.pipe(res);
+        } else {
+          return res.status(404).json({
+            error: "Not an image"
+          });
+        }
+      }
     }
   });
 });
@@ -90,9 +104,10 @@ router.post(
 router.put(
   "/:id",
   verifyToken,
+  initGridFSMulter,
   upload.array("images", 5),
   NewsController.updateNews
 );
-router.delete("/:id", verifyToken, NewsController.deleteNews);
+router.delete("/:id", verifyToken, initGridFSMulter, NewsController.deleteNews);
 
 module.exports = router;
