@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -20,6 +20,7 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import Breadcrumb from "../layout/Breadcrumb";
+// import Jobs from "./Jobs";
 const useStyles = makeStyles(theme => ({
   cardContent: {
     display: "flex",
@@ -61,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexFlow: "row wrap",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "start"
   },
   gridItem: {
     height: "100%",
@@ -84,13 +85,13 @@ const Jobboard = ({
     getAllJobs();
   }, []);
 
-  if (loading || jobs === null) {
-    return (
-      <div className={classes.grid}>
-        <CircularProgress className={classes.progress} />
-      </div>
-    );
-  }
+  // if (loading || jobs === null) {
+  //   return (
+  // <div className={classes.grid}>
+  //   <CircularProgress className={classes.progress} />
+  // </div>
+  //   );
+  // }
   const displayJobs = jobs.map(job => (
     <Grid className={classes.gridItem} item key={job.id} xs={12}>
       <CardActionArea onClick={() => history.push(`/job/${job.id}`)}>
@@ -113,6 +114,7 @@ const Jobboard = ({
     </Grid>
   ));
   const links = [{ title: "Job Board", url: "/jobboard" }];
+  const LazyJobs = lazy(() => import("./Jobs"));
   return (
     <Container>
       <Breadcrumb links={links} />
@@ -170,13 +172,15 @@ const Jobboard = ({
         </Grid>
         <Grid item xs={12} sm={9}>
           <ReturnButton history={history} />
-          {jobs.length > 0 ? (
-            displayJobs
-          ) : (
-            <Typography variant="h3" component="h3">
-              Les offres arrivent très bientôt !
-            </Typography>
-          )}
+          <Suspense
+            fallback={
+              <div className={classes.grid}>
+                <CircularProgress className={classes.progress} />
+              </div>
+            }
+          >
+            {<LazyJobs />}
+          </Suspense>
         </Grid>
       </Grid>
     </Container>

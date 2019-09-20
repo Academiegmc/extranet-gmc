@@ -42,7 +42,8 @@ const NewsController = {
   },
   createNews: async (req, res) => {
     let imgTab = [];
-    req.files.forEach(file => imgTab.push(file.id));
+    if (req.files != undefined && req.files.length > 0)
+      req.files.forEach(file => imgTab.push(file.id));
     const user = await User.findOne({ _id: req.user.id }, { password: 0 });
     if (!user) {
       return res

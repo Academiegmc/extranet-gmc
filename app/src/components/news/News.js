@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
@@ -148,7 +148,7 @@ const News = ({
   }
   let allNews;
   if (newsTab !== undefined && newsTab.length > 0) {
-    allNews = newsTab.map((news, index) => {
+    allNews = newsTab.map(news => {
       if (news.images.length > 0) {
         imgNews = news.images.map((img, i) => (
           <CardMedia
@@ -188,6 +188,7 @@ const News = ({
     });
   }
   const links = [{ title: "News", url: "/news" }];
+  const LazyNews = lazy(() => import("./NewsFeed"));
   return (
     <Container>
       <Breadcrumb links={links} />
@@ -291,13 +292,22 @@ const News = ({
               </form>
             </CardContent>
           </Card>
-          {allNews !== undefined && allNews.length > 0 ? (
+          <Suspense
+            fallback={
+              <div className={classes.grid}>
+                <CircularProgress className={classes.progress} />
+              </div>
+            }
+          >
+            <LazyNews />
+          </Suspense>
+          {/* {allNews !== undefined && allNews.length > 0 ? (
             allNews
           ) : (
             <Typography variant="body2" component="h3">
-              Les news vont tomber !
+              Les news vont bientôt tomber !
             </Typography>
-          )}
+          )} */}
         </Grid>
         <Hidden only="xs">
           <Grid item xs={12} sm={3}>

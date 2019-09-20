@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
@@ -134,6 +134,7 @@ const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
   }
 
   const links = [{ title: "Annonces", url: "/annonces" }];
+  const LazyAds = lazy(() => import("./AdsFeed"));
   return (
     <Container className={classes.root}>
       <Breadcrumb links={links} />
@@ -191,15 +192,24 @@ const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
           </Grid>
         </Grid>
         <Grid className={classes.gridAds} container item xs={12} sm={9}>
-          {allAnnonces !== undefined && allAnnonces.length > 0 ? (
+          <Suspense
+            fallback={
+              <div className={classes.gridProcess}>
+                <CircularProgress className={classes.progress} />
+              </div>
+            }
+          >
+            <LazyAds />
+          </Suspense>
+          {/* {allAnnonces !== undefined && allAnnonces.length > 0 ? (
             allAnnonces
           ) : (
             <Grid className={classes.gridItem} item>
               <Typography variant="h5" component="h5">
-                Les annonces vont tomber !
+                Les annonces vont bientôt tomber !
               </Typography>
             </Grid>
-          )}
+          )} */}
         </Grid>
       </Grid>
     </Container>

@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const NewsCard = ({ news, auth, match, updateNewsComments, imgNews }) => {
+const NewsCard = ({ news, auth, updateNewsComments, imgNews }) => {
   const { user } = auth;
   let status;
   let commentsLength = 0;
@@ -154,7 +154,6 @@ const NewsCard = ({ news, auth, match, updateNewsComments, imgNews }) => {
             if (text !== "") {
               //On ne lance l'envoi du comment si et seulement si un commentaire est écrit
               if (comment !== null) {
-                console.log(comment, match, text);
                 updateNewsComments(news.id, comment);
                 setText("");
               }
@@ -169,7 +168,6 @@ const NewsCard = ({ news, auth, match, updateNewsComments, imgNews }) => {
 NewsCard.propTypes = {
   news: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   updateNewsComments: PropTypes.func.isRequired
 };
 
