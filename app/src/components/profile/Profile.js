@@ -214,7 +214,20 @@ const Profile = ({
           <Link to={`/job/edit/${job.id}`}>
             <Button>Modifier</Button>
           </Link>
-          <Button onClick={() => deleteUserJobs(job.id)}>Supprimer</Button>
+          <Button
+            onClick={async () => {
+              const { status } = await deleteUserJobs(job.id);
+              if (status === "success") {
+                toast("Le job a bien été supprimé !", { type: "success" });
+              } else {
+                toast("Une erreur es survenue lors de la suppression du job.", {
+                  type: "error"
+                });
+              }
+            }}
+          >
+            Supprimer
+          </Button>
         </CardContent>
       </Card>
     ));

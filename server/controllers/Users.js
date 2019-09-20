@@ -130,7 +130,7 @@ const Users = {
   },
   deleteUserJobs: async (req, res) => {
     console.log("Deleting user job....");
-    const job = await Job.findOne({ user: req.params.id });
+    const job = await Job.findById(req.params.id);
     if (!job) res.status(404).json({ success: false });
     else {
       await job.remove();

@@ -86,8 +86,9 @@ export const deleteUserJobs = jobId => async dispatch => {
   try {
     setLoading();
     const url = `${userUrl}/job/${jobId}`;
-    await axios.delete(url);
+    const res = await axios.delete(url);
     dispatch({ type: DELETE_USER_JOBS, payload: jobId });
+    return res.data;
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
