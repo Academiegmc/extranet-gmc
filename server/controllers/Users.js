@@ -76,6 +76,7 @@ const Users = {
     res.status(201).json({ status: "success", user: newUser });
   },
   update: async (req, res) => {
+    const { gfs } = req.gridFSMulter;
     const user = await User.findById(req.user.id);
     const salt = process.env.SALT || 10;
     if (!user) return res.status(404).send(ErrorMessage.userNotFound);
@@ -83,9 +84,16 @@ const Users = {
       req.files.profile_pic !== undefined &&
       req.files.profile_pic.length > 0
     ) {
+      console.log(req.files);
       if (user.profile_pic !== undefined) {
         console.log("Profile:", user.profile_pic);
-        await deleteFile(user.profile_pic, UserFiles);
+        await deleteGridFSBucket(
+          gfs,
+          gfs.s._chunksCollection,
+          gfs.s._filesCollection,
+          user.profile_pic
+        );
+        // await deleteFile(user.profile_pic, UserFiles);
       }
       user.profile_pic = req.files.profile_pic[0].id;
     }

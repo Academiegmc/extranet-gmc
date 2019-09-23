@@ -106,6 +106,7 @@ export const deleteUserAds = adId => async dispatch => {
 };
 
 export const updateUser = userData => async dispatch => {
+  console.log({ userData });
   try {
     setLoading();
     let formData = new FormData();
@@ -121,6 +122,7 @@ export const updateUser = userData => async dispatch => {
     formData.append("convention", userData.convention_stage);
     formData.append("recommandation", userData.lettre_recommandation);
     formData.append("author", userData.author);
+    console.log({ formData });
     const res = await axios.put(`${userUrl}`, formData);
     dispatch({ type: UPDATE_USER, payload: res.data });
     return res.data;

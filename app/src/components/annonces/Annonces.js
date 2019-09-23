@@ -1,20 +1,15 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   Grid,
   makeStyles,
-  Card,
   Typography,
-  CardActions,
-  CardContent,
   Button,
   TextField,
   Container,
   CircularProgress
 } from "@material-ui/core";
-import ReactMarkdown from "react-markdown";
 import { getAllAds, searchAd } from "../../actions/adAction";
 import "./Annonces.css";
 import Breadcrumb from "../layout/Breadcrumb";
@@ -93,9 +88,6 @@ const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
     "code"
   ]);
   const classes = useStyles();
-  // useEffect(() => {
-  //   getAllAds();
-  // }, []);
 
   if (ads === null) {
     return (
@@ -104,38 +96,8 @@ const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
       </div>
     );
   }
-  let allAnnonces;
-  if (ads.length > 0) {
-    allAnnonces = ads.map(annonce => (
-      <Grid className={classes.gridItem} item key={annonce.id}>
-        <Card>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {annonce.title}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              <ReactMarkdown
-                source={annonce.description}
-                disallowedTypes={disallowedTypes}
-                linkTarget={"_blank"}
-              />
-            </Typography>
-          </CardContent>
-
-          <CardActions>
-            <RouterLink to={`/annonce/${annonce.id}`}>
-              <Button size="small" color="primary">
-                Lire l'annonce
-              </Button>
-            </RouterLink>
-          </CardActions>
-        </Card>
-      </Grid>
-    ));
-  }
 
   const links = [{ title: "Annonces", url: "/annonces" }];
-  // const LazyAds = lazy(() => import("./AdsFeed"));
   return (
     <Container className={classes.root}>
       <Breadcrumb links={links} />
@@ -194,24 +156,6 @@ const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
         </Grid>
         <Grid className={classes.gridAds} container item xs={12} sm={9}>
           <AdsContainer />
-          {/* <Suspense
-            fallback={
-              <div className={classes.gridProcess}>
-                <CircularProgress className={classes.progress} />
-              </div>
-            }
-          >
-            <LazyAds />
-          </Suspense> */}
-          {/* {allAnnonces !== undefined && allAnnonces.length > 0 ? (
-            allAnnonces
-          ) : (
-            <Grid className={classes.gridItem} item>
-              <Typography variant="h5" component="h5">
-                Les annonces vont bientôt tomber !
-              </Typography>
-            </Grid>
-          )} */}
         </Grid>
       </Grid>
     </Container>

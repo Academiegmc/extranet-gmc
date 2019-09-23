@@ -173,14 +173,16 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
       }
     ]
   };
-  let recommendTab = user.letters.map(letter => (
-    <div key={letter._id}>
-      <blockquote className="">
-        <p>{letter.text}</p>
-        <i>{letter.author}</i>
-      </blockquote>
-    </div>
-  ));
+  let recommendTab =
+    user.letter &&
+    user.letters.map(letter => (
+      <div key={letter._id}>
+        <blockquote className="">
+          <p>{letter.text}</p>
+          <i>{letter.author}</i>
+        </blockquote>
+      </div>
+    ));
   return (
     <Container className={classes.flex} fixed>
       <Grid className={classes.grid} container>
@@ -190,7 +192,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
               {user.profile_pic !== undefined && (
                 <img
                   className={classes.portrait}
-                  src={`${apiUrl}/api/users/image/${user.profile_pic._id}`}
+                  src={`${apiUrl}/api/users/image/user/${user.profile_pic._id}`}
                 />
               )}
               <Typography variant="h6" component="h6">

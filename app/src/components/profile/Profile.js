@@ -17,7 +17,6 @@ import {
 } from "@material-ui/core";
 
 import ReturnButton from "../layout/ReturnButton";
-import { logout } from "../../actions/authActions";
 import {
   getUserAds,
   getUserJobs,
@@ -102,7 +101,6 @@ const Profile = ({
   users,
   auth,
   loading,
-  logout,
   getUserAds,
   getUserJobs,
   getUserNews,
@@ -127,9 +125,9 @@ const Profile = ({
   let allUserNews;
   const settings = {
     // adaptiveHeight: true,
-    dots: true,
+    // dots: true,
     infinite: true,
-    arrows: false,
+    arrows: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -141,7 +139,8 @@ const Profile = ({
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true
+          arrows: true
+          // dots: true
         }
       },
       {
@@ -317,7 +316,6 @@ Profile.propTypes = {
   deleteUserAds: PropTypes.func.isRequired,
   deleteUserJobs: PropTypes.func.isRequired,
   deleteUserNews: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
   getUserAds: PropTypes.func.isRequired,
   getUserJobs: PropTypes.func.isRequired,
   getUserNews: PropTypes.func.isRequired
@@ -330,7 +328,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    logout,
     getUserAds,
     getUserJobs,
     getUserNews,

@@ -106,46 +106,9 @@ const News = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
-  const [page, setPage] = useState(1);
-  const [isFetching, setIsFetching] = useState(false);
-  let count = 1;
+
   const classes = useStyles();
-  // useEffect(() => {
-  //   getAllNews(page);
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
-  // useLayoutEffect(() => {
-  //   if (!isFetching) return;
-  //   setTimeout(() => {
-  //     setPage(page + 1);
-  //     getAllNews(page + 1);
-  //     console.log({ page: page + 1, isFetching });
-  //     setIsFetching(false);
-  //   }, 4000);
-  // }, [isFetching]);
-  const handleScroll = e => {
-    const windowHeight =
-      "innerHeight" in window
-        ? window.innerHeight
-        : document.documentElement.offsetHeight;
-    const body = document.body;
-    const html = document.documentElement;
-    const docHeight = Math.max(
-      body.scrollHeight,
-      body.offsetHeight,
-      html.clientHeight,
-      html.scrollHeight,
-      html.offsetHeight
-    );
-    const windowBottom = Math.round(windowHeight + window.pageYOffset);
-    if (windowBottom >= docHeight) {
-      // count = count + 1;
-      // setPage(page + 1);
-      setIsFetching(true);
-      console.log("Fetch more news");
-    }
-  };
+
   const handleImageUpload = files => {
     const imagesTab = Object.values(files);
     const options = {
@@ -190,49 +153,7 @@ const News = ({
       </div>
     );
   }
-  let allNews;
-  // if (newsTab !== undefined && newsTab.length > 0) {
-  //   allNews = newsTab.map(news => {
-  //     if (news.images.length > 0) {
-  //       imgNews = news.images.map((img, i) => (
-  //         <CardMedia
-  //           className={classes.media}
-  //           image={`${apiUrl}/api/news/image/news/${img}`}
-  //           title={`Card image cap ` + i}
-  //           key={i}
-  //         />
-  //       ));
-  //     }
-  //     switch (user.status) {
-  //       case 0:
-  //         status = "élève";
-  //         break;
-  //       case 1:
-  //         status = "Ancien élève";
-  //         break;
-  //       case 2:
-  //         status = "Professeur";
-  //         break;
-  //       case 3:
-  //         status = "Administrateur";
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //     return (
-  //       <NewsCard
-  //         key={news.id}
-  //         news={news}
-  //         auth={auth}
-  //         match={match}
-  //         updateNewsComments={updateNewsComments}
-  //         imgNews={imgNews}
-  //       />
-  //     );
-  //   });
-  // }
   const links = [{ title: "News", url: "/news" }];
-  const LazyNews = lazy(() => import("./NewsFeed"));
   return (
     <Container>
       <Breadcrumb links={links} />
@@ -337,25 +258,6 @@ const News = ({
             </CardContent>
           </Card>
           <NewsContainer />
-          {/* <div className={classes.overflow} onScroll={handleScroll}> */}
-          {/* <Suspense
-            fallback={
-              <div className={classes.grid}>
-                <CircularProgress className={classes.progress} />
-              </div>
-            }
-          >
-            <LazyNews />
-          </Suspense>
-          {isFetching && "Chargement des news..."} */}
-          {/* </div> */}
-          {/* {allNews !== undefined && allNews.length > 0 ? (
-            allNews
-          ) : (
-            <Typography variant="body2" component="h3">
-              Les news vont bientôt tomber !
-            </Typography>
-          )} */}
         </Grid>
         <Hidden only="xs">
           <Grid item xs={12} sm={3}>

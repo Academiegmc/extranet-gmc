@@ -15,20 +15,20 @@ import {
   Typography,
   Button,
   Input,
-  Divider
+  Divider,
+  InputLabel,
+  FormControl
 } from "@material-ui/core";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import MomentUtils from "@date-io/moment";
 
 import "moment/locale/fr";
 import Alert from "../layout/Alert";
 import { updateUser, getUser } from "../../actions/usersAction";
-import { logout } from "../../actions/authActions";
 import ReturnButton from "../layout/ReturnButton";
 import "react-toastify/dist/ReactToastify.css";
 import "./Profile.css";
@@ -83,8 +83,7 @@ const ProfileForm = ({
   history,
   match,
   getUser,
-  updateUser,
-  logout
+  updateUser
 }) => {
   const classes = useStyles();
   const [name, setName] = useState("");
@@ -116,6 +115,7 @@ const ProfileForm = ({
       let compressedFile;
       if (profilePic !== null) {
         compressedFile = await imageCompression(profilePic, options);
+        console.log({ compressedFile });
         setProfilePic(compressedFile);
       }
     } catch (error) {
@@ -230,7 +230,7 @@ const ProfileForm = ({
       lettre_recommandation: lettreRecommandation,
       author
     };
-    if (errorFields && errorFields.length === 0) {
+    if (errorFields === null || errorFields.length === 0) {
       const { status } = await updateUser(data);
       if (status === "success") {
         toast("Vos informations ont été modifiées !", {
@@ -401,7 +401,42 @@ const ProfileForm = ({
             }
           />
           <CardContent className={classes.cardContent}>
-            <input
+            <FormControl margin="dense">
+              <label htmlFor="profile_pic">Photo de profil</label>
+              <Input
+                accept="image/*"
+                className={classes.textField}
+                id="profile_pic"
+                name="profile_pic"
+                type="file"
+                placeholder="Photo de profil"
+                onChange={e => setProfilePic(e.target.files[0])}
+              />
+            </FormControl>
+            <FormControl margin="dense">
+              <label htmlFor="convention">Convention de stage</label>
+              <Input
+                accept="application/pdf"
+                className={classes.textField}
+                type="file"
+                id="convention"
+                name="convention"
+                onChange={e => setConventionStage(e.target.files[0])}
+              />
+            </FormControl>
+            <FormControl margin="dense">
+              <label htmlFor="renseignement">Fiche de renseignement</label>
+              <Input
+                accept="application/pdf"
+                className={classes.textField}
+                id="renseignement"
+                name="renseignement"
+                type="file"
+                onChange={e => setFicheRenseignement(e.target.files[0])}
+              />
+            </FormControl>
+
+            {/* <input
               accept="application/pdf"
               className={classes.textField}
               type="file"
@@ -415,9 +450,9 @@ const ProfileForm = ({
                 Convention de stage
                 <CloudUploadIcon className={classes.rightIcon} />
               </Button>
-            </label>
+            </label> */}
 
-            <input
+            {/* <input
               accept="application/pdf"
               className={classes.textField}
               style={{ display: "none" }}
@@ -431,7 +466,7 @@ const ProfileForm = ({
                 Fiche de renseignement
                 <CloudUploadIcon className={classes.rightIcon} />
               </Button>
-            </label>
+            </label> */}
           </CardContent>
         </Card>
 
@@ -595,8 +630,7 @@ ProfileForm.propTypes = {
   users: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   updateUser: PropTypes.func.isRequired,
-  getUser: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired
+  getUser: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -605,5 +639,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { updateUser, getUser, logout }
+  { updateUser, getUser }
 )(ProfileForm);

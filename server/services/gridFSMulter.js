@@ -38,6 +38,7 @@ const initGridFSMulter = (req, res, next) => {
   let collection;
   console.log({ params: req.params });
 
+  if (req.params.type === "user") collection = "users-upload";
   if (req.params.type === "annonce") collection = "ads-upload";
   if (req.params.type === "news") collection = "news-upload";
 

@@ -49,41 +49,35 @@ router.get("/image/:type/:id", initGridFSMulter, async (req, res) => {
     }
   });
 });
-router.get("/pdf/:id", (req, res) => {
+router.get("/pdf/:id", async (req, res) => {
   const { gfs } = req.gridFSMulter;
-  gfs.findOne({ _id: req.params.id }, (err, file) => {
-    if (err) return res.status(400).json({ error: "Bad Request" });
-    // console.log(file);
-    if (!file || file.length === 0) {
-      return res.status(404).json({
-        error: "No file found"
-      });
-    }
-    //Check if image
-    if (file.contentType === "application/pdf") {
-      //Read output to browser
-      const readstream = gfs.createReadStream(file.filename);
-      readstream.pipe(res);
-    } else {
-      return res.status(404).json({
-        error: "Not a PDF"
-      });
-    }
+  const filesQuery = await gfs.s._filesCollection.find({
+    _id: mongoose.Types.ObjectId(req.params.id)
   });
-});
-router.delete("/image/:id", initGridFSMulter, (req, res) => {
-  const { gfs } = req.gridFSMulter;
-  gfs.exist({ _id: req.params.id }, (err, found) => {
-    if (err) return handleError(err);
-    if (found) {
-      console.log("File exists");
-      gfs.remove({ _id: found._id }, (err, gridStore) => {
-        if (err) return res.status(400).json({ err: "Bad Request" });
-        console.log("success");
-        res.status(200).json({ status: "success" });
-      });
-    } else {
-      console.log("File does not exist");
+  filesQuery.toArray((error, docs) => {
+    if (error) res.status(400).json({ message: "Bad Request" });
+    let files;
+    let file;
+    if (docs.length > 0) {
+      if (docs.length > 1) files = docs;
+      else {
+        file = docs[0];
+        if (!file || file.length === 0) {
+          return res.status(404).json({
+            error: "No file found"
+          });
+        }
+        //Check if image
+        if (file.contentType === "application/pdf") {
+          //Read output to browser
+          const readstream = gfs.openDownloadStreamByName(file.filename);
+          readstream.pipe(res);
+        } else {
+          return res.status(404).json({
+            error: "Not an image"
+          });
+        }
+      }
     }
   });
 });
