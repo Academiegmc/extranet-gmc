@@ -73,7 +73,7 @@ const AdsFeed = ({ ads: { ads } }) => {
 };
 
 AdsFeed.propTypes = {
-  ads: PropTypes.array.isRequired
+  ads: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   ads: state.ads

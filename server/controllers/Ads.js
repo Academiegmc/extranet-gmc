@@ -5,7 +5,13 @@ const { deleteGridFSBucket } = require("../services/gridFSMulter");
 
 const Ads = {
   getAllAds: async (req, res) => {
-    const ads = await Ad.find().sort({ date: -1 });
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+    const ads = await Ad.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ date: -1 });
     if (!ads) return res.status(404).json(err);
     let result = ads.map(async ad => await ad.getData());
     res.status(200).json(await Promise.all(result));

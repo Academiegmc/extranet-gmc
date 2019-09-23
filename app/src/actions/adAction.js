@@ -11,10 +11,15 @@ import {
 } from "./types";
 import { setLoading } from "./newsActions";
 import { adUrl } from "../utils";
-export const getAllAds = () => async dispatch => {
+export const getAllAds = (page = 1, limit = 10) => async dispatch => {
   try {
     setLoading();
-    const res = await axios.get(adUrl);
+    const res = await axios.get(adUrl, {
+      params: {
+        page,
+        limit
+      }
+    });
     dispatch({ type: GET_ALL_ADS, payload: res.data });
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });

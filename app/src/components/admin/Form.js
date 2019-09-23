@@ -154,7 +154,7 @@ const Form = ({
         };
         const { status } = await createAd(newAd);
         if (status === "success") {
-          toast("L'annonce a été crééé avec succès !", { type: "success" });
+          toast("L'annonce a été créée avec succès !", { type: "success" });
           setTitle("");
           setDescription("");
           setCategory("");

@@ -22,7 +22,11 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_ADS:
-      return { ...state, loading: false, ads: action.payload };
+      return {
+        ...state,
+        loading: false,
+        ads: state.ads.concat(action.payload)
+      };
     case GET_ALL_USER_ADS:
       return { ...state, loading: false, ads: action.payload };
     case GET_AN_AD:

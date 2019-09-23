@@ -19,6 +19,7 @@ import { getAllAds, searchAd } from "../../actions/adAction";
 import "./Annonces.css";
 import Breadcrumb from "../layout/Breadcrumb";
 import ReturnButton from "../layout/ReturnButton";
+import AdsContainer from "./AdsContainer";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -92,9 +93,9 @@ const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
     "code"
   ]);
   const classes = useStyles();
-  useEffect(() => {
-    getAllAds();
-  }, []);
+  // useEffect(() => {
+  //   getAllAds();
+  // }, []);
 
   if (ads === null) {
     return (
@@ -134,7 +135,7 @@ const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
   }
 
   const links = [{ title: "Annonces", url: "/annonces" }];
-  const LazyAds = lazy(() => import("./AdsFeed"));
+  // const LazyAds = lazy(() => import("./AdsFeed"));
   return (
     <Container className={classes.root}>
       <Breadcrumb links={links} />
@@ -192,7 +193,8 @@ const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
           </Grid>
         </Grid>
         <Grid className={classes.gridAds} container item xs={12} sm={9}>
-          <Suspense
+          <AdsContainer />
+          {/* <Suspense
             fallback={
               <div className={classes.gridProcess}>
                 <CircularProgress className={classes.progress} />
@@ -200,7 +202,7 @@ const Annonces = ({ ads: { ads, loading }, searchAd, getAllAds, history }) => {
             }
           >
             <LazyAds />
-          </Suspense>
+          </Suspense> */}
           {/* {allAnnonces !== undefined && allAnnonces.length > 0 ? (
             allAnnonces
           ) : (
