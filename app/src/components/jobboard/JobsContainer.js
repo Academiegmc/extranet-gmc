@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2)
   }
 }));
-const JobsContainer = ({ jobs, getAllJobs }) => {
+const JobsContainer = ({ getAllJobs }) => {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
@@ -76,7 +76,7 @@ const JobsContainer = ({ jobs, getAllJobs }) => {
 };
 
 JobsContainer.propTypes = {
-  jobs: PropTypes.object.isRequired,
+  // jobs: PropTypes.object.isRequired,
   getAllJobs: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({

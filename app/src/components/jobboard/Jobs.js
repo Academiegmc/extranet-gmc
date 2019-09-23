@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import {
@@ -35,28 +36,33 @@ const useStyles = makeStyles(theme => ({
 const Jobs = ({ jobs: { jobs }, history }) => {
   const classes = useStyles();
   let showJobs;
+  console.log(history);
   if (jobs.length > 0) {
-    showJobs = jobs.map(job => (
-      <Grid className={classes.gridItem} item key={job.id} xs={12}>
-        <CardActionArea onClick={() => history.push(`/job/${job.id}`)}>
-          <Paper className={classes.cardContent}>
-            <Typography
-              className={clsx(classes.text, classes.uppercase)}
-              varient="p"
-              component="p"
-            >
-              {job.jobContractType}
-            </Typography>
-            <Typography className={classes.text} varient="p" component="p">
-              {job.jobTitle}
-            </Typography>
-            <Typography className={classes.text} varient="p" component="p">
-              {job.jobCompany}
-            </Typography>
-          </Paper>
-        </CardActionArea>
-      </Grid>
-    ));
+    showJobs = jobs.map(job => {
+      return (
+        <Grid className={classes.gridItem} item key={job.id} xs={12}>
+          <RouterLink to={`/job/${job.id}`}>
+            <CardActionArea>
+              <Paper className={classes.cardContent}>
+                <Typography
+                  className={clsx(classes.text, classes.uppercase)}
+                  varient="p"
+                  component="p"
+                >
+                  {job.jobContractType}
+                </Typography>
+                <Typography className={classes.text} varient="p" component="p">
+                  {job.jobTitle}
+                </Typography>
+                <Typography className={classes.text} varient="p" component="p">
+                  {job.jobCompany}
+                </Typography>
+              </Paper>
+            </CardActionArea>
+          </RouterLink>
+        </Grid>
+      );
+    });
   } else {
     showJobs = (
       <Typography variant="h3" component="h3">

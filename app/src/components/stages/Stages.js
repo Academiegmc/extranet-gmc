@@ -199,22 +199,30 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
                 {user.name}
               </Typography>
               {user.status === 0 ? (
-                <div>
+                <div className={classes.cardContent}>
                   <a
                     className="btn btn-primary"
-                    href={`${apiUrl}/api/users/pdf/${user.personal_sheet._id}`}
+                    href={
+                      user.personal_sheet &&
+                      `${apiUrl}/api/users/pdf/${user.personal_sheet._id}`
+                    }
                   >
                     Fiche de renseignement
                   </a>
                   <a
                     className="btn btn-primary"
-                    href={`${apiUrl}/api/users/pdf/${user.convention._id}`}
+                    href={
+                      user.convention &&
+                      `${apiUrl}/api/users/pdf/${user.convention._id}`
+                    }
                   >
                     Convention de stage
                   </a>
-                  <button onClick={openModal} className="btn btn-primary">
-                    Lettres de recommandations
-                  </button>
+                  {/* {recommendTab.length > 0 && (
+                    <button onClick={openModal} className="btn btn-primary">
+                      Lettres de recommandations
+                    </button>
+                  )} */}
                 </div>
               ) : null}
             </CardContent>
