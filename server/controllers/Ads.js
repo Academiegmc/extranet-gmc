@@ -7,14 +7,19 @@ const Ads = {
   getAllAds: async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
-
+    //Get total pages
+    const count = await Ad.count();
+    const totalPages = Math.ceil(count / limit);
+    console.log("====================================");
+    console.log(totalPages);
+    console.log("====================================");
     const ads = await Ad.find()
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ date: -1 });
     if (!ads) return res.status(404).json(err);
     let result = ads.map(async ad => await ad.getData());
-    res.status(200).json(await Promise.all(result));
+    res.status(200).json({ ads: await Promise.all(result), totalPages });
   },
   getAllUserAds: async (req, res) => {
     const ads = await Ad.find({ user: req.params.id }).sort({ date: -1 });

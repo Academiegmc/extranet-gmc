@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2)
   }
 }));
-const NewsContainer = ({ news, getAllNews }) => {
+const NewsContainer = ({ news: { totalPages }, getAllNews }) => {
   const classes = useStyles();
 
   const [page, setPage] = useState(1);
@@ -34,7 +34,7 @@ const NewsContainer = ({ news, getAllNews }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   useEffect(() => {
-    if (!isFetching) return;
+    if (!isFetching || page > totalPages) return;
     fetchNews();
   }, [isFetching]);
   const fetchNews = () => {

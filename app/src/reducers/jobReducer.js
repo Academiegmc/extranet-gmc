@@ -13,6 +13,7 @@ const initialState = {
   loading: false,
   isSent: false,
   jobs: [],
+  totalPages: 0,
   search_jobs: null,
   job: null,
   errors: null
@@ -24,7 +25,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        jobs: state.jobs.concat(action.payload)
+        jobs: state.jobs.concat(action.payload.jobs),
+        totalPages: action.payload.totalPages
       };
     case GET_A_JOB:
       return { ...state, loading: false, job: action.payload };

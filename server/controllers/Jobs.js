@@ -13,13 +13,20 @@ const Jobs = {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
+    //Get total pages
+    const count = await Job.count();
+    const totalPages = Math.ceil(count / limit);
+    console.log("====================================");
+    console.log(totalPages);
+    console.log("====================================");
+
     const jobs = await Job.find()
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ createdAt: -1 });
     if (!jobs) return res.status(404).json({ success: false });
     result = jobs.map(async job => await job.getData());
-    res.status(200).json(await Promise.all(result));
+    res.status(200).json({ jobs: await Promise.all(result), totalPages });
   },
   getAllUserAds: async (req, res) => {
     const jobs = await Job.find({ user: req.params.id }).sort({

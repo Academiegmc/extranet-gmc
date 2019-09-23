@@ -9,6 +9,13 @@ const NewsController = {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
+    //Get total pages
+    const count = await NewsModel.count();
+    const totalPages = Math.ceil(count / limit);
+    console.log("====================================");
+    console.log(totalPages);
+    console.log("====================================");
+
     const news = await NewsModel.find()
       .skip((page - 1) * limit)
       .limit(limit)
@@ -19,7 +26,7 @@ const NewsController = {
       });
     if (!news) return res.status(400).json(err);
     let result = news.map(async post => await post.getData());
-    res.status(200).json(await Promise.all(result));
+    res.status(200).json({ news: await Promise.all(result), totalPages });
   },
   getAllUserNews: async (req, res) => {
     const news = await NewsModel.find({ user: req.params.id })

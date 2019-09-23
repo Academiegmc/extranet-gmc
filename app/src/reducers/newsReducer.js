@@ -12,6 +12,7 @@ const initialState = {
   loading: false,
   news: null,
   newsTab: [],
+  totalPages: 0,
   userNewsTab: null,
   errors: null
 };
@@ -22,7 +23,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        newsTab: state.newsTab.concat(action.payload)
+        newsTab: state.newsTab.concat(action.payload.news),
+        totalPages: action.payload.totalPages
       };
     case GET_A_NEWS:
       return { ...state, loading: false, news: action.payload };

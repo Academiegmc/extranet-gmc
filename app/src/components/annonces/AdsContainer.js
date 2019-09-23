@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2)
   }
 }));
-const AdsContainer = ({ ads, getAllAds }) => {
+const AdsContainer = ({ ads: { totalPages }, getAllAds }) => {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
@@ -27,7 +27,7 @@ const AdsContainer = ({ ads, getAllAds }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   useEffect(() => {
-    if (!isFetching) return;
+    if (!isFetching || page > totalPages) return;
     fetchJobs();
   }, [isFetching]);
   const fetchJobs = () => {

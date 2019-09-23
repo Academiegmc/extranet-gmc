@@ -13,6 +13,7 @@ const initialState = {
   isDeleted: false,
   ad: null,
   ads: [],
+  totalPages: 0,
   search_ads: null,
   comments: [],
   comment: null,
@@ -25,7 +26,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        ads: state.ads.concat(action.payload)
+        ads: state.ads.concat(action.payload.ads),
+        totalPages: action.payload.totalPages
       };
     case GET_ALL_USER_ADS:
       return { ...state, loading: false, ads: action.payload };
