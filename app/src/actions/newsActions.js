@@ -14,10 +14,15 @@ import { newsUrl } from "../utils";
 export const setLoading = () => {
   return { type: SET_LOADING };
 };
-export const getAllNews = () => async dispatch => {
+export const getAllNews = (page = 1, limit = 10) => async dispatch => {
   try {
     setLoading();
-    const res = await axios.get(newsUrl);
+    const res = await axios.get(newsUrl, {
+      params: {
+        page,
+        limit
+      }
+    });
     dispatch({
       type: GET_ALL_NEWS,
       payload: res.data

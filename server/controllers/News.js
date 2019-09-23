@@ -6,7 +6,12 @@ const ErrorMessage = require("../config/error-messages");
 
 const NewsController = {
   getAllNews: async (req, res) => {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
     const news = await NewsModel.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
       .sort({ date: -1 })
       .populate({
         path: "comments.user",

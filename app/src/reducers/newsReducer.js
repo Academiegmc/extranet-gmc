@@ -11,7 +11,7 @@ import {
 const initialState = {
   loading: false,
   news: null,
-  newsTab: null,
+  newsTab: [],
   userNewsTab: null,
   errors: null
 };
@@ -19,7 +19,11 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_NEWS:
-      return { ...state, loading: false, newsTab: action.payload };
+      return {
+        ...state,
+        loading: false,
+        newsTab: state.newsTab.concat(action.payload)
+      };
     case GET_A_NEWS:
       return { ...state, loading: false, news: action.payload };
     case GET_ALL_USER_NEWS:
