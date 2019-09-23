@@ -9,7 +9,14 @@ const config = require("../config/config");
 const Jobs = {
   getAllJobs: async (req, res) => {
     let result;
-    const jobs = await Job.find().sort({ createdAt: -1 });
+
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+    const jobs = await Job.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: -1 });
     if (!jobs) return res.status(404).json({ success: false });
     result = jobs.map(async job => await job.getData());
     res.status(200).json(await Promise.all(result));

@@ -20,6 +20,7 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import Breadcrumb from "../layout/Breadcrumb";
+import JobsContainer from "./JobsContainer";
 // import Jobs from "./Jobs";
 const useStyles = makeStyles(theme => ({
   cardContent: {
@@ -81,9 +82,9 @@ const Jobboard = ({
 }) => {
   const [value, setValue] = useState("");
   const classes = useStyles();
-  useEffect(() => {
-    getAllJobs();
-  }, []);
+  // useEffect(() => {
+  //   getAllJobs();
+  // }, []);
 
   // if (loading || jobs === null) {
   //   return (
@@ -172,7 +173,8 @@ const Jobboard = ({
         </Grid>
         <Grid item xs={12} sm={9}>
           <ReturnButton history={history} />
-          <Suspense
+          <JobsContainer />
+          {/* <Suspense
             fallback={
               <div className={classes.grid}>
                 <CircularProgress className={classes.progress} />
@@ -180,7 +182,7 @@ const Jobboard = ({
             }
           >
             {<LazyJobs />}
-          </Suspense>
+          </Suspense> */}
         </Grid>
       </Grid>
     </Container>

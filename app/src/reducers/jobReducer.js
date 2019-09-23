@@ -21,7 +21,11 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_JOBS:
-      return { ...state, loading: false, jobs: action.payload };
+      return {
+        ...state,
+        loading: false,
+        jobs: state.jobs.concat(action.payload)
+      };
     case GET_A_JOB:
       return { ...state, loading: false, job: action.payload };
     case GET_ALL_USER_JOBS:

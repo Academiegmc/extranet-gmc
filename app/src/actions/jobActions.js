@@ -11,12 +11,16 @@ import {
   SEND_JOB_APPLICATION
 } from "./types";
 import { jobUrl } from "../utils";
-import { logout, setCurrentUser } from "./authActions";
 import { setLoading } from "./newsActions";
-export const getAllJobs = () => async dispatch => {
+export const getAllJobs = (page = 1, limit = 15) => async dispatch => {
   try {
     setLoading();
-    const res = await axios.get(jobUrl);
+    const res = await axios.get(jobUrl, {
+      params: {
+        page,
+        limit
+      }
+    });
     dispatch({
       type: GET_ALL_JOBS,
       payload: res.data
