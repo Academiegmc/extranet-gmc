@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     {
       company_name: { type: String, required: true },
       poste: { type: String, required: true },
-      descritpion: { type: String, required: true },
+      description: { type: String, required: true },
       start_date: { type: Date, required: true },
       end_date: { type: Date, required: true }
     }

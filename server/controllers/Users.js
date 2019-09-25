@@ -124,6 +124,22 @@ const Users = {
         user.password = await bcrypt.hash(req.body.new_password, salt);
       console.log({ isMatch });
     }
+    if (
+      req.body.company_description !== "" &&
+      req.body.company_name !== "" &&
+      req.body.company_job_name !== "" &&
+      req.body.company_start_date !== "" &&
+      req.body.company_end_date !== ""
+    ) {
+      const data = {
+        company_name: req.body.company_name,
+        poste: req.body.poste,
+        description: req.body.description,
+        start_date: req.body.start_date,
+        end_date: req.body.end_date
+      };
+      user.experiences.push(data);
+    }
     console.log({ user });
     const userSaved = await user.save();
     if (!userSaved) return res.status(400).json({ success: false });

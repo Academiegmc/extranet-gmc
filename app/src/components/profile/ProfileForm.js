@@ -251,6 +251,7 @@ const ProfileForm = ({
       setNewPassword("");
       setOldPassword("");
       setLettreRecommandation("");
+      setDescription("");
       setConventionStage(null);
       setFicheRenseignement(null);
       setStart_date(null);
@@ -435,38 +436,6 @@ const ProfileForm = ({
                 onChange={e => setFicheRenseignement(e.target.files[0])}
               />
             </FormControl>
-
-            {/* <input
-              accept="application/pdf"
-              className={classes.textField}
-              type="file"
-              style={{ display: "none" }}
-              id="convention"
-              name="convention"
-              onChange={e => setConventionStage(e.target.files[0])}
-            />
-            <label htmlFor="convention">
-              <Button variant="contained" component="span">
-                Convention de stage
-                <CloudUploadIcon className={classes.rightIcon} />
-              </Button>
-            </label> */}
-
-            {/* <input
-              accept="application/pdf"
-              className={classes.textField}
-              style={{ display: "none" }}
-              id="renseignement"
-              name="renseignement"
-              type="file"
-              onChange={e => setFicheRenseignement(e.target.files[0])}
-            />
-            <label htmlFor="renseignement">
-              <Button variant="contained" component="span">
-                Fiche de renseignement
-                <CloudUploadIcon className={classes.rightIcon} />
-              </Button>
-            </label> */}
           </CardContent>
         </Card>
 

@@ -76,7 +76,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
   useEffect(() => {
     getUser(match.params.id);
   }, []);
-  console.log(user);
+  // console.log(user);
   const openModal = () => {
     setModalIsOpen(true);
   };
@@ -116,14 +116,16 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
   if (user.experiences !== undefined && user.experiences.length > 0) {
     displayExperiences = user.experiences.map((exp, index) => (
       <li className="col-9" key={index}>
-        <h6 className="text-justify p-2">{exp.poste}</h6>
+        <Typography variant="h6" className="text-justify p-2">
+          {exp.poste}
+        </Typography>
         <p className="text-justify p-2">{exp.name}</p>
         <ReactMarkdown
           className="text-justify p-2"
           source={exp.description}
           disallowedTypes={disallowedTypes}
         />
-        <p className="text-justify font-weight-bold p-2">
+        <Typography variant="caption">
           Du{" "}
           <Moment locale="fr" format="DD MMMM YYYY">
             {exp.start_date}
@@ -132,7 +134,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
           <Moment locale="fr" format="DD MMMM YYYY">
             {exp.end_date}
           </Moment>
-        </p>
+        </Typography>
       </li>
     ));
   } else {
@@ -218,11 +220,6 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
                   >
                     Convention de stage
                   </a>
-                  {/* {recommendTab.length > 0 && (
-                    <button onClick={openModal} className="btn btn-primary">
-                      Lettres de recommandations
-                    </button>
-                  )} */}
                 </div>
               ) : null}
             </CardContent>
@@ -231,7 +228,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
         <Grid className={classes.item} item xs={12} md={8}>
           <Card>
             <CardContent>
-              {user.experiences.length > 0 ? (
+              {user.experiences && user.experiences.length > 0 ? (
                 <Fragment>
                   <Typography variant="h5" commponent="h5">
                     Expériences
@@ -264,92 +261,6 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
         </Grid>
       </Grid>
     </Container>
-    // <div className="container-fluid">
-    //   <ReturnButton history={history} />
-    //   <div className="row">
-    //     <div className="col-3">
-    //       <div className="d-flex flex-column flex-center">
-    //         <img
-    //           className="img-fluid rounded"
-    //           src={
-    //             user.profile_pic !== undefined
-    //               ? `${apiUrl}/api/users/image/${
-    //                   user.profile_pic._id
-    //                 }`
-    //               : require("../../assets/user.jpg")
-    //           }
-    //           alt="profile-pic"
-    //         />
-    // {user.status === 0 ? (
-    //   <div>
-    //     <a
-    //       className="btn btn-primary"
-    //       href={`${apiUrl}/api/users/pdf/${
-    //         user.personal_sheet._id
-    //       }`}
-    //     >
-    //       Fiche de renseignement
-    //     </a>
-    //     <a
-    //       className="btn btn-primary"
-    //       href={`${apiUrl}/api/users/pdf/${
-    //         user.convention._id
-    //       }`}
-    //     >
-    //       Convention de stage
-    //     </a>
-    //     <button onClick={openModal} className="btn btn-primary">
-    //       Lettres de recommandations
-    //     </button>
-    //   </div>
-    // ) : null}
-    //       </div>
-    //     </div>
-
-    //     <div className="col-9">
-    //       <div className="row d-flex flex-column">
-    //         <h3 className="stage-title">
-    //           {user.name !== undefined ? user.name : "Chargement..."}
-    //         </h3>
-    //         <p className="text-muted">{status}</p>
-    //       </div>
-    //       <hr />
-    //       <div className="row">
-    //         <h3 className="stage-title">Listes de stages</h3>
-    //         <ul>{displayExperiences}</ul>
-    //       </div>
-    //       <hr />
-    //       {/* <div className="row">
-    //           <h3 className="stage-title">Recommandations</h3>
-    //           <div><Slider {...settings}>{recommendTab}</Slider></div>
-    //         </div> */}
-    //     </div>
-    //   </div>
-    //   <ReactModal
-    //     isOpen={modalIsOpen}
-    //     aria={{
-    //       labelledby: "heading",
-    //       describedby: "full_description"
-    //     }}
-    //     className="container"
-    //   >
-    //     <div className="card mt-3 rounded border">
-    //       <button className="btn btn-dark text-white" onClick={closeModal}>
-    //         <i className="far fa-times-circle px-2" />
-    //         Fermer
-    //       </button>
-    //       <h2
-    //         id="heading"
-    //         className="text-center font-weight-lighter mt-3 mb-3"
-    //       >
-    //         Lettres de recommandations
-    //       </h2>
-    //       <div id="full_description" className="d-flex justify-content-around">
-    //         {displayLetters}
-    //       </div>
-    //     </div>
-    //   </ReactModal>
-    // </div>
   );
 };
 

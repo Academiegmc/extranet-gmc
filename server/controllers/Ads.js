@@ -8,11 +8,9 @@ const Ads = {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
     //Get total pages
-    const count = await Ad.count();
+    const count = await Ad.countDocuments();
     const totalPages = Math.ceil(count / limit);
-    console.log("====================================");
-    console.log(totalPages);
-    console.log("====================================");
+
     const ads = await Ad.find()
       .skip((page - 1) * limit)
       .limit(limit)

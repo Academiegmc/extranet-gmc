@@ -67,11 +67,10 @@ const useStyle = makeStyles(theme => ({
   }
 }));
 const AddJob = ({
-  jobs,
+  jobs: { loading, job },
   getAJob,
   createJob,
   updateJob,
-  loading,
   match,
   history
 }) => {
@@ -96,8 +95,26 @@ const AddJob = ({
     setLabelWidth(inputLabel.current.offsetWidth);
     if (match.path === updateUrl) {
       getAJob(match.params.id);
+      console.log(job);
     }
   }, []);
+  useEffect(() => {
+    if (job !== null && job.jobTitle !== jobTitle) {
+      console.log(job);
+      setJobTitle(job.jobTitle);
+      setJobDescription(job.jobDescription);
+      setJobContractType(job.jobContractType);
+      setJobType(job.jobType);
+      setJobRemuneration(job.jobRemuneration);
+      setJobStartDate(job.jobStartDate);
+      setJobSkills(job.jobSkills);
+      setJobCity(job.jobCity);
+      setJobCountry(job.jobCountry);
+      setJobCompany(job.jobCompany);
+      setJobCompanyDescription(job.jobCompanyDescription);
+      setJobCompanySite(job.jobCompanySite);
+    }
+  }, [job]);
   const onSubmit = async e => {
     e.preventDefault();
     if (match.path === updateUrl) {
@@ -348,9 +365,14 @@ const AddJob = ({
               value={jobCompanySite}
               variant="outlined"
             />
-            <TextField className={classes.btn} variant="outlined" type="submit">
-              Ajouter un job
-            </TextField>
+            <TextField
+              className={classes.btn}
+              variant="outlined"
+              type="submit"
+              value={
+                match.path === updateUrl ? "Modifier le job" : "Ajouter un job"
+              }
+            />
           </form>
         </CardContent>
       </Card>

@@ -14,11 +14,8 @@ const Jobs = {
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
     //Get total pages
-    const count = await Job.count();
+    const count = await Job.countDocuments();
     const totalPages = Math.ceil(count / limit);
-    console.log("====================================");
-    console.log(totalPages);
-    console.log("====================================");
 
     const jobs = await Job.find()
       .skip((page - 1) * limit)
