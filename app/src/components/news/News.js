@@ -165,7 +165,7 @@ const News = ({
                 className={classes.mediaHeader}
                 image={
                   user.profile_pic
-                    ? `${apiUrl}/api/users/image/${user.profile_pic}`
+                    ? `${apiUrl}/api/users/image/user/${user.profile_pic}`
                     : Face
                 }
                 title={user.name}
