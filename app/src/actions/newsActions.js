@@ -75,7 +75,6 @@ export const createNews = newsData => async dispatch => {
   }
 };
 export const updateNewsComments = (newsId, comment) => async dispatch => {
-  console.log("TEXT", comment);
   try {
     setLoading();
     const res = await axios.post(`${newsUrl}/edit/${newsId}/comments`, comment);

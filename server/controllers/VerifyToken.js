@@ -6,10 +6,8 @@ const verifyToken = (req, res, next) => {
   if (!token)
     return res.status(403).json({ auth: false, message: "Session expirée." });
   jwt.verify(token, config.secretOrKeys, (err, decoded) => {
-    if (err) {
-      console.log(err);
+    if (err)
       return res.status(403).json({ auth: false, message: "Session expirée." });
-    }
     req.user = {
       id: decoded.id,
       mail: decoded.email,

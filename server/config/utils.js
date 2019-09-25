@@ -18,14 +18,11 @@ const transport = nodemailer.createTransport({
 module.exports = {
   arraySplit: ",",
   sendRegisterMail: (email, password) => {
-    console.log(`IDs: ${email} | ${password}`);
     const mailOptions = {
       from: NODEMAILER_USER_EMAIL,
       to: email,
       subject: "Extranet-AGMC: Merci de vous être inscrits",
-      text: `Voici votre mot de passe : ${password}. Vous pouvez dès à présent accéder à l'extranet à l'adresse suivante ${
-        process.env.REACT_APP_EXTRANET
-      }`
+      text: `Voici votre mot de passe : ${password}. Vous pouvez dès à présent accéder à l'extranet à l'adresse suivante ${process.env.REACT_APP_EXTRANET}`
     };
     transport.sendMail(mailOptions, (error, info) => {
       if (error) console.error(error);

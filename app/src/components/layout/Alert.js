@@ -28,7 +28,6 @@ const useStyles = makeStyles(theme => ({
 }));
 const Alert = ({ alert, setAlert, logout }) => {
   const classes = useStyles();
-  console.log(alert);
   const logoutUser = () => {
     logout();
     setAlert(null);

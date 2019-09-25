@@ -67,7 +67,6 @@ const NewsController = {
       images: imgTab
     });
     const newsSaved = await newNews.save();
-    console.log("new news:", await newsSaved.getData());
     res.status(200).json(await newsSaved.getData());
   },
   updateCommentNews: async (req, res) => {

@@ -36,7 +36,6 @@ const initStorage = collection => {
 const initGridFSMulter = (req, res, next) => {
   let gfs;
   let collection;
-  console.log({ params: req.params });
 
   if (req.params.type === "user") collection = "users-upload";
   if (req.params.type === "annonce") collection = "ads-upload";
@@ -53,12 +52,10 @@ const initGridFSMulter = (req, res, next) => {
     gfs = new mongoose.mongo.GridFSBucket(connection.db, {
       bucketName: collection
     });
-    console.log(collection + " : gridfs connection");
     console.log("Passing to next function");
     req.gridFSMulter = {
       gfs
     };
-    // console.log({ gfs });
     next();
   });
 };
@@ -71,11 +68,9 @@ const deleteGridFSBucket = async (gfs, chunks, files, id) => {
   await gfs.delete(id);
   chunksQuery.toArray((error, docs) => {
     if (error) return res.status(400).json({ message: "Bad Request" });
-    console.log({ docs });
   });
   filesQuery.toArray((error, docs) => {
     if (error) return res.status(400).json({ message: "Bad Request" });
-    console.log({ docs });
   });
 };
 module.exports = { initGridFSMulter, initStorage, deleteGridFSBucket };

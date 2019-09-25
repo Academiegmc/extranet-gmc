@@ -36,7 +36,6 @@ const useStyles = makeStyles(theme => ({
 const Jobs = ({ jobs: { jobs }, history }) => {
   const classes = useStyles();
   let showJobs;
-  console.log(history);
   if (jobs.length > 0) {
     showJobs = jobs.map(job => {
       return (

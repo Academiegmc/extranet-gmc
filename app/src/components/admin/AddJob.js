@@ -95,12 +95,10 @@ const AddJob = ({
     setLabelWidth(inputLabel.current.offsetWidth);
     if (match.path === updateUrl) {
       getAJob(match.params.id);
-      console.log(job);
     }
   }, []);
   useEffect(() => {
     if (job !== null && job.jobTitle !== jobTitle) {
-      console.log(job);
       setJobTitle(job.jobTitle);
       setJobDescription(job.jobDescription);
       setJobContractType(job.jobContractType);

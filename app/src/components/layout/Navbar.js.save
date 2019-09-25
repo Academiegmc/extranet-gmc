@@ -102,7 +102,6 @@ const Navbar = ({ users, auth, logout, history }) => {
   function handleClose() {
     setAnchorEl(null);
   }
-  console.log(history.location.pathname);
   return (
     <nav className={classes.root}>
       <AppBar

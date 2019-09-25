@@ -14,13 +14,11 @@ const upload = multer({
 
 router.get("/image/:type/:id", initGridFSMulter, async (req, res) => {
   const { gfs } = req.gridFSMulter;
-  console.log({ filesCollection: gfs.s._filesCollection });
   const filesQuery = await gfs.s._filesCollection.find({
     _id: mongoose.Types.ObjectId(req.params.id)
   });
   filesQuery.toArray((error, docs) => {
     if (error) res.status(400).json({ message: "Bad Request" });
-    console.log({ docs });
     let files;
     let file;
     if (docs.lenght > 0) {

@@ -84,9 +84,7 @@ const Users = {
       req.files.profile_pic !== undefined &&
       req.files.profile_pic.length > 0
     ) {
-      console.log(req.files);
       if (user.profile_pic !== undefined) {
-        console.log("Profile:", user.profile_pic);
         await deleteGridFSBucket(
           gfs,
           gfs.s._chunksCollection,
@@ -111,7 +109,6 @@ const Users = {
         author: req.body.author,
         text: req.body.recommandation
       });
-      console.log(letter);
       await letter.save();
       user.letters.push(letter._id);
     }
@@ -122,7 +119,6 @@ const Users = {
       );
       if (isMatch)
         user.password = await bcrypt.hash(req.body.new_password, salt);
-      console.log({ isMatch });
     }
     if (
       req.body.company_description !== "" &&
@@ -140,7 +136,6 @@ const Users = {
       };
       user.experiences.push(data);
     }
-    console.log({ user });
     const userSaved = await user.save();
     if (!userSaved) return res.status(400).json({ success: false });
     res
@@ -185,7 +180,7 @@ const Users = {
     }
   },
   deleteUserNews: async (req, res) => {
-    console.log("Deleting user ad....");
+    console.log("Deleting user news....");
     const { gfs } = req.gridFSMulter;
     const news = await News.findById(req.params.id);
     if (!news) res.status(404).json({ success: false });
@@ -235,7 +230,6 @@ const Users = {
 const deleteFile = async (fileId, model) => {
   const file = await model.findOne({ _id: fileId });
   if (!file) return res.status(404).send({ message: "File not found" });
-  console.log(file);
   await file.remove();
 };
 module.exports = Users;

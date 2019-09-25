@@ -49,7 +49,6 @@ export const createAd = adData => async dispatch => {
   formData.append("title", title);
   formData.append("description", description);
   formData.append("category", category);
-  console.log("images", images);
   if (images !== null && images.length > 0) {
     if (images.length > 1) {
       for (let i = 0; i <= images.length; i++) {
@@ -61,11 +60,8 @@ export const createAd = adData => async dispatch => {
     setLoading();
     const res = await axios.post(adUrl, formData);
     dispatch({ type: CREATE_AD, payload: res.data });
-    // history.push("/annonces");
-    console.log({ res: res.data });
     return res.data;
   } catch (error) {
-    console.log({ error });
     dispatch({ type: GET_ERRORS, payload: error.response.data });
     return error.response.data;
   }

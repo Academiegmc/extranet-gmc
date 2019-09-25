@@ -115,7 +115,6 @@ const ProfileForm = ({
       let compressedFile;
       if (profilePic !== null) {
         compressedFile = await imageCompression(profilePic, options);
-        console.log({ compressedFile });
         setProfilePic(compressedFile);
       }
     } catch (error) {

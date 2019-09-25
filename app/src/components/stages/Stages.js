@@ -76,7 +76,6 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
   useEffect(() => {
     getUser(match.params.id);
   }, []);
-  // console.log(user);
   const openModal = () => {
     setModalIsOpen(true);
   };

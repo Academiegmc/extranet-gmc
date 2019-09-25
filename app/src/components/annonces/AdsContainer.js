@@ -52,7 +52,6 @@ const AdsContainer = ({ ads: { totalPages }, getAllAds }) => {
     const windowBottom = Math.round(windowHeight + window.pageYOffset);
     if (windowBottom >= docHeight) {
       setIsFetching(true);
-      console.log("Fetch more news");
     }
   };
   return (

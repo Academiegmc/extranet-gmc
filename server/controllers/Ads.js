@@ -34,7 +34,6 @@ const Ads = {
     res.status(200).json(await ad.getData());
   },
   createAd: async (req, res) => {
-    console.log("files", req.files);
     let imgTab = [];
     if (req.files !== undefined)
       req.files.forEach(file => imgTab.push(file.id));
@@ -122,7 +121,6 @@ const Ads = {
     }
   },
   searchAds: async (req, res) => {
-    console.log(req.query);
     const { q, category } = req.query;
     let ads;
     if (category !== "") {
