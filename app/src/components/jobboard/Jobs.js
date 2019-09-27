@@ -33,9 +33,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Jobs = ({ jobs: { jobs }, history }) => {
+const Jobs = ({ jobs: { jobs, loading } }) => {
   const classes = useStyles();
   let showJobs;
+  console.log({ loading });
   if (jobs.length > 0) {
     showJobs = jobs.map(job => {
       return (

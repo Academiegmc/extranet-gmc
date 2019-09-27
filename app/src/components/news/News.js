@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  lazy,
-  Suspense,
-  useLayoutEffect
-} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
@@ -15,7 +9,6 @@ import {
   Card,
   CardMedia,
   CardContent,
-  Button,
   Typography,
   makeStyles,
   Grid,
@@ -28,18 +21,15 @@ import {
   CircularProgress
 } from "@material-ui/core";
 import Clock from "react-live-clock";
-import { getAllNews } from "../../actions/newsActions";
-import "./News.css";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { createNews } from "../../actions/newsActions";
 import ReturnButton from "../layout/ReturnButton";
 import Breadcrumb from "../layout/Breadcrumb";
-import { updateNewsComments } from "../../actions/newsActions";
-import NewsCard from "./NewsCard";
 import { apiUrl } from "../../utils";
 import Face from "../../assets/face.png";
 import NewsContainer from "./NewsContainer";
+import "./News.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 toast.configure();
 
@@ -91,16 +81,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const News = ({
-  news: { newsTab },
-  auth,
-  getAllNews,
-  loading,
-  createNews,
-  history,
-  match,
-  updateNewsComments
-}) => {
+const News = ({ auth, loading, createNews, history }) => {
   const { user } = auth;
   let status;
   const [title, setTitle] = useState("");
@@ -145,7 +126,6 @@ const News = ({
       });
     }
   };
-  let imgNews;
   if (loading || user === null) {
     return (
       <div className={classes.grid}>
@@ -204,9 +184,7 @@ const News = ({
                         variant="outlined"
                         InputLabelProps={{ shrink: true }}
                         value={title}
-                        onChange={e => {
-                          setTitle(e.target.value);
-                        }}
+                        onChange={e => setTitle(e.target.value)}
                         fullWidth
                       />
                     </Typography>
@@ -218,9 +196,7 @@ const News = ({
                         multiline
                         rowsMax="4"
                         value={description}
-                        onChange={e => {
-                          setDescription(e.target.value);
-                        }}
+                        onChange={e => setDescription(e.target.value)}
                         margin="normal"
                         placeholder="Entrer la description de l'article"
                         variant="outlined"
@@ -242,9 +218,7 @@ const News = ({
                   <Grid item xs>
                     <Typography variant="body2" component="h3">
                       <TextField
-                        onChange={e => {
-                          setDescription(e.target.value);
-                        }}
+                        onChange={e => setDescription(e.target.value)}
                         value="Publier l'article"
                         margin="dense"
                         variant="outlined"
@@ -289,13 +263,12 @@ const News = ({
   );
 };
 News.propTypes = {
-  news: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
-  news: state.news,
   auth: state.auth
 });
 export default connect(
   mapStateToProps,
-  { getAllNews, createNews, updateNewsComments }
+  { createNews }
 )(News);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,7 +10,6 @@ import {
   makeStyles,
   Card,
   CardContent,
-  Divider,
   CardHeader,
   Typography,
   Button
@@ -56,8 +55,6 @@ const useStyles = makeStyles(theme => ({
   card: {
     width: "100%",
     height: "200px"
-    // marginTop: 20,
-    // marginBottom: 20
   },
   cardContent: {
     width: "100%",
@@ -312,7 +309,6 @@ const Profile = ({
 Profile.propTypes = {
   auth: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
   deleteUserAds: PropTypes.func.isRequired,
   deleteUserJobs: PropTypes.func.isRequired,
   deleteUserNews: PropTypes.func.isRequired,
@@ -322,8 +318,7 @@ Profile.propTypes = {
 };
 const mapStateToProps = state => ({
   auth: state.auth,
-  users: state.users,
-  errors: state.errors
+  users: state.users
 });
 export default connect(
   mapStateToProps,

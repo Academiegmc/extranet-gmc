@@ -1,9 +1,9 @@
 import React, { useState, Fragment } from "react";
-import PropTypes from "prop-types";
+import { Link as RouterLink } from "react-router-dom";
 import Moment from "react-moment";
 import Slider from "react-slick";
 import ReactMarkdown from "react-markdown";
-
+import PropTypes from "prop-types";
 import {
   Card,
   CardActions,
@@ -50,13 +50,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const NewsCard = ({ news, auth, updateNewsComments, imgNews }) => {
-  const { user } = auth;
-  let status;
-  let commentsLength = 0;
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [images, setImages] = useState([]);
-  const [commentId, setCommentId] = useState("");
   const [disallowedTypes, setDisallowedTypes] = useState([
     "image",
     "html",
@@ -68,14 +61,20 @@ const NewsCard = ({ news, auth, updateNewsComments, imgNews }) => {
   const [comment, setComment] = useState(null);
 
   const classes = useStyles();
-
   return (
     <Card className={classes.card} key={news.id}>
       {news.images.length > 0 ? <Slider {...settings}>{imgNews}</Slider> : null}
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography gutterBottom variant="h5">
           {news.title}
         </Typography>
+        {news.user.status === 0 ? (
+          <RouterLink to={`/stage/${news.user.id}`}>
+            <Typography variant="subtitle2">Par {news.user.name}</Typography>
+          </RouterLink>
+        ) : (
+          <Typography variant="subtitle2">Par {news.user.name}</Typography>
+        )}
         <Divider />
         <Typography gutterBottom variant="body2" color="textSecondary">
           <ReactMarkdown

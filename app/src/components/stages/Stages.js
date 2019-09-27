@@ -176,6 +176,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
   };
   let recommendTab =
     user.letter &&
+    user.letter.length &&
     user.letters.map(letter => (
       <div key={letter._id}>
         <blockquote className="">
@@ -188,6 +189,7 @@ const Stages = ({ users: { user }, history, match, loading, getUser }) => {
     <Container className={classes.flex} fixed>
       <Grid className={classes.grid} container>
         <Grid className={classes.item} item xs={12} md={3}>
+          <ReturnButton history={history} />
           <Card>
             <CardContent className={classes.cardContent}>
               {user.profile_pic !== undefined && (

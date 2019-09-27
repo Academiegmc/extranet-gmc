@@ -1,5 +1,7 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const multer = require("multer");
+const sharp = require("sharp");
 
 const Ads = require("../controllers/Ads");
 const verifyToken = require("../controllers/VerifyToken");
@@ -17,7 +19,7 @@ router.get("/image/:type/:id", initGridFSMulter, async (req, res) => {
   const filesQuery = await gfs.s._filesCollection.find({
     _id: mongoose.Types.ObjectId(req.params.id)
   });
-  filesQuery.toArray((error, docs) => {
+  filesQuery.toArray(async (error, docs) => {
     if (error) res.status(400).json({ message: "Bad Request" });
     let files;
     let file;
@@ -35,9 +37,13 @@ router.get("/image/:type/:id", initGridFSMulter, async (req, res) => {
           file.contentType === "image/jpeg" ||
           file.contentType === "image/png"
         ) {
-          //Read output to browser
-          const readstream = gfs.openDownloadStreamByName(file.filename);
-          readstream.pipe(res);
+          try {
+            //Read output to browser
+            const readstream = gfs.openDownloadStreamByName(file.filename);
+            readstream.pipe(res);
+          } catch (error) {
+            console.error(error);
+          }
         } else {
           return res.status(404).json({
             error: "Not an image"

@@ -5,7 +5,8 @@ import {
   DELETE_AD,
   GET_ALL_USER_ADS,
   CREATE_AD,
-  UPDATE_AD
+  UPDATE_AD,
+  SET_LOADING
 } from "../actions/types";
 
 const initialState = {
@@ -51,6 +52,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ads: state.ads.filter(ad => ad.id !== action.payload)
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;

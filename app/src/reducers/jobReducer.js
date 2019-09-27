@@ -6,7 +6,8 @@ import {
   DELETE_JOB,
   UPDATE_JOB,
   CREATE_JOB,
-  SEND_JOB_APPLICATION
+  SEND_JOB_APPLICATION,
+  SET_LOADING
 } from "../actions/types";
 
 const initialState = {
@@ -50,6 +51,11 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         isSent: true
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: true
       };
     case SEARCH_JOBS:
       return { ...state, loading: false, jobs: action.payload };
