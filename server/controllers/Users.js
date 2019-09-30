@@ -62,6 +62,7 @@ const Users = {
   },
   create: async (req, res) => {
     let { name, email, password, status } = req.body;
+    let admin = false;
     const passwordToSend = password;
     const salt = 10;
     const user = await User.findOne({ email });
@@ -70,7 +71,8 @@ const Users = {
         .status(400)
         .json({ success: false, message: "User already exists" });
     password = await bcrypt.hash(password, salt);
-    const newUser = new User({ name, email, password, status, admin: false });
+    if (status === 3) admin = true;
+    const newUser = new User({ name, email, password, status, admin });
     await newUser.save();
     utils.sendRegisterMail(email, passwordToSend);
     res.status(201).json({ status: "success", user: newUser });

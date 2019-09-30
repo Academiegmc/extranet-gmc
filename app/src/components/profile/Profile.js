@@ -284,6 +284,11 @@ const Profile = ({
               <Link className={classes.links} to="/admin/annonce">
                 Ajouter une annonce
               </Link>
+              {auth.user.status === 3 && (
+                <Link className={classes.links} to="/admin/user">
+                  Ajouter un utilisateur
+                </Link>
+              )}
             </div>
           </CardContent>
         </Card>

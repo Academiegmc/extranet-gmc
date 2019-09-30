@@ -38,10 +38,8 @@ const useStyles = makeStyles(theme => ({
     flexBasis: 200
   },
   button: {
-    // padding: "1rem",
     fontFamily: "Lato",
     fontWeight: "500",
-    // backgroundColor: "#c9b8b7",
     color: "#fff"
   },
   media: {
@@ -78,6 +76,7 @@ const Landing = ({ auth, errors: { errors }, history, loginUser }) => {
       <Grid item className={classes.item} xs={12}>
         <TextField
           id="email"
+          type="email"
           className={clsx(classes.margin, classes.textField)}
           variant="outlined"
           label="Email"

@@ -10,7 +10,8 @@ import {
   UPDATE_USER,
   DELETE_USER_NEWS,
   DELETE_USER_JOBS,
-  DELETE_USER_ADS
+  DELETE_USER_ADS,
+  CREATE_USER
 } from "./types";
 import { setLoading } from "./newsActions";
 
@@ -105,6 +106,18 @@ export const deleteUserAds = adId => async dispatch => {
   }
 };
 
+export const createUser = userData => async dispatch => {
+  try {
+    setLoading();
+    const { name, email, password, status } = userData;
+    const res = await axios.post(userUrl, { name, email, password, status });
+    dispatch({ type: CREATE_USER, payload: res.data });
+    return res.data;
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+    return error.response.data;
+  }
+};
 export const updateUser = userData => async dispatch => {
   try {
     setLoading();

@@ -2,12 +2,15 @@ const nodemailer = require("nodemailer");
 const {
   NODEMAILER_USER_EMAIL,
   NODEMAILER_USER_PASSWORD,
-  NODEMAILER_SERVICE,
   NODEMAILER_SECURE,
-  NODEMAILER_TLS
+  NODEMAILER_TLS,
+  NODEMAILER_SMTP,
+  NODEMAILER_SMTP_PORT,
+  EXTRANET
 } = process.env;
 const transport = nodemailer.createTransport({
-  service: NODEMAILER_SERVICE,
+  host: NODEMAILER_SMTP,
+  port: NODEMAILER_SMTP_PORT,
   secure: NODEMAILER_SECURE,
   auth: { user: NODEMAILER_USER_EMAIL, pass: NODEMAILER_USER_PASSWORD },
   tls: {
@@ -22,7 +25,7 @@ module.exports = {
       from: NODEMAILER_USER_EMAIL,
       to: email,
       subject: "Extranet-AGMC: Merci de vous être inscrits",
-      text: `Voici votre mot de passe : ${password}. Vous pouvez dès à présent accéder à l'extranet à l'adresse suivante ${process.env.REACT_APP_EXTRANET}`
+      text: `Voici votre mot de passe : ${password}. Vous pouvez dès à présent accéder à l'extranet à l'adresse suivante ${EXTRANET}`
     };
     transport.sendMail(mailOptions, (error, info) => {
       if (error) console.error(error);

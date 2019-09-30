@@ -79,7 +79,7 @@ router.get("/pdf/:id", async (req, res) => {
     }
   });
 });
-router.post("/", Users.create);
+router.post("/", verifyToken, Users.create);
 router.get("/:id", verifyToken, Users.getUser);
 router.get("/:id/jobs", verifyToken, Users.getUserJobs);
 router.get("/:id/ads", verifyToken, Users.getUserAds);

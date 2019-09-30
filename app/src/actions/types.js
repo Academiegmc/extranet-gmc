@@ -38,4 +38,5 @@ export const DELETE_USER_JOBS = "DELETE_USER_JOBS";
 export const DELETE_USER_ADS = "DELETE_USER_ADS";
 export const DELETE_USER_NEWS = "DELETE_USER_NEWS";
 
+export const CREATE_USER = "CREATE_USER";
 export const SET_LOADING = "SET_LOADING";

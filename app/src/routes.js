@@ -26,6 +26,7 @@ import Navbar from "./components/layout/Navbar";
 
 import "react-toastify/dist/ReactToastify.css";
 import { logout } from "./actions/authActions";
+import AddUser from "./components/admin/AddUser";
 
 toast.configure();
 
@@ -40,6 +41,7 @@ const Routes = ({ errors: { errors }, auth, logout }) => {
           </Fragment>
         )}
       />
+      <Route exact path="/admin/user" component={requireAuth(AddUser)} />
       <Route exact path="/" component={Landing} />
       <Route exact path="/profile/:id" component={requireAuth(Profile)} />
       <Route exact path="/stage/:id" component={requireAuth(Stages)} />
