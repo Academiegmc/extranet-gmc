@@ -1,9 +1,12 @@
 const express = require("express");
 const multer = require("multer");
 const mongoose = require("mongoose");
+const redis = require("redis");
+
 const NewsController = require("../controllers/News");
 const verifyToken = require("../controllers/VerifyToken");
 const { initGridFSMulter, initStorage } = require("../services/gridFSMulter");
+const { getRedisKey, setRedisKey } = require("../services/redis-cache-service");
 
 const router = express.Router();
 const fileSizeLimit = 2000000;
@@ -12,41 +15,46 @@ const upload = multer({
   limits: { fileSize: fileSizeLimit }
 });
 
-router.get("/image/:type/:id", initGridFSMulter, async (req, res) => {
-  const { gfs } = req.gridFSMulter;
-  const filesQuery = await gfs.s._filesCollection.find({
-    _id: mongoose.Types.ObjectId(req.params.id)
-  });
-  filesQuery.toArray((error, docs) => {
-    if (error) res.status(400).json({ message: "Bad Request" });
-    let files;
-    let file;
-    if (docs.lenght > 0) {
-      if (docs.length > 1) files = docs;
-      else {
-        file = docs[0];
-        if (!file || file.length === 0) {
-          return res.status(404).json({
-            error: "No file found"
-          });
-        }
-        //Check if image
-        if (
-          file.contentType === "image/jpeg" ||
-          file.contentType === "image/png"
-        ) {
-          //Read output to browser
-          const readstream = gfs.openDownloadStreamByName(file.filename);
-          readstream.pipe(res);
-        } else {
-          return res.status(404).json({
-            error: "Not an image"
-          });
+router.get(
+  "/image/:type/:id",
+  getRedisKey,
+  initGridFSMulter,
+  async (req, res) => {
+    const { gfs } = req.gridFSMulter;
+    const filesQuery = await gfs.s._filesCollection.find({
+      _id: mongoose.Types.ObjectId(req.params.id)
+    });
+    filesQuery.toArray((error, docs) => {
+      if (error) res.status(400).json({ message: "Bad Request" });
+      let files;
+      let file;
+      if (docs.lenght > 0) {
+        if (docs.length > 1) files = docs;
+        else {
+          file = docs[0];
+          if (!file || file.length === 0) {
+            return res.status(404).json({
+              error: "No file found"
+            });
+          }
+          //Check if image
+          if (
+            file.contentType === "image/jpeg" ||
+            file.contentType === "image/png"
+          ) {
+            //Read output to browser
+            const readstream = gfs.openDownloadStreamByName(file.filename);
+            readstream.pipe(setRedisKey(file._id.toString(), maxAge)).pipe(res);
+          } else {
+            return res.status(404).json({
+              error: "Not an image"
+            });
+          }
         }
       }
-    }
-  });
-});
+    });
+  }
+);
 router.get("/pdf/:id", async (req, res) => {
   const { gfs } = req.gridFSMulter;
   const filesQuery = await gfs.s._filesCollection.find({
